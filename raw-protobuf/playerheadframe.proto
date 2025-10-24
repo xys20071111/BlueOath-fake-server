@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package playerheadframe;
+
+message TPlayerHeadFrameRet {
+  repeated int32 ownedHeadFrames = 1;
+}
+

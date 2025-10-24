@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package activitychristmasshop;
+
+message TActivityChristmasShopBuyBlindBoxArg {
+  int32 Index = 1;
+  int32 BuyShop = 2;
+}
+
+message TActivityChristmasShopBuyBlindBoxRet {
+  int32 ToyId = 1;
+}
+
+message TActivityChristmasShopBuyBlindItemArg {
+  int32 BuyWay = 1;
+  int32 BuyTimes = 2;
+}
+
+message TActivityChristmasShopBuyInfoData {
+  int32 BuyIndex = 1;
+  int32 BuyCount = 2;
+}
+
+message TActivityChristmasShopInfoRet {
+  repeated TActivityChristmasShopBuyInfoData BuyInfo = 1;
+  repeated TActivityChristmasShopToyInfoData ToyInfo = 2;
+  int32 CrystalBallToyId = 3;
+  int32 IsGiveCrystalBall = 4;
+}
+
+message TActivityChristmasShopSetToyArg {
+  int32 ToyId = 1;
+}
+
+message TActivityChristmasShopToyInfoData {
+  int32 ToyId = 1;
+  int32 OwnCount = 2;
+}
+
+message TOpenSpecialBoxArg {
+  int32 ItemId = 1;
+}
+

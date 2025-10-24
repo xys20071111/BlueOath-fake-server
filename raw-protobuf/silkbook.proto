@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package silkbook;
+
+message TSilkbookInfo {
+  int32 Volume = 1;
+  int32 Fragment = 2;
+}
+

@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package count;
+
+message TCount {
+  int32 Id = 1;
+  int32 Num = 2;
+}
+
+message TCountData {
+  repeated TCount Count = 1;
+}
+

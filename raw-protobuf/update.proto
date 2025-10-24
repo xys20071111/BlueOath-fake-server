@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package update;
+
+message TFileUpdate {
+  string FileName = 1;
+  string Content = 2;
+}
+
+message TUpdateAdvInfo {
+  bool IsHaveAdv = 1;
+}
+
+message TUpdateAdvList {
+  repeated TUpdateAdvSub AdvIdList = 1;
+}
+
+message TUpdateAdvSub {
+  int32 AdvId = 1;
+  int32 BeginTime = 2;
+  int32 EndTime = 3;
+}
+
+message TUpdateInfo {
+  int32 Version = 1;
+  repeated TFileUpdate FileList = 2;
+}
+
+message TUpdateWebActivity {
+  string Activity = 1;
+}
+

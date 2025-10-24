@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package daily;
+
+message TDaily {
+  int32 DailyId = 1;
+  int32 Pass = 2;
+  int32 Extra = 3;
+}
+
+message TDailyFinishFightArg {
+  int32 DailyId = 1;
+  int32 StageId = 2;
+  bool Sweep = 3;
+}
+
+message TDailyFinishFightRet {
+  int32 Success = 1;
+  int32 Power = 2;
+  float Value = 3;
+}
+
+message TDailyInfo {
+  repeated TStage Stages = 1;
+  repeated TDaily Dailies = 2;
+  int32 Rst = 3;
+}
+
+message TEmpty {
+}
+
+message TStage {
+  int32 StageId = 1;
+  int32 Skip = 2;
+}
+

@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package net_type;
+
+message TRequest {
+  string Method = 1;
+  bytes Args = 2;
+  uint32 CallbackHandler = 3;
+  string Token = 4;
+}
+
+message TResponse {
+  int32 Err = 1;
+  string ErrMsg = 2;
+  string Method = 3;
+  bytes Ret = 4;
+  uint32 CallbackHandler = 5;
+  uint32 Time = 6;
+  string Token = 7;
+  uint32 Seq = 8;
+  int32 IsResponse = 9;
+}
+

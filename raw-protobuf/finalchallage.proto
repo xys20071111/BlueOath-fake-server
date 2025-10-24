@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package finalchallage;
+
+message TChallageStage {
+  int32 StageId = 1;
+  int32 Status = 2;
+}
+
+message TChallageStageData {
+  repeated TChallageStage StageInfo = 1;
+}
+
+message TFinalChallageRet {
+  string BattleString = 1;
+  int32 Status = 2;
+}
+

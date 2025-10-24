@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package room;
+
+message TInviteArg {
+  repeated uint64 InviteList = 1;
+  int32 ChapterId = 2;
+  uint32 RoomId = 3;
+  int32 Password = 4;
+  int32 ZoneId = 5;
+}
+
+message TInviteInfo {
+  int32 ChapterId = 1;
+  uint32 RoomId = 2;
+  message InviteUserInfo = 3;
+  int32 RoomUserNum = 4;
+  bool RoomState = 5;
+  int32 Password = 6;
+  int32 CreateTime = 7;
+  int32 ZoneId = 8;
+}
+
+message TInviteListInfo {
+  repeated TInviteInfo InviteInfo = 1;
+}
+
+message TInviteListRet {
+  repeated message InviteUserList = 1;
+}
+
+message TRetGetRoomUserInfo {
+  int32 RoomIndex = 1;
+  bool IsLead = 2;
+  bool IsReady = 3;
+  bool IsFight = 4;
+  int32 FightState = 5;
+  bool IsIntervene = 6;
+  bool IsGiveUp = 7;
+  bool Leave = 8;
+  message UserInfo = 9;
+}
+
+message TRoomChapterInfoRet {
+  repeated TRoomInfoRet TRoomInfo = 1;
+}
+
+message TRoomInfo {
+  int32 ChapterId = 1;
+  uint32 RoomId = 2;
+  uint64 Uid = 3;
+  int32 IndexA = 4;
+  int32 IndexB = 5;
+  uint64 UidOther = 6;
+  int32 Password = 7;
+  int32 EnterIndex = 8;
+  bool Ready = 9;
+  bool Intervene = 10;
+  int32 Wave = 11;
+  int32 Progress = 12;
+  bool Leave = 13;
+  repeated TRoomTacticOn TacticOn = 14;
+  int32 ZoneId = 15;
+  int32 Identity = 16;
+}
+
+message TRoomInfoRet {
+  repeated TRetGetRoomUserInfo RoomUser = 1;
+  int32 Password = 2;
+  uint32 RoomId = 3;
+  int32 ChapterId = 4;
+  int32 CreateTime = 5;
+  int32 ZoneId = 6;
+  int32 Identity = 7;
+}
+
+message TRoomMatch {
+  repeated int32 ChapterId = 1;
+  int32 ChapterIdType = 2;
+}
+
+message TRoomPVE {
+  int32 ZoneId = 1;
+  uint64 UidOther = 2;
+}
+
+message TRoomTacticOn {
+  uint64 Uid = 1;
+  int32 Index = 2;
+}
+

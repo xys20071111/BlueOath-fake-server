@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package archivecopy;
+
+message TArchiveCopy {
+  bool IsOK = 1;
+  int32 LoadCount = 2;
+  int32 CopyCost = 3;
+  int32 CopyId = 4;
+  bool IsReturn = 5;
+}
+
+message TArchiveCopyData {
+  message StartBaseRet = 1;
+  int32 frameNumber = 2;
+  repeated bytes data = 3;
+}
+
+message TEnterArchiveCopyArg {
+  bool isLoad = 1;
+}
+

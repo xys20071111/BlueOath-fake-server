@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package commonreward;
+
+message TCommonArrReward {
+  repeated TCommonReward Reward = 1;
+}
+
+message TCommonExpReward {
+  uint32 HeroId = 1;
+  int32 Value = 2;
+}
+
+message TCommonExtraReward {
+  string Key = 1;
+  int32 Value = 2;
+}
+
+message TCommonReward {
+  int32 Type = 1;
+  int32 ConfigId = 2;
+  int32 Num = 3;
+  int32 Id = 4;
+}
+

@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package activityvalentine;
+
+message TActivityValentineArg {
+  int32 Index = 1;
+}
+
+message TActivityValentineInfo {
+  int32 GotRewardTime = 1;
+}
+
+message TActivityValentineRet {
+  repeated message Reward = 1;
+}
+

@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package guildshop;
+
+message TArgGuildShopGetInfo {
+  int32 ShopId = 1;
+}
+
+message TGuildShopUserShelfGoodsData {
+  int32 ShopShelfId = 1;
+  int32 BuyCount = 2;
+}
+
+message TRetGuildShopInfo {
+  int32 ShopId = 1;
+  repeated message GuildShelfGoodsData = 2;
+  repeated message UserShelfGoodsData = 3;
+}
+

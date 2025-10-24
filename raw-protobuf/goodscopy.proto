@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package goodscopy;
+
+message TGetGoodsCopyInfo {
+  repeated TGoodsCopyInfo InfoList = 1;
+}
+
+message TGoodsCopyInfo {
+  int32 TodayMaxDamage = 1;
+  int32 TodayGetGoods = 2;
+  int32 Percent = 3;
+  int32 CopyId = 4;
+}
+

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package strategy;
+
+message TStrategy {
+  repeated TStrategyInfo StrategyList = 1;
+  int32 CurCost = 2;
+  int32 ResetNum = 3;
+}
+
+message TStrategyArg {
+  int32 Id = 1;
+  int32 Level = 2;
+  int32 FleetId = 3;
+  int32 TacticType = 4;
+}
+
+message TStrategyInfo {
+  int32 Id = 1;
+  int32 Level = 2;
+}
+

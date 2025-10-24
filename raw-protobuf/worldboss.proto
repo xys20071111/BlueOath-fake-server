@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+package worldboss;
+
+message TGetWorldBossDamageRankArg {
+  uint32 BossId = 1;
+  enum Type = 2;
+}
+
+message TMainWorldBossDataRet {
+  TWorldBossBaseDataRet Data = 1;
+  TWorldBossDamageRank Rank = 2;
+  TWorldBossUserActiveInfo UserActiveInfo = 3;
+}
+
+message TWorldBossBaseDataRet {
+  int32 HP = 1;
+  int32 Level = 2;
+  enum State = 3;
+  uint32 Id = 4;
+}
+
+message TWorldBossBroadcast {
+  int32 BossHP = 1;
+  repeated TWorldBossUserDamage Rank = 2;
+  repeated TWorldBossUserDamage RecentDamage = 3;
+  TWorldBossUserDamage SelfRank = 4;
+}
+
+message TWorldBossCheerArg {
+  enum Typ = 1;
+  uint32 BossID = 2;
+}
+
+message TWorldBossCheerRet {
+  bool IsSuccess = 1;
+}
+
+message TWorldBossCurrency {
+  int32 Type = 1;
+  int32 Value = 2;
+}
+
+message TWorldBossDamageRank {
+  repeated TWorldBossUserDamage UserDamage = 1;
+}
+
+message TWorldBossDamageRankRet {
+  TWorldBossDamageRank Rank = 1;
+  int32 Typ = 2;
+}
+
+message TWorldBossDamageReward {
+  repeated TWorldBossCurrency Rewards = 1;
+}
+
+message TWorldBossEnterBattleArg {
+  uint32 WorldBossId = 1;
+  repeated int32 Heroes = 2;
+}
+
+message TWorldBossFinishBattleArg {
+  int32 Damage = 1;
+  string Checksum = 2;
+  uint32 BossId = 3;
+}
+
+message TWorldBossFinishBattleRet {
+  TWorldBossDamageReward Reward = 1;
+  TWorldBossDamageRank Rank = 2;
+}
+
+message TWorldBossIDArg {
+  uint32 WorldBossId = 1;
+}
+
+message TWorldBossOverBrd {
+  uint32 KillerUid = 1;
+  string Name = 2;
+  TWorldBossBaseDataRet bossInfo = 3;
+}
+
+message TWorldBossUserActiveInfo {
+  int32 LastBattleTime = 1;
+  int32 LastGoldCheerTime = 2;
+  int32 TotalCheerTimes = 3;
+}
+
+message TWorldBossUserDamage {
+  uint32 Uid = 1;
+  string Name = 2;
+  int32 Damage = 3;
+  int32 Place = 4;
+}
+

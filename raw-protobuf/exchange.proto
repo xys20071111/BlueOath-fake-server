@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package exchange;
+
+message TExchange {
+  repeated TExchangeInfo ExchangeInfo = 1;
+}
+
+message TExchangeArg {
+  int32 Id = 1;
+  repeated message Consume = 2;
+  repeated message Reward = 3;
+  int32 Time = 4;
+}
+
+message TExchangeInfo {
+  int32 Id = 1;
+  int32 Times = 2;
+}
+

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package activityssr;
+
+message TActivitySSRInfoRet {
+  int32 ActivityId = 1;
+  int32 DaySelectCount = 2;
+  int32 DayShareCount = 3;
+  int32 SelectShipId = 4;
+  int32 SaveShipId = 5;
+  int64 RewardTime = 6;
+}
+
+message TSelectArg {
+  int32 SelectShipId = 1;
+}
+

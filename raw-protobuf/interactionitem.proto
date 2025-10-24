@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package interactionitem;
+
+message TBallToyState {
+  int32 ballId = 1;
+  int32 ToyId = 2;
+}
+
+message TDecorateMutexBagGroup {
+  int32 typeId = 1;
+  int32 curSelect = 2;
+}
+
+message TDecorateMutexBagGroupArg {
+  int32 groupType = 1;
+  int32 SelectId = 2;
+}
+
+message TInteractionBagItem {
+  int32 id = 1;
+  int32 num = 2;
+  int32 state = 3;
+}
+
+message TInteractionBallToyArg {
+  int32 ballId = 1;
+  int32 ToyId = 2;
+}
+
+message TInteractionItemArg {
+  int32 interactionItem = 1;
+  int32 visibleState = 2;
+}
+
+message TInteractionItemRet {
+  repeated int32 halloweenPumpkin = 1;
+  repeated int32 furniture = 2;
+  repeated TSFIdAndState paperFlowerState = 3;
+  repeated TBallToyState ballToyState = 4;
+  repeated TInteractionBagItem interactionBagItem = 5;
+  repeated TDecorateMutexBagGroup decorate = 6;
+  repeated TPosterStateInfo posterState = 8;
+}
+
+message TPosterStateArg {
+  int32 point = 1;
+  int32 posterId = 2;
+}
+
+message TPosterStateInfo {
+  int32 point = 1;
+  int32 posterId = 2;
+}
+
+message TSFIdAndState {
+  int32 id = 1;
+  int32 state = 2;
+}
+

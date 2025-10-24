@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package battlesimulator;
+
+message BattleAnalysis {
+  repeated BattleAnalysisActorInfo actor_infos = 1;
+}
+
+message BattleAnalysisActorInfo {
+  int32 lastField = 1;
+  int32 pos_index = 2;
+  int32 area_index = 3;
+  int32 hp_init = 4;
+  int32 hp = 5;
+  int32 damage = 6;
+  int32 times_damage = 7;
+  int32 times_damaged = 8;
+  int32 heal = 9;
+  int32 damage_default = 10;
+  int32 times_default = 11;
+  int32 damage_legend = 12;
+  int32 times_legend = 13;
+  int32 damage_xp = 14;
+  int32 times_xp = 15;
+  int32 damage_combine = 16;
+  int32 times_combine = 17;
+  int32 times_strike = 18;
+  int32 times_dodge = 19;
+  int32 times_block = 20;
+  int32 times_lifesteal = 21;
+  int32 times_kill = 22;
+  int32 dead_round = 23;
+}
+
+message BattleMasterArg {
+  int32 tid = 1;
+  int32 power = 2;
+}
+
+message BattleMasterArgs {
+  repeated BattleMasterArg args = 1;
+}
+

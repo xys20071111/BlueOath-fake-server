@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package study;
+
+message TSpeedUpStudyArg {
+  int32 HeroId = 1;
+  int32 PSkillId = 2;
+  repeated TSpeedUpStudyItem arrItem = 3;
+}
+
+message TSpeedUpStudyItem {
+  int32 TextbookId = 1;
+  int32 TextbookNum = 2;
+}
+
+message TStartStudyArg {
+  int32 HeroId = 1;
+  int32 PSkillId = 2;
+  int32 TextbookId = 3;
+}
+
+message TStopStudyPSkillArg {
+  int32 HeroId = 1;
+}
+
+message TStopStudyPSkillRet {
+  int32 HeroId = 1;
+  int32 PSkillId = 2;
+  int32 ExpBefore = 3;
+  int32 ExpAfter = 4;
+  int32 TextbookId = 5;
+}
+
+message TStudyInfo {
+  int32 PosNum = 1;
+  repeated TStudyProgress ArrProgress = 2;
+}
+
+message TStudyProgress {
+  int32 HeroId = 1;
+  int32 PSkillId = 2;
+  int32 TextbookId = 3;
+  int64 BeginTime = 4;
+  int64 EndTime = 5;
+}
+

@@ -1,0 +1,187 @@
+syntax = "proto3";
+
+package teaching;
+
+message TTeachingApplyArg {
+  uint64 applyUid = 1;
+}
+
+message TTeachingApplyInfo {
+  uint64 ApplyUid = 1;
+  int32 ApplyTime = 2;
+}
+
+message TTeachingAppraiseArg {
+  uint64 TeacherUid = 1;
+  int32 Star = 2;
+  string Message = 3;
+}
+
+message TTeachingGetOtherInfoArg {
+  uint64 Uid = 1;
+}
+
+message TTeachingInfo {
+  uint64 TeacherUid = 1;
+  int32 Appraise = 2;
+  int32 Sex = 3;
+  int32 Active = 4;
+  int32 Interest = 5;
+  string Sign = 6;
+  int32 PunishTime = 7;
+  int32 GotStuCount = 8;
+  repeated TTeachingApplyInfo ApplyInfo = 9;
+  repeated TTeachingUserInfo Relation = 10;
+  repeated TTeachingUserInfo Apply = 11;
+  int32 AppraiseTimes = 12;
+  int32 GraduationTime = 13;
+}
+
+message TTeachingListRet {
+  repeated TTeachingUserInfo UserInfo = 1;
+}
+
+message TTeachingOtherUserInfo {
+  uint64 Uid = 1;
+  uint64 TeacherUid = 2;
+  int32 Appraise = 3;
+  int32 Sex = 4;
+  int32 Active = 5;
+  int32 Interest = 6;
+  string Sign = 7;
+  int32 PunishTime = 8;
+  int32 GotStuCount = 9;
+  int32 TeachingStatus = 10;
+  message UserInfo = 11;
+  repeated TTeachingUserInfo Relation = 12;
+  int32 AppraiseTimes = 13;
+  int32 GraduationTime = 14;
+  bool CanJoinGuild = 15;
+  bool CanAddFriend = 16;
+}
+
+message TTeachingPersonalArg {
+  int32 Sex = 1;
+  int32 Active = 2;
+  int32 Interest = 3;
+  string Sign = 4;
+}
+
+message TTeachingRankArg {
+  int32 Begin = 1;
+  int32 Offset = 2;
+}
+
+message TTeachingRankRet {
+  repeated message UserInfo = 1;
+}
+
+message TTeachingRecmdUserListArg {
+  repeated uint64 arrUid = 1;
+}
+
+message TTeachingSearchArg {
+  string Uname = 1;
+}
+
+message TTeachingSearchRet {
+  repeated TTeachingUserInfo UserInfo = 1;
+}
+
+message TTeachingSvrArg {
+  uint64 Uid = 1;
+  int32 Level = 2;
+  uint64 TeacherUid = 3;
+  int32 Star = 4;
+  string Message = 5;
+  int32 StageId = 6;
+  int32 GraduationTime = 7;
+}
+
+message TTeachingSvrGmArg {
+  uint64 Uid = 1;
+  int32 AppraiseStar = 2;
+  int32 AppraiseNum = 3;
+}
+
+message TTeachingSvrRet {
+  uint64 TeacherUid = 1;
+}
+
+message TTeachingSvrStuAppraiseRewardArg {
+  uint64 Uid = 1;
+}
+
+message TTeachingSvrStuAppraiseRewardRet {
+  int32 StuRatio = 1;
+  int32 TchRatio = 2;
+  string StuName = 3;
+  int32 StageId = 4;
+}
+
+message TTeachingSvrStuDailyTaskArg {
+  uint64 Uid = 1;
+  int32 TaskId = 2;
+}
+
+message TTeachingSvrStuDailyTaskRet {
+  repeated message Reward = 1;
+  int32 StuRatio = 2;
+  int32 TchRatio = 3;
+  string StuName = 4;
+}
+
+message TTeachingSvrTchAppraiseRewardArg {
+  uint64 Uid = 1;
+  int32 Star = 2;
+  string Message = 3;
+  int32 StuRatio = 4;
+  int32 TchRatio = 5;
+  string StuName = 6;
+  int32 StageId = 7;
+}
+
+message TTeachingSvrTchDailyTaskArg {
+  uint64 Uid = 1;
+  int32 TaskId = 2;
+  int32 StuRatio = 3;
+  int32 TchRatio = 4;
+  string StuName = 5;
+}
+
+message TTeachingTaskRewardArg {
+  int32 TaskId = 2;
+}
+
+message TTeachingTaskRewardRet {
+  int32 TaskId = 1;
+  repeated message Reward = 2;
+}
+
+message TTeachingUserInfo {
+  uint64 Uid = 1;
+  int32 Appraise = 2;
+  int32 Sex = 3;
+  int32 Active = 4;
+  int32 Interest = 5;
+  string Sign = 6;
+  int32 TeachingStatus = 7;
+  int32 CreateTime = 8;
+  int32 PunishTime = 9;
+  message UserInfo = 10;
+  int32 AppraiseTimes = 11;
+  int32 GraduationTime = 12;
+  bool CanJoinGuild = 13;
+  bool CanAddFriend = 14;
+}
+
+message TTeachingsvrChangeUserArg {
+  uint64 uid = 1;
+  int32 level = 2;
+  int32 status = 3;
+  int32 loginTime = 4;
+  int32 logoffTime = 5;
+  int32 prestige = 6;
+  int32 prestigeTime = 7;
+}
+

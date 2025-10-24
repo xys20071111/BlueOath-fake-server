@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package einvade;
+
+message TAtkEinvadeArgs {
+  int32 StageId = 1;
+  int32 Index = 2;
+}
+
+message TAtkEinvadeRet {
+  repeated message ArrDrop = 1;
+  int32 FightReturn = 2;
+}
+
+message TEinvadeRet {
+  repeated TEinvadeUnit EinvadeInfo = 1;
+}
+
+message TEinvadeUnit {
+  int32 StageId = 1;
+  int32 StageLevel = 2;
+  int32 Status = 3;
+}
+

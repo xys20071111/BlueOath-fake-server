@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+package chat;
+
+message TBarrageData {
+  string Param = 1;
+  string Value = 2;
+}
+
+message TChatChangeChannelArg {
+  int32 Channel = 1;
+}
+
+message TChatChangeChannelRet {
+  int32 Channel = 1;
+}
+
+message TChatInfoArg {
+  int32 Channel = 1;
+}
+
+message TChatInfoRet {
+  int32 WorldNum = 1;
+  repeated TChatMsg WorldMsg = 2;
+  repeated TChatMsg GuildMsg = 3;
+  repeated TChatMsg TeamMsg = 4;
+  repeated TChatMsg SysMsg = 5;
+  string BanMsg = 6;
+  int32 BanEndTime = 7;
+  repeated TUserChatMsg FriendMsg = 8;
+  repeated TUserChatMsg PersonalMsg = 9;
+}
+
+message TChatMsg {
+  message UserInfo = 1;
+  int32 Channel = 2;
+  int32 TemplateId = 3;
+  int64 SendTime = 4;
+  string Message = 5;
+  int32 MsgType = 6;
+  repeated TChatParam Params = 7;
+}
+
+message TChatParam {
+  string Key = 1;
+  string Value = 2;
+}
+
+message TChatSaveMessage {
+  uint64 Uid = 1;
+  TChatMsg Msg = 2;
+}
+
+message TChatSendMessageArg {
+  int32 Channel = 1;
+  uint64 ReceiveUid = 2;
+  string Message = 3;
+  int32 MsgType = 4;
+  string Voice = 5;
+}
+
+message TChatSendMessageRet {
+  string Message = 1;
+}
+
+message TGetBarrageDataArg {
+  int32 Id = 1;
+  int32 BeginIndex = 2;
+  int32 Len = 3;
+}
+
+message TGetBarrageDataRet {
+  int32 Id = 1;
+  repeated TBarrageData BarrageList = 2;
+}
+
+message TSendBarrageDataArg {
+  int32 Id = 1;
+  int32 Offset = 2;
+  string Content = 3;
+}
+
+message TUserChatMsg {
+  uint64 Uid = 1;
+  message UserInfo = 2;
+  repeated TChatMsg Msg = 3;
+  int32 NoReadCount = 4;
+}
+

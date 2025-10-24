@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package activityfashion;
+
+message TActivityFashionBuyArg {
+  int32 Count = 1;
+}
+
+message TActivityFashionInfoRet {
+  int32 ActivityId = 1;
+  int32 BuyCount = 2;
+  repeated int32 SpecialReward = 3;
+}
+
+message TActivityFashionRewardArg {
+  int32 Index = 1;
+}
+

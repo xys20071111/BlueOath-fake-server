@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package repair;
+
+message TRepairArg {
+  repeated uint32 HeroIds = 1;
+  uint32 Type = 2;
+}
+

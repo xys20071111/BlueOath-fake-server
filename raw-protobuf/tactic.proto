@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package tactic;
+
+message TSelfTactis {
+  repeated TTactic tactics = 1;
+  int32 MaxPower = 2;
+  int32 MinPower = 3;
+  bool IsSkip = 4;
+}
+
+message TTactic {
+  string tacticName = 1;
+  repeated uint32 heroInfo = 2;
+  int32 modeId = 3;
+  int32 strategyId = 4;
+  int32 formationId = 5;
+  int32 type = 6;
+}
+
+message TTacticSetFormationArg {
+  int32 Fid = 1;
+  int32 type = 2;
+}
+
+message TTactisType {
+  int32 type = 1;
+}
+

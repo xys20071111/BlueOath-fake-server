@@ -1,0 +1,283 @@
+syntax = "proto3";
+
+package guild;
+
+message TApplyGuildIdSub {
+  uint64 GuildId = 1;
+  int32 ApplyTime = 2;
+}
+
+message TArgApplyGuild {
+  uint64 GuildId = 1;
+}
+
+message TArgAppoint {
+  uint64 Uid = 1;
+  int32 Post = 2;
+}
+
+message TArgCancelApply {
+  uint64 GuildId = 1;
+}
+
+message TArgCreateGuild {
+  string Name = 1;
+  int32 Emblem = 2;
+  int32 Frame = 3;
+}
+
+message TArgGetGuildList {
+  int32 FromRank = 1;
+  int32 Num = 2;
+}
+
+message TArgGetSacrificeReward {
+  int32 Reward = 1;
+}
+
+message TArgGuildSacrifice {
+  int32 Mode = 1;
+}
+
+message TArgGuildSkill {
+  int32 Type = 1;
+  int32 SkillId = 2;
+}
+
+message TArgModiGuildInfo {
+  string Name = 1;
+  int32 Emblem = 2;
+  string Enounce = 3;
+  string Notice = 4;
+  TGuildLimit Limit = 5;
+  int32 Frame = 6;
+  string ChatRoom = 7;
+}
+
+message TArgRemove {
+  uint64 Uid = 1;
+}
+
+message TArgSearchGuild {
+  uint64 GuildId = 1;
+  string Name = 2;
+  int32 Type = 3;
+}
+
+message TArgSetGuildLevelOfShow {
+  int32 Level = 1;
+}
+
+message TArgTransfer {
+  uint64 Uid = 1;
+}
+
+message TArgVerifyGuild {
+  uint64 Uid = 1;
+  int32 Mode = 2;
+}
+
+message TBaseGuildInfo {
+  uint64 GuildId = 1;
+  string Name = 2;
+  int32 Emblem = 3;
+  string Enounce = 4;
+  int32 Level = 5;
+  int32 MemberNum = 6;
+  TGuildLimit Limit = 7;
+  uint64 LeaderId = 8;
+  string LeaderName = 9;
+  int32 Frame = 10;
+  int32 Power = 11;
+  int32 Honor = 12;
+}
+
+message TGetGuildInfoArg {
+  uint64 GuildId = 1;
+}
+
+message TGuildAcceptAllRet {
+  int32 SuccNum = 1;
+}
+
+message TGuildApply {
+  uint64 GuildId = 1;
+  int32 Time = 2;
+}
+
+message TGuildApplyInfo {
+  message UserInfo = 1;
+  int32 Time = 2;
+  int32 Quality = 3;
+}
+
+message TGuildCopyRankArg {
+  uint64 GuildId = 1;
+}
+
+message TGuildCopyRankItem {
+  message UserInfo = 1;
+  int32 Damage = 2;
+  int32 Rank = 3;
+}
+
+message TGuildCopyRankRet {
+  repeated TGuildCopyRankItem RankInfo = 1;
+}
+
+message TGuildEvent {
+  int32 Type = 1;
+  repeated string Params = 2;
+}
+
+message TGuildLimit {
+  int32 Mode = 1;
+  int32 Level = 2;
+  int32 Power = 3;
+}
+
+message TGuildMemberInfo {
+  message UserInfo = 1;
+  int32 LogoffTime = 2;
+  int32 Contribute = 3;
+  int32 SacrificeTime = 4;
+  int32 SacrificeReward = 5;
+  int32 Post = 7;
+  int32 TodayContribute = 8;
+  int32 Quality = 9;
+  int32 HonorWeek = 10;
+  int32 ArenaRank = 11;
+  int32 ImpeachTime = 12;
+  int32 ImpeachRecordContribute = 13;
+}
+
+message TGuildMessageInfo {
+  message UserInfo = 1;
+  int32 Post = 2;
+  string Msg = 3;
+  int32 Time = 4;
+}
+
+message TGuildRankArg {
+  int32 RankId = 1;
+  int32 TopN = 2;
+}
+
+message TGuildRankData {
+  TBaseGuildInfo Guild = 1;
+  message User = 2;
+  int32 ThumbsUpCount = 3;
+}
+
+message TGuildRankRet {
+  int32 GuildRank = 1;
+  repeated TGuildRankData GuildRankData = 2;
+  int32 IsInGuild = 3;
+  TBaseGuildInfo SelfGuild = 4;
+}
+
+message TGuildSkillSub {
+  int32 SkillId = 1;
+  int32 Level = 2;
+}
+
+message TGuildTip {
+  int32 DictId = 1;
+  int32 Time = 2;
+  repeated TTipParam Param = 3;
+}
+
+message TGuildTipInfo {
+  int32 Mode = 1;
+  string Name = 2;
+  string Event = 3;
+}
+
+message TRetGetGuildApplyInfo {
+  repeated TGuildApplyInfo ApplyList = 1;
+}
+
+message TRetGetGuildInfo {
+  string Name = 1;
+  int32 Emblem = 2;
+  string Enounce = 3;
+  string Notice = 4;
+  int32 Level = 5;
+  int32 Exp = 6;
+  TGuildLimit Limit = 7;
+  int32 MemberNum = 8;
+  string LeaderName = 9;
+  uint64 LeaderId = 10;
+  repeated uint64 Deputy = 11;
+  int32 Frame = 13;
+  repeated TGuildTip TipList = 14;
+  int32 Process = 15;
+  repeated TSacrificeInfo SacrificeInfo = 16;
+  repeated TGuildSkillSub SkillList = 17;
+  int32 ApplyNum = 18;
+  int32 CreateTime = 19;
+  string ChatRoom = 20;
+  int32 PublicityTime = 21;
+  int32 TodayExp = 22;
+  int32 ImpeachStartTime = 23;
+}
+
+message TRetGetGuildList {
+  int32 TotalNum = 1;
+  repeated TBaseGuildInfo GuildList = 2;
+}
+
+message TRetGetGuildMessageInfo {
+  repeated TGuildMessageInfo MsgList = 1;
+}
+
+message TRetGetGuildTipInfo {
+  repeated TGuildTipInfo TipList = 1;
+}
+
+message TRetGetMemberInfo {
+  repeated TGuildMemberInfo sMember = 1;
+}
+
+message TRetGuildUserInfo {
+  uint64 GuildId = 1;
+  int32 MessageCount = 2;
+  int32 QuitTime = 3;
+  repeated TGuildSkillSub SkillList = 4;
+  int32 SacrificeTime = 5;
+  int32 SacrificeBox = 6;
+  repeated uint64 ApplyList = 7;
+  repeated uint64 DelApplyList = 8;
+  repeated TGuildApply Apply = 9;
+  int32 Post = 10;
+  int32 SacrificeMode = 11;
+  int32 SacrificeReward = 12;
+  TGuildEvent Event = 13;
+  repeated int32 FirstReward = 14;
+  int32 DailyRewardTime = 15;
+  int32 LastAtkTime = 16;
+  int32 GuildLevelOfShow = 17;
+  int32 ShowDaily = 18;
+  int32 QuitReason = 19;
+  int32 JoinGuildTime = 20;
+}
+
+message TRetSearchGuild {
+  repeated TBaseGuildInfo GuildList = 1;
+}
+
+message TRetShowRedTip {
+  uint32 Type = 1;
+}
+
+message TSacrificeInfo {
+  uint64 Uid = 1;
+  string Uname = 2;
+  int32 Mode = 3;
+}
+
+message TTipParam {
+  int32 Type = 1;
+  string Data = 2;
+}
+

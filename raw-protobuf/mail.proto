@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package mail;
+
+message MailList {
+  uint64 Mid = 1;
+  int32 TempLateId = 2;
+  uint64 SenderUid = 3;
+  string SenderUName = 4;
+  uint64 ReceiverUid = 5;
+  string ReceiverUName = 6;
+  int64 ReceiveTime = 7;
+  int64 ReadTime = 8;
+  string Subject = 9;
+  string Content = 10;
+  int32 IsGotReawrd = 11;
+  repeated TMailParam Params = 12;
+  repeated TMailItem Items = 13;
+  int32 DeleteTime = 14;
+}
+
+message TDeleteMailArg {
+  uint64 Mid = 1;
+}
+
+message TFetchMailArg {
+  uint64 Mid = 1;
+}
+
+message TMailItem {
+  int32 Type = 1;
+  int32 Id = 2;
+  int32 Num = 3;
+}
+
+message TMailListRet {
+  int32 MailNum = 1;
+  int32 ExpireNum = 2;
+  repeated MailList list = 3;
+  repeated message Reward = 4;
+}
+
+message TMailParam {
+  string Key = 1;
+  string Value = 2;
+}
+
+message TOpenMailArg {
+  uint64 Mid = 1;
+}
+

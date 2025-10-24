@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package bathroom;
+
+message TBathAllAutoArg {
+  int32 Status = 1;
+}
+
+message TBathAutoArg {
+  uint32 HeroId = 1;
+  int32 Status = 2;
+}
+
+message TBathChangeHeroArg {
+  uint32 HeroId = 1;
+  uint32 NewHeroId = 2;
+}
+
+message TBathEndArg {
+  uint32 HeroId = 1;
+}
+
+message TBathEndRet {
+  int32 AddExp = 1;
+  int32 BathTime = 2;
+  uint32 HeroId = 3;
+}
+
+message TBathHeroInfo {
+  uint32 HeroId = 1;
+  int32 Pos = 2;
+  int32 IsAuto = 3;
+  int64 StartTime = 4;
+  int64 BathTime = 5;
+  int32 BuffId = 6;
+  int64 BuffTime = 7;
+  int32 Power = 8;
+}
+
+message TBathServiceArg {
+  uint32 HeroId = 1;
+  int32 GiftId = 2;
+}
+
+message TBathServiceRet {
+  int32 Pos = 1;
+  uint32 HeroId = 2;
+  int32 BuffId = 3;
+  int32 IsCrit = 4;
+}
+
+message TBathStartAllArg {
+  repeated TBathStartArg BathStartArg = 1;
+}
+
+message TBathStartAllRet {
+  repeated TBathEndRet BathEndRet = 1;
+}
+
+message TBathStartArg {
+  uint32 HeroId = 1;
+  int32 Pos = 2;
+}
+
+message TBathroomInfo {
+  repeated TBathHeroInfo HeroList = 1;
+  int32 IsAllAuto = 2;
+}
+

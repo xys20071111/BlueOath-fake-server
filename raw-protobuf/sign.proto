@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package sign;
+
+message TSignInfo {
+  int32 SignCount = 1;
+  int32 SignTime = 2;
+  repeated message Reward = 3;
+}
+

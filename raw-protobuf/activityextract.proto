@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package activityextract;
+
+message TActivityExtractDrawArg {
+  int32 DrawId = 1;
+  int32 Num = 2;
+}
+
+message TActivityExtractDrawRet {
+  repeated message Reward = 1;
+}
+
+message TActivityExtractInfo {
+  int32 DrawId = 1;
+  int32 RealDrawId = 2;
+  repeated TExtractDrawItem Rewards = 3;
+}
+
+message TExtractDrawItem {
+  int32 RewardId = 1;
+  int32 Num = 2;
+}
+

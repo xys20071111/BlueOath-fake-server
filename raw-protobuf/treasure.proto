@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package treasure;
+
+message TTreasureArg {
+  uint32 TreasureId = 1;
+  repeated uint32 Consumed = 2;
+}
+
+message TTreasureEnhanceRet {
+  uint32 TreasureId = 1;
+  int32 EnhanceLevelOld = 2;
+}
+
+message TTreasureInfo {
+  uint32 TreasureId = 1;
+  int32 TemplateId = 2;
+  int32 Enhance = 3;
+  int32 Refine = 4;
+  uint32 HeroId = 5;
+  int32 EnhanceExp = 6;
+}
+
+message TTreasureList {
+  repeated TTreasureInfo TreasureInfo = 1;
+}
+
+message TTreasureRefineRet {
+  uint32 TreasureId = 1;
+}
+

@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package battlestatistics;
+
+message BattleStatistics {
+  int32 winner = 1;
+  int32 round_count = 2;
+  repeated StAreaInfo areaInfo = 3;
+}
+
+message StActorInfo {
+  int32 actorId = 1;
+  int32 hpNum = 2;
+  float hpPercent = 3;
+  int32 xpNum = 4;
+  int32 deltaHp = 5;
+}
+
+message StAreaInfo {
+  int32 areaIndex = 1;
+  int32 damage = 2;
+  float hpPercent = 3;
+  repeated StActorInfo actorInfo = 4;
+}
+

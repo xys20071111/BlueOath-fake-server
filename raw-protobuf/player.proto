@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package player;
+
+message TArgCreateUser {
+  string Uname = 1;
+  int32 Class = 2;
+}
+
+message TArgLogin {
+  string Pid = 1;
+  int32 Timestamp = 2;
+  string OpenDateTime = 3;
+  string Hash = 4;
+  TSampleInfo SampleInfo = 5;
+  int32 Relink = 6;
+  int32 ChatRoom = 7;
+  string ClientVersion = 8;
+  string AreaInfo = 9;
+}
+
+message TRetGetUsers {
+  repeated TUserInfo ArrUser = 1;
+}
+
+message TRetLogin {
+  string Ret = 1;
+  string FeignRoleId = 2;
+  int32 ErrCode = 3;
+}
+
+message TSampleInfo {
+  string Uuid = 1;
+  string Model = 2;
+  string Release = 3;
+  string Network = 4;
+  string Platform = 5;
+  string PkgName = 6;
+  string Os = 7;
+  string Imei = 8;
+  string Extend = 9;
+}
+
+message TUserInfo {
+  uint64 Uid = 1;
+  string Uname = 2;
+  int32 Level = 3;
+  int32 Class = 4;
+}
+

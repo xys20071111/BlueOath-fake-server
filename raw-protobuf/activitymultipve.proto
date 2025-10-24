@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package activitymultipve;
+
+message TActivityMultiPVEInfoRet {
+  int32 AttackCount = 1;
+}
+
+message TAddPVEAttackCountArg {
+  int32 Num = 1;
+}
+

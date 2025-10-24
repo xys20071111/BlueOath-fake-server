@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package finddragon;
+
+message TAttackDragonArg {
+  int32 DragonId = 1;
+}
+
+message TAttackDragonRet {
+  bool IsWin = 1;
+  repeated message Reward = 2;
+}
+
+message TCycleEvent {
+  int32 EventId = 1;
+  int32 GhostId = 2;
+}
+
+message TDragon {
+  int32 Id = 1;
+  int32 State = 2;
+  int32 TimeType = 3;
+  int32 DropGap = 4;
+  int32 StartTime = 5;
+  int32 HeroId = 6;
+  int32 NumHeroFragment = 7;
+  repeated TCycleEvent Events = 8;
+  repeated THelpEvent HelpEvents = 9;
+  int32 Exp = 10;
+  int32 Level = 11;
+}
+
+message TDragonTech {
+  int32 Id = 1;
+  int32 Level = 2;
+}
+
+message TExploreAllArg {
+  repeated TExploreArg ExlporeArg = 1;
+}
+
+message TExploreArg {
+  int32 DragonId = 1;
+  int32 HeroId = 2;
+  int32 TimeType = 3;
+  int32 DropGap = 4;
+}
+
+message TFriendDragon {
+  message FriendInfo = 1;
+  int32 Total = 2;
+  int32 Ghost = 3;
+}
+
+message TGetFindDragonMainRet {
+  int32 HelpTime = 1;
+  repeated TDragonTech Tech = 2;
+  repeated TDragon Dragon = 3;
+}
+
+message TGetFriendDragonInfoArg {
+  uint64 Uid = 1;
+}
+
+message TGetFriendDragonRet {
+  repeated TFriendDragon FriendDragon = 1;
+}
+
+message TGetFriendInfoRet {
+  repeated TDragon Dragon = 1;
+}
+
+message THarvestArg {
+  int32 DragonId = 1;
+}
+
+message THarvestRet {
+  int32 Crit = 1;
+  repeated message Reward = 2;
+}
+
+message THelpEvent {
+  uint64 Uid = 1;
+  int32 Time = 2;
+  string Uname = 3;
+}
+
+message TOverwhelmArg {
+  uint64 Uid = 1;
+  int32 DragonId = 2;
+}
+
+message TUnlockTech {
+  int32 TechId = 1;
+}
+

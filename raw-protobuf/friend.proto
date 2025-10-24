@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package friend;
+
+message TApplyArg {
+  uint64 Uid = 1;
+}
+
+message TCommonFriendGetListRet {
+  repeated TFriendData List = 1;
+}
+
+message TFriendCommonArg {
+  uint64 Uid = 1;
+}
+
+message TFriendData {
+  message UserInfo = 1;
+  int32 OfflineTime = 2;
+  int32 Status = 3;
+  int32 OperationTime = 4;
+}
+
+message TFriendMainInfoRet {
+  repeated TFriendData FriendList = 1;
+  repeated TFriendData BlackList = 2;
+  repeated TFriendData ApplyList = 3;
+  repeated TFriendData ApplyRecordList = 4;
+  repeated int32 ChangeList = 5;
+}
+
+message TSearchArg {
+  uint64 Id = 1;
+  string Name = 2;
+}
+
+message TUserStateRet {
+  int32 Type = 1;
+  uint64 Uid = 2;
+}
+

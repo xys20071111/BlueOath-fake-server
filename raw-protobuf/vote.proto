@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package vote;
+
+message TVote {
+  int32 MagazineId = 1;
+  repeated TVoteSub VoteList = 2;
+}
+
+message TVoteSub {
+  int32 Id = 1;
+  int32 Num = 2;
+}
+

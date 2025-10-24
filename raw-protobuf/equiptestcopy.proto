@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package equiptestcopy;
+
+message TGetEquipTestCopyInfo {
+  int32 MaxDamage = 1;
+  repeated TReceviedRewards ReceivedRewards = 2;
+}
+
+message TReceiveRewardsArg {
+  int32 RewardId = 1;
+}
+
+message TReceiveRewardsRet {
+  repeated message Rewards = 1;
+}
+
+message TReceviedRewards {
+  int32 RewardId = 1;
+  int32 ReceiveTime = 2;
+}
+

@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package searchgoods;
+
+message TSearchGoodsArg {
+  int32 TeamId = 1;
+  int32 ItemId = 2;
+}
+
+message TSearchGoodsInfo {
+  repeated TSearchInfo SearchInfo = 1;
+  int32 ReceiveTime = 2;
+  int32 TeamId = 3;
+}
+
+message TSearchInfo {
+  int32 Id = 1;
+  int32 State = 2;
+}
+

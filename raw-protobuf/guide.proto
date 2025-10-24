@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package guide;
+
+message TGuideEvent {
+  int32 Key = 1;
+  int32 Value = 2;
+}
+
+message TGuideInfo {
+  repeated int32 FuncList = 1;
+  repeated int32 PlotList = 2;
+  repeated TGuideSetting Setting = 3;
+  repeated TGuideEvent Event = 4;
+}
+
+message TGuidePlotRewardArg {
+  int32 PlotId = 1;
+}
+
+message TGuidePlotRewardRet {
+  int32 PlotId = 1;
+}
+
+message TGuideSetting {
+  string Key = 1;
+  string Value = 2;
+}
+
+message TGuideSettingArg {
+  repeated TGuideSettingParam param = 1;
+}
+
+message TGuideSettingParam {
+  string Key = 1;
+  string Value = 2;
+}
+

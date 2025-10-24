@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package draw;
+
+message TDrawArg {
+  int32 DrawId = 1;
+  enum DrawType = 2;
+  enum ConsumeType = 3;
+}
+
+message TDrawResult {
+  int32 TypeId = 1;
+  int32 ObjId = 2;
+  int32 Num = 3;
+}
+
+message TDrawRet {
+  repeated TDrawResult DrawResult = 1;
+}
+

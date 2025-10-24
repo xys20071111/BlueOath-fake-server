@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package prefs;
+
+message TPrefsRet {
+  string PrefsDataStr = 1;
+  int32 SyncTime = 2;
+}
+
+message TSavePrefsArg {
+  string PrefsDataStr = 1;
+}
+

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package activitytower;
+
+message TActivityTower {
+  int32 ActivityId = 1;
+  int32 ResetTime = 2;
+  int32 SmallResetNumber = 3;
+  int32 QuickNumber = 4;
+  int32 HistoryMax = 5;
+  repeated int32 SavePassCopyIdList = 6;
+  repeated int32 PassCopyIdList = 7;
+  repeated message SfID2Count = 8;
+  repeated uint32 LockEquipList = 9;
+  repeated uint32 HeroIdList = 10;
+  repeated int32 SavePassStageCopyIdList = 11;
+}
+
+message TActivityTowerQuickPassArg {
+  int32 CopyId = 1;
+}
+

@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package task;
+
+message EventInfo {
+  int32 EventType = 1;
+  int32 Count = 2;
+  repeated TaskInfo Task = 3;
+}
+
+message TTaskAllRewardArg {
+  int32 GetType = 1;
+}
+
+message TTaskAllRewardRet {
+  repeated message Reward = 1;
+}
+
+message TTaskInfoRet {
+  repeated EventInfo MainTask = 1;
+  repeated EventInfo DailyTask = 2;
+  repeated EventInfo WeeklyTask = 3;
+  repeated EventInfo AchieveTask = 4;
+  repeated int32 MedalList = 5;
+  repeated EventInfo ActivityTask = 6;
+  repeated EventInfo GrowTask = 7;
+  repeated EventInfo GuildTask = 8;
+  repeated EventInfo TeachingDailyTask = 9;
+  repeated EventInfo TeachingStageTask = 10;
+  repeated int32 GotPtReward = 11;
+  repeated TaskStageInfo StageInfo = 12;
+  int32 TeachingDailyTaskCount = 13;
+  repeated EventInfo MagazineTask = 14;
+  repeated EventInfo MagazinePageTask = 15;
+  repeated EventInfo ActivityReturnTask = 17;
+}
+
+message TTaskPtRewardArg {
+  int32 Id = 1;
+}
+
+message TTaskPtRewardRet {
+  repeated message Reward = 1;
+}
+
+message TTaskRewardArg {
+  int32 TaskId = 1;
+  int32 TaskType = 2;
+}
+
+message TTaskRewardDayArg {
+  int32 TaskId = 1;
+  int32 TaskType = 2;
+  int32 Day = 3;
+}
+
+message TTaskRewardRet {
+  int32 TaskId = 1;
+  repeated message Reward = 2;
+}
+
+message TTaskTeachingArg {
+  uint64 targetUId = 1;
+}
+
+message TTaskTeachingRet {
+  repeated EventInfo TeachingDailyTask = 1;
+  repeated EventInfo TeachingStageTask = 2;
+  repeated TaskStageInfo StageInfo = 3;
+  int32 TeachingDailyTaskCount = 4;
+}
+
+message TTaskTriggerArg {
+  int32 EventId = 1;
+}
+
+message TaskExtra {
+  int32 Key = 1;
+  int32 Value = 2;
+}
+
+message TaskInfo {
+  int32 TaskId = 1;
+  int32 RewardTime = 2;
+  int32 FinishTime = 3;
+  int32 Count = 4;
+  repeated TaskExtra Extra = 5;
+  repeated message Reward = 6;
+}
+
+message TaskStageInfo {
+  int32 TaskType = 1;
+  int32 StageId = 2;
+  repeated int32 GotStageId = 3;
+}
+

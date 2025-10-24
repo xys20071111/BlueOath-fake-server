@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package battleplayer;
+
+message TBattleEquip {
+  int32 EquipTid = 1;
+  int32 EquipIndex = 2;
+  int32 PlaneNum = 3;
+  repeated THeroAttr AttrValue = 4;
+  repeated TEquipPSkills PSkillEquipList = 5;
+  int32 PetId = 6;
+}
+
+message TBattleExtraParam {
+  repeated uint32 ArrHeroId = 1;
+  int32 StrategyId = 2;
+  bool NpcAssist = 3;
+  uint64 Uid = 4;
+  int32 tacticType = 5;
+  int32 fleetId = 6;
+  bool isMultiFleet = 7;
+  int32 copyId = 8;
+}
+
+message TBattleFleet {
+  int32 FleetId = 1;
+  int32 FormationId = 2;
+  int32 Index = 3;
+  repeated TBattleShip Ships = 4;
+  int32 StrategyId = 5;
+  repeated int32 ConditionList = 6;
+  int32 KillTimes = 7;
+  repeated uint32 HeroList = 8;
+  int32 TacticType = 9;
+}
+
+message TBattlePlayer {
+  uint32 Pid = 1;
+  uint64 Uid = 2;
+  string Uname = 3;
+  int32 Level = 4;
+  int32 PlayerCamp = 5;
+  int32 Index = 6;
+  TBattleFleet FleetInfo = 7;
+  repeated int32 OpenFunc = 8;
+  int32 BattleMode = 9;
+  repeated TRandomFactor RandomFactors = 10;
+}
+
+message TBattlePlayerList {
+  repeated TBattlePlayer BattlePlayerList = 1;
+}
+
+message TBattleShip {
+  uint32 HeroId = 1;
+  int32 TemplateId = 2;
+  int32 Level = 3;
+  int32 Index = 4;
+  repeated THeroAttr Attr = 5;
+  uint64 CurHp = 6;
+  repeated TBattleEquip Equips = 7;
+  repeated TFiledPSkillLv PSkill = 8;
+  repeated int32 BathBuff = 9;
+  repeated int32 AdvEffectIdList = 10;
+  int32 EquipGridNum = 11;
+  int32 Fashioning = 12;
+  int32 HurtPer = 13;
+}
+
+message TEquipPSkills {
+  int32 PSkillId = 1;
+  int32 PSkillLv = 2;
+}
+
+message TFiledPSkillLv {
+  int32 PSkillId = 1;
+  int32 PSkillLv = 2;
+}
+
+message THeroAttr {
+  int32 AttrId = 1;
+  int32 AttrValue = 2;
+}
+
+message TRandomFactor {
+  repeated int32 Factors = 1;
+  int32 GroupId = 2;
+  int32 SetId = 3;
+}
+

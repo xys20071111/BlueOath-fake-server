@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package active;
+
+message TActiveInfo {
+  int32 Id = 1;
+  int32 Order = 2;
+  int32 MotoId = 3;
+  string Name = 4;
+  string Desc = 5;
+  int32 IconId = 6;
+  repeated int32 ParamsList = 7;
+  int32 ActivityPeriod = 8;
+  int32 ShowLevel = 9;
+  int32 MaxLevel = 10;
+  int32 IsOpen = 11;
+  string ActivityEndTime = 12;
+  string TaskEndTime = 13;
+  int32 Type = 14;
+  repeated int32 Flag = 15;
+  int32 StartTime = 16;
+  int32 EndTime = 17;
+  string ParamsList1 = 18;
+  string ParamsList2 = 19;
+  int32 ParamsList3 = 20;
+}
+
+message TActivePushInfo {
+  repeated TActiveInfo ActiveList = 1;
+}
+

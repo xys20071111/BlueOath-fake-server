@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package webapi;
+
+message TArgsLuaRun {
+  repeated TKeyValue Results = 1;
+}
+
+message TKeyValue {
+  string Key = 1;
+  string StrValue = 2;
+  int32 NumValue = 3;
+}
+
+message TLuaInfo {
+  string LuaString = 1;
+}
+

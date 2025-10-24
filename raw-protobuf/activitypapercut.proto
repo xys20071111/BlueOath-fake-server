@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package activitypapercut;
+
+message TAPCFormulaUseData {
+  int32 FormulaId = 1;
+  int32 Count = 2;
+}
+
+message TAPCMakePaperCutArg {
+  repeated int32 Materials = 1;
+}
+
+message TAPCMakePaperCutRet {
+  repeated message Reward = 1;
+  int32 FormulaId = 2;
+}
+
+message TActivityPaperCutInfoRet {
+  repeated TAPCFormulaUseData FormulaUseData = 1;
+}
+

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package cmd;
+
+message TGMArgs {
+  string cmdMsg = 1;
+}
+
+message TGMRet {
+  string cmdRet = 1;
+}
+

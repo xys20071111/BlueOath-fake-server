@@ -1,0 +1,94 @@
+syntax = "proto3";
+
+package buildship;
+
+message TBuildShipArg {
+  int32 Id = 1;
+  int32 Num = 2;
+  string CacheId = 3;
+}
+
+message TBuildShipCloseTime {
+  int32 Id = 1;
+  int32 CloseTime = 2;
+}
+
+message TBuildShipCount {
+  int32 Id = 1;
+  int32 Count = 2;
+}
+
+message TBuildShipDispInfo {
+  int32 Id = 1;
+  int32 Count = 2;
+}
+
+message TBuildShipDrawInfo {
+  int32 Id = 1;
+  int32 Count = 2;
+}
+
+message TBuildShipExtractInfo {
+  int32 Id = 1;
+  repeated TBuildShipUpCount UpCount = 2;
+}
+
+message TBuildShipInfo {
+  repeated TBuildShipDrawInfo DrawInfo = 1;
+  repeated TBuildShipDispInfo DispInfo = 2;
+  repeated TBuildShipRefresh RefreshInfo = 3;
+  repeated TBuildShipCount TotalCount = 4;
+  repeated TBuildShipSpecial SpecialInfo = 5;
+  repeated TBuildShipTimesReward UsedBoxInfo = 6;
+  repeated TBuildShipTimesReward UsedRewardInfo = 7;
+  repeated TBuildShipResetTypeCount ResetTypeCount = 8;
+  repeated TBuildShipExtractInfo ExtractInfo = 9;
+  repeated TBuildShipCloseTime CloseTime = 10;
+  repeated TBuildShipTimesReward RewardChange = 11;
+}
+
+message TBuildShipRefresh {
+  int32 RefreshType = 1;
+  int32 RefreshTime = 2;
+}
+
+message TBuildShipResetTypeCount {
+  int32 Id = 1;
+  int32 Count = 2;
+}
+
+message TBuildShipRet {
+  repeated message BuildShipResult = 1;
+  repeated message SpReward = 2;
+  repeated message TransReward = 3;
+  bool IsChangeReward = 4;
+}
+
+message TBuildShipSpecial {
+  int32 Id = 1;
+  repeated message SpecialInfo = 2;
+}
+
+message TBuildShipTimesReward {
+  int32 Id = 1;
+  repeated int32 Count = 2;
+}
+
+message TBuildShipUpCount {
+  int32 UpId = 1;
+  int32 Count = 2;
+}
+
+message TRPBuildShipDrawArg {
+  repeated TRPBuildShipDrawData Data = 1;
+}
+
+message TRPBuildShipDrawData {
+  int32 BuildId = 1;
+  string Title = 2;
+}
+
+message TRPBuildShipDrawRet {
+  string result = 1;
+}
+

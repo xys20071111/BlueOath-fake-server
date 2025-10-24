@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package pass;
+
+message TChapterInfo {
+  int32 Id = 1;
+  int32 Star = 2;
+}
+
+message TPassInfo {
+  int32 ResetNum = 1;
+  int32 EliteFightNum = 2;
+  int32 CurChapter = 3;
+  int32 CurStage = 4;
+  repeated TStageInfo PassedStageInfo = 5;
+  repeated int32 AffixList = 6;
+  int32 TotalStar = 7;
+  int32 UsedStar = 8;
+  repeated int32 AffixListForSelect = 10;
+  int32 EliteBuyNum = 11;
+  int32 CurRoundState = 12;
+  int32 TreasureState = 13;
+  int32 MaxEliteStage = 14;
+  int32 MaxSamsungStage = 15;
+  int32 MaxTotalStar = 16;
+  int32 RewardState = 17;
+  repeated TChapterInfo ChapterInfo = 18;
+  int32 EliteOpenStage = 19;
+  int32 Fsm = 20;
+}
+
+message TPassStarRankArg {
+  int32 RankId = 1;
+  int32 TopN = 2;
+}
+
+message TPsChapterSweepRet {
+  repeated int32 AffixList = 1;
+}
+
+message TPsFightArg {
+  repeated int32 Tactic = 1;
+  int32 PassType = 2;
+  int32 Stage = 3;
+  int32 Difficulty = 4;
+}
+
+message TPsFightResult {
+  int32 Success = 1;
+}
+
+message TPsFightRet {
+  int32 Multiple = 2;
+  repeated int32 AffixListForSelect = 3;
+  TPsFightResult Result = 5;
+}
+
+message TPsFinishFightArg {
+  int32 PassType = 1;
+  repeated int32 Tactic = 2;
+  int32 Difficulty = 3;
+  int32 Stage = 4;
+  TPsFightResult Result = 5;
+}
+
+message TPsFinishFightRet {
+  int32 Success = 1;
+  int32 Multiple = 2;
+  repeated int32 AffixListForSelect = 3;
+}
+
+message TPsSamsungSweepRet {
+  repeated int32 MultipleList = 1;
+  repeated int32 AffixList = 2;
+}
+
+message TPsSelectAffixArg {
+  int32 Affix = 1;
+}
+
+message TPsStarRankRet {
+  int32 UserRank = 1;
+  repeated TRetPsUserRankData UserRankData = 2;
+}
+
+message TRetPsUserRankData {
+  message User = 1;
+  int32 Star = 2;
+  int32 ThumbsUpCount = 3;
+}
+
+message TStageInfo {
+  int32 Id = 1;
+  int32 Star = 2;
+}
+

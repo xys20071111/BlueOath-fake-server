@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package supply;
+
+message TSupplySwitchArg {
+  repeated uint32 HeroIds = 1;
+}
+

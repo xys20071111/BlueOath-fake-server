@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package fashion;
+
+message TFashionEquipArg {
+  int32 FashionTid = 1;
+  int32 EquipStatus = 2;
+  uint32 HeroId = 3;
+}
+
+message TFashionInfo {
+  int32 SfId = 1;
+  repeated int32 FashionTid = 2;
+}
+
+message TFashionList {
+  repeated TFashionInfo FashionInfo = 1;
+}
+
+message TFashionReplaceReward {
+  repeated message ReplaceReward = 1;
+}
+

@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package help;
+
+message TCopyUserDataArg {
+  int32 GameId = 1;
+  uint32 Pid = 2;
+  uint64 ToUid = 3;
+}
+
+message TCopyUserDataRet {
+  repeated string AllData = 1;
+}
+
+message TGetStlogDataArg {
+  uint64 Uid = 1;
+  uint32 Pid = 2;
+  int32 BeginTime = 3;
+  int32 EndTime = 4;
+  string Method = 5;
+  int32 RewardType = 6;
+  int32 RewardId = 7;
+}
+
+message TGetStlogDataRet {
+  repeated string Result = 1;
+}
+

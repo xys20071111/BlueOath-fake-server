@@ -13,7 +13,9 @@
     "jsr:@std/media-types@1": "1.1.0",
     "jsr:@std/path@1": "1.1.2",
     "npm:@types/node@*": "22.15.15",
-    "npm:path-to-regexp@^6.3.0": "6.3.0"
+    "npm:@types/node@^24.2.0": "24.8.1",
+    "npm:path-to-regexp@^6.3.0": "6.3.0",
+    "npm:protobufjs@^7.5.4": "7.5.4"
   },
   "jsr": {
     "@oak/commons@1.0.1": {
@@ -71,22 +73,105 @@
     }
   },
   "npm": {
+    "@protobufjs/aspromise@1.1.2": {
+      "integrity": "sha512-j+gKExEuLmKwvz3OgROXtrJ2UG2x8Ch2YZUxahh+s1F2HZ+wAceUNLkvy6zKCPVRkU++ZWQrdxsUeQXmcg4uoQ==",
+      "tarball": "https://registry.npmmirror.com/@protobufjs/aspromise/-/aspromise-1.1.2.tgz"
+    },
+    "@protobufjs/base64@1.1.2": {
+      "integrity": "sha512-AZkcAA5vnN/v4PDqKyMR5lx7hZttPDgClv83E//FMNhR2TMcLUhfRUBHCmSl0oi9zMgDDqRUJkSxO3wm85+XLg==",
+      "tarball": "https://registry.npmmirror.com/@protobufjs/base64/-/base64-1.1.2.tgz"
+    },
+    "@protobufjs/codegen@2.0.4": {
+      "integrity": "sha512-YyFaikqM5sH0ziFZCN3xDC7zeGaB/d0IUb9CATugHWbd1FRFwWwt4ld4OYMPWu5a3Xe01mGAULCdqhMlPl29Jg==",
+      "tarball": "https://registry.npmmirror.com/@protobufjs/codegen/-/codegen-2.0.4.tgz"
+    },
+    "@protobufjs/eventemitter@1.1.0": {
+      "integrity": "sha512-j9ednRT81vYJ9OfVuXG6ERSTdEL1xVsNgqpkxMsbIabzSo3goCjDIveeGv5d03om39ML71RdmrGNjG5SReBP/Q==",
+      "tarball": "https://registry.npmmirror.com/@protobufjs/eventemitter/-/eventemitter-1.1.0.tgz"
+    },
+    "@protobufjs/fetch@1.1.0": {
+      "integrity": "sha512-lljVXpqXebpsijW71PZaCYeIcE5on1w5DlQy5WH6GLbFryLUrBD4932W/E2BSpfRJWseIL4v/KPgBFxDOIdKpQ==",
+      "dependencies": [
+        "@protobufjs/aspromise",
+        "@protobufjs/inquire"
+      ],
+      "tarball": "https://registry.npmmirror.com/@protobufjs/fetch/-/fetch-1.1.0.tgz"
+    },
+    "@protobufjs/float@1.0.2": {
+      "integrity": "sha512-Ddb+kVXlXst9d+R9PfTIxh1EdNkgoRe5tOX6t01f1lYWOvJnSPDBlG241QLzcyPdoNTsblLUdujGSE4RzrTZGQ==",
+      "tarball": "https://registry.npmmirror.com/@protobufjs/float/-/float-1.0.2.tgz"
+    },
+    "@protobufjs/inquire@1.1.0": {
+      "integrity": "sha512-kdSefcPdruJiFMVSbn801t4vFK7KB/5gd2fYvrxhuJYg8ILrmn9SKSX2tZdV6V+ksulWqS7aXjBcRXl3wHoD9Q==",
+      "tarball": "https://registry.npmmirror.com/@protobufjs/inquire/-/inquire-1.1.0.tgz"
+    },
+    "@protobufjs/path@1.1.2": {
+      "integrity": "sha512-6JOcJ5Tm08dOHAbdR3GrvP+yUUfkjG5ePsHYczMFLq3ZmMkAD98cDgcT2iA1lJ9NVwFd4tH/iSSoe44YWkltEA==",
+      "tarball": "https://registry.npmmirror.com/@protobufjs/path/-/path-1.1.2.tgz"
+    },
+    "@protobufjs/pool@1.1.0": {
+      "integrity": "sha512-0kELaGSIDBKvcgS4zkjz1PeddatrjYcmMWOlAuAPwAeccUrPHdUqo/J6LiymHHEiJT5NrF1UVwxY14f+fy4WQw==",
+      "tarball": "https://registry.npmmirror.com/@protobufjs/pool/-/pool-1.1.0.tgz"
+    },
+    "@protobufjs/utf8@1.1.0": {
+      "integrity": "sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==",
+      "tarball": "https://registry.npmmirror.com/@protobufjs/utf8/-/utf8-1.1.0.tgz"
+    },
     "@types/node@22.15.15": {
       "integrity": "sha512-R5muMcZob3/Jjchn5LcO8jdKwSCbzqmPB6ruBxMcf9kbxtniZHP327s6C37iOfuw8mbKK3cAQa7sEl7afLrQ8A==",
       "dependencies": [
-        "undici-types"
-      ]
+        "undici-types@6.21.0"
+      ],
+      "tarball": "https://registry.npmmirror.com/@types/node/-/node-22.15.15.tgz"
+    },
+    "@types/node@24.8.1": {
+      "integrity": "sha512-alv65KGRadQVfVcG69MuB4IzdYVpRwMG/mq8KWOaoOdyY617P5ivaDiMCGOFDWD2sAn5Q0mR3mRtUOgm99hL9Q==",
+      "dependencies": [
+        "undici-types@7.14.0"
+      ],
+      "tarball": "https://registry.npmmirror.com/@types/node/-/node-24.8.1.tgz"
+    },
+    "long@5.3.2": {
+      "integrity": "sha512-mNAgZ1GmyNhD7AuqnTG3/VQ26o760+ZYBPKjPvugO8+nLbYfX6TVpJPseBvopbdY+qpZ/lKUnmEc1LeZYS3QAA==",
+      "tarball": "https://registry.npmmirror.com/long/-/long-5.3.2.tgz"
     },
     "path-to-regexp@6.3.0": {
-      "integrity": "sha512-Yhpw4T9C6hPpgPeA28us07OJeqZ5EzQTkbfwuhsUg0c237RomFoETJgmp2sa3F/41gfLE6G5cqcYwznmeEeOlQ=="
+      "integrity": "sha512-Yhpw4T9C6hPpgPeA28us07OJeqZ5EzQTkbfwuhsUg0c237RomFoETJgmp2sa3F/41gfLE6G5cqcYwznmeEeOlQ==",
+      "tarball": "https://registry.npmmirror.com/path-to-regexp/-/path-to-regexp-6.3.0.tgz"
+    },
+    "protobufjs@7.5.4": {
+      "integrity": "sha512-CvexbZtbov6jW2eXAvLukXjXUW1TzFaivC46BpWc/3BpcCysb5Vffu+B3XHMm8lVEuy2Mm4XGex8hBSg1yapPg==",
+      "dependencies": [
+        "@protobufjs/aspromise",
+        "@protobufjs/base64",
+        "@protobufjs/codegen",
+        "@protobufjs/eventemitter",
+        "@protobufjs/fetch",
+        "@protobufjs/float",
+        "@protobufjs/inquire",
+        "@protobufjs/path",
+        "@protobufjs/pool",
+        "@protobufjs/utf8",
+        "@types/node@24.8.1",
+        "long"
+      ],
+      "scripts": true,
+      "tarball": "https://registry.npmmirror.com/protobufjs/-/protobufjs-7.5.4.tgz"
     },
     "undici-types@6.21.0": {
-      "integrity": "sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ=="
+      "integrity": "sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==",
+      "tarball": "https://registry.npmmirror.com/undici-types/-/undici-types-6.21.0.tgz"
+    },
+    "undici-types@7.14.0": {
+      "integrity": "sha512-QQiYxHuyZ9gQUIrmPo3IA+hUl4KYk8uSA7cHrcKd/l3p1OTpZcM0Tbp9x7FAtXdAYhlasd60ncPpgu6ihG6TOA==",
+      "tarball": "https://registry.npmmirror.com/undici-types/-/undici-types-7.14.0.tgz"
     }
   },
   "workspace": {
     "dependencies": [
-      "jsr:@oak/oak@^17.1.6"
+      "jsr:@oak/oak@^17.1.6",
+      "npm:@types/node@^24.2.0",
+      "npm:protobufjs@^7.5.4"
     ]
   }
 }

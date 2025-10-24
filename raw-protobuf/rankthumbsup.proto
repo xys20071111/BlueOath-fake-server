@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package rankthumbsup;
+
+message TRankThumbsUpArg {
+  uint64 UserId = 1;
+}
+
+message TRankThumbsUpRet {
+  repeated uint64 UserIds = 1;
+  int32 EmptyFlag = 2;
+}
+

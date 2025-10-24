@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package battlepass;
+
+message TBattlePassBuyPassLevelArg {
+  int32 BuyLevel = 2;
+}
+
+message TBattlePassBuyPassTypeArg {
+  int32 BuyType = 1;
+}
+
+message TBattlePassGetAllRewardRet {
+  repeated TBattlePassRewardData AllPassReward = 1;
+}
+
+message TBattlePassGetRewardArg {
+  int32 PassLevel = 1;
+}
+
+message TBattlePassInfoRet {
+  int32 PassType = 1;
+  int32 PassLevel = 2;
+  int32 PassExp = 3;
+  repeated TBattlePassRewardInfo NormalRewardInfo = 4;
+  repeated TBattlePassRewardInfo AdvancedRewardInfo = 5;
+  int32 CurWeekIndex = 6;
+  repeated TBattlePassWeekInfo PassWeekInfo = 7;
+  repeated TBattlePassTaskInfo AchievementTaskInfo = 8;
+}
+
+message TBattlePassRandomTaskPool {
+  int32 Index = 1;
+  int32 TaskId = 2;
+}
+
+message TBattlePassRecieveTaskRewardArg {
+  int32 TaskId = 1;
+}
+
+message TBattlePassRefreshRandomTaskArg {
+  int32 TaskId = 1;
+}
+
+message TBattlePassRewardData {
+  int32 PassLevel = 1;
+  int32 PassType = 2;
+}
+
+message TBattlePassRewardInfo {
+  int32 PassLevel = 1;
+  bool IsGet = 2;
+}
+
+message TBattlePassTaskInfo {
+  int32 TaskId = 1;
+  int32 Count = 2;
+  int32 Status = 3;
+  int32 FinishCount = 4;
+}
+
+message TBattlePassWeekInfo {
+  int32 WeekIndex = 1;
+  repeated TBattlePassTaskInfo TaskInfo = 2;
+  repeated TBattlePassRandomTaskPool RandomTaskPool = 3;
+  int32 RefreshCountFree = 4;
+  int32 RefreshCountPay = 5;
+}
+

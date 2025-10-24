@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package buildnotes;
+
+message TNotesHeroLikeArg {
+  int32 Htid = 1;
+}
+
+message TNotesInfo {
+  string Name = 1;
+  message BuildedInfo = 2;
+  int32 Count = 3;
+  int32 Head = 4;
+  uint64 Uid = 5;
+}
+
+message TNotesListRet {
+  repeated TNotesInfo List = 1;
+}
+

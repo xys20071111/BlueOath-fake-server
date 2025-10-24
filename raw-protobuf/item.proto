@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package item;
+
+message TItem {
+  int32 Type = 1;
+  int32 Id = 2;
+  int32 Num = 3;
+}
+

@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package module;
+
+message TEmptyArg {
+}
+
+message TEmptyRet {
+}
+

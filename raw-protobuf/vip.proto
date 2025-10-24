@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package vip;
+
+message TBuyUnit {
+  int32 CardId = 1;
+  int32 BuyTimes = 2;
+}
+
+message TMonthCardInfo {
+  repeated TMonthCardUnit TMonthCard = 1;
+  repeated TBuyUnit TBuyTimes = 2;
+}
+
+message TMonthCardUnit {
+  int32 CardId = 1;
+  int32 DueData = 2;
+  int32 Pick = 3;
+}
+
+message TPickMonthCardArgs {
+  int32 MonthCardId = 1;
+}
+

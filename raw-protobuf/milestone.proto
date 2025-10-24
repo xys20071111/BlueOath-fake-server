@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package milestone;
+
+message TMilestone {
+  repeated TMilestoneSub MilestoneSub = 1;
+}
+
+message TMilestoneArg {
+  int32 ActivityId = 1;
+  int32 Index = 2;
+}
+
+message TMilestoneSub {
+  int32 ActivityId = 1;
+  repeated TMilestoneSubReward MilestoneSubReward = 2;
+}
+
+message TMilestoneSubReward {
+  int32 Index = 1;
+  int32 Time = 2;
+}
+

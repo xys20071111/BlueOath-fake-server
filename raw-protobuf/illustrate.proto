@@ -1,0 +1,106 @@
+syntax = "proto3";
+
+package illustrate;
+
+message TEquipNewArgs {
+  repeated int32 EquipIds = 1;
+}
+
+message THeroMemory {
+  uint32 HeroId = 1;
+  int32 PlotId = 2;
+}
+
+message TIllustrateBehaviourArgs {
+  repeated TIllustrateBehaviourItem BehaviourItem = 1;
+}
+
+message TIllustrateBehaviourItem {
+  int32 IllustrateId = 1;
+  repeated int32 BehaviourId = 2;
+}
+
+message TIllustrateEquipInfo {
+  int32 EquipTemplateId = 1;
+  int64 GetEquipTime = 2;
+  bool NewEquip = 3;
+}
+
+message TIllustrateEquipList {
+  repeated TIllustrateEquipInfo EquipList = 1;
+}
+
+message TIllustrateInfo {
+  int32 IllustrateId = 1;
+  int64 GetTime = 2;
+  int64 LikeTime = 3;
+  bool NewHero = 4;
+  repeated int32 BehaviourList = 5;
+  int32 MarryCount = 6;
+}
+
+message TIllustrateInfoRet {
+  repeated TIllustrateInfo IllustrateList = 1;
+  int64 VowCoolTime = 2;
+  int32 VowCoolHero = 3;
+  int32 VowCount = 4;
+  repeated int32 VowHeroList = 5;
+  repeated TSkipVcr SkipVcr = 6;
+  repeated TVowItemUseInfo UseInfo = 7;
+  repeated THeroMemory HeroMemoryList = 8;
+  repeated TIllustrateEquipInfo IllustrateEquipList = 9;
+}
+
+message TIllustrateList {
+  repeated TIllustrateInfo IllustrateList = 1;
+}
+
+message TIllustrateNewArgs {
+  repeated int32 IllustrateIds = 1;
+}
+
+message TMemoryInfo {
+  int32 ChapterId = 1;
+  int32 Index = 2;
+}
+
+message TMemoryList {
+  repeated TMemoryInfo MemoryList = 1;
+}
+
+message TModiVowHeroListArg {
+  repeated int32 ChooseHeroList = 1;
+}
+
+message TSkipVcr {
+  int32 ShipInfoId = 1;
+  bool StartVcr = 2;
+  bool EndVcr = 3;
+}
+
+message TVowDecTimeArgs {
+  repeated TVowItemUseInfo UseInfo = 1;
+  int32 Type = 2;
+}
+
+message TVowDecTimeRet {
+  int32 VowCount = 1;
+  int64 VowCoolTime = 2;
+}
+
+message TVowHeroArgs {
+  repeated int32 ChooseHeroList = 1;
+}
+
+message TVowHeroRet {
+  int32 Type = 1;
+  int32 ConfigId = 2;
+  int32 Num = 3;
+  int32 Id = 4;
+}
+
+message TVowItemUseInfo {
+  int32 ItemTid = 1;
+  int32 ItemNum = 2;
+}
+

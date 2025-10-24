@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package copyextra;
+
+message TAddCopyRewardTimesArg {
+  int32 Chapter = 1;
+  int32 RewardTime = 2;
+}
+
+message TCopyExtraInfoRet {
+  repeated TCopyRewardTimes CopyRewardTimes = 1;
+  repeated TCopyGalgameBranch CopyGalgameBranch = 2;
+}
+
+message TCopyGalgameBranch {
+  int32 BranchId = 1;
+  int32 State = 2;
+}
+
+message TCopyRewardTimes {
+  int32 Chapter = 1;
+  int32 RewardTime = 2;
+}
+

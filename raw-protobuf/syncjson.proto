@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package syncjson;
+
+message TSyncJson {
+  string Name = 1;
+  string Content = 2;
+}
+

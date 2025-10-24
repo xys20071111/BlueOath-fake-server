@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package activityssrrolls;
+
+message TActivitySSRRollsInfoRet {
+  int32 ActivityId = 1;
+  int32 DaySelectCount = 2;
+  TRollsTeam SelectShipTeam = 3;
+  TRollsTeam SaveShipTeam = 4;
+  int64 RewardTime = 5;
+}
+
+message TRollsTeam {
+  repeated int32 ShipId = 1;
+}
+
+message TSSRRollsSelectArg {
+  int32 SelectTeamId = 1;
+}
+

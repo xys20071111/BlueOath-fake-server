@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package build;
+
+message TBuildIndexArg {
+  repeated int32 index = 1;
+}
+
+message TBuildItem {
+  int32 ResId = 1;
+  int32 Count = 2;
+}
+
+message TBuildProject {
+  repeated TBuildItem Items = 1;
+  int32 Gold = 2;
+}
+
+message TBuildProjectsArg {
+  repeated TBuildProject Project = 1;
+}
+
+message TBuildReceiveRet {
+  repeated message reward = 1;
+  repeated message SpReward = 2;
+}
+
+message TBuildsInfoRet {
+  repeated TFormula BuildedList = 1;
+  repeated TFormula BuildingList = 2;
+  repeated TFormula WaitingList = 3;
+  TFormula BuildedLast = 4;
+}
+
+message TFormula {
+  int64 EndTime = 1;
+  TBuildProject Project = 2;
+  int32 HeroId = 3;
+}
+

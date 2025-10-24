@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package book;
+
+message TBookInfo {
+  repeated int32 BookInfo = 1;
+  repeated int32 AcquireInfo = 2;
+}
+
+message TUnlockArg {
+  int32 ComposeId = 1;
+}
+

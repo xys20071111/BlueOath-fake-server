@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package team;
+
+message TInviteArg {
+  repeated uint64 InviteList = 1;
+  int32 ChapterId = 2;
+  uint32 TeamId = 3;
+  int32 Password = 4;
+}
+
+message TInviteInfo {
+  int32 ChapterId = 1;
+  uint32 TeamId = 2;
+  message InviteUserInfo = 3;
+  int32 TeamUserNum = 4;
+  bool TeamState = 5;
+  int32 Password = 6;
+  int32 CreateTime = 7;
+}
+
+message TInviteListInfo {
+  repeated TInviteInfo InviteInfo = 1;
+}
+
+message TInviteListRet {
+  repeated message InviteUserList = 1;
+}
+
+message TRetGetTeamUserInfo {
+  int32 TeamIndex = 1;
+  bool IsLead = 2;
+  bool IsReady = 3;
+  bool IsFight = 4;
+  int32 FightState = 5;
+  bool IsIntervene = 6;
+  bool IsGiveUp = 7;
+  bool Leave = 8;
+  message UserInfo = 9;
+}
+
+message TTeamChapterInfoRet {
+  repeated TTeamInfoRet TTeamInfo = 1;
+}
+
+message TTeamInfo {
+  int32 ChapterId = 1;
+  uint32 TeamId = 2;
+  uint64 Uid = 3;
+  int32 IndexA = 4;
+  int32 IndexB = 5;
+  uint64 UidOther = 6;
+  int32 Password = 7;
+  int32 EnterIndex = 8;
+  bool Ready = 9;
+  bool Intervene = 10;
+  int32 Wave = 11;
+  int32 Progress = 12;
+  bool Leave = 13;
+  repeated TTeamTacticOn TacticOn = 14;
+}
+
+message TTeamInfoRet {
+  repeated TRetGetTeamUserInfo TeamUser = 1;
+  int32 Password = 2;
+  uint32 TeamId = 3;
+  int32 ChapterId = 4;
+  int32 CreateTime = 5;
+}
+
+message TTeamMatch {
+  repeated int32 ChapterId = 1;
+  int32 ChapterIdType = 2;
+}
+
+message TTeamTacticOn {
+  uint64 Uid = 1;
+  int32 Index = 2;
+}
+

@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package activityvalentineloveletter;
+
+message TActivityValentineLoveLetterGetRewardArg {
+  int32 Index = 1;
+}
+
+message TActivityValentineLoveLetterHeroData {
+  int32 Index = 1;
+  uint32 HeroId = 2;
+  int32 TemplateId = 3;
+  int32 ShipTid = 4;
+  bool IsGift = 5;
+}
+
+message TActivityValentineLoveLetterInfoRet {
+  repeated TActivityValentineLoveLetterHeroData LoveShip = 1;
+  int32 CurActShip = 2;
+}
+

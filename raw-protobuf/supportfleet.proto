@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package supportfleet;
+
+message TCompleteSupportArg {
+  int32 Id = 1;
+  int32 Type = 2;
+}
+
+message TCompleteSupportRet {
+  repeated message BaseReward = 1;
+  repeated message RandomReward = 2;
+  int32 RewardType = 3;
+}
+
+message TStartSupportArg {
+  int32 SupportId = 1;
+  repeated uint32 HeroList = 2;
+}
+
+message TSupportFleetInfo {
+  repeated TSupportInfo SupportFleetList = 1;
+}
+
+message TSupportInfo {
+  int32 Id = 1;
+  int32 SupportId = 2;
+  int64 StartTime = 3;
+  repeated uint32 HeroList = 4;
+}
+

@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package record;
+
+message TNationalRecord {
+  int32 National = 1;
+  repeated TRecordInfo Record = 2;
+}
+
+message TRecordArg {
+  int32 StageId = 1;
+}
+
+message TRecordInfo {
+  message Player = 1;
+  string ReportMD5 = 2;
+  int32 BattleTime = 3;
+}
+
+message TRecordRet {
+  repeated TNationalRecord NationalRecord = 1;
+}
+

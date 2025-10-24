@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package cachedata;
+
+message TCacheDataArg {
+  string Key = 1;
+}
+
+message TCacheDataRet {
+  string Ret = 1;
+}
+

@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package battleenemy;
+
+message TBattleEnemyFleet {
+  int32 FleetId = 1;
+  int32 State = 2;
+  repeated TBattleEnemyShip Ships = 3;
+}
+
+message TBattleEnemyShip {
+  int32 ShipId = 1;
+  repeated message Attr = 2;
+  repeated int32 PSkill = 3;
+}
+

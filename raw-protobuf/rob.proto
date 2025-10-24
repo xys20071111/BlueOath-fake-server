@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package rob;
+
+message TBeRobbedPush {
+  message UserInfo = 1;
+  int32 Quality = 2;
+  int32 FragmentId = 3;
+}
+
+message TComposeArg {
+  int32 TreasureId = 1;
+  int32 Num = 2;
+}
+
+message TGetRobAimArg {
+  int32 FragmentId = 1;
+}
+
+message TGetRobAimRet {
+  repeated TRobAimInfo AimInfo = 1;
+}
+
+message TRobAimInfo {
+  message UserInfo = 1;
+  bool IsRobot = 2;
+  bool IsProtected = 3;
+}
+
+message TRobArg {
+  uint64 Uid = 1;
+  int32 FragmentId = 2;
+}
+
+message TRobMainRet {
+  int32 NoFightCD = 1;
+  int32 GuideStep = 2;
+}
+
+message TRobRet {
+  bool Win = 1;
+  bool Success = 2;
+  string TargetName = 3;
+  int32 Exp = 4;
+  int32 Gold = 5;
+  repeated message Rewards = 6;
+}
+

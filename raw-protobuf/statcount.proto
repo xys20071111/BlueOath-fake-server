@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package statcount;
+
+message TStatCountInfo {
+  int32 CreateDays = 1;
+  uint32 Build = 2;
+  uint32 Steel = 3;
+  uint32 Alum = 4;
+  int32 Illustrate = 5;
+  uint32 Supply = 6;
+  uint32 Gold = 7;
+  uint32 Bath = 8;
+  uint32 Copy = 9;
+  int32 BathTimeHero = 10;
+  int32 FirstMarry = 11;
+  int32 FirstMarryTime = 12;
+  int32 Marry = 13;
+  uint32 BathMaxTime = 14;
+}
+

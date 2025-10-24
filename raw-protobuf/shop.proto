@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package shop;
+
+message TBuyGoodsArg {
+  int32 ShopId = 1;
+  int32 GoodId = 2;
+  int32 BuyNum = 3;
+  repeated uint32 DiscountId = 4;
+}
+
+message TBuyGoodsRet {
+  repeated message Reward = 1;
+  int32 GoodId = 2;
+  int32 BuyNum = 3;
+}
+
+message TRetShopInfo {
+  int32 ShopId = 1;
+  int32 RefreshNum = 2;
+  repeated TShopGoodsData ShopGoodsData = 3;
+  int32 UsedFRefreshNum = 4;
+  int32 FRefreshNum = 5;
+  int32 FRefreshTime = 6;
+}
+
+message TRetShopsInfo {
+  repeated TRetShopInfo ShopInfo = 1;
+  repeated TShopRecommend GoodList = 2;
+  repeated TShopRecommend CondGoodList = 3;
+}
+
+message TShopGoodsData {
+  int32 GoodsId = 1;
+  int32 Num = 2;
+  int32 Status = 3;
+}
+
+message TShopRecommend {
+  int32 Type = 1;
+  int32 GoodId = 2;
+  int32 Status = 3;
+}
+
+message TShopRefreshArg {
+  int32 ShopId = 1;
+  int32 ShopRefreshNum = 2;
+  bool IsUseItem = 3;
+}
+

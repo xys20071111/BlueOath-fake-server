@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package periodbag;
+
+message TPeriodBagInfoRet {
+  repeated TPeriodGridInfo periodBagInfo = 1;
+}
+
+message TPeriodGridInfo {
+  int32 templateId = 1;
+  uint32 itemId = 2;
+  int32 createTime = 3;
+}
+

@@ -1,0 +1,265 @@
+syntax = "proto3";
+
+package copy;
+
+message TArchiveCopyOperation {
+  int32 frameNumber = 1;
+  bytes data = 2;
+}
+
+message TAttackBaseArg {
+  int32 AttackType = 1;
+  int32 CopyId = 2;
+  repeated uint32 HeroIds = 3;
+  int32 EnemyId = 4;
+}
+
+message TBaseHeroInfo {
+  uint32 HeroId = 1;
+  uint64 Hp = 2;
+  bool IsMvp = 3;
+  bool IsBattle = 4;
+  int32 BreakStatus = 5;
+  repeated TPassKvInfo ExHeroInfo = 6;
+  uint64 OwnerUid = 7;
+}
+
+message TBaseInfo {
+  int32 BaseId = 1;
+  int32 Rid = 2;
+  int32 StarLevel = 3;
+  bool IsRunningFight = 4;
+  int32 LBPoint = 5;
+  int32 FirstPassTime = 6;
+  repeated int32 DropHeroIds = 7;
+  int32 SfLv = 8;
+  float SfPoint = 9;
+  repeated TSfInfo SfInfo = 10;
+  bool SfDot = 11;
+  int32 SfLvChoose = 12;
+}
+
+message TCanAttackArg {
+  int32 CopyId = 1;
+}
+
+message TCopyChooseSfLvArg {
+  int32 CopyId = 1;
+  int32 SafeLv = 2;
+}
+
+message TCopyRecord {
+  int32 CopyId = 1;
+  int32 Index = 2;
+}
+
+message TCopyRes {
+  int32 id = 1;
+  repeated message Reward = 2;
+}
+
+message TCopySkipVcr {
+  int32 ShipInfoId = 1;
+  bool StartVcr = 2;
+  bool EndVcr = 3;
+}
+
+message TDotBaseArg {
+  int32 CopyId = 1;
+}
+
+message TGetRandomFactorArg {
+  int32 CopyId = 1;
+}
+
+message TGetRandomFactorRet {
+  repeated message Factors = 1;
+  int32 LastRefreshTime = 2;
+  bool IsShowTips = 3;
+}
+
+message TPassBaseArg {
+  int32 BaseId = 1;
+  int32 Rid = 2;
+  string CacheId = 3;
+  int32 RunningTime = 4;
+  float MaxTimeScale = 5;
+  bool IsFlyAttack = 6;
+  bool IsRunningFight = 7;
+  int32 Grade = 8;
+  uint32 MvpHeroId = 9;
+  string BattleString = 10;
+  repeated TPassEvaluate Evaluate = 11;
+  int32 BattleTime = 12;
+  int32 LBPoint = 13;
+  bool IsSupport = 14;
+  int32 BattleType = 15;
+  TArchiveCopyOperation Operation = 16;
+  repeated TPassFleetInfo FleetInfo = 17;
+  repeated TBaseHeroInfo HerosInfo = 18;
+  bool IsFinishMission = 19;
+  repeated message EnemyFleets = 20;
+}
+
+message TPassBaseRet {
+  repeated message Reward = 1;
+  message BattlePlayer = 2;
+  int32 Ret = 3;
+  int32 Grade = 4;
+  repeated message ExReward = 5;
+  int32 StarLv = 6;
+  repeated TPassEvaluate Evaluate = 7;
+  int32 PassTime = 8;
+  repeated message ExtraReward = 9;
+  int32 FirstPass = 10;
+  repeated message ExpReward = 11;
+  int32 CopyId = 12;
+  int32 BuildShipId = 13;
+  repeated message BuildShipReward = 14;
+  repeated message MissionReward = 15;
+}
+
+message TPassEvaluate {
+  int32 Type = 1;
+  int32 Value = 2;
+}
+
+message TPassFleetInfo {
+  int32 EnemyId = 1;
+  repeated TBaseHeroInfo EnemyInfo = 2;
+}
+
+message TPassKvInfo {
+  int32 Type = 1;
+  int32 Value = 2;
+}
+
+message TQuitBaseArg {
+  int32 CopyId = 1;
+  bool IsRunningFight = 2;
+  bool IsPass = 3;
+  repeated TBaseHeroInfo HeroInfo = 4;
+  message VerifyPackage = 5;
+  int32 BattleMode = 6;
+}
+
+message TResRewardArg {
+  int32 CopyId = 1;
+  int32 ResId = 2;
+}
+
+message TSfInfo {
+  int32 Type = 1;
+  repeated TSfStat Info = 2;
+}
+
+message TSfStat {
+  int32 Key = 1;
+  int32 Value = 2;
+}
+
+message TShipEquipGridInfo {
+  uint32 HeroId = 1;
+  int32 EquipGridNum = 2;
+}
+
+message TStarInfo {
+  int32 ChapterId = 1;
+  int32 StarNum = 2;
+  repeated TStarReward StarReward = 3;
+  int32 PassNum = 4;
+  int32 Rank = 5;
+  repeated TStarReward StarRewardBox = 6;
+}
+
+message TStarReward {
+  int32 Index = 1;
+  int32 RewardTime = 2;
+}
+
+message TStarRewardArg {
+  int32 ChapterId = 1;
+  int32 Index = 2;
+  repeated int32 IndexList = 3;
+}
+
+message TStarRewardRet {
+  repeated message Reward = 1;
+}
+
+message TStartBaseArg {
+  int32 ChapterId = 1;
+  int32 CopyId = 2;
+  bool IsRunningFight = 3;
+  int32 TacticId = 4;
+  string CacheId = 5;
+  int32 DailyGroupId = 8;
+  int32 BattleMode = 9;
+  int32 AnimMode = 10;
+  int32 Power = 11;
+  repeated int32 ExBuff = 12;
+  repeated TStartBaseHeroList HeroList = 13;
+  int32 RoomId = 14;
+  int32 MatchType = 15;
+}
+
+message TStartBaseHero {
+  uint32 HeroId = 1;
+  int32 HeroTid = 2;
+}
+
+message TStartBaseHeroList {
+  repeated uint32 HeroIdList = 1;
+  int32 Index = 2;
+  int32 StrategyId = 3;
+}
+
+message TStartBaseRet {
+  message BattlePlayer = 1;
+  int32 RandomSeed = 2;
+  int32 Rid = 3;
+  repeated TCopyRes arrRes = 4;
+  repeated int32 EnemyFleet = 5;
+  int32 CopyId = 6;
+  int32 CopyType = 7;
+  bool CopyPass = 8;
+  int32 BossProgress = 9;
+  bool IsRunningFight = 10;
+  repeated TShipEquipGridInfo ShipEquipGridInfo = 11;
+  repeated message RandomFactors = 12;
+  int32 SafeLv = 13;
+  message Verify = 14;
+  repeated message ExtraBattlePlayerList = 15;
+  string Token = 16;
+  repeated TCopySkipVcr SkipVcr = 17;
+  int32 BattleMode = 18;
+  bool IsFinal = 19;
+  int32 AnimMode = 20;
+  int32 WeatherGroupId = 22;
+  repeated int32 CopyMission = 23;
+  repeated message EnemyFleets = 24;
+  repeated TPassEvaluate ConfigData = 25;
+  int32 MatchType = 26;
+}
+
+message TTestPassArg {
+  int32 StartCopyId = 1;
+  int32 EndCopyId = 2;
+}
+
+message TTestPassRet {
+  repeated int32 CopyIdList = 1;
+}
+
+message TUnlockedCopyArg {
+  int32 CopyId = 1;
+}
+
+message TUserCopyInfo {
+  repeated TBaseInfo BaseInfo = 1;
+  int32 MaxCopyId = 2;
+  int32 CopyType = 3;
+  repeated TStarInfo StarInfo = 4;
+  repeated TPassKvInfo PassCopyCount = 5;
+}
+

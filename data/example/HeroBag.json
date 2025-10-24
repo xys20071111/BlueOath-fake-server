@@ -1,0 +1,19 @@
+[
+    {
+        "id": 1021054,
+        "TemplateId": 10210511,
+        "isMarried": true,
+        "Level": 10
+    },
+    {
+        "id": 2021011,
+        "isMarried": false,
+        "Level": 10
+    },
+    {
+        "id": 3013014,
+        "TemplateId": 30130111,
+        "isMarried": false,
+        "Level": 10
+    }
+]

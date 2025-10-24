@@ -1,3 +1,5 @@
 *.exe
 *.tmp
 node_modules
+data/*
+!data/example

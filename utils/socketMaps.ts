@@ -1,6 +1,7 @@
 import { Socket } from "node:net";
 
 export const socketSeqMap: Map<Socket, number> = new Map()
+export const socketUserMap: Map<Socket, string> = new Map()
 
 export function getSeq(socket: Socket): number {
     if (socketSeqMap.has(socket)) {

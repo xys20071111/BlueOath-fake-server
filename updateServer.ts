@@ -9,7 +9,7 @@ app.use((ctx) => {
     ctx.response.body = {
         error_id: 200,
         "errornu": "0",
-        "errordesc": ""
+        "errordesc": "",
     }
 })
 

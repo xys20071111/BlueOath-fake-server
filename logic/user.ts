@@ -1,7 +1,7 @@
 import { Socket } from "node:net";
 import protobuf from "protobufjs"
 import { createResponsePacket } from "../utils/createResponsePacket.ts";
-import { getSeq } from "../utils/socketSeqMap.ts";
+import { getSeq, socketUserMap } from "../utils/socketMaps.ts";
 
 const playerPb = protobuf.loadSync("./raw-protobuf/player.proto")
 const TRetLogin = playerPb.lookupType("player.TRetLogin")
@@ -19,37 +19,13 @@ export function userUserLogin(socket: Socket, _args: Uint8Array, callbackHandler
 }
 
 export function userGetUserInfo(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
-    const resData = TGetUserInfoRet.create({
-        "Uid": 10001,
-        "Uname": "Test123",
-        "OrderRecord": {},
-        "Level": 100,
-        "SecretaryId": 1,
-        HeadShow: 1,
-        Exp: 100,
-        Gold: 5000,
-        Diamond: 5000,
-        Gas: 5000,
-        Supply: 5000,
-        MainGun: 5000,
-        Torpedo: 5000,
-        Plane: 5000,
-        Other: 5000,
-        Retire: 5000,
-        Bath: 5000,
-        Strategy: 101,
-        Medal: 5000,
-        CopyTrainPoint: 5000,
-        Tower: 5000,
-        FashionPoint: 5000,
-        Lucky: 5000,
-        GuildContri: 5000,
-        TeacherMedal: 5000,
-        TeacherPrestige: 5000,
-        BattlePassExp: 5000,
-        BattlePassGold: 5000,
-        PvePt: 5
-    })
-    const resPacket = createResponsePacket("user.GetUserInfo", TGetUserInfoRet.encode(resData).finish(), callbackHandler, token, getSeq(socket))
-    socket.write(resPacket)
+    const user = socketUserMap.get(socket)
+    const userInfo = JSON.parse(Deno.readTextFileSync(`./data/${user}/UserInfo.json`))
+    const userInfoData = TGetUserInfoRet.create(userInfo)
+    const userDataPacket = createResponsePacket("user.UpdateUserInfo", TGetUserInfoRet.encode(userInfoData).finish(), callbackHandler, token, getSeq(socket))
+    const loginOKPacket = createResponsePacket("user.GetUserInfo", TGetUserInfoRet.encode(userInfoData).finish(), callbackHandler, token, getSeq(socket))
+    socket.write(userDataPacket)
+    // 这个LoginOK也不知道有啥用，在lua里看了一圈没有一个会用到它发送的数据的，要想设置UserData全靠上面的UpdateUserInfo
+    // 这里大概就是把单机版那里设置数据的部分写到这吧
+    socket.write(loginOKPacket)
 }

@@ -32,7 +32,7 @@ message TChatInfoRet {
 }
 
 message TChatMsg {
-  message UserInfo = 1;
+  bytes UserInfo = 1;
   int32 Channel = 2;
   int32 TemplateId = 3;
   int64 SendTime = 4;
@@ -82,7 +82,7 @@ message TSendBarrageDataArg {
 
 message TUserChatMsg {
   uint64 Uid = 1;
-  message UserInfo = 2;
+  bytes UserInfo = 2;
   repeated TChatMsg Msg = 3;
   int32 NoReadCount = 4;
 }

@@ -1,8 +1,10 @@
 import { EventEmitter } from "node:events";
 import { Socket } from "node:net"
 import { socketUserMap } from "./utils/socketMaps.ts";
-import { playerGetUserList, playerLogin } from "./logic/login.ts";
-import { userGetUserInfo, userUserLogin } from "./logic/user.ts"
+import { GetUserList, Login } from "./logic/login.ts";
+import { GetUserInfo, UserLogin } from "./logic/user.ts"
+import { GetBarrageById } from "./logic/chat.ts";
+import { PlotReward } from "./logic/guide.ts";
 
 class EventBus extends EventEmitter {
     // 重写一下emit函数，检查socket是不是已经登录了
@@ -23,7 +25,11 @@ class EventBus extends EventEmitter {
 
 export const eventBus = new EventBus()
 
-eventBus.on("player.Login", playerLogin)
-eventBus.on("player.GetUserList", playerGetUserList)
-eventBus.on("user.UserLogin", userUserLogin)
-eventBus.on("user.GetUserInfo", userGetUserInfo)
+eventBus.on("player.Login", Login)
+eventBus.on("player.GetUserList", GetUserList)
+eventBus.on("user.UserLogin", UserLogin)
+eventBus.on("user.GetUserInfo", GetUserInfo)
+
+eventBus.on("chat.GetBarrageById", GetBarrageById)
+
+eventBus.on("guide.PlotReward", PlotReward)

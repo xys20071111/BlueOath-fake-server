@@ -9,7 +9,7 @@ const TRetLogin = playerPb.lookupType("player.TRetLogin")
 const TUserInfo = playerPb.lookupType("player.TUserInfo")
 const TRetGetUsers = playerPb.lookupType("player.TRetGetUsers")
 
-export function playerLogin(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
+export function Login(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
     const parsedArgs: any = TArgLogin.decode(args)
     const uname = parsedArgs.Pid
     console.log(`用户尝试登录：${uname}`)
@@ -40,7 +40,7 @@ export function playerLogin(socket: Socket, args: Uint8Array, callbackHandler: n
 
 }
 
-export function playerGetUserList(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
+export function GetUserList(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
     // user肯定会有，因为有前置检查
     const user = socketUserMap.get(socket)
     const resData = TRetGetUsers.create({

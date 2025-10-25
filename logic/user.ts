@@ -9,7 +9,7 @@ const TRetLogin = playerPb.lookupType("player.TRetLogin")
 const userPb = protobuf.loadSync("./raw-protobuf/user.proto")
 const TGetUserInfoRet = userPb.lookupType("user.TGetUserInfoRet")
 
-export function userUserLogin(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
+export function UserLogin(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
     const resData = TRetLogin.create({
         Ret: 'ok',
         ErrCode: '0'
@@ -18,7 +18,7 @@ export function userUserLogin(socket: Socket, _args: Uint8Array, callbackHandler
     socket.write(resPacket)
 }
 
-export function userGetUserInfo(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
+export function GetUserInfo(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
     const user = socketUserMap.get(socket)
     const userInfo = JSON.parse(Deno.readTextFileSync(`./data/${user}/UserInfo.json`))
     const userInfoData = TGetUserInfoRet.create(userInfo)

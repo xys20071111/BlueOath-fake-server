@@ -1,7 +1,8 @@
 import { Socket } from "node:net";
 import protobuf from "protobufjs"
 import { createResponsePacket } from "../utils/createResponsePacket.ts";
-import { getSeq, socketUserMap } from "../utils/socketMaps.ts";
+import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
+import { Player } from "../Player.ts";
 
 const playerPb = protobuf.loadSync("./raw-protobuf/player.proto")
 const TArgLogin = playerPb.lookupType("player.TArgLogin")
@@ -11,7 +12,7 @@ const TRetGetUsers = playerPb.lookupType("player.TRetGetUsers")
 
 export function Login(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
     const parsedArgs: any = TArgLogin.decode(args)
-    const uname = parsedArgs.Pid
+    const uname: string = parsedArgs.Pid
     console.log(`用户尝试登录：${uname}`)
     try {
         // 检查文件是否存在
@@ -21,7 +22,7 @@ export function Login(socket: Socket, args: Uint8Array, callbackHandler: number,
             read: true,
             write: false
         })
-        socketUserMap.set(socket, uname)
+        socketPlayerMap.set(socket, new Player(socket, uname))
         const resData = TRetLogin.create({
             Ret: 'ok',
             ErrCode: '0'
@@ -42,10 +43,10 @@ export function Login(socket: Socket, args: Uint8Array, callbackHandler: number,
 
 export function GetUserList(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
     // user肯定会有，因为有前置检查
-    const user = socketUserMap.get(socket)
+    const user = socketPlayerMap.get(socket)!
     const resData = TRetGetUsers.create({
         ArrUser: [
-            TUserInfo.create(JSON.parse(Deno.readTextFileSync(`./data/${user}/UserInfo.json`)))
+            TUserInfo.create(user.getUserInfo())
         ]
     })
     const resPacket = createResponsePacket("player.GetUserList", TRetGetUsers.encode(resData).finish(), callbackHandler, token, getSeq(socket))

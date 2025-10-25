@@ -52,7 +52,7 @@ message TCombineUpArg {
 
 message THeroAddExp {
   uint32 HeroId = 1;
-  repeated message ItemList = 2;
+  repeated bytes ItemList = 2;
   int32 LevelPre = 3;
   int32 ExpPre = 4;
 }
@@ -82,7 +82,7 @@ message THeroAutoUnEquipArg {
 
 message THeroChangeEquipArgs {
   uint32 HeroId = 1;
-  enum Index = 2;
+  uint32 Index = 2;
   uint32 EquipId = 3;
   int32 Type = 4;
 }
@@ -192,6 +192,6 @@ message TRetireHeroArg {
 }
 
 message TRetireHeroRet {
-  repeated message Reward = 1;
+  repeated bytes Reward = 1;
 }
 

@@ -3,3 +3,4 @@
 node_modules
 data/*
 !data/example
+data/example/UserInfo.json

@@ -169,7 +169,7 @@ message TMedalAcquiredTime {
 }
 
 message TMedalReplaceReward {
-  // repeated message MedalReplaceReward = 1;
+  repeated bytes MedalReplaceReward = 1;
 }
 
 message TMiniGameCommonItem {

@@ -1,10 +1,12 @@
 import { EventEmitter } from "node:events";
 import { Socket } from "node:net"
-import { socketUserMap } from "./utils/socketMaps.ts";
+import { socketPlayerMap } from "./utils/socketMaps.ts";
 import { GetUserList, Login } from "./logic/login.ts";
-import { GetUserInfo, UserLogin } from "./logic/user.ts"
+import { GetUserInfo, SetUserSecretary, UserLogin } from "./logic/user.ts"
 import { GetBarrageById } from "./logic/chat.ts";
 import { PlotReward } from "./logic/guide.ts";
+import { SavePrefs } from "./logic/prefs.ts";
+import { GetNotesList } from "./logic/buildnotes.ts";
 
 class EventBus extends EventEmitter {
     // 重写一下emit函数，检查socket是不是已经登录了
@@ -13,7 +15,7 @@ class EventBus extends EventEmitter {
             // player.Login除外，因为这个是负责登录的函数
             return super.emit(eventName, socket, ...args)
         } else {
-            const user = socketUserMap.get(socket)
+            const user = socketPlayerMap.get(socket)
             if (!user) {
                 socket.destroy()
                 return false
@@ -27,9 +29,15 @@ export const eventBus = new EventBus()
 
 eventBus.on("player.Login", Login)
 eventBus.on("player.GetUserList", GetUserList)
+
 eventBus.on("user.UserLogin", UserLogin)
 eventBus.on("user.GetUserInfo", GetUserInfo)
+eventBus.on("user.SetUserSecretary", SetUserSecretary)
 
 eventBus.on("chat.GetBarrageById", GetBarrageById)
 
 eventBus.on("guide.PlotReward", PlotReward)
+
+eventBus.on("prefs.SavePrefs", SavePrefs)
+
+eventBus.on("buildnotes.GetNotesList", GetNotesList)

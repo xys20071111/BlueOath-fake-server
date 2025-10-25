@@ -27,6 +27,6 @@ export function Setting(socket: Socket, args: Uint8Array, callbackHandler: numbe
         res.Setting.push(v)
     })
     const resData = TGuideInfo.create(res)
-    const resPacket = createResponsePacket("guide.PlotReward", TGuideInfo.encode(resData).finish(), callbackHandler, token, getSeq(socket))
+    const resPacket = createResponsePacket("guide.Setting", TGuideInfo.encode(resData).finish(), callbackHandler, token, getSeq(socket))
     socket.write(resPacket)
 }

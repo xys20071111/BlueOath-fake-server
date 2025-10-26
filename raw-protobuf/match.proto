@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package match;
 
+import "battleplayer.proto";
+
 message TBattlePVPRet {
   repeated TBattleRet BattleRet = 1;
 }
@@ -26,7 +28,7 @@ message TBattleRet {
 
 message TBattleUserList {
   int32 Index = 1;
-  message Player = 2;
+  battleplayer.TBattlePlayer Player = 2;
 }
 
 message TMatchData {

@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package shop;
 
+import "commonreward.proto";
+
 message TBuyGoodsArg {
   int32 ShopId = 1;
   int32 GoodId = 2;
@@ -10,7 +12,7 @@ message TBuyGoodsArg {
 }
 
 message TBuyGoodsRet {
-  repeated message Reward = 1;
+  repeated commonreward.TCommonReward Reward = 1;
   int32 GoodId = 2;
   int32 BuyNum = 3;
 }

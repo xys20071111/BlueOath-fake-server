@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package task;
 
+import "commonreward.proto";
+
 message EventInfo {
   int32 EventType = 1;
   int32 Count = 2;
@@ -13,7 +15,7 @@ message TTaskAllRewardArg {
 }
 
 message TTaskAllRewardRet {
-  repeated message Reward = 1;
+  repeated commonreward.TCommonReward Reward = 1;
 }
 
 message TTaskInfoRet {
@@ -40,7 +42,7 @@ message TTaskPtRewardArg {
 }
 
 message TTaskPtRewardRet {
-  repeated message Reward = 1;
+  repeated commonreward.TCommonReward Reward = 1;
 }
 
 message TTaskRewardArg {
@@ -56,7 +58,7 @@ message TTaskRewardDayArg {
 
 message TTaskRewardRet {
   int32 TaskId = 1;
-  repeated message Reward = 2;
+  repeated commonreward.TCommonReward Reward = 2;
 }
 
 message TTaskTeachingArg {
@@ -85,7 +87,7 @@ message TaskInfo {
   int32 FinishTime = 3;
   int32 Count = 4;
   repeated TaskExtra Extra = 5;
-  repeated message Reward = 6;
+  repeated commonreward.TCommonReward Reward = 6;
 }
 
 message TaskStageInfo {

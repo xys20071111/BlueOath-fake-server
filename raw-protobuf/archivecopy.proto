@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package archivecopy;
 
+import "copy.proto";
+
 message TArchiveCopy {
   bool IsOK = 1;
   int32 LoadCount = 2;
@@ -11,7 +13,7 @@ message TArchiveCopy {
 }
 
 message TArchiveCopyData {
-  message StartBaseRet = 1;
+  copy.TStartBaseRet StartBaseRet = 1;
   int32 frameNumber = 2;
   repeated bytes data = 3;
 }

@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package pass;
 
+import "user.proto";
+
 message TChapterInfo {
   int32 Id = 1;
   int32 Star = 2;
@@ -84,7 +86,7 @@ message TPsStarRankRet {
 }
 
 message TRetPsUserRankData {
-  message User = 1;
+  user.TGetOtherUserInfoRet User = 1;
   int32 Star = 2;
   int32 ThumbsUpCount = 3;
 }

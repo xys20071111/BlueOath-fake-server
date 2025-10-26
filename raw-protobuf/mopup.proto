@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package mopup;
 
+import "copy.proto"
+
 message MopUpData {
   int32 fleetId = 1;
   int32 copyId = 2;
@@ -20,6 +22,6 @@ message TMopUpArg {
 message TMopUpRet {
   int32 sweepFleetsNum = 1;
   repeated MopUpData data = 2;
-  repeated message passRets = 3;
+  repeated copy.TPassBaseRet passRets = 3;
 }
 

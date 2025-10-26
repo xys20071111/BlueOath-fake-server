@@ -2,6 +2,9 @@ syntax = "proto3";
 
 package hero;
 
+import "item.proto";
+import "commonreward.proto";
+
 message EquipEffectInfoByType {
   int32 type = 1;
   repeated int32 EffectId = 2;
@@ -52,7 +55,7 @@ message TCombineUpArg {
 
 message THeroAddExp {
   uint32 HeroId = 1;
-  repeated bytes ItemList = 2;
+  repeated item.TItem ItemList = 2;
   int32 LevelPre = 3;
   int32 ExpPre = 4;
 }
@@ -192,6 +195,6 @@ message TRetireHeroArg {
 }
 
 message TRetireHeroRet {
-  repeated bytes Reward = 1;
+  repeated commonreward.TCommonReward Reward = 1;
 }
 

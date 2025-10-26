@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package losttomb;
 
+import "user.proto";
+
 message TGroup {
   int32 GroupId = 1;
   int32 Level = 2;
@@ -24,7 +26,7 @@ message TLostTombMainResponse {
 }
 
 message TLostTombRank {
-  message UserInfo = 1;
+  user.TGetOtherUserInfoRet UserInfo = 1;
   int32 Place = 2;
   int32 Value = 3;
 }

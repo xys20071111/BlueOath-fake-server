@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package bigactivity;
 
+import "user.proto";
+
 message TBigActivityRankArg {
   int32 Start = 1;
   int32 End = 2;
@@ -14,7 +16,7 @@ message TBigActivityRankData {
   int32 Merits = 4;
   int32 Head = 5;
   int32 PassTime = 6;
-  message UserInfo = 7;
+  user.TSimpleUserInfoMsg UserInfo = 7;
   repeated int32 Time = 8;
 }
 

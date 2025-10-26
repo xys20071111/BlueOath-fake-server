@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package equiptestcopy;
 
+import "commonreward.proto";
+
 message TGetEquipTestCopyInfo {
   int32 MaxDamage = 1;
   repeated TReceviedRewards ReceivedRewards = 2;
@@ -12,7 +14,7 @@ message TReceiveRewardsArg {
 }
 
 message TReceiveRewardsRet {
-  repeated message Rewards = 1;
+  repeated commonreward.TCommonReward Rewards = 1;
 }
 
 message TReceviedRewards {

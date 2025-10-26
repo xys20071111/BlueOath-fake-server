@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package mail;
 
+import "commonreward.proto";
+
 message MailList {
   uint64 Mid = 1;
   int32 TempLateId = 2;
@@ -37,7 +39,7 @@ message TMailListRet {
   int32 MailNum = 1;
   int32 ExpireNum = 2;
   repeated MailList list = 3;
-  repeated message Reward = 4;
+  repeated commonreward.TCommonReward Reward = 4;
 }
 
 message TMailParam {

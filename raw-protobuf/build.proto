@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package build;
 
+import "commonreward.proto";
+
 message TBuildIndexArg {
   repeated int32 index = 1;
 }
@@ -21,8 +23,8 @@ message TBuildProjectsArg {
 }
 
 message TBuildReceiveRet {
-  repeated message reward = 1;
-  repeated message SpReward = 2;
+  repeated commonreward.TCommonReward reward = 1;
+  repeated commonreward.TCommonReward SpReward = 2;
 }
 
 message TBuildsInfoRet {

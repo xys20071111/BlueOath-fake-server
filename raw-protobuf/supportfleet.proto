@@ -2,14 +2,16 @@ syntax = "proto3";
 
 package supportfleet;
 
+import "commonreward.proto";
+
 message TCompleteSupportArg {
   int32 Id = 1;
   int32 Type = 2;
 }
 
 message TCompleteSupportRet {
-  repeated message BaseReward = 1;
-  repeated message RandomReward = 2;
+  repeated commonreward.TCommonReward BaseReward = 1;
+  repeated commonreward.TCommonReward RandomReward = 2;
   int32 RewardType = 3;
 }
 

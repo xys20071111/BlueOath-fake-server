@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package fashion;
 
+import "commonreward.proto";
+
 message TFashionEquipArg {
   int32 FashionTid = 1;
   int32 EquipStatus = 2;
@@ -18,6 +20,6 @@ message TFashionList {
 }
 
 message TFashionReplaceReward {
-  repeated message ReplaceReward = 1;
+  repeated commonreward.TCommonReward ReplaceReward = 1;
 }
 

@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package guild;
 
+import "user.proto";
+
 message TApplyGuildIdSub {
   uint64 GuildId = 1;
   int32 ApplyTime = 2;
@@ -106,7 +108,7 @@ message TGuildApply {
 }
 
 message TGuildApplyInfo {
-  message UserInfo = 1;
+  user.TGetOtherUserInfoRet UserInfo = 1;
   int32 Time = 2;
   int32 Quality = 3;
 }
@@ -116,7 +118,7 @@ message TGuildCopyRankArg {
 }
 
 message TGuildCopyRankItem {
-  message UserInfo = 1;
+  user.TGetOtherUserInfoRet UserInfo = 1;
   int32 Damage = 2;
   int32 Rank = 3;
 }
@@ -137,7 +139,7 @@ message TGuildLimit {
 }
 
 message TGuildMemberInfo {
-  message UserInfo = 1;
+  user.TGetOtherUserInfoRet UserInfo = 1;
   int32 LogoffTime = 2;
   int32 Contribute = 3;
   int32 SacrificeTime = 4;
@@ -152,7 +154,7 @@ message TGuildMemberInfo {
 }
 
 message TGuildMessageInfo {
-  message UserInfo = 1;
+  user.TGetOtherUserInfoRet UserInfo = 1;
   int32 Post = 2;
   string Msg = 3;
   int32 Time = 4;
@@ -165,7 +167,7 @@ message TGuildRankArg {
 
 message TGuildRankData {
   TBaseGuildInfo Guild = 1;
-  message User = 2;
+  user.TGetOtherUserInfoRet User = 2;
   int32 ThumbsUpCount = 3;
 }
 

@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package buildship;
 
+import "commonreward.proto";
+
 message TBuildShipArg {
   int32 Id = 1;
   int32 Num = 2;
@@ -58,15 +60,15 @@ message TBuildShipResetTypeCount {
 }
 
 message TBuildShipRet {
-  repeated message BuildShipResult = 1;
-  repeated message SpReward = 2;
-  repeated message TransReward = 3;
+  repeated commonreward.TCommonReward BuildShipResult = 1;
+  repeated commonreward.TCommonReward SpReward = 2;
+  repeated commonreward.TCommonReward TransReward = 3;
   bool IsChangeReward = 4;
 }
 
 message TBuildShipSpecial {
   int32 Id = 1;
-  repeated message SpecialInfo = 2;
+  repeated TBuildShipSpecial SpecialInfo = 2;
 }
 
 message TBuildShipTimesReward {

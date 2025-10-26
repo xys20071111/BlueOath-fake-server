@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package friend;
 
+import "user.proto";
+
 message TApplyArg {
   uint64 Uid = 1;
 }
@@ -15,7 +17,7 @@ message TFriendCommonArg {
 }
 
 message TFriendData {
-  message UserInfo = 1;
+  user.TGetOtherUserInfoRet UserInfo = 1;
   int32 OfflineTime = 2;
   int32 Status = 3;
   int32 OperationTime = 4;

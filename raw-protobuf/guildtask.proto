@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package guildtask;
 
+import "user.proto";
+
 message TConstantItemData {
   int32 ItemType = 1;
   int32 ItemId = 2;
@@ -66,7 +68,7 @@ message TGuildTaskMemberFinishStepCount {
 message TGuildTaskMemberGetConstantReward {
   uint64 Uid = 1;
   int32 Get = 2;
-  message User = 3;
+  user.TGetOtherUserInfoRet User = 3;
 }
 
 message TGuildTaskMemberGetRandomReward {

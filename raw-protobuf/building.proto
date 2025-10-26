@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package building;
 
+import "commonreward.proto";
+
 message HeroEffectTime {
   int32 HeroId = 1;
   repeated int32 EffectTime = 2;
@@ -60,7 +62,7 @@ message TDegradeBuildingArg {
 }
 
 message TDegradeBuildingRet {
-  repeated message ItemInfo = 1;
+  repeated commonreward.TCommonReward ItemInfo = 1;
 }
 
 message TFinishBuildingArg {
@@ -93,7 +95,7 @@ message TReceiveByResourceArg {
 }
 
 message TReceiveRet {
-  repeated message ItemInfo = 1;
+  repeated commonreward.TCommonReward ItemInfo = 1;
 }
 
 message TRemoveBuildingTacticArg {
@@ -128,7 +130,7 @@ message TTriggerPlotArg {
 
 message TTriggerPlotRet {
   int32 AffectionAdd = 1;
-  repeated message ItemInfo = 2;
+  repeated commonreward.TCommonReward ItemInfo = 2;
 }
 
 message TUpdateHeroAdditionArg {

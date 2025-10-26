@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package recharge;
 
+import "commonreward.proto";
+
 message TCardInfo {
   int32 DueDate = 1;
   int32 RewardTime = 2;
@@ -14,7 +16,7 @@ message TDirectBuyItemArg {
 }
 
 message TDirectBuyItemRet {
-  repeated message Reward = 1;
+  repeated commonreward.TCommonReward Reward = 1;
 }
 
 message TDirectBuySelectItemArg {
@@ -53,6 +55,6 @@ message TRechargeInfo {
 }
 
 message TRechargeReward {
-  repeated message Reward = 1;
+  repeated commonreward.TCommonReward Reward = 1;
 }
 

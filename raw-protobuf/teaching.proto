@@ -2,6 +2,9 @@ syntax = "proto3";
 
 package teaching;
 
+import "commonreward.proto";
+import "user.proto";
+
 message TTeachingApplyArg {
   uint64 applyUid = 1;
 }
@@ -52,7 +55,7 @@ message TTeachingOtherUserInfo {
   int32 PunishTime = 8;
   int32 GotStuCount = 9;
   int32 TeachingStatus = 10;
-  message UserInfo = 11;
+  user.TGetOtherUserInfoRet UserInfo = 11;
   repeated TTeachingUserInfo Relation = 12;
   int32 AppraiseTimes = 13;
   int32 GraduationTime = 14;
@@ -73,7 +76,7 @@ message TTeachingRankArg {
 }
 
 message TTeachingRankRet {
-  repeated message UserInfo = 1;
+  repeated user.TGetOtherUserInfoRet UserInfo = 1;
 }
 
 message TTeachingRecmdUserListArg {
@@ -125,7 +128,7 @@ message TTeachingSvrStuDailyTaskArg {
 }
 
 message TTeachingSvrStuDailyTaskRet {
-  repeated message Reward = 1;
+  repeated commonreward.TCommonReward Reward = 1;
   int32 StuRatio = 2;
   int32 TchRatio = 3;
   string StuName = 4;
@@ -155,7 +158,7 @@ message TTeachingTaskRewardArg {
 
 message TTeachingTaskRewardRet {
   int32 TaskId = 1;
-  repeated message Reward = 2;
+  repeated commonreward.TCommonReward Reward = 2;
 }
 
 message TTeachingUserInfo {
@@ -168,7 +171,7 @@ message TTeachingUserInfo {
   int32 TeachingStatus = 7;
   int32 CreateTime = 8;
   int32 PunishTime = 9;
-  message UserInfo = 10;
+  user.TGetOtherUserInfoRet UserInfo = 10;
   int32 AppraiseTimes = 11;
   int32 GraduationTime = 12;
   bool CanJoinGuild = 13;

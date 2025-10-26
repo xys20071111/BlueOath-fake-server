@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package guildshop;
 
+import "shop.proto";
+
 message TArgGuildShopGetInfo {
   int32 ShopId = 1;
 }
@@ -13,7 +15,7 @@ message TGuildShopUserShelfGoodsData {
 
 message TRetGuildShopInfo {
   int32 ShopId = 1;
-  repeated message GuildShelfGoodsData = 2;
-  repeated message UserShelfGoodsData = 3;
+  repeated shop.TShopGoodsData GuildShelfGoodsData = 2;
+  repeated shop.TShopGoodsData UserShelfGoodsData = 3;
 }
 

@@ -2,6 +2,11 @@ syntax = "proto3";
 
 package copy;
 
+import "battleplayer.proto";
+import "netoperation.proto";
+import "battleenemy.proto";
+import "commonreward.proto";
+
 message TArchiveCopyOperation {
   int32 frameNumber = 1;
   bytes data = 2;
@@ -55,7 +60,7 @@ message TCopyRecord {
 
 message TCopyRes {
   int32 id = 1;
-  repeated message Reward = 2;
+  repeated commonreward.TCommonReward Reward = 2;
 }
 
 message TCopySkipVcr {
@@ -73,7 +78,7 @@ message TGetRandomFactorArg {
 }
 
 message TGetRandomFactorRet {
-  repeated message Factors = 1;
+  repeated battleplayer.TRandomFactor Factors = 1;
   int32 LastRefreshTime = 2;
   bool IsShowTips = 3;
 }
@@ -98,25 +103,25 @@ message TPassBaseArg {
   repeated TPassFleetInfo FleetInfo = 17;
   repeated TBaseHeroInfo HerosInfo = 18;
   bool IsFinishMission = 19;
-  repeated message EnemyFleets = 20;
+  repeated battleenemy.TBattleEnemyFleet EnemyFleets = 20;
 }
 
 message TPassBaseRet {
-  repeated message Reward = 1;
-  message BattlePlayer = 2;
+  repeated commonreward.TCommonReward Reward = 1;
+  battleplayer.TBattlePlayer BattlePlayer = 2;
   int32 Ret = 3;
   int32 Grade = 4;
-  repeated message ExReward = 5;
+  repeated commonreward.TCommonReward ExReward = 5;
   int32 StarLv = 6;
   repeated TPassEvaluate Evaluate = 7;
   int32 PassTime = 8;
-  repeated message ExtraReward = 9;
+  repeated commonreward.TCommonExtraReward ExtraReward = 9;
   int32 FirstPass = 10;
-  repeated message ExpReward = 11;
+  repeated commonreward.TCommonExpReward ExpReward = 11;
   int32 CopyId = 12;
   int32 BuildShipId = 13;
-  repeated message BuildShipReward = 14;
-  repeated message MissionReward = 15;
+  repeated commonreward.TCommonReward BuildShipReward = 14;
+  repeated commonreward.TCommonReward MissionReward = 15;
 }
 
 message TPassEvaluate {
@@ -139,7 +144,7 @@ message TQuitBaseArg {
   bool IsRunningFight = 2;
   bool IsPass = 3;
   repeated TBaseHeroInfo HeroInfo = 4;
-  message VerifyPackage = 5;
+  netoperation.TVerifyPackage VerifyPackage = 5;
   int32 BattleMode = 6;
 }
 
@@ -184,7 +189,7 @@ message TStarRewardArg {
 }
 
 message TStarRewardRet {
-  repeated message Reward = 1;
+  repeated commonreward.TCommonReward Reward = 1;
 }
 
 message TStartBaseArg {
@@ -215,7 +220,7 @@ message TStartBaseHeroList {
 }
 
 message TStartBaseRet {
-  message BattlePlayer = 1;
+  battleplayer.TBattlePlayer BattlePlayer = 1;
   int32 RandomSeed = 2;
   int32 Rid = 3;
   repeated TCopyRes arrRes = 4;
@@ -226,10 +231,10 @@ message TStartBaseRet {
   int32 BossProgress = 9;
   bool IsRunningFight = 10;
   repeated TShipEquipGridInfo ShipEquipGridInfo = 11;
-  repeated message RandomFactors = 12;
+  repeated battleplayer.TRandomFactor RandomFactors = 12;
   int32 SafeLv = 13;
-  message Verify = 14;
-  repeated message ExtraBattlePlayerList = 15;
+  netoperation.TVerifyPackage Verify = 14;
+  repeated battleplayer.TBattlePlayerList ExtraBattlePlayerList = 15;
   string Token = 16;
   repeated TCopySkipVcr SkipVcr = 17;
   int32 BattleMode = 18;
@@ -237,7 +242,7 @@ message TStartBaseRet {
   int32 AnimMode = 20;
   int32 WeatherGroupId = 22;
   repeated int32 CopyMission = 23;
-  repeated message EnemyFleets = 24;
+  repeated battleenemy.TBattleEnemyFleet EnemyFleets = 24;
   repeated TPassEvaluate ConfigData = 25;
   int32 MatchType = 26;
 }

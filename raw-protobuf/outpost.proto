@@ -2,13 +2,15 @@ syntax = "proto3";
 
 package outpost;
 
+import "commonreward.proto";
+
 message TBaseBuildingInfo {
   int32 Id = 1;
   int32 Level = 2;
   repeated uint32 HeroList = 3;
   int32 State = 4;
   int32 UseCoin = 5;
-  repeated message ItemInfo = 6;
+  repeated commonreward.TCommonReward ItemInfo = 6;
   repeated TOPTactic TacticList = 7;
 }
 
@@ -23,7 +25,7 @@ message TOPReceiveByBuildingArg {
 }
 
 message TOPReceiveRet {
-  repeated message ItemInfo = 1;
+  repeated commonreward.TCommonReward ItemInfo = 1;
 }
 
 message TOPRemoveBuildingTacticArg {

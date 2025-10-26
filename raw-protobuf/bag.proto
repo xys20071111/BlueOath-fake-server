@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package bag;
 
+import "commonreward.proto";
+
 message TBagInfoRet {
   int32 bagType = 1;
   int32 bagSize = 2;
@@ -21,7 +23,7 @@ message TBagSelectTreasureInfoArg {
 }
 
 message TBagTreasureInfoRet {
-  repeated message treasuresInfo = 1;
+  repeated commonreward.TCommonReward treasuresInfo = 1;
   int32 treasureId = 2;
 }
 
@@ -41,6 +43,6 @@ message TGridInfo {
 
 message TUseInfo {
   int32 templateId = 1;
-  repeated message reward = 2;
+  repeated commonreward.TCommonReward reward = 2;
 }
 

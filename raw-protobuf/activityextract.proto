@@ -2,13 +2,15 @@ syntax = "proto3";
 
 package activityextract;
 
+import "commonreward.proto";
+
 message TActivityExtractDrawArg {
   int32 DrawId = 1;
   int32 Num = 2;
 }
 
 message TActivityExtractDrawRet {
-  repeated message Reward = 1;
+  repeated commonreward.TCommonReward Reward = 1;
 }
 
 message TActivityExtractInfo {

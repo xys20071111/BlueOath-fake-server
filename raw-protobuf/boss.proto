@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package boss;
 
+import "user.proto";
+
 message TAttackBossArg {
   int32 BossId = 1;
   int64 Damage = 2;
@@ -57,7 +59,7 @@ message TBossRet {
 message TBossUserDamageRankData {
   uint64 Uid = 1;
   int32 Rank = 2;
-  message UserInfo = 3;
+  user.TSimpleUserInfoMsg UserInfo = 3;
   int64 Score = 4;
 }
 

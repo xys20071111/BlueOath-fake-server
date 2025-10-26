@@ -2,8 +2,11 @@ syntax = "proto3";
 
 package rob;
 
+import "user.proto";
+import "commonreward.proto";
+
 message TBeRobbedPush {
-  message UserInfo = 1;
+  user.TGetOtherUserInfoRet UserInfo = 1;
   int32 Quality = 2;
   int32 FragmentId = 3;
 }
@@ -22,7 +25,7 @@ message TGetRobAimRet {
 }
 
 message TRobAimInfo {
-  message UserInfo = 1;
+  user.TGetOtherUserInfoRet UserInfo = 1;
   bool IsRobot = 2;
   bool IsProtected = 3;
 }
@@ -43,6 +46,6 @@ message TRobRet {
   string TargetName = 3;
   int32 Exp = 4;
   int32 Gold = 5;
-  repeated message Rewards = 6;
+  repeated commonreward.TCommonReward Rewards = 6;
 }
 

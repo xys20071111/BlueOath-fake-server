@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package room;
 
+import "user.proto";
+
 message TInviteArg {
   repeated uint64 InviteList = 1;
   int32 ChapterId = 2;
@@ -13,7 +15,7 @@ message TInviteArg {
 message TInviteInfo {
   int32 ChapterId = 1;
   uint32 RoomId = 2;
-  message InviteUserInfo = 3;
+  user.TGetOtherUserInfoRet InviteUserInfo = 3;
   int32 RoomUserNum = 4;
   bool RoomState = 5;
   int32 Password = 6;
@@ -26,7 +28,7 @@ message TInviteListInfo {
 }
 
 message TInviteListRet {
-  repeated message InviteUserList = 1;
+  repeated user.TGetOtherUserInfoRet InviteUserList = 1;
 }
 
 message TRetGetRoomUserInfo {
@@ -38,7 +40,7 @@ message TRetGetRoomUserInfo {
   bool IsIntervene = 6;
   bool IsGiveUp = 7;
   bool Leave = 8;
-  message UserInfo = 9;
+  user.TGetOtherUserInfoRet UserInfo = 9;
 }
 
 message TRoomChapterInfoRet {

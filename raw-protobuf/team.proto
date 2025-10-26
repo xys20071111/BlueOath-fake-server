@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package team;
 
+import "user.proto";
+
 message TInviteArg {
   repeated uint64 InviteList = 1;
   int32 ChapterId = 2;
@@ -12,7 +14,7 @@ message TInviteArg {
 message TInviteInfo {
   int32 ChapterId = 1;
   uint32 TeamId = 2;
-  message InviteUserInfo = 3;
+  user.TGetOtherUserInfoRet InviteUserInfo = 3;
   int32 TeamUserNum = 4;
   bool TeamState = 5;
   int32 Password = 6;
@@ -24,7 +26,7 @@ message TInviteListInfo {
 }
 
 message TInviteListRet {
-  repeated message InviteUserList = 1;
+  repeated user.TGetOtherUserInfoRet InviteUserList = 1;
 }
 
 message TRetGetTeamUserInfo {
@@ -36,7 +38,7 @@ message TRetGetTeamUserInfo {
   bool IsIntervene = 6;
   bool IsGiveUp = 7;
   bool Leave = 8;
-  message UserInfo = 9;
+  user.TGetOtherUserInfoRet UserInfo = 9;
 }
 
 message TTeamChapterInfoRet {

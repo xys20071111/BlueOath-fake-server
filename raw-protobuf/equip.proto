@@ -2,12 +2,14 @@ syntax = "proto3";
 
 package equip;
 
+import "commonreward.proto";
+
 message TEquipDismantleArgs {
   repeated uint32 ConsumeIds = 1;
 }
 
 message TEquipDismantleRet {
-  repeated message ItemInfo = 1;
+  repeated commonreward.TCommonReward ItemInfo = 1;
 }
 
 message TEquipEnhanceArgs {

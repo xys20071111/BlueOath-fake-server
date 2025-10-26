@@ -2,9 +2,11 @@ syntax = "proto3";
 
 package sign;
 
+import "commonreward.proto";
+
 message TSignInfo {
   int32 SignCount = 1;
   int32 SignTime = 2;
-  repeated message Reward = 3;
+  repeated commonreward.TCommonReward Reward = 3;
 }
 

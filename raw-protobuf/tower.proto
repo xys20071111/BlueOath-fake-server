@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package tower;
 
+import "commonreward.proto";
+
 message TSfIDCount {
   int32 SfID = 1;
   int32 Count = 2;
@@ -37,7 +39,7 @@ message TTowerReward {
   int32 AreaIndex = 2;
   int32 CopyIndex = 3;
   int32 TopicIndex = 4;
-  repeated message Reward = 5;
+  repeated commonreward.TCommonReward Reward = 5;
   repeated int32 CopyList = 6;
 }
 

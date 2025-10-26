@@ -2,13 +2,16 @@ syntax = "proto3";
 
 package finddragon;
 
+import "commonreward.proto";
+import "user.proto";
+
 message TAttackDragonArg {
   int32 DragonId = 1;
 }
 
 message TAttackDragonRet {
   bool IsWin = 1;
-  repeated message Reward = 2;
+  repeated commonreward.TCommonReward Reward = 2;
 }
 
 message TCycleEvent {
@@ -47,7 +50,7 @@ message TExploreArg {
 }
 
 message TFriendDragon {
-  message FriendInfo = 1;
+  user.TGetOtherUserInfoRet FriendInfo = 1;
   int32 Total = 2;
   int32 Ghost = 3;
 }
@@ -76,7 +79,7 @@ message THarvestArg {
 
 message THarvestRet {
   int32 Crit = 1;
-  repeated message Reward = 2;
+  repeated commonreward.TCommonReward Reward = 2;
 }
 
 message THelpEvent {

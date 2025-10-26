@@ -3,6 +3,7 @@ import protobuf from "protobufjs"
 import { createResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
 import { Player } from "../Player.ts";
+import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts";
 
 const playerPb = protobuf.loadSync("./raw-protobuf/player.proto")
 const TRetLogin = playerPb.lookupType("player.TRetLogin")
@@ -17,6 +18,10 @@ const THeroInfo = heroPb.lookupType("hero.THeroInfo")
 const fleetPb = protobuf.loadSync("./raw-protobuf/tactic.proto")
 const TSelfTactis = fleetPb.lookupType("TSelfTactis")
 
+// 副本相关的proto，哪个大聪明将副本翻译成了copy?
+const copyPb = protobuf.loadSync("./raw-protobuf/copy.proto")
+const TUserCopyInfo = copyPb.lookupType("copy.TUserCopyInfo")
+
 export function UserLogin(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
     const resData = TRetLogin.create({
         Ret: 'ok',
@@ -28,7 +33,7 @@ export function UserLogin(socket: Socket, _args: Uint8Array, callbackHandler: nu
 
 export function GetUserInfo(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
     const player = socketPlayerMap.get(socket)!
-    const loginOKPacket = createResponsePacket("user.GetUserInfo", TGetUserInfoRet.encode(TGetUserInfoRet.create()).finish(), callbackHandler, token, getSeq(socket))
+    const loginOKPacket = createResponsePacket("user.GetUserInfo", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket))
     // 这个LoginOK也不知道有啥用，在lua里看了一圈没有一个会用到它发送的数据的，要想设置UserData全靠上面的UpdateUserInfo
     // 这里大概就是把单机版那里设置数据的部分写到这吧
     sendInitMessages(socket, player, callbackHandler, token)
@@ -41,7 +46,7 @@ export function SetUserSecretary(socket: Socket, args: Uint8Array, callbackHandl
     player.setSecretary(parsedArgs.SecretaryId)
     const reply = createResponsePacket("user.SetUserSecretary", new Uint8Array(), callbackHandler, token, getSeq(socket))
     socket.write(reply)
-    // 基础用户信息
+    // 发送一份新的基础用户信息，通知客户端换秘书舰了
     const userInfo = player.getUserInfo()
     const userInfoData = TGetUserInfoRet.create(userInfo)
     const userDataPacket = createResponsePacket("user.UpdateUserInfo", TGetUserInfoRet.encode(userInfoData).finish(), callbackHandler, token, getSeq(socket))
@@ -54,14 +59,14 @@ function sendInitMessages(socket: Socket, player: Player, callbackHandler: numbe
     const userInfoData = TGetUserInfoRet.create(userInfo)
     const userDataPacket = createResponsePacket("user.UpdateUserInfo", TGetUserInfoRet.encode(userInfoData).finish(), callbackHandler, token, getSeq(socket))
     socket.write(userDataPacket)
-    // 舰队信息
+    // 舰队信息，不知道该发给哪个方法，用自定义方法强行写进去
     const tactics = player.getTactis()
-    const tacticsData = TSelfTactis.create({
-        MaxPower: 1,
+    const tacticsData = JSON.stringify({
+        MaxPower: 500,
         MinPower: 0,
         tactics
     })
-    const tacticsPacket = createResponsePacket("tactic.GetHerosTactic", TSelfTactis.encode(tacticsData).finish(), callbackHandler, token, getSeq(socket))
+    const tacticsPacket = createResponsePacket("tactic.custom.ForceWriteFleetInfo", new TextEncoder().encode(tacticsData), callbackHandler, token, getSeq(socket))
     socket.write(tacticsPacket)
     // 舰娘信息
     const heroInfo = player.getHeroBag()
@@ -72,4 +77,5 @@ function sendInitMessages(socket: Socket, player: Player, callbackHandler: numbe
     })
     const heroInfoPacket = createResponsePacket("hero.UpdateHeroBagData", THeroInfo.encode(heroInfoData).finish(), callbackHandler, token, getSeq(socket))
     socket.write(heroInfoPacket)
+    // 副本信息
 }

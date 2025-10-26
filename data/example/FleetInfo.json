@@ -1,10 +1,40 @@
 [
     {
-        "tacticName": "test",
-        "heroInfo": [ 0, 1, 2 ],
+        "tacticName": "test1",
+        "heroInfo": [
+            0,
+            1
+        ],
         "modeId": 1,
         "strategyId": 101,
         "formationId": 1001,
         "type": 1
+    },
+    {
+        "tacticName": "test2",
+        "heroInfo": [
+            2,
+            3
+        ],
+        "modeId": 2,
+        "strategyId": 101,
+        "formationId": 1001,
+        "type": 1
+    },
+    {
+        "tacticName": "test3",
+        "modeId": 3,
+        "strategyId": 101,
+        "formationId": 1001,
+        "type": 1,
+        "heroInfo": []
+    },
+    {
+        "tacticName": "test4",
+        "modeId": 4,
+        "strategyId": 101,
+        "formationId": 1001,
+        "type": 1,
+        "heroInfo": []
     }
 ]

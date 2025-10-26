@@ -15,12 +15,12 @@ const TSetUserSecretaryArg = userPb.lookupType("user.TSetUserSecretaryArg")
 const heroPb = protobuf.loadSync("./raw-protobuf/hero.proto")
 const THeroInfo = heroPb.lookupType("hero.THeroInfo")
 
-const fleetPb = protobuf.loadSync("./raw-protobuf/tactic.proto")
-const TSelfTactis = fleetPb.lookupType("TSelfTactis")
-
 // 副本相关的proto，哪个大聪明将副本翻译成了copy?
 const copyPb = protobuf.loadSync("./raw-protobuf/copy.proto")
 const TUserCopyInfo = copyPb.lookupType("copy.TUserCopyInfo")
+
+const equipPb = protobuf.loadSync("./raw-protobuf/equip.proto")
+const TEquipList = equipPb.lookupType("equip.TEquipList")
 
 export function UserLogin(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
     const resData = TRetLogin.create({
@@ -53,6 +53,10 @@ export function SetUserSecretary(socket: Socket, args: Uint8Array, callbackHandl
     socket.write(userDataPacket)
 }
 
+export function Refresh(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
+    socket.write(createResponsePacket("user.Refresh", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
+}
+
 function sendInitMessages(socket: Socket, player: Player, callbackHandler: number, token: string) {
     // 基础用户信息
     const userInfo = player.getUserInfo()
@@ -60,7 +64,7 @@ function sendInitMessages(socket: Socket, player: Player, callbackHandler: numbe
     const userDataPacket = createResponsePacket("user.UpdateUserInfo", TGetUserInfoRet.encode(userInfoData).finish(), callbackHandler, token, getSeq(socket))
     socket.write(userDataPacket)
     // 舰队信息，不知道该发给哪个方法，用自定义方法强行写进去
-    const tactics = player.getTactis()
+    const tactics = player.getTactics()
     const tacticsData = JSON.stringify({
         MaxPower: 500,
         MinPower: 0,
@@ -78,4 +82,86 @@ function sendInitMessages(socket: Socket, player: Player, callbackHandler: numbe
     const heroInfoPacket = createResponsePacket("hero.UpdateHeroBagData", THeroInfo.encode(heroInfoData).finish(), callbackHandler, token, getSeq(socket))
     socket.write(heroInfoPacket)
     // 副本信息
+    // 海域
+    const plotCopyInfo = TUserCopyInfo.create({
+        BaseInfo: [],
+        MaxCopyId: 1,
+        CopyType: 1,
+        StarInfo:[],
+        PassCopyCount:0
+    })
+    // 剧情
+    const seaCopyInfo = TUserCopyInfo.create({
+        BaseInfo: [
+            {
+                BaseId: 1,
+                Rid: 1,
+                StarLevel: 3,
+                IsRunningFight: false,
+                LBPoint: 0,
+                FirstPassTime: 0,
+                DropHeroIds: [],
+                SfLv: 1,
+                SfPoint: 1,
+                SfInfo: [],
+                SfDot: true,
+                SfLvChoose: 1
+            },
+            {
+                BaseId: 2,
+                Rid: 1,
+                StarLevel: 3,
+                IsRunningFight: false,
+                LBPoint: 0,
+                FirstPassTime: 0,
+                DropHeroIds: [],
+                SfLv: 1,
+                SfPoint: 1,
+                SfInfo: [],
+                SfDot: true,
+                SfLvChoose: 1
+            },
+            {
+                BaseId: 3,
+                Rid: 1,
+                StarLevel: 3,
+                IsRunningFight: false,
+                LBPoint: 0,
+                FirstPassTime: 0,
+                DropHeroIds: [],
+                SfLv: 1,
+                SfPoint: 1,
+                SfInfo: [],
+                SfDot: true,
+                SfLvChoose: 1
+            },
+            {
+                BaseId: 4,
+                Rid: 1,
+                StarLevel: 3,
+                IsRunningFight: false,
+                LBPoint: 0,
+                FirstPassTime: 0,
+                DropHeroIds: [],
+                SfLv: 1,
+                SfPoint: 1,
+                SfInfo: [],
+                SfDot: true,
+                SfLvChoose: 1
+            }
+        ],
+        MaxCopyId: 1,
+        CopyType: 1,
+        StarInfo:[],
+        PassCopyCount:0
+    })
+    socket.write(createResponsePacket("copy.GetCopy", TUserCopyInfo.encode(plotCopyInfo).finish(), callbackHandler, token, getSeq(socket)))
+    socket.write(createResponsePacket("copy.GetCopy", TUserCopyInfo.encode(seaCopyInfo).finish(), callbackHandler, token, getSeq(socket)))
+    // 装备背包
+    const bagData = TEquipList.create({
+        EquipBagSize: 1000,
+        EquipInfo: player.getEquipBag(),
+        EquipNum: []
+    })
+    socket.write(createResponsePacket("equip.UpdateEquipBagData", TEquipList.encode(bagData).finish(), callbackHandler, token, getSeq(socket)))
 }

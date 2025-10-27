@@ -11,7 +11,7 @@ import { SetHerosTactic } from "./logic/fleet.ts";
 import { LockHero } from "./logic/hero.ts";
 import { GetCopyInfo } from "./logic/copyinfo.ts";
 import { StartBase } from "./logic/copy.ts";
-import { GetDiscuss } from "./logic/discuss.ts";
+import { GetDiscuss, Discuss, Like } from "./logic/discuss.ts";
 import { AddBehavior } from "./logic/illustrate.ts";
 
 class EventBus extends EventEmitter {
@@ -59,5 +59,7 @@ eventBus.on("copyinfo.GetCopyInfo", GetCopyInfo)
 eventBus.on("copy.StartBase", StartBase)
 
 eventBus.on("discuss.GetDiscuss", GetDiscuss)
+eventBus.on("discuss.Discuss", Discuss)
+eventBus.on("discuss.Like", Like)
 
 eventBus.on("illustrate.AddBehaviour", AddBehavior)

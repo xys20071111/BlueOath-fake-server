@@ -16,7 +16,7 @@ export function Login(socket: Socket, args: Uint8Array, callbackHandler: number,
     console.log(`用户尝试登录：${uname}`)
     try {
         // 检查文件是否存在
-        using _userData = Deno.openSync(`./data/${uname}/UserInfo.json`, {
+        using _userData = Deno.openSync(`./playerData/${uname}/UserInfo.json`, {
             create: false,
             createNew: false,
             read: true,

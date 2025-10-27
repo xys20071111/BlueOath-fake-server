@@ -105,12 +105,12 @@ export class Player {
     private illustrateInfo: IllustrateInfo
     constructor(uname: string) {
         this.uname = uname
-        this.userInfo = JSON.parse(Deno.readTextFileSync(`./data/${this.uname}/UserInfo.json`))
-        this.heroInfo = JSON.parse(Deno.readTextFileSync(`./data/${this.uname}/HeroBag.json`))
-        this.tactics = JSON.parse(Deno.readTextFileSync(`./data/${this.uname}/FleetInfo.json`))
-        this.equipBagInfo = JSON.parse(Deno.readTextFileSync(`./data/${this.uname}/EquipBag.json`))
-        this.plotInfo = JSON.parse(Deno.readTextFileSync(`./data/${this.uname}/PlotInfo.json`))
-        this.illustrateInfo = JSON.parse(Deno.readTextFileSync(`./data/${this.uname}/IllustrateInfo.json`))
+        this.userInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/UserInfo.json`))
+        this.heroInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/HeroBag.json`))
+        this.tactics = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/FleetInfo.json`))
+        this.equipBagInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/EquipBag.json`))
+        this.plotInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/PlotInfo.json`))
+        this.illustrateInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/IllustrateInfo.json`))
         this.userInfo.HeadShow = this.heroInfo[this.userInfo.SecretaryId].isMarried ? 1 : 0
     }
 
@@ -127,7 +127,7 @@ export class Player {
                 Equips: [],
                 Lvl: v.Level,
                 Exp: 100,
-                Advance: 10,
+                Advance: 5,
                 Intensify: [],
                 CreateTime: Math.round(Date.now() / 1000),
                 CurHp: 10000000000, // 最大hp
@@ -165,7 +165,7 @@ export class Player {
             }
         }
         this.tactics = tactic
-        Deno.writeTextFile(`./data/${this.uname}/FleetInfo.json`, JSON.stringify(this.tactics, null, 4))
+        Deno.writeTextFile(`./playerData/${this.uname}/FleetInfo.json`, JSON.stringify(this.tactics, null, 4))
     }
 
     public getUserInfo(): any {
@@ -175,12 +175,12 @@ export class Player {
     public setSecretary(id: number) {
         this.userInfo.SecretaryId = id
         this.userInfo.HeadShow = this.heroInfo[this.userInfo.SecretaryId].isMarried ? 1 : 0
-        Deno.writeTextFile(`./data/${this.uname}/UserInfo.json`, JSON.stringify(this.userInfo, null, 4))
+        Deno.writeTextFile(`./playerData/${this.uname}/UserInfo.json`, JSON.stringify(this.userInfo, null, 4))
     }
 
     public setHeroLock(id: number, lock: boolean) {
         this.heroInfo[id].Locked = lock
-        Deno.writeTextFile(`./data/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
     }
 
     public getEquipBag() {
@@ -198,7 +198,7 @@ export class Player {
                     this.illustrateInfo.IllustrateList[i].BehaviourList.push(v)
                 })
                 this.illustrateInfo.IllustrateList[i].NewHero = false
-                Deno.writeTextFile(`./data/${this.uname}/IllustrateInfo.json`, JSON.stringify(this.illustrateInfo, null, 4))
+                Deno.writeTextFile(`./playerData/${this.uname}/IllustrateInfo.json`, JSON.stringify(this.illustrateInfo, null, 4))
                 return
             }
         }
@@ -210,6 +210,6 @@ export class Player {
             MarryCount: 0,
             LikeTime: 0
         })
-        Deno.writeTextFile(`./data/${this.uname}/IllustrateInfo.json`, JSON.stringify(this.illustrateInfo, null, 4))
+        Deno.writeTextFile(`./playerData/${this.uname}/IllustrateInfo.json`, JSON.stringify(this.illustrateInfo, null, 4))
     }
 }

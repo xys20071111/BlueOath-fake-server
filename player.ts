@@ -1,5 +1,3 @@
-import { Socket } from "node:net";
-
 interface HeroInfo {
     HeroId: number;
     TemplateId: number;
@@ -59,25 +57,61 @@ interface EquipInfo {
     RiseCommonEquips: Array<{ TemplateId: number; Num: number }>
 }
 
+interface PlotInfo {
+    BaseId: number
+    FirstPassTime: number
+}
+
+interface IllustrateInfo {
+    IllustrateList: {
+        IllustrateId: number
+        GetTime: number
+        LikeTime: number
+        NewHero: boolean
+        BehaviourList: number[]
+        MarryCount: number
+    }[]
+    VowCoolTime: number
+    VowCoolHero: number
+    VowCount: number
+    VowHeroList: number[]
+    SkipVcr: {
+        ShipInfoId: number
+        StartVcr: boolean
+        EndVcr: boolean
+    }[]
+    UseInfo: {
+        ItemTid: number
+        ItemNum: number
+    }[]
+    HeroMemoryList: {
+        HeroId: number
+        PlotId: number
+    }[]
+    IllustrateEquipList: {
+        EquipTemplateId: number
+        GetEquipTime: number
+        NewEquip: boolean
+    }[]
+}
+
 export class Player {
-    private socket: Socket
     private uname: string
     private userInfo: any
     private heroInfo: Array<BasicHeroInfo>
     private tactics: Array<Tactic>
     private equipBagInfo: Array<EquipInfo>
-    constructor(socket: Socket, uname: string) {
-        this.socket = socket,
-            this.uname = uname
+    private plotInfo: Array<PlotInfo>
+    private illustrateInfo: IllustrateInfo
+    constructor(uname: string) {
+        this.uname = uname
         this.userInfo = JSON.parse(Deno.readTextFileSync(`./data/${this.uname}/UserInfo.json`))
         this.heroInfo = JSON.parse(Deno.readTextFileSync(`./data/${this.uname}/HeroBag.json`))
         this.tactics = JSON.parse(Deno.readTextFileSync(`./data/${this.uname}/FleetInfo.json`))
         this.equipBagInfo = JSON.parse(Deno.readTextFileSync(`./data/${this.uname}/EquipBag.json`))
+        this.plotInfo = JSON.parse(Deno.readTextFileSync(`./data/${this.uname}/PlotInfo.json`))
+        this.illustrateInfo = JSON.parse(Deno.readTextFileSync(`./data/${this.uname}/IllustrateInfo.json`))
         this.userInfo.HeadShow = this.heroInfo[this.userInfo.SecretaryId].isMarried ? 1 : 0
-    }
-
-    public getSocket(): Socket {
-        return this.socket
     }
 
     public getUname(): string {
@@ -151,5 +185,31 @@ export class Player {
 
     public getEquipBag() {
         return this.equipBagInfo
+    }
+
+    public getIllustrateInfo(): IllustrateInfo {
+        return this.illustrateInfo
+    }
+
+    public setHeroIllustrate(illustrateId: number, behaviourIds: Array<number>) {
+        for(let i = 0; i < this.illustrateInfo.IllustrateList.length; i++) {
+            if (this.illustrateInfo.IllustrateList[i].IllustrateId === illustrateId) {
+                behaviourIds.forEach((v) => {
+                    this.illustrateInfo.IllustrateList[i].BehaviourList.push(v)
+                })
+                this.illustrateInfo.IllustrateList[i].NewHero = false
+                Deno.writeTextFile(`./data/${this.uname}/IllustrateInfo.json`, JSON.stringify(this.illustrateInfo, null, 4))
+                return
+            }
+        }
+        this.illustrateInfo.IllustrateList.push({
+            IllustrateId: illustrateId,
+            GetTime: Math.round(Date.now() / 1000),
+            BehaviourList: behaviourIds,
+            NewHero: true,
+            MarryCount: 0,
+            LikeTime: 0
+        })
+        Deno.writeTextFile(`./data/${this.uname}/IllustrateInfo.json`, JSON.stringify(this.illustrateInfo, null, 4))
     }
 }

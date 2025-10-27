@@ -2,7 +2,7 @@ import { Socket } from "node:net";
 import protobuf from "protobufjs"
 import { createResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
-import { Player } from "../Player.ts";
+import { Player } from "../player.ts";
 
 const playerPb = protobuf.loadSync("./raw-protobuf/player.proto")
 const TArgLogin = playerPb.lookupType("player.TArgLogin")
@@ -22,7 +22,7 @@ export function Login(socket: Socket, args: Uint8Array, callbackHandler: number,
             read: true,
             write: false
         })
-        socketPlayerMap.set(socket, new Player(socket, uname))
+        socketPlayerMap.set(socket, new Player(uname))
         const resData = TRetLogin.create({
             Ret: 'ok',
             ErrCode: '0'

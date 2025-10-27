@@ -2,7 +2,7 @@ import { Socket } from "node:net";
 import protobuf from "protobufjs"
 import { createResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
-import { Player } from "../Player.ts";
+import { Player } from "../player.ts";
 import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts";
 
 const playerPb = protobuf.loadSync("./raw-protobuf/player.proto")
@@ -21,6 +21,9 @@ const TUserCopyInfo = copyPb.lookupType("copy.TUserCopyInfo")
 
 const equipPb = protobuf.loadSync("./raw-protobuf/equip.proto")
 const TEquipList = equipPb.lookupType("equip.TEquipList")
+
+const illustratePb = protobuf.loadSync("./raw-protobuf/illustrate.proto")
+const TIllustrateInfoRet = illustratePb.lookupType("illustrate.TIllustrateInfoRet")
 
 export function UserLogin(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
     const resData = TRetLogin.create({
@@ -58,6 +61,7 @@ export function Refresh(socket: Socket, _args: Uint8Array, callbackHandler: numb
 }
 
 function sendInitMessages(socket: Socket, player: Player, callbackHandler: number, token: string) {
+    const encoder = new TextEncoder()
     // 基础用户信息
     const userInfo = player.getUserInfo()
     const userInfoData = TGetUserInfoRet.create(userInfo)
@@ -70,7 +74,7 @@ function sendInitMessages(socket: Socket, player: Player, callbackHandler: numbe
         MinPower: 0,
         tactics
     })
-    const tacticsPacket = createResponsePacket("tactic.custom.ForceWriteFleetInfo", new TextEncoder().encode(tacticsData), callbackHandler, token, getSeq(socket))
+    const tacticsPacket = createResponsePacket("tactic.custom.ForceWriteFleetInfo", encoder.encode(tacticsData), callbackHandler, token, getSeq(socket))
     socket.write(tacticsPacket)
     // 舰娘信息
     const heroInfo = player.getHeroBag()
@@ -82,66 +86,81 @@ function sendInitMessages(socket: Socket, player: Player, callbackHandler: numbe
     const heroInfoPacket = createResponsePacket("hero.UpdateHeroBagData", THeroInfo.encode(heroInfoData).finish(), callbackHandler, token, getSeq(socket))
     socket.write(heroInfoPacket)
     // 副本信息
-    // 海域
-    const plotCopyInfo = TUserCopyInfo.create({
-        BaseInfo: [],
-        MaxCopyId: 1,
-        CopyType: 1,
-        StarInfo:[],
-        PassCopyCount:0
-    })
     // 剧情
-    const seaCopyInfo = TUserCopyInfo.create({
+    const plotCopyInfo = TUserCopyInfo.create({
         BaseInfo: [
             {
+                BaseId: 0,
+                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+            },
+            {
                 BaseId: 1,
-                Rid: 1,
-                StarLevel: 3,
-                IsRunningFight: false,
-                LBPoint: 0,
-                FirstPassTime: 0,
-                DropHeroIds: [],
-                SfLv: 1,
-                SfPoint: 1,
-                SfInfo: [],
-                SfDot: true,
-                SfLvChoose: 1
+                FirstPassTime: 0, // Math.round(Date.now() / 1000),
             },
             {
                 BaseId: 2,
-                Rid: 1,
-                StarLevel: 3,
-                IsRunningFight: false,
-                LBPoint: 0,
-                FirstPassTime: 0,
-                DropHeroIds: [],
-                SfLv: 1,
-                SfPoint: 1,
-                SfInfo: [],
-                SfDot: true,
-                SfLvChoose: 1
+                FirstPassTime: 0, // Math.round(Date.now() / 1000),
             },
             {
                 BaseId: 3,
-                Rid: 1,
-                StarLevel: 3,
-                IsRunningFight: false,
-                LBPoint: 0,
-                FirstPassTime: 0,
-                DropHeroIds: [],
-                SfLv: 1,
-                SfPoint: 1,
-                SfInfo: [],
-                SfDot: true,
-                SfLvChoose: 1
+                FirstPassTime: 0, // Math.round(Date.now() / 1000),
             },
             {
                 BaseId: 4,
+                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+            },
+            {
+                BaseId: 5,
+                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+            },
+            {
+                BaseId: 6,
+                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+            },
+            {
+                BaseId: 7,
+                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+            },
+            {
+                BaseId: 8,
+                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+            },
+            {
+                BaseId: 9,
+                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+            },
+            {
+                BaseId: 10,
+                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+            },
+            {
+                BaseId: 11,
+                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+            },
+            {
+                BaseId: 12,
+                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+            },
+            {
+                BaseId: 13,
+                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+            }
+        ],
+        MaxCopyId: 1,
+        CopyType: 1,
+        StarInfo: [],
+        PassCopyCount: 0
+    })
+    // 海域
+    const seaCopyInfo = TUserCopyInfo.create({
+        BaseInfo: [
+            {
+                BaseId: 5013,
                 Rid: 1,
                 StarLevel: 3,
                 IsRunningFight: false,
                 LBPoint: 0,
-                FirstPassTime: 0,
+                FirstPassTime: Math.round(Date.now() / 1000),
                 DropHeroIds: [],
                 SfLv: 1,
                 SfPoint: 1,
@@ -151,9 +170,9 @@ function sendInitMessages(socket: Socket, player: Player, callbackHandler: numbe
             }
         ],
         MaxCopyId: 1,
-        CopyType: 1,
-        StarInfo:[],
-        PassCopyCount:0
+        CopyType: 2,
+        StarInfo: [],
+        PassCopyCount: 0
     })
     socket.write(createResponsePacket("copy.GetCopy", TUserCopyInfo.encode(plotCopyInfo).finish(), callbackHandler, token, getSeq(socket)))
     socket.write(createResponsePacket("copy.GetCopy", TUserCopyInfo.encode(seaCopyInfo).finish(), callbackHandler, token, getSeq(socket)))
@@ -164,4 +183,7 @@ function sendInitMessages(socket: Socket, player: Player, callbackHandler: numbe
         EquipNum: []
     })
     socket.write(createResponsePacket("equip.UpdateEquipBagData", TEquipList.encode(bagData).finish(), callbackHandler, token, getSeq(socket)))
+    // 图鉴
+    const illustrateResData = JSON.stringify(player.getIllustrateInfo())
+    socket.write(createResponsePacket("illustrate.custom.IllustrateInfo", encoder.encode(illustrateResData), callbackHandler, token, getSeq(socket)))
 }

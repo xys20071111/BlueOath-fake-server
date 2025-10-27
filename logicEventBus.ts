@@ -11,6 +11,8 @@ import { SetHerosTactic } from "./logic/fleet.ts";
 import { LockHero } from "./logic/hero.ts";
 import { GetCopyInfo } from "./logic/copyinfo.ts";
 import { StartBase } from "./logic/copy.ts";
+import { GetDiscuss } from "./logic/discuss.ts";
+import { AddBehavior } from "./logic/illustrate.ts";
 
 class EventBus extends EventEmitter {
     // 重写一下emit函数，检查socket是不是已经登录了
@@ -55,3 +57,7 @@ eventBus.on("hero.LockHero", LockHero)
 eventBus.on("copyinfo.GetCopyInfo", GetCopyInfo)
 
 eventBus.on("copy.StartBase", StartBase)
+
+eventBus.on("discuss.GetDiscuss", GetDiscuss)
+
+eventBus.on("illustrate.AddBehaviour", AddBehavior)

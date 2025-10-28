@@ -60,6 +60,10 @@ export function Refresh(socket: Socket, _args: Uint8Array, callbackHandler: numb
     socket.write(createResponsePacket("user.Refresh", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
 }
 
+export function GetSupply(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
+    socket.write(createResponsePacket("user.GetSupply", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
+}
+
 function sendInitMessages(socket: Socket, player: Player, callbackHandler: number, token: string) {
     const encoder = new TextEncoder()
     // 基础用户信息

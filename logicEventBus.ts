@@ -2,7 +2,7 @@ import { EventEmitter } from "node:events";
 import { Socket } from "node:net"
 import { socketPlayerMap } from "./utils/socketMaps.ts";
 import { GetUserList, Login } from "./logic/login.ts";
-import { GetUserInfo, Refresh, SetUserSecretary, UserLogin } from "./logic/user.ts"
+import { GetSupply, GetUserInfo, Refresh, SetUserSecretary, UserLogin } from "./logic/user.ts"
 import { GetBarrageById } from "./logic/chat.ts";
 import { PlotReward, Setting } from "./logic/guide.ts";
 import { SavePrefs } from "./logic/prefs.ts";
@@ -40,6 +40,7 @@ eventBus.on("user.UserLogin", UserLogin)
 eventBus.on("user.GetUserInfo", GetUserInfo)
 eventBus.on("user.SetUserSecretary", SetUserSecretary)
 eventBus.on("user.Refresh", Refresh)
+eventBus.on("user.GetSupply", GetSupply)
 
 eventBus.on("chat.GetBarrageById", GetBarrageById)
 

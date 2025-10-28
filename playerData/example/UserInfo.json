@@ -3,6 +3,7 @@
     "Uname": "Test123",
     "Level": 100,
     "Class": 1,
+    "ServerId": 1,
     "SecretaryId": 2,
     "HeadShow": 0,
     "Exp": 100,

@@ -3,11 +3,7 @@
         {
             "IllustrateId": 1021051,
             "GetTime": 1761566559,
-            "BehaviourList": [
-                3,
-                2,
-                5
-            ],
+            "BehaviourList": [],
             "NewHero": false,
             "MarryCount": 0,
             "LikeTime": 0
@@ -15,13 +11,7 @@
         {
             "IllustrateId": 3013011,
             "GetTime": 1761567429,
-            "BehaviourList": [
-                6,
-                7,
-                8,
-                8,
-                2
-            ],
+            "BehaviourList": [],
             "NewHero": false,
             "MarryCount": 0,
             "LikeTime": 0

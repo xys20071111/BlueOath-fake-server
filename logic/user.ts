@@ -25,6 +25,9 @@ const TEquipList = equipPb.lookupType("equip.TEquipList")
 const buildingPb = protobuf.loadSync("./raw-protobuf/building.proto")
 const TUserBuildingInfo = buildingPb.lookupType("building.TUserBuildingInfo")
 
+const bagPb = protobuf.loadSync("./raw-protobuf/bag.proto")
+const TBagInfoRet = bagPb.lookupType("bag.TBagInfoRet")
+
 export function UserLogin(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
     const resData = TRetLogin.create({
         Ret: 'ok',
@@ -57,11 +60,17 @@ export function SetUserSecretary(socket: Socket, args: Uint8Array, callbackHandl
 }
 
 export function Refresh(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
+    const player = socketPlayerMap.get(socket)!
+    sendInitMessages(socket, player, callbackHandler, token)
     socket.write(createResponsePacket("user.Refresh", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
 }
 
 export function GetSupply(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
     socket.write(createResponsePacket("user.GetSupply", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
+}
+
+export function SetUserOrderRecord(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
+    socket.write(createResponsePacket("user.SetUserOrderRecord", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
 }
 
 function sendInitMessages(socket: Socket, player: Player, callbackHandler: number, token: string) {
@@ -180,17 +189,49 @@ function sendInitMessages(socket: Socket, player: Player, callbackHandler: numbe
     })
     socket.write(createResponsePacket("copy.GetCopy", TUserCopyInfo.encode(plotCopyInfo).finish(), callbackHandler, token, getSeq(socket)))
     socket.write(createResponsePacket("copy.GetCopy", TUserCopyInfo.encode(seaCopyInfo).finish(), callbackHandler, token, getSeq(socket)))
+    // 道具背包
+    const bagData = TBagInfoRet.create({
+        bagType: 1,
+        bagSize: 8000,
+        bagInfo: [
+            {
+                templateId: 14001,
+                num: 10000
+            },
+            {
+                templateId: 14011,
+                num: 10000
+            },
+            {
+                templateId: 14012,
+                num: 10000
+            },
+            {
+                templateId: 14013,
+                num: 10000
+            },
+            {
+                templateId: 14014,
+                num: 10000
+            },
+            {
+                templateId: 10180,
+                num: 10000
+            }
+        ],
+        useInfo: []
+    })
+    socket.write(createResponsePacket("bag.UpdateBagData", TBagInfoRet.encode(bagData).finish(), callbackHandler, token, getSeq(socket)))
     // 装备背包
-    const bagData = TEquipList.create({
+    const equipData = TEquipList.create({
         EquipBagSize: 1000,
         EquipInfo: player.getEquipBag(),
         EquipNum: []
     })
-    socket.write(createResponsePacket("equip.UpdateEquipBagData", TEquipList.encode(bagData).finish(), callbackHandler, token, getSeq(socket)))
+    socket.write(createResponsePacket("equip.UpdateEquipBagData", TEquipList.encode(equipData).finish(), callbackHandler, token, getSeq(socket)))
     // 图鉴
     const illustrateResData = JSON.stringify(player.getIllustrateInfo())
     socket.write(createResponsePacket("illustrate.custom.IllustrateInfo", encoder.encode(illustrateResData), callbackHandler, token, getSeq(socket)))
     // 基建
-    const buildingData = TUserBuildingInfo.create(player.getBuildingInfo())
-    socket.write(createResponsePacket("building.UpdateBuildingInfo", TUserBuildingInfo.encode(buildingData).finish(), callbackHandler, token, getSeq(socket)))
+    socket.write(createResponsePacket("building.custom.UpdateBuildingInfo", encoder.encode(JSON.stringify(player.getBuildingInfo())), callbackHandler, token, getSeq(socket)))
 }

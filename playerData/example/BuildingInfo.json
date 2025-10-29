@@ -6,20 +6,45 @@
             "Level": 1,
             "HeroList": [],
             "Status": 6,
-            "Productivity": 100
+            "Productivity": 100,
+            "TacticList": [],
+            "HeroEffectTimeList": [],
+            "LastUpdateTime": 1761747756
+        },
+        {
+            "Tid": 41,
+            "Id": 2,
+            "Level": 2,
+            "HeroList": [],
+            "Productivity": 100,
+            "ProduceSpeed": 100,
+            "ProductCount": 100000000,
+            "Status": 1,
+            "LastUpdateTime": 1761747756,
+            "LastMoodUpdateTime": 0,
+            "LastBuildUpdateTime": 0,
+            "HeroEffectTimeList": []
         }
     ],
     "LandList": [
         {
             "BuildingId": 1,
             "Index": 1
+        },
+        {
+            "Index": 2,
+            "BuildingId": 2
         }
     ],
-    "WorkerStrength": 1000,
-    "WorkerRecover": 1000,
-    "WorkerUpdateTime": 0,
+    "WorkerStrength": 1000000,
+    "WorkerRecover": 100,
+    "WorkerUpdateTime": 1761747756,
     "LastUpdateTime": 0,
-    "MaxWorkerStrength": 1000,
+    "MaxWorkerStrength": 10000000,
     "SpecialPlotDatas": [],
-    "NormalPlotDatas": []
+    "NormalPlotDatas": [],
+    "Food": 0,
+    "FoodMax": 1000,
+    "Electric": 0,
+    "ElectricMax": 1000
 }

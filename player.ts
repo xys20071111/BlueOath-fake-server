@@ -95,6 +95,13 @@ interface IllustrateInfo {
     }[]
 }
 
+interface BuildingTactic {
+    BuildingId: number
+    Name: string
+    HeroList: number[]
+    Index: number
+}
+
 interface BuildingInfo {
     Id: number
     Tid: number
@@ -115,12 +122,7 @@ interface BuildingInfo {
     }[]
     RecipeTime?: number
     FloatCount?: number
-    TacticList?: {
-        BuildingId: number
-        Name: string
-        HeroList: number[]
-        Index: number
-    }[]
+    TacticList?: BuildingTactic[]
 }
 
 interface HeroPlotData {
@@ -283,6 +285,65 @@ export class Player {
     }
 
     public getBuildingInfo() {
+        const lastUpdateTime = Math.round(Date.now() / 1000)
+        for(let i = 0; i < this.buildingInfo.BuildingInfos.length; i++) {
+                this.buildingInfo.BuildingInfos[i].LastUpdateTime = lastUpdateTime
+        }
+        this.buildingInfo.WorkerUpdateTime = lastUpdateTime
         return this.buildingInfo
+    }
+
+    public setBuildingTactics(id: number, tactic: BuildingTactic[]) {
+        for(let i = 0; i < this.buildingInfo.BuildingInfos.length; i++) {
+            if (this.buildingInfo.BuildingInfos[i].Id === id) {
+                this.buildingInfo.BuildingInfos[i].TacticList = tactic
+                break
+            }
+        }
+        Deno.writeTextFile(`./playerData/${this.uname}/BuildingInfo.json`, JSON.stringify(this.buildingInfo, null, 4))
+    }
+
+    public buildingUpgrade(id: number) {
+        for(let i = 0; i < this.buildingInfo.BuildingInfos.length; i++) {
+            if (this.buildingInfo.BuildingInfos[i].Id === id) {
+                this.buildingInfo.BuildingInfos[i].Level++
+                break
+            }
+        }
+        Deno.writeTextFile(`./playerData/${this.uname}/BuildingInfo.json`, JSON.stringify(this.buildingInfo, null, 4))
+    }
+
+    public buildingSetHero(id: number, HeroIdList: number[]) {
+        for(let i = 0; i < this.buildingInfo.BuildingInfos.length; i++) {
+            if (this.buildingInfo.BuildingInfos[i].Id === id) {
+                this.buildingInfo.BuildingInfos[i].HeroList = HeroIdList
+                break
+            }
+        }
+        Deno.writeTextFile(`./playerData/${this.uname}/BuildingInfo.json`, JSON.stringify(this.buildingInfo, null, 4))
+    }
+
+    public addBuilding(tid: number, index: number) {
+        const id = this.buildingInfo.BuildingInfos.length + 1
+        this.buildingInfo.BuildingInfos.push({
+            Tid: tid,
+            Id: id,
+            Level: 1,
+            HeroList: [],
+            Productivity: 100,
+            ProduceSpeed: 100,
+            ProductCount: 100,
+            Status: 1,
+            LastUpdateTime: 0,
+            LastMoodUpdateTime: 0,
+            LastBuildUpdateTime: 0,
+            HeroEffectTimeList: []
+        })
+        this.buildingInfo.LandList.push({
+            Index: index,
+            BuildingId: id
+        })
+        Deno.writeTextFile(`./playerData/${this.uname}/BuildingInfo.json`, JSON.stringify(this.buildingInfo, null, 4))
+        return id
     }
 }

@@ -8,7 +8,9 @@ const TRequest = pb.lookupType("net_type.TRequest")
 
 const server = createServer((socket) => {
     socketSeqMap.set(socket, 0)
-    socket.on("error", () => {})
+    socket.on("error", (e) => {
+        console.error(e)
+    })
     socket.on("data", (data) => {
         let reqData: any = null
         // Gemini告诉我，第四位是确定数据包带不带校验哈希

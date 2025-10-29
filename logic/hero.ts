@@ -2,11 +2,13 @@ import { Socket } from "node:net";
 import protobuf from "protobufjs"
 import { createResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
+import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts";
 
 const pb = protobuf.loadSync("./raw-protobuf/hero.proto")
 const TLockHeroArg = pb.lookupType("hero.TLockHeroArg")
 const TLockHeroRet = pb.lookupType("hero.TLockHeroRet")
 const THeroInfo = pb.lookupType("hero.THeroInfo")
+const THeroArrayArg = pb.lookupType("hero.THeroArrayArg")
 
 export function LockHero(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
     const parsedArgs: {
@@ -27,4 +29,8 @@ export function LockHero(socket: Socket, args: Uint8Array, callbackHandler: numb
     })
     const heroInfoPacket = createResponsePacket("hero.UpdateHeroBagData", THeroInfo.encode(heroInfoData).finish(), callbackHandler, token, getSeq(socket))
     socket.write(heroInfoPacket)
+}
+
+export function GetHeroInfoByHeroIdArray(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
+    socket.write(createResponsePacket("hero.GetHeroInfoByHeroIdArray", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
 }

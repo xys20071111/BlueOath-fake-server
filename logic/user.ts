@@ -22,8 +22,8 @@ const TUserCopyInfo = copyPb.lookupType("copy.TUserCopyInfo")
 const equipPb = protobuf.loadSync("./raw-protobuf/equip.proto")
 const TEquipList = equipPb.lookupType("equip.TEquipList")
 
-const illustratePb = protobuf.loadSync("./raw-protobuf/illustrate.proto")
-const TIllustrateInfoRet = illustratePb.lookupType("illustrate.TIllustrateInfoRet")
+const buildingPb = protobuf.loadSync("./raw-protobuf/building.proto")
+const TUserBuildingInfo = buildingPb.lookupType("building.TUserBuildingInfo")
 
 export function UserLogin(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
     const resData = TRetLogin.create({
@@ -190,4 +190,7 @@ function sendInitMessages(socket: Socket, player: Player, callbackHandler: numbe
     // 图鉴
     const illustrateResData = JSON.stringify(player.getIllustrateInfo())
     socket.write(createResponsePacket("illustrate.custom.IllustrateInfo", encoder.encode(illustrateResData), callbackHandler, token, getSeq(socket)))
+    // 基建
+    const buildingData = TUserBuildingInfo.create(player.getBuildingInfo())
+    socket.write(createResponsePacket("building.UpdateBuildingInfo", TUserBuildingInfo.encode(buildingData).finish(), callbackHandler, token, getSeq(socket)))
 }

@@ -1,0 +1,25 @@
+{
+    "BuildingInfos": [
+        {
+            "Id": 1,
+            "Tid": 1,
+            "Level": 1,
+            "HeroList": [],
+            "Status": 6,
+            "Productivity": 100
+        }
+    ],
+    "LandList": [
+        {
+            "BuildingId": 1,
+            "Index": 1
+        }
+    ],
+    "WorkerStrength": 1000,
+    "WorkerRecover": 1000,
+    "WorkerUpdateTime": 0,
+    "LastUpdateTime": 0,
+    "MaxWorkerStrength": 1000,
+    "SpecialPlotDatas": [],
+    "NormalPlotDatas": []
+}

@@ -8,11 +8,13 @@ import { PlotReward, Setting } from "./logic/guide.ts";
 import { SavePrefs } from "./logic/prefs.ts";
 import { GetNotesList } from "./logic/buildnotes.ts";
 import { SetHerosTactic } from "./logic/fleet.ts";
-import { LockHero } from "./logic/hero.ts";
+import { GetHeroInfoByHeroIdArray, LockHero } from "./logic/hero.ts";
 import { GetCopyInfo } from "./logic/copyinfo.ts";
 import { StartBase } from "./logic/copy.ts";
 import { GetDiscuss, Discuss, Like } from "./logic/discuss.ts";
 import { AddBehavior } from "./logic/illustrate.ts";
+import { GetList, /*CreateGuild*/ } from "./logic/guild.ts";
+import { UpdateHeroAddition } from "./logic/building.ts";
 
 class EventBus extends EventEmitter {
     // 重写一下emit函数，检查socket是不是已经登录了
@@ -54,6 +56,7 @@ eventBus.on("buildnotes.GetNotesList", GetNotesList)
 eventBus.on("tactic.SetHerosTactic", SetHerosTactic)
 
 eventBus.on("hero.LockHero", LockHero)
+eventBus.on("hero.GetHeroInfoByHeroIdArray", GetHeroInfoByHeroIdArray)
 
 eventBus.on("copyinfo.GetCopyInfo", GetCopyInfo)
 
@@ -64,3 +67,8 @@ eventBus.on("discuss.Discuss", Discuss)
 eventBus.on("discuss.Like", Like)
 
 eventBus.on("illustrate.AddBehaviour", AddBehavior)
+
+eventBus.on("guild.GetList", GetList)
+// eventBus.on("guild.Create", CreateGuild)
+
+eventBus.on("building.UpdateHeroAddition", UpdateHeroAddition)

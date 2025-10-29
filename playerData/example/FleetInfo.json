@@ -2,6 +2,7 @@
     {
         "tacticName": "test1",
         "heroInfo": [
+            2,
             0,
             1
         ],
@@ -12,14 +13,11 @@
     },
     {
         "tacticName": "test2",
-        "heroInfo": [
-            2,
-            3
-        ],
         "modeId": 2,
         "strategyId": 101,
         "formationId": 1001,
-        "type": 1
+        "type": 1,
+        "heroInfo": []
     },
     {
         "tacticName": "test3",

@@ -16,10 +16,5 @@
         "isMarried": false,
         "Level": 10,
         "Locked": true
-    },
-    {
-        "id": 2011011,
-        "isMarried": false,
-        "Level": 10
     }
 ]

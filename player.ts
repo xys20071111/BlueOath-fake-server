@@ -95,6 +95,63 @@ interface IllustrateInfo {
     }[]
 }
 
+interface BuildingInfo {
+    Id: number
+    Tid: number
+    Level: number
+    HeroList: number[]
+    Productivity?: number
+    ProduceSpeed?: number
+    ProductCount?: number
+    Status?: number
+    LastUpdateTime?: number
+    RecipeId?: number
+    ItemCount?: number
+    LastMoodUpdateTime?: number
+    LastBuildUpdateTime?: number
+    HeroEffectTimeList?: {
+        HeroId: number
+        EffectTime: number[]
+    }[]
+    RecipeTime?: number
+    FloatCount?: number
+    TacticList?: {
+        BuildingId: number
+        Name: string
+        HeroList: number[]
+        Index: number
+    }[]
+}
+
+interface HeroPlotData {
+    HeroId: number
+    PlotId: number
+    BuildingId: number
+}
+
+interface UserBuildingInfo {
+    BuildingInfos: BuildingInfo[]
+    LandList: {
+        Index: number
+        BuildingId: number
+    }[]
+    WorkerStrength: number
+    WorkerRecover: number
+    Food: number
+    FoodMax: number
+    Electric: number
+    ElectricMax: number
+    WorkerUpdateTime: number
+    NormalPlotUpdateTime: number
+    NormalPlotDatas: HeroPlotData[]
+    SpecialPlotDatas: HeroPlotData[]
+    NormalTriggeredHeroIds: number[]
+    SpecialTriggeredHeroPlots: {
+        HeroId: number
+        PlotId: number
+    }
+}
+
 export class Player {
     private uname: string
     private userInfo: any
@@ -103,8 +160,20 @@ export class Player {
     private equipBagInfo: Array<EquipInfo>
     private plotInfo: Array<PlotInfo>
     private illustrateInfo: IllustrateInfo
+    private buildingInfo: UserBuildingInfo
     constructor(uname: string) {
         this.uname = uname
+        this.userInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/UserInfo.json`))
+        this.heroInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/HeroBag.json`))
+        this.tactics = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/FleetInfo.json`))
+        this.equipBagInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/EquipBag.json`))
+        this.plotInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/PlotInfo.json`))
+        this.illustrateInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/IllustrateInfo.json`))
+        this.buildingInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/BuildingInfo.json`))
+        this.userInfo.HeadShow = this.heroInfo[this.userInfo.SecretaryId].isMarried ? 1 : 0
+    }
+
+    public refreshUserInfo() {
         this.userInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/UserInfo.json`))
         this.heroInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/HeroBag.json`))
         this.tactics = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/FleetInfo.json`))
@@ -192,7 +261,7 @@ export class Player {
     }
 
     public setHeroIllustrate(illustrateId: number, behaviourIds: Array<number>) {
-        for(let i = 0; i < this.illustrateInfo.IllustrateList.length; i++) {
+        for (let i = 0; i < this.illustrateInfo.IllustrateList.length; i++) {
             if (this.illustrateInfo.IllustrateList[i].IllustrateId === illustrateId) {
                 behaviourIds.forEach((v) => {
                     this.illustrateInfo.IllustrateList[i].BehaviourList.push(v)
@@ -211,5 +280,9 @@ export class Player {
             LikeTime: 0
         })
         Deno.writeTextFile(`./playerData/${this.uname}/IllustrateInfo.json`, JSON.stringify(this.illustrateInfo, null, 4))
+    }
+
+    public getBuildingInfo() {
+        return this.buildingInfo
     }
 }

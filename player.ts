@@ -154,6 +154,11 @@ interface UserBuildingInfo {
     }
 }
 
+enum ClientType {
+    CN,
+    JP
+}
+
 export class Player {
     private uname: string
     private userInfo: any
@@ -163,8 +168,10 @@ export class Player {
     private plotInfo: Array<PlotInfo>
     private illustrateInfo: IllustrateInfo
     private buildingInfo: UserBuildingInfo
-    constructor(uname: string) {
+    private clientType: ClientType
+    constructor(uname: string, type: ClientType) {
         this.uname = uname
+        this.clientType = type
         this.userInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/UserInfo.json`))
         this.heroInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/HeroBag.json`))
         this.tactics = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/FleetInfo.json`))
@@ -187,6 +194,10 @@ export class Player {
 
     public getUname(): string {
         return this.uname
+    }
+
+    public getClientType() {
+        return this.clientType
     }
 
     public getHeroBag(): Array<HeroInfo> {

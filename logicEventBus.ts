@@ -15,6 +15,7 @@ import { GetDiscuss, Discuss, Like } from "./logic/discuss.ts";
 import { AddBehavior } from "./logic/illustrate.ts";
 import { GetList, /*CreateGuild*/ } from "./logic/guild.ts";
 import { AddBuilding, SaveTactic, SetHero, UpdateHeroAddition, UpgradeBuilding, EmptyReceive } from "./logic/building.ts";
+import { GetBathroomInfo } from "./logic/bathroom.ts";
 
 class EventBus extends EventEmitter {
     // 重写一下emit函数，检查socket是不是已经登录了
@@ -82,3 +83,5 @@ eventBus.on("building.ReceiveBuilding", (socket, _args, callbackHandler, token) 
 eventBus.on("building.ReceiveAll", (socket, _args, callbackHandler, token) => {
     EmptyReceive(socket, "building.ReceiveAll", callbackHandler, token)
 })
+
+eventBus.on("bathroom.GetBathroomInfo", GetBathroomInfo)

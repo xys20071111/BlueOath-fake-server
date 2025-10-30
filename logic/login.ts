@@ -11,7 +11,7 @@ const TUserInfo = playerPb.lookupType("player.TUserInfo")
 const TRetGetUsers = playerPb.lookupType("player.TRetGetUsers")
 
 export function Login(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
-    const parsedArgs: any = TArgLogin.decode(args)
+    const parsedArgs = TArgLogin.decode(args).toJSON()
     const uname: string = parsedArgs.Pid
     console.log(`用户尝试登录：${uname}`)
     try {
@@ -22,7 +22,7 @@ export function Login(socket: Socket, args: Uint8Array, callbackHandler: number,
             read: true,
             write: false
         })
-        socketPlayerMap.set(socket, new Player(uname))
+        socketPlayerMap.set(socket, new Player(uname, parsedArgs.ClientVersion === '1.5.120'? 0 : 1))
         const resData = TRetLogin.create({
             Ret: 'ok',
             ErrCode: '0'

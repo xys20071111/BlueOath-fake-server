@@ -164,31 +164,57 @@ function sendInitMessages(socket: Socket, player: Player, callbackHandler: numbe
         StarInfo: [],
         PassCopyCount: 0
     })
-    // 海域
-    const seaCopyInfo = TUserCopyInfo.create({
-        BaseInfo: [
-            {
-                BaseId: 5013,
-                Rid: 1,
-                StarLevel: 3,
-                IsRunningFight: false,
-                LBPoint: 0,
-                FirstPassTime: Math.round(Date.now() / 1000),
-                DropHeroIds: [],
-                SfLv: 1,
-                SfPoint: 1,
-                SfInfo: [],
-                SfDot: true,
-                SfLvChoose: 1
-            }
-        ],
-        MaxCopyId: 1,
-        CopyType: 2,
-        StarInfo: [],
-        PassCopyCount: 0
-    })
     socket.write(createResponsePacket("copy.GetCopy", TUserCopyInfo.encode(plotCopyInfo).finish(), callbackHandler, token, getSeq(socket)))
-    socket.write(createResponsePacket("copy.GetCopy", TUserCopyInfo.encode(seaCopyInfo).finish(), callbackHandler, token, getSeq(socket)))
+    // 海域
+    if (player.getClientType() === 0) {
+        const seaCopyInfo = TUserCopyInfo.create({
+            BaseInfo: [
+                {
+                    BaseId: 5013,
+                    Rid: 1,
+                    StarLevel: 3,
+                    IsRunningFight: false,
+                    LBPoint: 0,
+                    FirstPassTime: Math.round(Date.now() / 1000),
+                    DropHeroIds: [],
+                    SfLv: 1,
+                    SfPoint: 1,
+                    SfInfo: [],
+                    SfDot: true,
+                    SfLvChoose: 1
+                }
+            ],
+            MaxCopyId: 1,
+            CopyType: 2,
+            StarInfo: [],
+            PassCopyCount: 0
+        })
+        socket.write(createResponsePacket("copy.GetCopy", TUserCopyInfo.encode(seaCopyInfo).finish(), callbackHandler, token, getSeq(socket)))
+    } else {
+        const seaCopyInfo = TUserCopyInfo.create({
+            BaseInfo: [
+                {
+                    BaseId: 1610300,
+                    Rid: 1,
+                    StarLevel: 3,
+                    IsRunningFight: false,
+                    LBPoint: 0,
+                    FirstPassTime: Math.round(Date.now() / 1000),
+                    DropHeroIds: [],
+                    SfLv: 1,
+                    SfPoint: 1,
+                    SfInfo: [],
+                    SfDot: true,
+                    SfLvChoose: 1
+                }
+            ],
+            MaxCopyId: 1,
+            CopyType: 2,
+            StarInfo: [],
+            PassCopyCount: 0
+        })
+        socket.write(createResponsePacket("copy.GetCopy", TUserCopyInfo.encode(seaCopyInfo).finish(), callbackHandler, token, getSeq(socket)))
+    }
     // 道具背包
     const bagData = TBagInfoRet.create({
         bagType: 1,
@@ -196,6 +222,22 @@ function sendInitMessages(socket: Socket, player: Player, callbackHandler: numbe
         bagInfo: [
             {
                 templateId: 14001,
+                num: 10000
+            },
+            {
+                templateId: 14002,
+                num: 10000
+            },
+            {
+                templateId: 14003,
+                num: 10000
+            },
+            {
+                templateId: 14004,
+                num: 10000
+            },
+            {
+                templateId: 14005,
                 num: 10000
             },
             {

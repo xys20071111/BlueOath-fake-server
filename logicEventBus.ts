@@ -8,7 +8,7 @@ import { PlotReward, Setting } from "./logic/guide.ts";
 import { SavePrefs } from "./logic/prefs.ts";
 import { GetNotesList } from "./logic/buildnotes.ts";
 import { SetHerosTactic } from "./logic/fleet.ts";
-import { GetHeroInfoByHeroIdArray, LockHero } from "./logic/hero.ts";
+import { ChangeName, GetHeroInfoByHeroIdArray, LockHero, Marry } from "./logic/hero.ts";
 import { GetCopyInfo } from "./logic/copyinfo.ts";
 import { StartBase } from "./logic/copy.ts";
 import { GetDiscuss, Discuss, Like } from "./logic/discuss.ts";
@@ -58,6 +58,8 @@ eventBus.on("tactic.SetHerosTactic", SetHerosTactic)
 
 eventBus.on("hero.LockHero", LockHero)
 eventBus.on("hero.GetHeroInfoByHeroIdArray", GetHeroInfoByHeroIdArray)
+eventBus.on("hero.Marry", Marry)
+eventBus.on("hero.ChangeName", ChangeName)
 
 eventBus.on("copyinfo.GetCopyInfo", GetCopyInfo)
 

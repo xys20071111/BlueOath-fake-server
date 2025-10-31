@@ -31,7 +31,8 @@ interface HeroInfo {
 interface BasicHeroInfo {
     id: number
     TemplateId?: number
-    isMarried: boolean
+    isMarried: boolean | number
+    marryType: number
     Level: number
     Name?: string
     Locked?: boolean
@@ -200,10 +201,21 @@ export class Player {
         return this.clientType
     }
 
+    public setHeroMarry(id: number, type: number) {
+        this.heroInfo[id].isMarried = Math.round(Date.now() / 1000)
+        this.heroInfo[id].marryType = type
+        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+    }
+
+    public setHeroName(id: number, name: string) {
+        this.heroInfo[id].Name = name
+        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+    }
+
     public getHeroBag(): Array<HeroInfo> {
         const heros: Array<HeroInfo> = []
         this.heroInfo.forEach((v, k) => {
-            heros.push({
+            const heroInfo = {
                 HeroId: k,
                 TemplateId: v.TemplateId ?? v.id * 10 + 1,
                 Equips: [],
@@ -224,14 +236,18 @@ export class Player {
                 Mood: 1500000, // 最大情绪值,
                 MarryTime: v.isMarried ? Math.round(Date.now() / 1000) : 0,
                 UpdateTime: 0,
-                MarryType: 1,
+                MarryType: v.marryType,
                 Fashioning: v.id,
                 ArrRemouldEffect: [],
                 RemouldLV: 0,
                 AdvLv: 0,
                 EquipEffects: [],
                 CombinationInfo: []
-            })
+            }
+            if (typeof(v.isMarried) === 'number') {
+                heroInfo.MarryTime = v.isMarried
+            }
+            heros.push(heroInfo)
         })
         return heros
     }

@@ -237,10 +237,6 @@ function sendInitMessages(socket: Socket, player: Player, callbackHandler: numbe
                 num: 10000
             },
             {
-                templateId: 14005,
-                num: 10000
-            },
-            {
                 templateId: 14011,
                 num: 10000
             },

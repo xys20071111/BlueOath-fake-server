@@ -3,6 +3,7 @@ import protobuf from "protobufjs"
 import { createResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
 import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts"
+import { discussDb } from "../db.ts";
 
 const pb = protobuf.loadSync('./raw-protobuf/discuss.proto')
 const TGetDiscussRet = pb.lookupType("discuss.TGetDiscussRet")
@@ -28,8 +29,6 @@ interface DiscussInfo {
     MsgInfo: MsgInfo[]
     nextMsgId: number
 }
-
-const discussDb = await Deno.openKv("./serverData/discuss.db")
 
 export async function GetDiscuss(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
     const parsedArgs = TGetDiscussArg.decode(args).toJSON()

@@ -3,7 +3,7 @@ import { Socket } from "node:net"
 import { socketPlayerMap } from "./utils/socketMaps.ts";
 import { GetUserList, Login } from "./logic/login.ts";
 import { GetSupply, GetUserInfo, Refresh, SetUserSecretary, UserLogin } from "./logic/user.ts"
-import { GetBarrageById } from "./logic/chat.ts";
+import { ChangeWorldChannel, GetBarrageById, SendMessage } from "./logic/chat.ts";
 import { PlotReward, Setting } from "./logic/guide.ts";
 import { SavePrefs } from "./logic/prefs.ts";
 import { GetNotesList } from "./logic/buildnotes.ts";
@@ -16,6 +16,8 @@ import { AddBehavior } from "./logic/illustrate.ts";
 import { GetList, /*CreateGuild*/ } from "./logic/guild.ts";
 import { AddBuilding, SaveTactic, SetHero, UpdateHeroAddition, UpgradeBuilding, EmptyReceive } from "./logic/building.ts";
 import { GetBathroomInfo } from "./logic/bathroom.ts";
+import { GetShopsInfo } from "./logic/shop.ts";
+import { GetFriendMainData, GetRecommendList } from "./logic/friend.ts";
 
 class EventBus extends EventEmitter {
     // 重写一下emit函数，检查socket是不是已经登录了
@@ -46,6 +48,8 @@ eventBus.on("user.Refresh", Refresh)
 eventBus.on("user.GetSupply", GetSupply)
 
 eventBus.on("chat.GetBarrageById", GetBarrageById)
+eventBus.on("chat.SendMessage", SendMessage)
+eventBus.on("chat.ChangeWorldChannel", ChangeWorldChannel)
 
 eventBus.on("guide.PlotReward", PlotReward)
 eventBus.on("guide.Setting", Setting)
@@ -87,3 +91,8 @@ eventBus.on("building.ReceiveAll", (socket, _args, callbackHandler, token) => {
 })
 
 eventBus.on("bathroom.GetBathroomInfo", GetBathroomInfo)
+
+eventBus.on("shop.GetShopsInfo", GetShopsInfo)
+
+eventBus.on("friend.GetFriendMainData", GetFriendMainData)
+eventBus.on("friend.GetRecommendList", GetRecommendList)

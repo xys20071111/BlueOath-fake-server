@@ -5,7 +5,6 @@ import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
 
 const pb = protobuf.loadSync("./raw-protobuf/illustrate.proto")
 const TIllustrateBehaviourArgs = pb.lookupType("illustrate.TIllustrateBehaviourArgs")
-const TIllustrateInfoRet = pb.lookupType("illustrate.TIllustrateInfoRet")
 
 export function AddBehavior(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
     const player = socketPlayerMap.get(socket)!

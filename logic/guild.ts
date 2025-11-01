@@ -1,7 +1,7 @@
 import { Socket } from "node:net";
 import protobuf from "protobufjs"
 import { createResponsePacket } from "../utils/createResponsePacket.ts";
-import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
+import { getSeq } from "../utils/socketMaps.ts";
 
 interface BaseGuildInfo {
     GuildId: number

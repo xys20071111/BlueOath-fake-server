@@ -22,11 +22,11 @@ const TUserCopyInfo = copyPb.lookupType("copy.TUserCopyInfo")
 const equipPb = protobuf.loadSync("./raw-protobuf/equip.proto")
 const TEquipList = equipPb.lookupType("equip.TEquipList")
 
-const buildingPb = protobuf.loadSync("./raw-protobuf/building.proto")
-const TUserBuildingInfo = buildingPb.lookupType("building.TUserBuildingInfo")
-
 const bagPb = protobuf.loadSync("./raw-protobuf/bag.proto")
 const TBagInfoRet = bagPb.lookupType("bag.TBagInfoRet")
+
+const chatPb = protobuf.loadSync("./raw-protobuf/chat.proto")
+const TChatInfoRet = chatPb.lookupType("chat.TChatInfoRet")
 
 export function UserLogin(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
     const resData = TRetLogin.create({
@@ -73,7 +73,7 @@ export function SetUserOrderRecord(socket: Socket, _args: Uint8Array, callbackHa
     socket.write(createResponsePacket("user.SetUserOrderRecord", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
 }
 
-function sendInitMessages(socket: Socket, player: Player, callbackHandler: number, token: string) {
+async function sendInitMessages(socket: Socket, player: Player, callbackHandler: number, token: string) {
     const encoder = new TextEncoder()
     // 基础用户信息
     const userInfo = player.getUserInfo()
@@ -104,59 +104,59 @@ function sendInitMessages(socket: Socket, player: Player, callbackHandler: numbe
         BaseInfo: [
             {
                 BaseId: 0,
-                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+                FirstPassTime: Math.round(Date.now() / 1000),
             },
             {
                 BaseId: 1,
-                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+                FirstPassTime: Math.round(Date.now() / 1000),
             },
             {
                 BaseId: 2,
-                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+                FirstPassTime: Math.round(Date.now() / 1000),
             },
             {
                 BaseId: 3,
-                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+                FirstPassTime: Math.round(Date.now() / 1000),
             },
             {
                 BaseId: 4,
-                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+                FirstPassTime: Math.round(Date.now() / 1000),
             },
             {
                 BaseId: 5,
-                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+                FirstPassTime: Math.round(Date.now() / 1000),
             },
             {
                 BaseId: 6,
-                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+                FirstPassTime: Math.round(Date.now() / 1000),
             },
             {
                 BaseId: 7,
-                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+                FirstPassTime: Math.round(Date.now() / 1000),
             },
             {
                 BaseId: 8,
-                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+                FirstPassTime: Math.round(Date.now() / 1000),
             },
             {
                 BaseId: 9,
-                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+                FirstPassTime: Math.round(Date.now() / 1000),
             },
             {
                 BaseId: 10,
-                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+                FirstPassTime: Math.round(Date.now() / 1000),
             },
             {
                 BaseId: 11,
-                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+                FirstPassTime: Math.round(Date.now() / 1000),
             },
             {
                 BaseId: 12,
-                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+                FirstPassTime: Math.round(Date.now() / 1000),
             },
             {
                 BaseId: 13,
-                FirstPassTime: 0, // Math.round(Date.now() / 1000),
+                FirstPassTime: Math.round(Date.now() / 1000),
             }
         ],
         MaxCopyId: 1,
@@ -272,4 +272,18 @@ function sendInitMessages(socket: Socket, player: Player, callbackHandler: numbe
     socket.write(createResponsePacket("illustrate.custom.IllustrateInfo", encoder.encode(illustrateResData), callbackHandler, token, getSeq(socket)))
     // 基建
     socket.write(createResponsePacket("building.custom.UpdateBuildingInfo", encoder.encode(JSON.stringify(player.getBuildingInfo())), callbackHandler, token, getSeq(socket)))
+    // 聊天
+    // 日后再实现发送历史聊天记录
+    const chatData = TChatInfoRet.create({
+        WorldNum: 1,
+        WorldMsg: [],
+        GuildMsg: [],
+        TeamMsg: [],
+        SysMsg: [],
+        BanMsg: "",
+        BanEndTime: 0,
+        FriendMsg: [],
+        PersonalMsg: []
+    })
+    socket.write(createResponsePacket("chat.ChatInfo", TChatInfoRet.encode(chatData).finish(), callbackHandler, token, getSeq(socket)))
 }

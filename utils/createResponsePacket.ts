@@ -21,7 +21,7 @@ function createFinalPacket(payload: Uint8Array) {
     return finalPacketBytes;
 }
 
-export function createResponsePacket(method: string, ret: Uint8Array, callbackHandler: number, token: string | null, seq: number) {
+export function createResponsePacket(method: string, ret: Uint8Array, callbackHandler: number | null, token: string | null, seq: number) {
     const resData = TResponse.create({
         Err: 0,
         ErrMsg: "",

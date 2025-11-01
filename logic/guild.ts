@@ -2,6 +2,7 @@ import { Socket } from "node:net";
 import protobuf from "protobufjs"
 import { createResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq } from "../utils/socketMaps.ts";
+import { guildDb } from "../db.ts";
 
 interface BaseGuildInfo {
     GuildId: number
@@ -21,8 +22,6 @@ interface BaseGuildInfo {
     Power: number
     Honor: number
 }
-
-const guildDb = await Deno.openKv("./serverData/guild.db")
 
 const pb = protobuf.loadSync("./raw-protobuf/guild.proto")
 const TArgGetGuildList = pb.lookupType("guild.TArgGetGuildList")

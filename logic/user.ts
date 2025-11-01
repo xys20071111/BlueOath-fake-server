@@ -4,6 +4,8 @@ import { createResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
 import { Player } from "../player.ts";
 import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts";
+import { generateChatMsg, WorldChatMessage } from "./chat.ts";
+import { chatDb } from "../db.ts";
 
 const playerPb = protobuf.loadSync("./raw-protobuf/player.proto")
 const TRetLogin = playerPb.lookupType("player.TRetLogin")
@@ -273,10 +275,18 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
     // 基建
     socket.write(createResponsePacket("building.custom.UpdateBuildingInfo", encoder.encode(JSON.stringify(player.getBuildingInfo())), callbackHandler, token, getSeq(socket)))
     // 聊天
-    // 日后再实现发送历史聊天记录
+    const historyIter = chatDb.list<WorldChatMessage>({
+        start: [`WorldChat`, Date.now() - 600000],
+        end: [`WorldChat`, Date.now()],
+    })
+    const chatHistory: any[] = []
+    for await (const item of historyIter) {
+        const { sender, message, type } = item.value
+        chatHistory.push(generateChatMsg(sender, message, type))
+    }
     const chatData = TChatInfoRet.create({
-        WorldNum: 1,
-        WorldMsg: [],
+        WorldNum: 0,
+        WorldMsg: chatHistory,
         GuildMsg: [],
         TeamMsg: [],
         SysMsg: [],

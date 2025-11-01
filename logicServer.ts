@@ -1,7 +1,7 @@
 import { createServer } from "node:net";
 import protobuf from "protobufjs"
 import { eventBus } from "./logicEventBus.ts";
-import { socketSeqMap } from "./utils/socketMaps.ts";
+import { socketPlayerMap, socketSeqMap } from "./utils/socketMaps.ts";
 
 const pb = protobuf.loadSync("./raw-protobuf/net_type.proto")
 const TRequest = pb.lookupType("net_type.TRequest")
@@ -9,7 +9,10 @@ const TRequest = pb.lookupType("net_type.TRequest")
 const server = createServer((socket) => {
     socketSeqMap.set(socket, 0)
     socket.on("error", (e) => {
-        console.error(e)
+        socketPlayerMap.delete(socket)
+    })
+    socket.on("close", () => {
+        socketPlayerMap.delete(socket)
     })
     socket.on("data", (data) => {
         let reqData: any = null

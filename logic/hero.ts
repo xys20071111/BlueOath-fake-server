@@ -20,7 +20,7 @@ export function LockHero(socket: Socket, args: Uint8Array, callbackHandler: numb
     const player = socketPlayerMap.get(socket)!
     player.setHeroLock(parsedArgs.HeroId, parsedArgs.lock)
     socket.write(createResponsePacket("hero.LockHero", TLockHeroRet.encode(TLockHeroRet.create({
-        Ret: parsedArgs.lock ? 0 : 1
+        Ret: parsedArgs.lock ? 1 : 0
     })).finish(), callbackHandler, token, getSeq(socket)))
     // 更新舰娘信息
     sendShipInfo(socket, player, callbackHandler, token)

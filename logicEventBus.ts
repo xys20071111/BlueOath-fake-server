@@ -18,6 +18,8 @@ import { AddBuilding, SaveTactic, SetHero, UpdateHeroAddition, UpgradeBuilding, 
 import { GetBathroomInfo } from "./logic/bathroom.ts";
 import { GetShopsInfo } from "./logic/shop.ts";
 import { GetFriendMainData, GetRecommendList } from "./logic/friend.ts";
+import { CacheData } from "./logic/cachedata.ts";
+import { BuildShip } from "./logic/buildShip.ts";
 
 class EventBus extends EventEmitter {
     // 重写一下emit函数，检查socket是不是已经登录了
@@ -96,3 +98,7 @@ eventBus.on("shop.GetShopsInfo", GetShopsInfo)
 
 eventBus.on("friend.GetFriendMainData", GetFriendMainData)
 eventBus.on("friend.GetRecommendList", GetRecommendList)
+
+eventBus.on("cachedata.CacheData", CacheData)
+
+eventBus.on("buildship.BuildShip", BuildShip)

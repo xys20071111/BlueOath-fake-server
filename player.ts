@@ -31,11 +31,12 @@ interface HeroInfo {
 interface BasicHeroInfo {
     id: number
     TemplateId?: number
-    isMarried: boolean | number
-    marryType: number
+    isMarried?: boolean | number
+    marryType?: number
     Level: number
     Name?: string
     Locked?: boolean
+    CreateTime?: number
 }
 
 interface Tactic {
@@ -224,7 +225,7 @@ export class Player {
                 Exp: 100,
                 Advance: 5,
                 Intensify: [],
-                CreateTime: Math.round(Date.now() / 1000),
+                CreateTime: v.CreateTime ? v.CreateTime : Math.round(Date.now() / 1000),
                 CurHp: 10000000000, // 最大hp
                 CurGasoline: 10000000000,
                 CurAmmunition: 10000000000,
@@ -237,7 +238,7 @@ export class Player {
                 Mood: 1500000, // 最大情绪值,
                 MarryTime: v.isMarried ? Math.round(Date.now() / 1000) : 0,
                 UpdateTime: 0,
-                MarryType: v.marryType,
+                MarryType: v.marryType ? v.marryType : 0,
                 Fashioning: v.id,
                 ArrRemouldEffect: [],
                 RemouldLV: 0,
@@ -245,7 +246,7 @@ export class Player {
                 EquipEffects: [],
                 CombinationInfo: []
             }
-            if (typeof(v.isMarried) === 'number') {
+            if (typeof (v.isMarried) === 'number') {
                 heroInfo.MarryTime = v.isMarried
             }
             heros.push(heroInfo)
@@ -314,15 +315,15 @@ export class Player {
 
     public getBuildingInfo() {
         const lastUpdateTime = Math.round(Date.now() / 1000)
-        for(let i = 0; i < this.buildingInfo.BuildingInfos.length; i++) {
-                this.buildingInfo.BuildingInfos[i].LastUpdateTime = lastUpdateTime
+        for (let i = 0; i < this.buildingInfo.BuildingInfos.length; i++) {
+            this.buildingInfo.BuildingInfos[i].LastUpdateTime = lastUpdateTime
         }
         this.buildingInfo.WorkerUpdateTime = lastUpdateTime
         return this.buildingInfo
     }
 
     public setBuildingTactics(id: number, tactic: BuildingTactic[]) {
-        for(let i = 0; i < this.buildingInfo.BuildingInfos.length; i++) {
+        for (let i = 0; i < this.buildingInfo.BuildingInfos.length; i++) {
             if (this.buildingInfo.BuildingInfos[i].Id === id) {
                 this.buildingInfo.BuildingInfos[i].TacticList = tactic
                 break
@@ -332,7 +333,7 @@ export class Player {
     }
 
     public buildingUpgrade(id: number) {
-        for(let i = 0; i < this.buildingInfo.BuildingInfos.length; i++) {
+        for (let i = 0; i < this.buildingInfo.BuildingInfos.length; i++) {
             if (this.buildingInfo.BuildingInfos[i].Id === id) {
                 this.buildingInfo.BuildingInfos[i].Level++
                 break
@@ -342,7 +343,7 @@ export class Player {
     }
 
     public buildingSetHero(id: number, HeroIdList: number[]) {
-        for(let i = 0; i < this.buildingInfo.BuildingInfos.length; i++) {
+        for (let i = 0; i < this.buildingInfo.BuildingInfos.length; i++) {
             if (this.buildingInfo.BuildingInfos[i].Id === id) {
                 this.buildingInfo.BuildingInfos[i].HeroList = HeroIdList
                 break
@@ -373,5 +374,17 @@ export class Player {
         })
         Deno.writeTextFile(`./playerData/${this.uname}/BuildingInfo.json`, JSON.stringify(this.buildingInfo, null, 4))
         return id
+    }
+
+    public addShip(id: number, templateId: number) {
+        // 在抽卡功能写完前不要向文件内写入
+        this.heroInfo.push({
+            id,
+            TemplateId: templateId,
+            CreateTime: Math.round(Date.now() / 1000),
+            isMarried: false,
+            Level: 1,
+        })
+        return this.heroInfo.length - 1
     }
 }

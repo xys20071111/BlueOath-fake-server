@@ -6,6 +6,7 @@ import { Player } from "../player.ts";
 import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts";
 import { generateChatMsg, WorldChatMessage } from "./chat.ts";
 import { chatDb } from "../db.ts";
+import { TEN_DAYS_IN_SECONDS } from "../constant.ts";
 
 const playerPb = protobuf.loadSync("./raw-protobuf/player.proto")
 const TRetLogin = playerPb.lookupType("player.TRetLogin")
@@ -29,6 +30,9 @@ const TBagInfoRet = bagPb.lookupType("bag.TBagInfoRet")
 
 const chatPb = protobuf.loadSync("./raw-protobuf/chat.proto")
 const TChatInfoRet = chatPb.lookupType("chat.TChatInfoRet")
+
+const gachaPb = protobuf.loadSync("./raw-protobuf/buildship.proto")
+const TBuildShipInfo = gachaPb.lookupType("buildship.TBuildShipInfo")
 
 export function UserLogin(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
     const resData = TRetLogin.create({
@@ -257,6 +261,18 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
             {
                 templateId: 10180,
                 num: 10000
+            },
+            {
+                templateId: 10007,
+                num: 10000
+            },
+            {
+                templateId: 10181,
+                num: 10000
+            },
+            {
+                templateId: 18000,
+                num: 10000
             }
         ],
         useInfo: []
@@ -296,4 +312,24 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
         PersonalMsg: []
     })
     socket.write(createResponsePacket("chat.ChatInfo", TChatInfoRet.encode(chatData).finish(), callbackHandler, token, getSeq(socket)))
+    // 抽卡信息
+    const gachaData = TBuildShipInfo.create({
+        DrawInfo: [],
+        DispInfo: [
+            { Id: 1, Count: 0 },
+            { Id: 1000, Count: 0 },
+        ],
+        RefreshInfo: [],
+        TotalCount: [],
+        SpecialInfo: [],
+        UsedBoxInfo: [],
+        UsedRewardInfo: [],
+        ResetTypeCount: [],
+        ExtractInfo: [],
+        CloseTime: [
+            { Id: 1, CloseTime: Math.round(Date.now() / 1000) + TEN_DAYS_IN_SECONDS}
+        ],
+        RewardChange: []
+    })
+    socket.write(createResponsePacket("buildship.BuildShipInfo", TBuildShipInfo.encode(gachaData).finish(), callbackHandler, token, getSeq(socket)))
 }

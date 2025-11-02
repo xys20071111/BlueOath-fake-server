@@ -181,6 +181,7 @@ export class Player {
         this.illustrateInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/IllustrateInfo.json`))
         this.buildingInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/BuildingInfo.json`))
         this.userInfo.HeadShow = this.heroInfo[this.userInfo.SecretaryId].isMarried ? 1 : 0
+        this.userInfo.Head = this.heroInfo[this.userInfo.SecretaryId].id
     }
 
     public refreshUserInfo() {

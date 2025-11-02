@@ -51,35 +51,37 @@ export async function SendMessage(socket: Socket, args: Uint8Array, callbackHand
     })
     const resPacket = createResponsePacket("chat.SendMessage", TChatSendMessageRet.encode(resData).finish(), callbackHandler, token, getSeq(socket))
     socket.write(resPacket)
-    // 发送新消息
-    const chatData = TChatMsg.create({
-        UserInfo: {
-            Uid: senderInfo.Uid,
-            ServerId: senderInfo.ServerId,
-            Uname: senderInfo.Uname,
-            Level: senderInfo.Level,
-            Head: heroBag[senderInfo.SecretaryId].TemplateId,
-            HeadFrame: 0,
-            HeadShow: senderInfo.HeadShow,
-            Fashioning: heroBag[senderInfo.SecretaryId].Fashioning,
-            GuildId: 0,
-            GuildName: "",
-            TeacherPrestige: 0,
-            SecretaryTid: heroBag[senderInfo.SecretaryId].TemplateId,
-            Pid: senderInfo.Uid
-        },
-        Channel: parsedArgs.Channel,
-        TemplateId: 0,
-        SendTime: Math.round(Date.now() / 1000),
-        Message: parsedArgs.Message,
-        MsgType: parsedArgs.MsgType,
-        Params: []
-    })
     socketPlayerMap.keys().forEach((target) => {
         if (target !== socket) {
+            const targetPlayer = socketPlayerMap.get(target)!
+            const clientType = targetPlayer.getClientType()
+            // 发送新消息
+            const chatData = TChatMsg.create({
+                UserInfo: {
+                    Uid: senderInfo.Uid,
+                    ServerId: senderInfo.ServerId,
+                    Uname: senderInfo.Uname,
+                    Level: senderInfo.Level,
+                    Head: clientType === 0 ? heroBag[senderInfo.SecretaryId].TemplateId : heroBag[senderInfo.SecretaryId].Fashioning,
+                    HeadFrame: 0,
+                    HeadShow: senderInfo.HeadShow,
+                    Fashioning: heroBag[senderInfo.SecretaryId].Fashioning,
+                    GuildId: 0,
+                    GuildName: "",
+                    TeacherPrestige: 0,
+                    SecretaryTid: heroBag[senderInfo.SecretaryId].TemplateId,
+                    Pid: senderInfo.Uid
+                },
+                Channel: parsedArgs.Channel,
+                TemplateId: 0,
+                SendTime: Math.round(Date.now() / 1000),
+                Message: parsedArgs.Message,
+                MsgType: parsedArgs.MsgType,
+                Params: []
+            })
             target.write(createResponsePacket("chat.NewMessage", TChatMsg.encode(chatData).finish(), null, null, getSeq(socket)))
         }
-        
+
     })
 }
 

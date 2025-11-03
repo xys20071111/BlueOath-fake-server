@@ -2,7 +2,7 @@ import { Socket } from "node:net";
 import protobuf from "protobufjs"
 import { createResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
-import { Player } from "../player.ts";
+import { Player } from "../entity/player.ts";
 import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts";
 import { generateChatMsg, WorldChatMessage } from "./chat.ts";
 import { chatDb } from "../db.ts";
@@ -87,7 +87,7 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
     const userDataPacket = createResponsePacket("user.UpdateUserInfo", TGetUserInfoRet.encode(userInfoData).finish(), callbackHandler, token, getSeq(socket))
     socket.write(userDataPacket)
     // 舰队信息，不知道该发给哪个方法，用自定义方法强行写进去
-    const tactics = player.getTactics()
+    const tactics = player.getTactic().getTacticInfo()
     const tacticsData = JSON.stringify({
         MaxPower: 500,
         MinPower: 0,
@@ -96,7 +96,7 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
     const tacticsPacket = createResponsePacket("tactic.custom.ForceWriteFleetInfo", encoder.encode(tacticsData), callbackHandler, token, getSeq(socket))
     socket.write(tacticsPacket)
     // 舰娘信息
-    const heroInfo = player.getHeroBag()
+    const heroInfo = player.getHeroInfo().getHeroBag()
     const heroInfoData = THeroInfo.create({
         HeroInfo: heroInfo,
         HeroBagSize: 1000,
@@ -286,10 +286,10 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
     })
     socket.write(createResponsePacket("equip.UpdateEquipBagData", TEquipList.encode(equipData).finish(), callbackHandler, token, getSeq(socket)))
     // 图鉴
-    const illustrateResData = JSON.stringify(player.getIllustrateInfo())
+    const illustrateResData = JSON.stringify(player.getIllustrate().getIllustrateInfo())
     socket.write(createResponsePacket("illustrate.custom.IllustrateInfo", encoder.encode(illustrateResData), callbackHandler, token, getSeq(socket)))
     // 基建
-    socket.write(createResponsePacket("building.custom.UpdateBuildingInfo", encoder.encode(JSON.stringify(player.getBuildingInfo())), callbackHandler, token, getSeq(socket)))
+    socket.write(createResponsePacket("building.custom.UpdateBuildingInfo", encoder.encode(JSON.stringify(player.getUserBuilding().getBuildingInfo())), callbackHandler, token, getSeq(socket)))
     // 聊天
     const historyIter = chatDb.list<WorldChatMessage>({
         start: [`WorldChat`, Date.now() - 600000],

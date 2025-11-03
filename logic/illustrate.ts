@@ -10,8 +10,8 @@ export function AddBehavior(socket: Socket, args: Uint8Array, callbackHandler: n
     const player = socketPlayerMap.get(socket)!
     const parsedArgs = TIllustrateBehaviourArgs.decode(args).toJSON()
     for (const item of parsedArgs.BehaviourItem) {
-        player.setHeroIllustrate(item.IllustrateId, item.BehaviourId)
+        player.getIllustrate().setHeroIllustrate(item.IllustrateId, item.BehaviourId)
     }
-    const illustrateResData = JSON.stringify(player.getIllustrateInfo())
+    const illustrateResData = JSON.stringify(player.getIllustrate().getIllustrateInfo())
     socket.write(createResponsePacket("illustrate.custom.IllustrateInfo", new TextEncoder().encode(illustrateResData), callbackHandler, token, getSeq(socket)))
 }

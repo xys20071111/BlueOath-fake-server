@@ -2,7 +2,7 @@ import { Socket } from "node:net";
 import protobuf from "protobufjs"
 import { createResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
-import { Player } from "../player.ts";
+import { Player } from "../entity/player.ts";
 
 const playerPb = protobuf.loadSync("./raw-protobuf/player.proto")
 const TArgLogin = playerPb.lookupType("player.TArgLogin")

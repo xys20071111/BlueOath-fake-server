@@ -9,6 +9,6 @@ const TSelfTactis = pb.lookupType("tactic.TSelfTactis")
 export function SetHerosTactic(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
     const parsedArgs = TSelfTactis.decode(args)
     const player = socketPlayerMap.get(socket)!
-    player.setTactics(parsedArgs.toJSON().tactics)
+    player.getTactic().setTacticInfo(parsedArgs.toJSON().tactics)
     socket.write(createResponsePacket("tactic.SetHerosTactic", args, callbackHandler, token, getSeq(socket)))
 }

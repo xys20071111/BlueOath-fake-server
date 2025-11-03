@@ -3,7 +3,7 @@ import protobuf from "protobufjs"
 import { createResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
 import { chatDb } from "../db.ts";
-import { Player } from "../player.ts";
+import { Player } from "../entity/player.ts";
 
 export interface WorldChatMessage {
     sender: string
@@ -36,7 +36,7 @@ export async function SendMessage(socket: Socket, args: Uint8Array, callbackHand
     // 获取发送者信息
     const player = socketPlayerMap.get(socket)!
     const senderInfo = player.getUserInfo()
-    const heroBag = player.getHeroBag()
+    const secretary = player.getHeroInfo().getHeroById(senderInfo.SecretaryId)
     // 处理一下存到数据库里
     const parsedArgs = TChatSendMessageArg.decode(args).toJSON()
     const msg: WorldChatMessage = {
@@ -62,14 +62,14 @@ export async function SendMessage(socket: Socket, args: Uint8Array, callbackHand
                     ServerId: senderInfo.ServerId,
                     Uname: senderInfo.Uname,
                     Level: senderInfo.Level,
-                    Head: clientType === 0 ? heroBag[senderInfo.SecretaryId].TemplateId : heroBag[senderInfo.SecretaryId].Fashioning,
+                    Head: clientType === 0 ? secretary.TemplateId : secretary.Fashioning,
                     HeadFrame: 0,
                     HeadShow: senderInfo.HeadShow,
-                    Fashioning: heroBag[senderInfo.SecretaryId].Fashioning,
+                    Fashioning: secretary.Fashioning,
                     GuildId: 0,
                     GuildName: "",
                     TeacherPrestige: 0,
-                    SecretaryTid: heroBag[senderInfo.SecretaryId].TemplateId,
+                    SecretaryTid: secretary.TemplateId,
                     Pid: senderInfo.Uid
                 },
                 Channel: parsedArgs.Channel,
@@ -92,21 +92,21 @@ export function ChangeWorldChannel(socket: Socket, args: Uint8Array, callbackHan
 export function generateChatMsg(sender: string, message: string, type: number) {
     const senderPlayer = new Player(sender, 0)
     const senderInfo = senderPlayer.getUserInfo()
-    const heroBag = senderPlayer.getHeroBag()
+    const secretary = senderPlayer.getHeroInfo().getHeroById(senderInfo.SecretaryId)
     return {
         UserInfo: {
             Uid: senderInfo.Uid,
             ServerId: senderInfo.ServerId,
             Uname: senderInfo.Uname,
             Level: senderInfo.Level,
-            Head: heroBag[senderInfo.SecretaryId].TemplateId,
+            Head: secretary.TemplateId,
             HeadFrame: 0,
             HeadShow: senderInfo.HeadShow,
-            Fashioning: heroBag[senderInfo.SecretaryId].Fashioning,
+            Fashioning: secretary.Fashioning,
             GuildId: 0,
             GuildName: "",
             TeacherPrestige: 0,
-            SecretaryTid: heroBag[senderInfo.SecretaryId].TemplateId,
+            SecretaryTid: secretary.TemplateId,
             Pid: senderInfo.Uid
         },
         Channel: 901,

@@ -24,7 +24,7 @@ export function SaveTactic(socket: Socket, args: Uint8Array, callbackHandler: nu
     console.log(parsedArgs.TacticList)
     if (parsedArgs.TacticList) {
         const id = parsedArgs.TacticList[0].BuildingId
-        player.setBuildingTactics(id, parsedArgs.TacticList)
+        player.getUserBuilding().setBuildingTactics(id, parsedArgs.TacticList)
     }
     socket.write(createResponsePacket("building.SaveTactic", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
 }
@@ -32,31 +32,31 @@ export function SaveTactic(socket: Socket, args: Uint8Array, callbackHandler: nu
 export function AddBuilding(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
     const player = socketPlayerMap.get(socket)!
     const parsedArgs = TAddBuildingArg.decode(args).toJSON()
-    const BuildingId = player.addBuilding(parsedArgs.Tid, parsedArgs.Index)
+    const BuildingId = player.getUserBuilding().addBuilding(parsedArgs.Tid, parsedArgs.Index)
     const resData = TAddBuildingRet.create({
         BuildingId
     })
     socket.write(createResponsePacket("building.AddBuilding", TAddBuildingArg.encode(resData).finish(), callbackHandler, token, getSeq(socket)))
     // 发送新的基建信息
-    socket.write(createResponsePacket("building.custom.UpdateBuildingInfo", encoder.encode(JSON.stringify(player.getBuildingInfo())), callbackHandler, token, getSeq(socket)))
+    socket.write(createResponsePacket("building.custom.UpdateBuildingInfo", encoder.encode(JSON.stringify(player.getUserBuilding().getBuildingInfo())), callbackHandler, token, getSeq(socket)))
 }
 
 export function SetHero(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
     const player = socketPlayerMap.get(socket)!
     const parsedArgs = TSetHeroArg.decode(args).toJSON()
-    player.buildingSetHero(parsedArgs.BuildingId, parsedArgs.HeroIdList)
+    player.getUserBuilding().buildingSetHero(parsedArgs.BuildingId, parsedArgs.HeroIdList)
     socket.write(createResponsePacket("building.SetHero", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
     // 发送新的基建信息
-    socket.write(createResponsePacket("building.custom.UpdateBuildingInfo", encoder.encode(JSON.stringify(player.getBuildingInfo())), callbackHandler, token, getSeq(socket)))
+    socket.write(createResponsePacket("building.custom.UpdateBuildingInfo", encoder.encode(JSON.stringify(player.getUserBuilding().getBuildingInfo())), callbackHandler, token, getSeq(socket)))
 }
 
 export function UpgradeBuilding(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
     const player = socketPlayerMap.get(socket)!
     const parsedArgs = TUpgradeBuildingArg.decode(args).toJSON()
-    player.buildingUpgrade(parsedArgs.BuildingId)
+    player.getUserBuilding().buildingUpgrade(parsedArgs.BuildingId)
     socket.write(createResponsePacket("building.UpgradeBuilding", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
     // 发送新的基建信息
-    socket.write(createResponsePacket("building.custom.UpdateBuildingInfo", encoder.encode(JSON.stringify(player.getBuildingInfo())), callbackHandler, token, getSeq(socket)))
+    socket.write(createResponsePacket("building.custom.UpdateBuildingInfo", encoder.encode(JSON.stringify(player.getUserBuilding().getBuildingInfo())), callbackHandler, token, getSeq(socket)))
 }
 
 export function EmptyReceive(socket: Socket, method: string, callbackHandler: number, token: string) {

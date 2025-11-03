@@ -19,13 +19,13 @@ export function BuildShip(socket: Socket, args: Uint8Array, callbackHandler: num
                 Type: 2,
                 ConfigId: 10210511,
                 Num: 1,
-                Id: player.addShip(1021051, 10210511)
+                Id: player.getHeroInfo().addShip(1021051, 10210511)
             },
             {
                 Type: 2,
                 ConfigId: 30130111,
                 Num: 1,
-                Id: player.addShip(3013011, 30130111)
+                Id: player.getHeroInfo().addShip(3013011, 30130111)
             }
         ],
         SpReward: [],
@@ -33,7 +33,7 @@ export function BuildShip(socket: Socket, args: Uint8Array, callbackHandler: num
         IsChangeReward: false
     })
     // 舰娘信息
-    const heroInfo = player.getHeroBag()
+    const heroInfo = player.getHeroInfo().getHeroBag()
     const heroInfoData = THeroInfo.create({
         HeroInfo: heroInfo,
         HeroBagSize: 1000,

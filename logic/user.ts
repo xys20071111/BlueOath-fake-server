@@ -34,6 +34,9 @@ const TChatInfoRet = chatPb.lookupType("chat.TChatInfoRet")
 const gachaPb = protobuf.loadSync("./raw-protobuf/buildship.proto")
 const TBuildShipInfo = gachaPb.lookupType("buildship.TBuildShipInfo")
 
+const bathroomPb = protobuf.loadSync("./raw-protobuf/bathroom.proto")
+const TBathroomInfo = bathroomPb.lookupType("bathroom.TBathroomInfo")
+
 export function UserLogin(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
     const resData = TRetLogin.create({
         Ret: 'ok',
@@ -227,6 +230,10 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
         bagSize: 8000,
         bagInfo: [
             {
+                templateId: 150004,
+                num: 10000
+            },
+            {
                 templateId: 14001,
                 num: 10000
             },
@@ -327,9 +334,15 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
         ResetTypeCount: [],
         ExtractInfo: [],
         CloseTime: [
-            { Id: 1, CloseTime: Math.round(Date.now() / 1000) + TEN_DAYS_IN_SECONDS}
+            { Id: 1, CloseTime: Math.round(Date.now() / 1000) + TEN_DAYS_IN_SECONDS }
         ],
         RewardChange: []
     })
     socket.write(createResponsePacket("buildship.BuildShipInfo", TBuildShipInfo.encode(gachaData).finish(), callbackHandler, token, getSeq(socket)))
+    // 浴室
+    const resData = TBathroomInfo.create({
+        IsAllAuto: true,
+        HeroList: []
+    })
+    socket.write(createResponsePacket("bathroom.BathroomInfo", TBathroomInfo.encode(resData).finish(), callbackHandler, token, getSeq(socket)))
 }

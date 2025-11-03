@@ -37,6 +37,7 @@ interface BasicHeroInfo {
     Name?: string
     Locked?: boolean
     CreateTime?: number
+    deleted?: boolean
 }
 
 export class HeroBag {
@@ -69,34 +70,34 @@ export class HeroBag {
 
     public getHeroById(id: number) {
         return {
-                HeroId: 0,
-                TemplateId: this.heroInfo[id].TemplateId ?? this.heroInfo[id].id * 10 + 1,
-                Equips: [],
-                Lvl: this.heroInfo[id].Level,
-                Exp: 100,
-                Advance: 5,
-                Intensify: [],
-                CreateTime: this.heroInfo[id].CreateTime ? this.heroInfo[id].CreateTime : Math.round(Date.now() / 1000),
-                CurHp: 10000000000, // 最大hp
-                CurGasoline: 10000000000,
-                CurAmmunition: 10000000000,
-                Lock: this.heroInfo[id].Locked ? true : false,
-                PSkill: [],
-                Status: "",
-                Name: this.heroInfo[id].Name,
-                ChangeNameTime: 0,
-                Affection: 2000000, // 最大好感值
-                Mood: 1500000, // 最大情绪值,
-                MarryTime: this.heroInfo[id].isMarried ? Math.round(Date.now() / 1000) : 0,
-                UpdateTime: 0,
-                MarryType: this.heroInfo[id].marryType ? this.heroInfo[id].marryType : 0,
-                Fashioning: this.heroInfo[id].id,
-                ArrRemouldEffect: [],
-                RemouldLV: 0,
-                AdvLv: 0,
-                EquipEffects: [],
-                CombinationInfo: []
-            }
+            HeroId: id,
+            TemplateId: this.heroInfo[id].TemplateId ?? this.heroInfo[id].id * 10 + 1,
+            Equips: [],
+            Lvl: this.heroInfo[id].Level,
+            Exp: 100,
+            Advance: 5,
+            Intensify: [],
+            CreateTime: this.heroInfo[id].CreateTime ? this.heroInfo[id].CreateTime : Math.round(Date.now() / 1000),
+            CurHp: 10000000000, // 最大hp
+            CurGasoline: 10000000000,
+            CurAmmunition: 10000000000,
+            Lock: this.heroInfo[id].Locked ? true : false,
+            PSkill: [],
+            Status: "",
+            Name: this.heroInfo[id].Name,
+            ChangeNameTime: 0,
+            Affection: 2000000, // 最大好感值
+            Mood: 1500000, // 最大情绪值,
+            MarryTime: this.heroInfo[id].isMarried ? Math.round(Date.now() / 1000) : 0,
+            UpdateTime: 0,
+            MarryType: this.heroInfo[id].marryType ? this.heroInfo[id].marryType : 0,
+            Fashioning: this.heroInfo[id].id,
+            ArrRemouldEffect: [],
+            RemouldLV: 0,
+            AdvLv: 0,
+            EquipEffects: [],
+            CombinationInfo: []
+        }
     }
 
     public getHeroBag(): Array<HeroInfo> {
@@ -107,7 +108,7 @@ export class HeroBag {
                 TemplateId: v.TemplateId ?? v.id * 10 + 1,
                 Equips: [],
                 Lvl: v.Level,
-                Exp: 100,
+                Exp: 0,
                 Advance: 5,
                 Intensify: [],
                 CreateTime: v.CreateTime ? v.CreateTime : Math.round(Date.now() / 1000),
@@ -144,15 +145,40 @@ export class HeroBag {
         Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
     }
 
-    public addShip(id: number, templateId: number) {
+    public addShip(ships: Array<{ Id: number; TemplateId: number }>) {
         // 在抽卡功能写完前不要向文件内写入
-        this.heroInfo.push({
-            id,
-            TemplateId: templateId,
-            CreateTime: Math.round(Date.now() / 1000),
-            isMarried: false,
-            Level: 1,
-        })
-        return this.heroInfo.length - 1
+        const ids: Array<{ Id: number; TemplateId: number }> = []
+        for (const item of ships) {
+            this.heroInfo.push({
+                id: item.Id,
+                TemplateId: item.TemplateId,
+                CreateTime: Math.round(Date.now() / 1000),
+                isMarried: false,
+                Level: 1,
+            })
+            ids.push({
+                Id: this.heroInfo.length - 1,
+                TemplateId: item.TemplateId
+            })
+        }
+        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+        return ids
+    }
+
+    public addHeroLevel(id: number, num: number) {
+        this.heroInfo[id].Level += num
+        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+    }
+
+    public deleteShips(ids: Array<number>) {
+        for (const id of ids) {
+            this.heroInfo[id].deleted = true
+        }
+        for (let i = 0; i < this.heroInfo.length; i++) {
+            if (this.heroInfo[i].deleted) {
+                this.heroInfo.splice(i, 1)
+            }
+        }
+        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
     }
 }

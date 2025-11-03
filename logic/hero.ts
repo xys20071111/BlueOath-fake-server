@@ -11,6 +11,9 @@ const TLockHeroRet = pb.lookupType("hero.TLockHeroRet")
 const THeroInfo = pb.lookupType("hero.THeroInfo")
 const TMarryArg = pb.lookupType("hero.TMarryArg")
 const TChangeHeroNameArg = pb.lookupType("hero.TChangeHeroNameArg")
+const THeroAddExp = pb.lookupType("hero.THeroAddExp")
+const TRetireHeroArg = pb.lookupType("hero.TRetireHeroArg")
+const TRetireHeroRet = pb.lookupType("hero.TRetireHeroRet")
 
 export function LockHero(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
     const parsedArgs: {
@@ -44,6 +47,27 @@ export function ChangeName(socket: Socket, args: Uint8Array, callbackHandler: nu
     const parsedArgs = TChangeHeroNameArg.decode(args).toJSON()
     player.getHeroInfo().setHeroName(parsedArgs.HeroId, parsedArgs.Name)
     socket.write(createResponsePacket("hero.ChangeName", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
+    sendShipInfo(socket, player, callbackHandler, token)
+}
+
+export function AddExp(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
+    const parsedArgs = THeroAddExp.decode(args).toJSON()
+    // 偷个懒，一瓶省一级好了，反正物品数量是写死的
+    console.log(parsedArgs)
+    
+}
+
+//现在该方法会引发游戏显示错误，需要重启游戏才能解决
+export function RetireHero(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
+    const parsedArgs = TRetireHeroArg.decode(args).toJSON()
+    console.log(parsedArgs)
+    const player = socketPlayerMap.get(socket)!
+    const heroInfo = player.getHeroInfo()
+    heroInfo.deleteShips(parsedArgs.HeroIds)
+    const resData = TRetireHeroRet.create({
+        Reward: []
+    })
+    socket.write(createResponsePacket("hero.RetireHero", TRetireHeroRet.encode(resData).finish(), callbackHandler, token, getSeq(socket)))
     sendShipInfo(socket, player, callbackHandler, token)
 }
 

@@ -69,4 +69,16 @@ export class Illustrate {
         })
         Deno.writeTextFile(`./playerData/${this.uname}/IllustrateInfo.json`, JSON.stringify(this.illustrateInfo, null, 4))
     }
+
+    public addHeroIllustrate(id: number) {
+        this.illustrateInfo.IllustrateList.push({
+            IllustrateId: id,
+            GetTime: Math.round(Date.now() / 1000),
+            BehaviourList: [],
+            NewHero: true,
+            MarryCount: 0,
+            LikeTime: 0
+        })
+        Deno.writeTextFile(`./playerData/${this.uname}/IllustrateInfo.json`, JSON.stringify(this.illustrateInfo, null, 4))
+    }
 }

@@ -14,7 +14,7 @@ interface EquipInfo {
     RiseCommonEquips: Array<{ TemplateId: number; Num: number }>
 }
 
-enum ClientType {
+export enum ClientType {
     CN,
     JP
 }

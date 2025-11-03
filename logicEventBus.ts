@@ -8,18 +8,18 @@ import { PlotReward, Setting } from "./logic/guide.ts";
 import { SavePrefs } from "./logic/prefs.ts";
 import { GetNotesList } from "./logic/buildnotes.ts";
 import { SetHerosTactic } from "./logic/fleet.ts";
-import { ChangeName, GetHeroInfoByHeroIdArray, LockHero, Marry } from "./logic/hero.ts";
+import { AddExp, ChangeName, GetHeroInfoByHeroIdArray, LockHero, Marry, RetireHero } from "./logic/hero.ts";
 import { GetCopyInfo } from "./logic/copyinfo.ts";
 import { StartBase } from "./logic/copy.ts";
 import { GetDiscuss, Discuss, Like } from "./logic/discuss.ts";
-import { AddBehavior } from "./logic/illustrate.ts";
+import { AddBehavior, IllustrateNew } from "./logic/illustrate.ts";
 import { GetList, /*CreateGuild*/ } from "./logic/guild.ts";
 import { AddBuilding, SaveTactic, SetHero, UpdateHeroAddition, UpgradeBuilding, EmptyReceive } from "./logic/building.ts";
 import { GetBathroomInfo } from "./logic/bathroom.ts";
 import { GetShopsInfo } from "./logic/shop.ts";
 import { GetFriendMainData, GetRecommendList } from "./logic/friend.ts";
 import { CacheData } from "./logic/cachedata.ts";
-import { BuildShip } from "./logic/buildShip.ts";
+import { BuildShip } from "./logic/gacha.ts";
 
 class EventBus extends EventEmitter {
     // 重写一下emit函数，检查socket是不是已经登录了
@@ -66,6 +66,8 @@ eventBus.on("hero.LockHero", LockHero)
 eventBus.on("hero.GetHeroInfoByHeroIdArray", GetHeroInfoByHeroIdArray)
 eventBus.on("hero.Marry", Marry)
 eventBus.on("hero.ChangeName", ChangeName)
+eventBus.on("hero.AddExp", AddExp)
+eventBus.on("hero.RetireHero", RetireHero)
 
 eventBus.on("copyinfo.GetCopyInfo", GetCopyInfo)
 
@@ -76,6 +78,7 @@ eventBus.on("discuss.Discuss", Discuss)
 eventBus.on("discuss.Like", Like)
 
 eventBus.on("illustrate.AddBehaviour", AddBehavior)
+eventBus.on("illustrate.IllustrateNew", IllustrateNew)
 
 eventBus.on("guild.GetList", GetList)
 // eventBus.on("guild.Create", CreateGuild)

@@ -41,6 +41,7 @@ interface BasicHeroInfo {
     CreateTime?: number
     deleted?: boolean
     Exp: number
+    Skills?: { Id: number; Level: number }[]
 }
 
 export class HeroBag {
@@ -78,7 +79,7 @@ export class HeroBag {
             Equips: [],
             Lvl: this.heroInfo[id].Level,
             Exp: 100,
-            Advance: 5,
+            Advance: 0,
             Intensify: [],
             CreateTime: this.heroInfo[id].CreateTime ? this.heroInfo[id].CreateTime : Math.round(Date.now() / 1000),
             CurHp: 10000000000, // 最大hp
@@ -106,20 +107,29 @@ export class HeroBag {
     public getHeroBag(): Array<HeroInfo> {
         const heros: Array<HeroInfo> = []
         this.heroInfo.forEach((v, k) => {
+            const pskills = []
+            if (v.Skills) {
+                for (const item of v.Skills) {
+                    pskills.push({
+                        PSkillId: item.Id,
+                        Level: item.Level
+                    })
+                }
+            }
             const heroInfo = {
                 HeroId: k,
                 TemplateId: v.TemplateId ?? v.id * 10 + 1,
                 Equips: [],
                 Lvl: v.Level,
                 Exp: v.Exp,
-                Advance: 5,
+                Advance: 10,
                 Intensify: [],
                 CreateTime: v.CreateTime ? v.CreateTime : Math.round(Date.now() / 1000),
                 CurHp: 10000000000, // 最大hp
                 CurGasoline: 10000000000,
                 CurAmmunition: 10000000000,
                 Lock: v.Locked ? true : false,
-                PSkill: [],
+                PSkill: pskills,
                 Status: "",
                 Name: v.Name,
                 ChangeNameTime: 0,
@@ -173,13 +183,18 @@ export class HeroBag {
         const hero = this.heroInfo[id]
         const currentExp = EXP_LEVEL[hero.Level - 1] + hero.Exp
         let targetLevel = 0
-        for(let i = 0; i < EXP_LEVEL.length; i++) {
+        for (let i = 0; i < EXP_LEVEL.length; i++) {
             if (EXP_LEVEL[i] > currentExp + addExp) {
                 targetLevel = i + 1
                 break
             }
         }
-        const afterExp = currentExp + addExp - EXP_LEVEL[targetLevel - 2]
+        let afterExp = currentExp + addExp - EXP_LEVEL[targetLevel - 2]
+        // 先不写进阶部分
+        if (targetLevel > 80) {
+            targetLevel = 80
+            afterExp = 0
+        }
         this.heroInfo[id].Level = targetLevel
         this.heroInfo[id].Exp = afterExp
         Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
@@ -195,6 +210,24 @@ export class HeroBag {
                 this.heroInfo.splice(i, 1)
             }
         }
+        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+    }
+
+    public addShipSkillLevel(id: number, skill: number) {
+        if (!this.heroInfo[id].Skills) {
+            this.heroInfo[id].Skills = []
+        }
+        for (let i = 0; i < this.heroInfo[id].Skills.length; i++) {
+            if (this.heroInfo[id].Skills[i].Id === skill) {
+                this.heroInfo[id].Skills[i].Level += 1
+                Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+                return
+            }
+        }
+        this.heroInfo[id].Skills.push({
+            Id: skill,
+            Level: 2
+        })
         Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
     }
 }

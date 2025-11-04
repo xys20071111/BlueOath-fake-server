@@ -15,6 +15,7 @@ const TChangeHeroNameArg = pb.lookupType("hero.TChangeHeroNameArg")
 const THeroAddExp = pb.lookupType("hero.THeroAddExp")
 const TRetireHeroArg = pb.lookupType("hero.TRetireHeroArg")
 const TRetireHeroRet = pb.lookupType("hero.TRetireHeroRet")
+const THeroSkill = pb.lookupType("hero.THeroSkill")
 
 export function LockHero(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
     const parsedArgs: {
@@ -71,7 +72,6 @@ export function AddExp(socket: Socket, args: Uint8Array, callbackHandler: number
 //现在该方法会引发游戏显示错误，需要重启游戏才能解决
 export function RetireHero(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
     const parsedArgs = TRetireHeroArg.decode(args).toJSON()
-    console.log(parsedArgs)
     const player = socketPlayerMap.get(socket)!
     const heroInfo = player.getHeroInfo()
     heroInfo.deleteShips(parsedArgs.HeroIds)
@@ -79,6 +79,15 @@ export function RetireHero(socket: Socket, args: Uint8Array, callbackHandler: nu
         Reward: []
     })
     socket.write(createResponsePacket("hero.RetireHero", TRetireHeroRet.encode(resData).finish(), callbackHandler, token, getSeq(socket)))
+    sendShipInfo(socket, callbackHandler, token)
+}
+
+export function StudySkill(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
+    const parsedArgs = THeroSkill.decode(args).toJSON()
+    const player = socketPlayerMap.get(socket)!
+    const heroInfo = player.getHeroInfo()
+    heroInfo.addShipSkillLevel(parsedArgs.HeroId, parsedArgs.SkillId)
+    socket.write(createResponsePacket("hero.StudySkill", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
     sendShipInfo(socket, callbackHandler, token)
 }
 

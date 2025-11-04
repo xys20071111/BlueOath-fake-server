@@ -230,6 +230,30 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
         bagSize: 8000,
         bagInfo: [
             {
+                templateId: 10182,
+                num: 10000
+            },
+            {
+                templateId: 10183,
+                num: 10000
+            },
+            {
+                templateId: 10184,
+                num: 10000
+            },
+            {
+                templateId: 10185,
+                num: 10000
+            },
+            {
+                templateId: 10186,
+                num: 10000
+            },
+            {
+                templateId: 10187,
+                num: 10000
+            },
+            {
                 templateId: 150004,
                 num: 10000
             },

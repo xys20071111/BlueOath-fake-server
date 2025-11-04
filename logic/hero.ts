@@ -4,6 +4,7 @@ import { createResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
 import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts";
 import { Player } from "../entity/player.ts";
+import { EXP_ITEM } from "../constant.ts";
 
 const pb = protobuf.loadSync("./raw-protobuf/hero.proto")
 const TLockHeroArg = pb.lookupType("hero.TLockHeroArg")
@@ -26,7 +27,7 @@ export function LockHero(socket: Socket, args: Uint8Array, callbackHandler: numb
         Ret: parsedArgs.lock ? 1 : 0
     })).finish(), callbackHandler, token, getSeq(socket)))
     // 更新舰娘信息
-    sendShipInfo(socket, player, callbackHandler, token)
+    sendShipInfo(socket, callbackHandler, token)
 }
 
 export function GetHeroInfoByHeroIdArray(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
@@ -39,7 +40,7 @@ export function Marry(socket: Socket, args: Uint8Array, callbackHandler: number,
     player.getHeroInfo().setHeroMarry(parsedArgs.HeroId, parsedArgs.MarryType)
     socket.write(createResponsePacket("hero.Marry", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
     // 发一份新的舰娘信息
-    sendShipInfo(socket, player, callbackHandler, token)
+    sendShipInfo(socket, callbackHandler, token)
 }
 
 export function ChangeName(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
@@ -47,14 +48,24 @@ export function ChangeName(socket: Socket, args: Uint8Array, callbackHandler: nu
     const parsedArgs = TChangeHeroNameArg.decode(args).toJSON()
     player.getHeroInfo().setHeroName(parsedArgs.HeroId, parsedArgs.Name)
     socket.write(createResponsePacket("hero.ChangeName", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
-    sendShipInfo(socket, player, callbackHandler, token)
+    sendShipInfo(socket, callbackHandler, token)
 }
 
+// 有点显示问题，但无大碍
 export function AddExp(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
+    const hero = socketPlayerMap.get(socket)!.getHeroInfo()
     const parsedArgs = THeroAddExp.decode(args).toJSON()
-    // 偷个懒，一瓶省一级好了，反正物品数量是写死的
-    console.log(parsedArgs)
-    
+    let totalExp = 0
+    for(const item of parsedArgs.ItemList) {
+        totalExp += EXP_ITEM[item.Id] * item.Num
+    }
+    const result = hero.addHeroLevel(parsedArgs.HeroId, totalExp)
+    const resData = THeroAddExp.create({
+        LevelPre: result.targetLevel,
+        ExpPre: result.afterExp
+    })
+    socket.write(createResponsePacket("hero.AddExp", THeroAddExp.encode(resData).finish(), callbackHandler, token, getSeq(socket)))
+    sendShipInfo(socket, callbackHandler, token)
 }
 
 //现在该方法会引发游戏显示错误，需要重启游戏才能解决
@@ -68,10 +79,11 @@ export function RetireHero(socket: Socket, args: Uint8Array, callbackHandler: nu
         Reward: []
     })
     socket.write(createResponsePacket("hero.RetireHero", TRetireHeroRet.encode(resData).finish(), callbackHandler, token, getSeq(socket)))
-    sendShipInfo(socket, player, callbackHandler, token)
+    sendShipInfo(socket, callbackHandler, token)
 }
 
-function sendShipInfo(socket: Socket, player: Player, callbackHandler: number, token: string | null) {
+function sendShipInfo(socket: Socket, callbackHandler: number, token: string | null) {
+    const player = socketPlayerMap.get(socket)!
     // 发一份新的舰娘信息
     const heroInfo = player.getHeroInfo().getHeroBag()
     const heroInfoData = THeroInfo.create({

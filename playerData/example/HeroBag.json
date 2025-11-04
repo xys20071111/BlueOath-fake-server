@@ -3,18 +3,21 @@
         "id": 1021054,
         "TemplateId": 10210511,
         "isMarried": true,
-        "Level": 10
+        "Level": 1,
+        "Exp": 0
     },
     {
         "id": 2021011,
         "isMarried": false,
-        "Level": 10
+        "Level": 1,
+        "Exp": 0
     },
     {
         "id": 3013014,
         "TemplateId": 30130111,
         "isMarried": false,
-        "Level": 10,
-        "Locked": true
+        "Level": 1,
+        "Locked": true,
+        "Exp": 0
     }
 ]

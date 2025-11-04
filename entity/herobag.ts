@@ -1,3 +1,5 @@
+import { EXP_LEVEL } from "../constant.ts";
+
 interface HeroInfo {
     HeroId: number;
     TemplateId: number;
@@ -38,6 +40,7 @@ interface BasicHeroInfo {
     Locked?: boolean
     CreateTime?: number
     deleted?: boolean
+    Exp: number
 }
 
 export class HeroBag {
@@ -108,7 +111,7 @@ export class HeroBag {
                 TemplateId: v.TemplateId ?? v.id * 10 + 1,
                 Equips: [],
                 Lvl: v.Level,
-                Exp: 0,
+                Exp: v.Exp,
                 Advance: 5,
                 Intensify: [],
                 CreateTime: v.CreateTime ? v.CreateTime : Math.round(Date.now() / 1000),
@@ -155,6 +158,7 @@ export class HeroBag {
                 CreateTime: Math.round(Date.now() / 1000),
                 isMarried: false,
                 Level: 1,
+                Exp: 0
             })
             ids.push({
                 Id: this.heroInfo.length - 1,
@@ -165,9 +169,21 @@ export class HeroBag {
         return ids
     }
 
-    public addHeroLevel(id: number, num: number) {
-        this.heroInfo[id].Level += num
+    public addHeroLevel(id: number, addExp: number) {
+        const hero = this.heroInfo[id]
+        const currentExp = EXP_LEVEL[hero.Level - 1] + hero.Exp
+        let targetLevel = 0
+        for(let i = 0; i < EXP_LEVEL.length; i++) {
+            if (EXP_LEVEL[i] > currentExp + addExp) {
+                targetLevel = i + 1
+                break
+            }
+        }
+        const afterExp = currentExp + addExp - EXP_LEVEL[targetLevel - 2]
+        this.heroInfo[id].Level = targetLevel
+        this.heroInfo[id].Exp = afterExp
         Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+        return { targetLevel, afterExp }
     }
 
     public deleteShips(ids: Array<number>) {

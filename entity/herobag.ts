@@ -40,7 +40,7 @@ interface BasicHeroInfo {
     Locked?: boolean
     CreateTime?: number
     deleted?: boolean
-    Exp: number
+    Exp?: number
     Skills?: { Id: number; Level: number }[]
 }
 
@@ -78,7 +78,7 @@ export class HeroBag {
             TemplateId: this.heroInfo[id].TemplateId ?? this.heroInfo[id].id * 10 + 1,
             Equips: [],
             Lvl: this.heroInfo[id].Level,
-            Exp: 100,
+            Exp: this.heroInfo[id].Exp ?? 0,
             Advance: 0,
             Intensify: [],
             CreateTime: this.heroInfo[id].CreateTime ? this.heroInfo[id].CreateTime : Math.round(Date.now() / 1000),
@@ -121,7 +121,7 @@ export class HeroBag {
                 TemplateId: v.TemplateId ?? v.id * 10 + 1,
                 Equips: [],
                 Lvl: v.Level,
-                Exp: v.Exp,
+                Exp: v.Exp ?? 0,
                 Advance: 10,
                 Intensify: [],
                 CreateTime: v.CreateTime ? v.CreateTime : Math.round(Date.now() / 1000),
@@ -181,7 +181,7 @@ export class HeroBag {
 
     public addHeroLevel(id: number, addExp: number) {
         const hero = this.heroInfo[id]
-        const currentExp = EXP_LEVEL[hero.Level - 1] + hero.Exp
+        const currentExp = EXP_LEVEL[hero.Level - 1] + (hero.Exp ?? 0)
         let targetLevel = 0
         for (let i = 0; i < EXP_LEVEL.length; i++) {
             if (EXP_LEVEL[i] > currentExp + addExp) {

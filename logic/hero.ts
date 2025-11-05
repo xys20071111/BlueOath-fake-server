@@ -3,7 +3,6 @@ import protobuf from "protobufjs"
 import { createResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
 import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts";
-import { Player } from "../entity/player.ts";
 import { EXP_ITEM } from "../constant.ts";
 
 const pb = protobuf.loadSync("./raw-protobuf/hero.proto")

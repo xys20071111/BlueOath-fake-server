@@ -106,3 +106,8 @@ eventBus.on("friend.GetRecommendList", GetRecommendList)
 eventBus.on("cachedata.CacheData", CacheData)
 
 eventBus.on("buildship.BuildShip", BuildShip)
+
+//日服特有
+eventBus.on("invitescore.SetInviteStateByType", (socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) => {
+    EmptyReceive(socket, "invitescore.SetInviteStateByType",callbackHandler, token)
+})

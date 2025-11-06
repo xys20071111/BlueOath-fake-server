@@ -6,7 +6,7 @@ import { Player } from "../entity/player.ts";
 import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts";
 import { generateChatMsg, WorldChatMessage } from "./chat.ts";
 import { chatDb } from "../db.ts";
-import { TEN_DAYS_IN_SECONDS } from "../constant.ts";
+import { ITEM_BAG, TEN_DAYS_IN_SECONDS } from "../constant.ts";
 
 const playerPb = protobuf.loadSync("./raw-protobuf/player.proto")
 const TRetLogin = playerPb.lookupType("player.TRetLogin")
@@ -228,84 +228,7 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
     const bagData = TBagInfoRet.create({
         bagType: 1,
         bagSize: 8000,
-        bagInfo: [
-            {
-                templateId: 10182,
-                num: 10000
-            },
-            {
-                templateId: 10183,
-                num: 10000
-            },
-            {
-                templateId: 10184,
-                num: 10000
-            },
-            {
-                templateId: 10185,
-                num: 10000
-            },
-            {
-                templateId: 10186,
-                num: 10000
-            },
-            {
-                templateId: 10187,
-                num: 10000
-            },
-            {
-                templateId: 150004,
-                num: 10000
-            },
-            {
-                templateId: 14001,
-                num: 10000
-            },
-            {
-                templateId: 14002,
-                num: 10000
-            },
-            {
-                templateId: 14003,
-                num: 10000
-            },
-            {
-                templateId: 14004,
-                num: 10000
-            },
-            {
-                templateId: 14011,
-                num: 10000
-            },
-            {
-                templateId: 14012,
-                num: 10000
-            },
-            {
-                templateId: 14013,
-                num: 10000
-            },
-            {
-                templateId: 14014,
-                num: 10000
-            },
-            {
-                templateId: 10180,
-                num: 10000
-            },
-            {
-                templateId: 10007,
-                num: 10000
-            },
-            {
-                templateId: 10181,
-                num: 10000
-            },
-            {
-                templateId: 18000,
-                num: 10000
-            }
-        ],
+        bagInfo: ITEM_BAG,
         useInfo: []
     })
     socket.write(createResponsePacket("bag.UpdateBagData", TBagInfoRet.encode(bagData).finish(), callbackHandler, token, getSeq(socket)))

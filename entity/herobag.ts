@@ -42,6 +42,7 @@ interface BasicHeroInfo {
     deleted?: boolean
     Exp?: number
     Skills?: { Id: number; Level: number }[]
+    Adv?: boolean
 }
 
 export class HeroBag {
@@ -98,7 +99,7 @@ export class HeroBag {
             Fashioning: this.heroInfo[id].id,
             ArrRemouldEffect: [],
             RemouldLV: 0,
-            AdvLv: 0,
+            AdvLv: this.heroInfo[id].Adv ? 1 : 0,
             EquipEffects: [],
             CombinationInfo: []
         }
@@ -141,7 +142,7 @@ export class HeroBag {
                 Fashioning: v.id,
                 ArrRemouldEffect: [],
                 RemouldLV: 0,
-                AdvLv: 0,
+                AdvLv: v.Adv ? 1 : 0,
                 EquipEffects: [],
                 CombinationInfo: []
             }
@@ -191,7 +192,7 @@ export class HeroBag {
         }
         let afterExp = currentExp + addExp - EXP_LEVEL[targetLevel - 2]
         // 先不写进阶部分
-        if (targetLevel > 80) {
+        if (targetLevel > 80 && !hero.Adv) {
             targetLevel = 80
             afterExp = 0
         }
@@ -228,6 +229,11 @@ export class HeroBag {
             Id: skill,
             Level: 2
         })
+        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+    }
+
+    public setAdvLv(id: number) {
+        this.heroInfo[id].Adv = true
         Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
     }
 }

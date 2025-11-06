@@ -8,7 +8,7 @@ import { PlotReward, Setting } from "./logic/guide.ts";
 import { SavePrefs } from "./logic/prefs.ts";
 import { GetNotesList } from "./logic/buildnotes.ts";
 import { SetHerosTactic } from "./logic/fleet.ts";
-import { AddExp, ChangeName, GetHeroInfoByHeroIdArray, LockHero, Marry, RetireHero, StudySkill } from "./logic/hero.ts";
+import { AddExp, ChangeName, GetHeroInfoByHeroIdArray, HeroAdvMaxLv, LockHero, Marry, RetireHero, StudySkill } from "./logic/hero.ts";
 import { GetCopyInfo } from "./logic/copyinfo.ts";
 import { StartBase } from "./logic/copy.ts";
 import { GetDiscuss, Discuss, Like } from "./logic/discuss.ts";
@@ -20,6 +20,7 @@ import { GetShopsInfo } from "./logic/shop.ts";
 import { GetFriendMainData, GetRecommendList } from "./logic/friend.ts";
 import { CacheData } from "./logic/cachedata.ts";
 import { BuildShip } from "./logic/gacha.ts";
+import { EmptyReply } from "./utils/emptyReceive.ts";
 
 class EventBus extends EventEmitter {
     // 重写一下emit函数，检查socket是不是已经登录了
@@ -69,6 +70,7 @@ eventBus.on("hero.ChangeName", ChangeName)
 eventBus.on("hero.AddExp", AddExp)
 eventBus.on("hero.RetireHero", RetireHero)
 eventBus.on("hero.StudySkill", StudySkill)
+eventBus.on("hero.HeroAdvMaxLv", HeroAdvMaxLv)
 
 eventBus.on("copyinfo.GetCopyInfo", GetCopyInfo)
 
@@ -108,6 +110,4 @@ eventBus.on("cachedata.CacheData", CacheData)
 eventBus.on("buildship.BuildShip", BuildShip)
 
 //日服特有
-eventBus.on("invitescore.SetInviteStateByType", (socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) => {
-    EmptyReceive(socket, "invitescore.SetInviteStateByType",callbackHandler, token)
-})
+eventBus.on("invitescore.SetInviteStateByType", EmptyReply("invitescore.SetInviteStateByType"))

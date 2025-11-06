@@ -243,4 +243,9 @@ export class HeroBag {
         this.heroInfo[id].TemplateId++
         Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
     }
+
+    public setFashion(id: number, fashion: number) {
+        this.heroInfo[id].id = fashion
+        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+    }
 }

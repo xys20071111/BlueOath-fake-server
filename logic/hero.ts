@@ -111,7 +111,7 @@ export function HeroAdvance(socket: Socket, args: Uint8Array, callbackHandler: n
     sendShipInfo(socket, callbackHandler, token)
 }
 
-function sendShipInfo(socket: Socket, callbackHandler: number, token: string | null) {
+export function sendShipInfo(socket: Socket, callbackHandler: number, token: string | null) {
     const player = socketPlayerMap.get(socket)!
     // 发一份新的舰娘信息
     const heroInfo = player.getHeroInfo().getHeroBag()

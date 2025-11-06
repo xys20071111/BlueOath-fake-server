@@ -424,3 +424,14 @@ export const ITEM_BAG = [
         num: 10000
     }
 ]
+
+export const FASHION_INFO = [
+    {
+        SfId: 3013011,
+        FashionTid: [3013011, 3013012, 3013013, 3013014]
+    },
+    {
+        SfId: 1021051,
+        FashionTid: [1021051, 1021052, 1021053, 1021054, 1021055]
+    }
+]

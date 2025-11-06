@@ -21,6 +21,7 @@ import { GetFriendMainData, GetRecommendList } from "./logic/friend.ts";
 import { CacheData } from "./logic/cachedata.ts";
 import { BuildShip } from "./logic/gacha.ts";
 import { EmptyReply } from "./utils/emptyReceive.ts";
+import { Equip } from "./logic/fashion.ts";
 
 class EventBus extends EventEmitter {
     // 重写一下emit函数，检查socket是不是已经登录了
@@ -109,6 +110,8 @@ eventBus.on("friend.GetRecommendList", GetRecommendList)
 eventBus.on("cachedata.CacheData", CacheData)
 
 eventBus.on("buildship.BuildShip", BuildShip)
+
+eventBus.on("fashion.Equip", Equip)
 
 //日服特有
 eventBus.on("invitescore.SetInviteStateByType", EmptyReply("invitescore.SetInviteStateByType"))

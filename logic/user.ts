@@ -6,7 +6,7 @@ import { Player } from "../entity/player.ts";
 import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts";
 import { generateChatMsg, WorldChatMessage } from "./chat.ts";
 import { chatDb } from "../db.ts";
-import { ITEM_BAG, TEN_DAYS_IN_SECONDS } from "../constant.ts";
+import { FASHION_INFO, ITEM_BAG, TEN_DAYS_IN_SECONDS } from "../constant.ts";
 
 const playerPb = protobuf.loadSync("./raw-protobuf/player.proto")
 const TRetLogin = playerPb.lookupType("player.TRetLogin")
@@ -36,6 +36,9 @@ const TBuildShipInfo = gachaPb.lookupType("buildship.TBuildShipInfo")
 
 const bathroomPb = protobuf.loadSync("./raw-protobuf/bathroom.proto")
 const TBathroomInfo = bathroomPb.lookupType("bathroom.TBathroomInfo")
+
+const fashionPb = protobuf.loadSync("./raw-protobuf/fashion.proto")
+const TFashionList = fashionPb.lookupType("fashion.TFashionList")
 
 export function UserLogin(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
     const resData = TRetLogin.create({
@@ -292,4 +295,9 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
         HeroList: []
     })
     socket.write(createResponsePacket("bathroom.BathroomInfo", TBathroomInfo.encode(resData).finish(), callbackHandler, token, getSeq(socket)))
+    // 时装信息
+    const fashionData = {
+        FashionInfo: FASHION_INFO
+    }
+    socket.write(createResponsePacket("fashion.custom.updateData", encoder.encode(JSON.stringify(fashionData)), callbackHandler, token, getSeq(socket)))
 }

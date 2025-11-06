@@ -418,5 +418,9 @@ export const ITEM_BAG = [
     {
         templateId: 18000,
         num: 10000
+    },
+    {
+        templateId: 17517,
+        num: 10000
     }
 ]

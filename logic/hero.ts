@@ -16,6 +16,7 @@ const TRetireHeroArg = pb.lookupType("hero.TRetireHeroArg")
 const TRetireHeroRet = pb.lookupType("hero.TRetireHeroRet")
 const THeroSkill = pb.lookupType("hero.THeroSkill")
 const THeroAdvMaxLvArg = pb.lookupType("hero.THeroAdvMaxLvArg")
+const TAdvanceArg = pb.lookupType("hero.TAdvanceArg")
 
 export function LockHero(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
     const parsedArgs: {
@@ -97,6 +98,16 @@ export function HeroAdvMaxLv(socket: Socket, args: Uint8Array, callbackHandler: 
     const heroInfo = player.getHeroInfo()
     heroInfo.setAdvLv(parsedArgs.HeroId)
     socket.write(createResponsePacket("hero.HeroAdvMaxLv", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
+    sendShipInfo(socket, callbackHandler, token)
+}
+
+// 有显示错误，突破后需要重进页面才能继续突破，无大碍
+export function HeroAdvance(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
+    const parsedArgs = TAdvanceArg.decode(args).toJSON()
+    const player = socketPlayerMap.get(socket)!
+    const heroInfo = player.getHeroInfo()
+    heroInfo.addAdvanceLv(parsedArgs.HeroId)
+    socket.write(createResponsePacket("hero.HeroAdvance", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
     sendShipInfo(socket, callbackHandler, token)
 }
 

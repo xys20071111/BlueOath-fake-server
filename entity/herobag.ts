@@ -123,7 +123,7 @@ export class HeroBag {
                 Equips: [],
                 Lvl: v.Level,
                 Exp: v.Exp ?? 0,
-                Advance: 10,
+                Advance: 0,
                 Intensify: [],
                 CreateTime: v.CreateTime ? v.CreateTime : Math.round(Date.now() / 1000),
                 CurHp: 10000000000, // 最大hp
@@ -234,6 +234,13 @@ export class HeroBag {
 
     public setAdvLv(id: number) {
         this.heroInfo[id].Adv = true
+        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+    }
+    public addAdvanceLv(id: number) {
+        if (!this.heroInfo[id].TemplateId) {
+            this.heroInfo[id].TemplateId = this.heroInfo[id].id * 10 + 1
+        }
+        this.heroInfo[id].TemplateId++
         Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
     }
 }

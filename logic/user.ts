@@ -6,7 +6,9 @@ import { Player } from "../entity/player.ts";
 import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts";
 import { generateChatMsg, WorldChatMessage } from "./chat.ts";
 import { chatDb } from "../db.ts";
-import { FASHION_INFO, FASHION_INFO_JP, ITEM_BAG, TEN_DAYS_IN_SECONDS } from "../constant.ts";
+import { ITEM_BAG } from "../constants/itemBag.ts";
+import { TEN_DAYS_IN_SECONDS } from "../constants/chat.ts"
+import { FASHION_INFO, FASHION_INFO_JP } from "../constants/fashion.ts"
 
 const playerPb = protobuf.loadSync("./raw-protobuf/player.proto")
 const TRetLogin = playerPb.lookupType("player.TRetLogin")

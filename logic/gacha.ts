@@ -2,7 +2,7 @@ import { Socket } from "node:net"
 import protobuf from 'protobufjs'
 import { createResponsePacket } from "../utils/createResponsePacket.ts"
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts"
-import { HERO_POOL, HERO_POOL_JP } from "../constant.ts";
+import { HERO_POOL, HERO_POOL_JP } from "../constants/cardPool.ts";
 import { ClientType } from "../entity/player.ts";
 
 const pb = protobuf.loadSync("./raw-protobuf/buildship.proto")

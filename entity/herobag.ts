@@ -1,4 +1,4 @@
-import { EXP_LEVEL } from "../constant.ts";
+import { EXP_LEVEL } from "../constants/exp.ts";
 
 interface HeroInfo {
     HeroId: number;

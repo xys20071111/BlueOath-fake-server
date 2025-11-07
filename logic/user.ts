@@ -6,7 +6,7 @@ import { Player } from "../entity/player.ts";
 import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts";
 import { generateChatMsg, WorldChatMessage } from "./chat.ts";
 import { chatDb } from "../db.ts";
-import { FASHION_INFO, ITEM_BAG, TEN_DAYS_IN_SECONDS } from "../constant.ts";
+import { FASHION_INFO, FASHION_INFO_JP, ITEM_BAG, TEN_DAYS_IN_SECONDS } from "../constant.ts";
 
 const playerPb = protobuf.loadSync("./raw-protobuf/player.proto")
 const TRetLogin = playerPb.lookupType("player.TRetLogin")
@@ -297,7 +297,7 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
     socket.write(createResponsePacket("bathroom.BathroomInfo", TBathroomInfo.encode(resData).finish(), callbackHandler, token, getSeq(socket)))
     // 时装信息
     const fashionData = {
-        FashionInfo: FASHION_INFO
+        FashionInfo: player.getClientType() === 0 ? FASHION_INFO : FASHION_INFO_JP
     }
     socket.write(createResponsePacket("fashion.custom.updateData", encoder.encode(JSON.stringify(fashionData)), callbackHandler, token, getSeq(socket)))
 }

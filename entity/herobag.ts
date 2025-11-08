@@ -310,15 +310,29 @@ export class HeroBag {
         EquipId,
         Type,
     }: { HeroId: number; Index: number; EquipId: number; Type: number }) {
-        const targetId = HeroId - 1
-        if (!this.heroInfo[targetId].Equips) {
-            this.heroInfo[targetId].Equips = {}
-        }
-        this.heroInfo[targetId].Equips[Index] = {
-            EquipsId: EquipId,
-            state: 4
+        if (Type === 1) {
+            const targetId = HeroId - 1
+            if (!this.heroInfo[targetId].Equips) {
+                this.heroInfo[targetId].Equips = {}
+            }
+            this.heroInfo[targetId].Equips[Index] = {
+                EquipsId: EquipId,
+                state: 4
+            }
         }
 
         Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+    }
+
+    public unEquipAll(id: number) {
+        const targetId = id - 1
+        this.heroInfo[targetId].Equips = {}
+        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+    }
+
+    public getEquipInfo(type: number, id: number) {
+        if (type === 1) {
+            return this.heroInfo[id - 1].Equips
+        }
     }
 }

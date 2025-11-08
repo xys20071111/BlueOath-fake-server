@@ -44,8 +44,10 @@ export class EquipBag {
     }
 
     public setHero(hero: number, equip: number) {
-        this.equipInfo[equip - 1].HeroId = hero
-        Deno.writeTextFile(`./playerData/${this.uname}/equipBag.json`, JSON.stringify(this.equipInfo, null, 4))
+        if (equip > 0) {
+            this.equipInfo[equip - 1].HeroId = hero
+            Deno.writeTextFile(`./playerData/${this.uname}/equipBag.json`, JSON.stringify(this.equipInfo, null, 4))
+        }
     }
 
     public enhance(id: number) {
@@ -60,5 +62,26 @@ export class EquipBag {
         this.equipInfo[targetId].Star++
         Deno.writeTextFile(`./playerData/${this.uname}/equipBag.json`, JSON.stringify(this.equipInfo, null, 4))
         return this.equipInfo[targetId].Star
+    }
+
+    public addEquip(ids: Array<number>) {
+        const result = []
+        for (const id of ids) {
+            this.equipInfo.push({
+                TemplateId: id,
+                EnhanceLv: 1,
+                Star: 1,
+                EnhanceExp: 0,
+                PSkillList: [],
+                RiseCommonEquips: [],
+                HeroId: 0
+            })
+            result.push({
+                tid: id,
+                id: this.equipInfo.length
+            })
+        }
+        Deno.writeTextFile(`./playerData/${this.uname}/equipBag.json`, JSON.stringify(this.equipInfo, null, 4))
+        return result
     }
 }

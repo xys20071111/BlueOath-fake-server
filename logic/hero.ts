@@ -18,7 +18,9 @@ const THeroSkill = pb.lookupType("hero.THeroSkill")
 const THeroAdvMaxLvArg = pb.lookupType("hero.THeroAdvMaxLvArg")
 const TAdvanceArg = pb.lookupType("hero.TAdvanceArg")
 const THeroChangeEquipArgs = pb.lookupType("hero.THeroChangeEquipArgs")
+const THeroAutoUnEquipArg = pb.lookupType("hero.THeroAutoUnEquipArg")
 
+// 提示信息显示一直不正常
 export function LockHero(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
     const parsedArgs: {
         HeroId: number
@@ -113,13 +115,41 @@ export function HeroAdvance(socket: Socket, args: Uint8Array, callbackHandler: n
 }
 
 export function ChangeEquip(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
-    const parsedArgs = THeroChangeEquipArgs.decode(args).toJSON() as any
-    const player = socketPlayerMap.get(socket)!
-    const heroInfo = player.getHeroInfo()
-    const equipInfo = player.getEquipBag()
-    heroInfo.setEquip(parsedArgs)
-    equipInfo.setHero(parsedArgs.HeroId, parsedArgs.EquipId)
+    try {
+        const parsedArgs = THeroChangeEquipArgs.decode(args).toJSON() as any
+        const player = socketPlayerMap.get(socket)!
+        const heroInfo = player.getHeroInfo()
+        const equipInfo = player.getEquipBag()
+        const oldEquips = heroInfo.getEquipInfo(parsedArgs.Type, parsedArgs.HeroId)!
+        if(oldEquips && oldEquips[parsedArgs.Index - 1]) {
+            equipInfo.setHero(0, oldEquips[parsedArgs.Index - 1].EquipsId)
+        }
+        heroInfo.setEquip(parsedArgs)
+        equipInfo.setHero(parsedArgs.HeroId, parsedArgs.EquipId)
+    } catch (e) {
+        console.error(e)
+    }
     socket.write(createResponsePacket("hero.ChangeEquip", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
+    sendShipInfo(socket, callbackHandler, token)
+}
+
+export function AutoUnEquip(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
+    const parsedArgs = THeroAutoUnEquipArg.decode(args).toJSON() as any
+    const player = socketPlayerMap.get(socket)!
+    const heroInfoEntity = player.getHeroInfo()
+    const equipInfo = player.getEquipBag()
+    if (parsedArgs.Type === 1) {
+        for (const hero of parsedArgs.HeroId) {
+            heroInfoEntity.unEquipAll(hero)
+            const equips = equipInfo.getEquipInfo()
+            for (const equip of equips) {
+                if (equip.HeroId === hero) {
+                    equipInfo.setHero(0, equip.EquipId)
+                }
+            }
+        }
+    }
+    socket.write(createResponsePacket("hero.AutoUnEquip", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
     sendShipInfo(socket, callbackHandler, token)
 }
 

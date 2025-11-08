@@ -5,6 +5,8 @@ import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts"
 import { HERO_POOL, HERO_POOL_JP } from "../constants/cardPool.ts";
 import { ClientType } from "../entity/player.ts";
 import { EQUIP_POOL, EQUIP_POOL_JP } from "../constants/equipPool.ts";
+import { sendEquipInfo } from "./equip.ts";
+import { sendShipInfo } from "./hero.ts";
 
 const pb = protobuf.loadSync("./raw-protobuf/buildship.proto")
 const TBuildShipRet = pb.lookupType("buildship.TBuildShipRet")
@@ -51,13 +53,30 @@ export function BuildShip(socket: Socket, args: Uint8Array, callbackHandler: num
         Num: number
         CacheId: string
     } = TBuildShipArg.decode(args).toJSON() as any
-    console.log(parsedArgs)
     if (parsedArgs.Id == 201) {
-        const result = getCardsFromPool(parsedArgs.Num, CardType.EQUIP, player.getClientType())
-        const heroInfo = player.getHeroInfo()
+        const result = getCardsFromPool(parsedArgs.Num, CardType.EQUIP, player.getClientType()) as number[]
+        const equipInfo = player.getEquipBag()
+        const ids = equipInfo.addEquip(result)
+        const buildShipResult = []
+        for (const item of ids) {
+            buildShipResult.push({
+                Type: 3,
+                ConfigId: item.tid,
+                Num: 1,
+                Id: item.id
+            })
+        }
+        const resData = TBuildShipRet.create({
+            BuildShipResult: buildShipResult,
+            SpReward: [],
+            TransReward: [],
+            IsChangeReward: false
+        })
+        sendEquipInfo(socket, callbackHandler, token)
+        socket.write(createResponsePacket("buildship.BuildShip", TBuildShipRet.encode(resData).finish(), callbackHandler, token, getSeq(socket)))
         return
     }
-    const result = getCardsFromPool(parsedArgs.Num, CardType.SHIP, player.getClientType())
+    const result = getCardsFromPool(parsedArgs.Num, CardType.SHIP, player.getClientType()) as any
     const heroInfo = player.getHeroInfo()
     const ids = heroInfo.addShip(result)
     const buildShipResult = []
@@ -76,12 +95,6 @@ export function BuildShip(socket: Socket, args: Uint8Array, callbackHandler: num
         IsChangeReward: false
     })
     // 舰娘信息
-    const heroInfoData = THeroInfo.create({
-        HeroInfo: heroInfo.getHeroBag(),
-        HeroBagSize: 1000,
-        HeroNum: []
-    })
-    const heroInfoPacket = createResponsePacket("hero.UpdateHeroBagData", THeroInfo.encode(heroInfoData).finish(), callbackHandler, token, getSeq(socket))
-    socket.write(heroInfoPacket)
+    sendShipInfo(socket, callbackHandler, token)
     socket.write(createResponsePacket("buildship.BuildShip", TBuildShipRet.encode(resData).finish(), callbackHandler, token, getSeq(socket)))
 }

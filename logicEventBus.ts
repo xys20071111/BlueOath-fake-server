@@ -8,7 +8,7 @@ import { PlotReward, Setting } from "./logic/guide.ts";
 import { SavePrefs } from "./logic/prefs.ts";
 import { GetNotesList } from "./logic/buildnotes.ts";
 import { SetHerosTactic } from "./logic/fleet.ts";
-import { AddExp, ChangeEquip, ChangeName, GetHeroInfoByHeroIdArray, HeroAdvance, HeroAdvMaxLv, LockHero, Marry, RetireHero, StudySkill } from "./logic/hero.ts";
+import { AddExp, AutoUnEquip, ChangeEquip, ChangeName, GetHeroInfoByHeroIdArray, HeroAdvance, HeroAdvMaxLv, LockHero, Marry, RetireHero, StudySkill } from "./logic/hero.ts";
 import { GetCopyInfo } from "./logic/copyinfo.ts";
 import { StartBase } from "./logic/copy.ts";
 import { GetDiscuss, Discuss, Like } from "./logic/discuss.ts";
@@ -76,6 +76,8 @@ eventBus.on("hero.StudySkill", StudySkill)
 eventBus.on("hero.HeroAdvMaxLv", HeroAdvMaxLv)
 eventBus.on("hero.HeroAdvance", HeroAdvance)
 eventBus.on("hero.ChangeEquip", ChangeEquip)
+eventBus.on("hero.AutoUnEquip", AutoUnEquip)
+eventBus.on("hero.AutoEquip", EmptyReply("hero.AutoEquip")) // 这个不会写
 
 eventBus.on("copyinfo.GetCopyInfo", GetCopyInfo)
 

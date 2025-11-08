@@ -31,7 +31,7 @@ export function RiseStar(socket: Socket, args: Uint8Array, callbackHandler: numb
     sendEquipInfo(socket, callbackHandler, token)
 }
 
-function sendEquipInfo(socket: Socket, callbackHandler: number, token: string) {
+export function sendEquipInfo(socket: Socket, callbackHandler: number, token: string) {
     const player = socketPlayerMap.get(socket)!
     // 装备背包
     const equipData = TEquipList.create({

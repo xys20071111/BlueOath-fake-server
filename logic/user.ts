@@ -83,10 +83,6 @@ export function GetSupply(socket: Socket, _args: Uint8Array, callbackHandler: nu
     socket.write(createResponsePacket("user.GetSupply", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
 }
 
-export function SetUserOrderRecord(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
-    socket.write(createResponsePacket("user.SetUserOrderRecord", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
-}
-
 async function sendInitMessages(socket: Socket, player: Player, callbackHandler: number, token: string) {
     const encoder = new TextEncoder()
     // 基础用户信息
@@ -240,7 +236,7 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
     // 装备背包
     const equipData = TEquipList.create({
         EquipBagSize: 1000,
-        EquipInfo: player.getEquipBag(),
+        EquipInfo: player.getEquipBag().getEquipInfo(),
         EquipNum: []
     })
     socket.write(createResponsePacket("equip.UpdateEquipBagData", TEquipList.encode(equipData).finish(), callbackHandler, token, getSeq(socket)))

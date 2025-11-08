@@ -17,6 +17,7 @@ const TRetireHeroRet = pb.lookupType("hero.TRetireHeroRet")
 const THeroSkill = pb.lookupType("hero.THeroSkill")
 const THeroAdvMaxLvArg = pb.lookupType("hero.THeroAdvMaxLvArg")
 const TAdvanceArg = pb.lookupType("hero.TAdvanceArg")
+const THeroChangeEquipArgs = pb.lookupType("hero.THeroChangeEquipArgs")
 
 export function LockHero(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
     const parsedArgs: {
@@ -26,7 +27,7 @@ export function LockHero(socket: Socket, args: Uint8Array, callbackHandler: numb
     const player = socketPlayerMap.get(socket)!
     player.getHeroInfo().setHeroLock(parsedArgs.HeroId, parsedArgs.lock)
     socket.write(createResponsePacket("hero.LockHero", TLockHeroRet.encode(TLockHeroRet.create({
-        Ret: parsedArgs.lock ? 1 : 0
+        Ret: parsedArgs.lock ? 0 : 1
     })).finish(), callbackHandler, token, getSeq(socket)))
     // 更新舰娘信息
     sendShipInfo(socket, callbackHandler, token)
@@ -58,7 +59,7 @@ export function AddExp(socket: Socket, args: Uint8Array, callbackHandler: number
     const hero = socketPlayerMap.get(socket)!.getHeroInfo()
     const parsedArgs = THeroAddExp.decode(args).toJSON()
     let totalExp = 0
-    for(const item of parsedArgs.ItemList) {
+    for (const item of parsedArgs.ItemList) {
         totalExp += EXP_ITEM[item.Id] * item.Num
     }
     const result = hero.addHeroLevel(parsedArgs.HeroId, totalExp)
@@ -108,6 +109,17 @@ export function HeroAdvance(socket: Socket, args: Uint8Array, callbackHandler: n
     const heroInfo = player.getHeroInfo()
     heroInfo.addAdvanceLv(parsedArgs.HeroId)
     socket.write(createResponsePacket("hero.HeroAdvance", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
+    sendShipInfo(socket, callbackHandler, token)
+}
+
+export function ChangeEquip(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
+    const parsedArgs = THeroChangeEquipArgs.decode(args).toJSON() as any
+    const player = socketPlayerMap.get(socket)!
+    const heroInfo = player.getHeroInfo()
+    const equipInfo = player.getEquipBag()
+    heroInfo.setEquip(parsedArgs)
+    equipInfo.setHero(parsedArgs.HeroId, parsedArgs.EquipId)
+    socket.write(createResponsePacket("hero.ChangeEquip", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
     sendShipInfo(socket, callbackHandler, token)
 }
 

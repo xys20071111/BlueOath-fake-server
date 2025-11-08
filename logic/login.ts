@@ -29,7 +29,7 @@ export function Login(socket: Socket, args: Uint8Array, callbackHandler: number,
         })
         const resPacket = createResponsePacket("player.Login", TRetLogin.encode(resData).finish(), callbackHandler, token, getSeq(socket))
         socket.write(resPacket)
-    } catch {
+    } catch(e) {
         // 不存在就踢掉
         const resData = TRetLogin.create({
             Ret: 'error',

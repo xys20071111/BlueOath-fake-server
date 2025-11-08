@@ -1,18 +1,8 @@
 import { Building } from "./building.ts";
-import { HeroBag } from "./herobag.ts";
+import { HeroBag } from "./heroBag.ts";
+import { EquipBag } from "./equipBag.ts";
 import { Illustrate } from "./illustrate.ts";
 import { Tactic } from "./tactic.ts";
-
-interface EquipInfo {
-    EquidId: number
-    templateId: number
-    EnhanceLv: number
-    Star: number
-    HeroId: number
-    EnhanceExp: number
-    PSkillList: Array<{ PSkillId: number; PSkillLv: number }>
-    RiseCommonEquips: Array<{ TemplateId: number; Num: number }>
-}
 
 export enum ClientType {
     CN,
@@ -24,7 +14,7 @@ export class Player {
     private userInfo: any
     private heroInfo: HeroBag
     private tactic: Tactic
-    private equipBagInfo: Array<EquipInfo>
+    private equipBagInfo: EquipBag
     private illustrateInfo: Illustrate
     private buildingInfo: Building
     private clientType: ClientType
@@ -34,7 +24,7 @@ export class Player {
         this.userInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/UserInfo.json`))
         this.heroInfo = new HeroBag(uname)
         this.tactic = new Tactic(uname)
-        this.equipBagInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/EquipBag.json`))
+        this.equipBagInfo = new EquipBag(uname)
         this.illustrateInfo = new Illustrate(uname)
         this.buildingInfo = new Building(uname)
 
@@ -48,7 +38,7 @@ export class Player {
         this.heroInfo.reload()
         this.tactic.reload()
         this.buildingInfo.reload()
-        this.equipBagInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/EquipBag.json`))
+        this.equipBagInfo.reload()
         this.illustrateInfo.reload()
         
         const secretary = this.heroInfo.getHeroBasicInfoById(this.userInfo.SecretaryId)

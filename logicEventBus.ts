@@ -8,7 +8,7 @@ import { PlotReward, Setting } from "./logic/guide.ts";
 import { SavePrefs } from "./logic/prefs.ts";
 import { GetNotesList } from "./logic/buildnotes.ts";
 import { SetHerosTactic } from "./logic/fleet.ts";
-import { AddExp, ChangeName, GetHeroInfoByHeroIdArray, HeroAdvance, HeroAdvMaxLv, LockHero, Marry, RetireHero, StudySkill } from "./logic/hero.ts";
+import { AddExp, ChangeEquip, ChangeName, GetHeroInfoByHeroIdArray, HeroAdvance, HeroAdvMaxLv, LockHero, Marry, RetireHero, StudySkill } from "./logic/hero.ts";
 import { GetCopyInfo } from "./logic/copyinfo.ts";
 import { StartBase } from "./logic/copy.ts";
 import { GetDiscuss, Discuss, Like } from "./logic/discuss.ts";
@@ -22,6 +22,7 @@ import { CacheData } from "./logic/cachedata.ts";
 import { BuildShip } from "./logic/gacha.ts";
 import { EmptyReply } from "./utils/emptyReceive.ts";
 import { Equip } from "./logic/fashion.ts";
+import { Enhance, RiseStar } from "./logic/equip.ts";
 
 class EventBus extends EventEmitter {
     // 重写一下emit函数，检查socket是不是已经登录了
@@ -50,6 +51,7 @@ eventBus.on("user.GetUserInfo", GetUserInfo)
 eventBus.on("user.SetUserSecretary", SetUserSecretary)
 eventBus.on("user.Refresh", Refresh)
 eventBus.on("user.GetSupply", GetSupply)
+eventBus.on("user.SetUserOrderRecord", EmptyReply("user.SetUserOrderRecord"))
 
 eventBus.on("chat.GetBarrageById", GetBarrageById)
 eventBus.on("chat.SendMessage", SendMessage)
@@ -73,6 +75,7 @@ eventBus.on("hero.RetireHero", RetireHero)
 eventBus.on("hero.StudySkill", StudySkill)
 eventBus.on("hero.HeroAdvMaxLv", HeroAdvMaxLv)
 eventBus.on("hero.HeroAdvance", HeroAdvance)
+eventBus.on("hero.ChangeEquip", ChangeEquip)
 
 eventBus.on("copyinfo.GetCopyInfo", GetCopyInfo)
 
@@ -112,6 +115,9 @@ eventBus.on("cachedata.CacheData", CacheData)
 eventBus.on("buildship.BuildShip", BuildShip)
 
 eventBus.on("fashion.Equip", Equip)
+
+eventBus.on("equip.Enhance", Enhance)
+eventBus.on("equip.RiseStar", RiseStar)
 
 //日服特有
 eventBus.on("invitescore.SetInviteStateByType", EmptyReply("invitescore.SetInviteStateByType"))

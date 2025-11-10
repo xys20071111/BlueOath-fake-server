@@ -1,6 +1,6 @@
 import { Socket } from "node:net";
 import protobuf from "protobufjs"
-import { createResponsePacket } from "../utils/createResponsePacket.ts";
+import { sendResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
 
 const pb = protobuf.loadSync("./raw-protobuf/tactic.proto")
@@ -10,5 +10,5 @@ export function SetHerosTactic(socket: Socket, args: Uint8Array, callbackHandler
     const parsedArgs = TSelfTactis.decode(args)
     const player = socketPlayerMap.get(socket)!
     player.getTactic().setTacticInfo(parsedArgs.toJSON().tactics)
-    socket.write(createResponsePacket("tactic.SetHerosTactic", args, callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "tactic.SetHerosTactic", args, callbackHandler, token)
 }

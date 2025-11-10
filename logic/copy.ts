@@ -1,6 +1,6 @@
 import { Socket } from "node:net";
 import protobuf from "protobufjs"
-import { createResponsePacket } from "../utils/createResponsePacket.ts";
+import { sendResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
 
 const copyPb = protobuf.loadSync("./raw-protobuf/copy.proto")
@@ -28,14 +28,14 @@ export function StartBase(socket: Socket, args: Uint8Array, callbackHandler: num
                 Ships: [],
                 StrategyId: parsedArgs.HeroList[0].StrategyId,
                 ConditionList: [],
-                KillTimes: 10000000000000,
+                KillTimes: 0,
                 HeroList: parsedArgs.HeroList[0].HeroList,
                 TacticType: 1
             }
         },
         RandomSeed: 114514,
         Rid: 1,
-        arrRes: [{ id: 1, Reward: { Type: 1, ConfigId: 1, Num: 10, Id: 1 } }],
+        arrRes: [],
         EnemyFleet: [],
         CopyId: parsedArgs.CopyId,
         CopyType: 1,
@@ -45,7 +45,13 @@ export function StartBase(socket: Socket, args: Uint8Array, callbackHandler: num
         ShipEquipGridInfo: [],
         RandomFactors: [],
         SafeLv: 1,
-        // Verify: {},
+        Verify: {
+            opes: {
+                frameCount: 0,
+                opes: []
+            },
+            result: {}
+        },
         ExtraBattlePlayerList: [],
         Token: token,
         SkipVcr: [],
@@ -57,5 +63,5 @@ export function StartBase(socket: Socket, args: Uint8Array, callbackHandler: num
         MatchType: 1,
         AnimMode: parsedArgs.AnimMode
     })
-    socket.write(createResponsePacket("copy.StartBase", TStartBaseRet.encode(resData).finish(), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "copy.StartBase", TStartBaseRet.encode(resData).finish(), callbackHandler, token)
 }

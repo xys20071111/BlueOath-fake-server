@@ -1,6 +1,6 @@
 import { Socket } from "node:net";
 import protobuf from "protobufjs"
-import { createResponsePacket } from "../utils/createResponsePacket.ts";
+import { sendResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
 
 const pb = protobuf.loadSync("./raw-protobuf/illustrate.proto")
@@ -15,7 +15,7 @@ export function AddBehavior(socket: Socket, args: Uint8Array, callbackHandler: n
         player.getIllustrate().setHeroIllustrate(item.IllustrateId, item.BehaviourId)
     }
     const illustrateResData = JSON.stringify(player.getIllustrate().getIllustrateInfo())
-    socket.write(createResponsePacket("illustrate.custom.IllustrateInfo", new TextEncoder().encode(illustrateResData), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "illustrate.custom.IllustrateInfo", new TextEncoder().encode(illustrateResData), callbackHandler, token)
 }
 
 export function IllustrateNew(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
@@ -24,5 +24,5 @@ export function IllustrateNew(socket: Socket, args: Uint8Array, callbackHandler:
     const illustrateResData = TIllustrateList.create({
         IllustrateList: illustrate.getIllustrateInfo().IllustrateList
     })
-    socket.write(createResponsePacket("illustrate.IllustrateNew", TIllustrateList.encode(illustrateResData).finish(), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "illustrate.IllustrateNew", TIllustrateList.encode(illustrateResData).finish(), callbackHandler, token)
 }

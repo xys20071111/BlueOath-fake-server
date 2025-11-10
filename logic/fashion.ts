@@ -1,6 +1,6 @@
 import { Socket } from "node:net";
 import protobuf from "protobufjs"
-import { createResponsePacket } from "../utils/createResponsePacket.ts";
+import { sendResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
 import { Player } from "../entity/player.ts";
 import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts";
@@ -14,6 +14,6 @@ export function Equip(socket: Socket, args: Uint8Array, callbackHandler: number,
     const heroInfo = player.getHeroInfo()
     const parsedArgs = TFashionEquipArg.decode(args).toJSON()
     heroInfo.setFashion(parsedArgs.HeroId, parsedArgs.FashionTid)
-    socket.write(createResponsePacket("fashion.Equip", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "fashion.Equip", EMPTY_UINT8ARRAY, callbackHandler, token)
     sendShipInfo(socket, callbackHandler, token)
 }

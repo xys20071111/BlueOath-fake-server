@@ -1,6 +1,6 @@
 import { Socket } from "node:net";
 import protobuf from "protobufjs"
-import { createResponsePacket } from "../utils/createResponsePacket.ts";
+import { sendResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq } from "../utils/socketMaps.ts";
 import { guildDb } from "../db.ts";
 
@@ -43,7 +43,7 @@ export async function GetList(socket: Socket, args: Uint8Array, callbackHandler:
         GuildList: guildList
     })
 
-    socket.write(createResponsePacket("guild.GetList", TRetGetGuildList.encode(resData).finish(), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "guild.GetList", TRetGetGuildList.encode(resData).finish(), callbackHandler, token)
 }
 
 export async function CreateGuild(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {

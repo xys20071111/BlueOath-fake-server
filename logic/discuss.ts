@@ -1,6 +1,6 @@
 import { Socket } from "node:net";
 import protobuf from "protobufjs"
-import { createResponsePacket } from "../utils/createResponsePacket.ts";
+import { sendResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
 import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts"
 import { discussDb } from "../db.ts";
@@ -46,7 +46,7 @@ export async function GetDiscuss(socket: Socket, args: Uint8Array, callbackHandl
     }
     await discussDb.set(['discuss', id], discuss)
     const resData = TGetDiscussRet.create(discuss)
-    socket.write(createResponsePacket("discuss.GetDiscuss", TGetDiscussRet.encode(resData).finish(), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "discuss.GetDiscuss", TGetDiscussRet.encode(resData).finish(), callbackHandler, token)
 }
 
 export async function Discuss(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
@@ -66,9 +66,9 @@ export async function Discuss(socket: Socket, args: Uint8Array, callbackHandler:
     })
     await discussDb.set(['discuss', id], discuss)
     const resData = TGetDiscussRet.create(discuss)
-    socket.write(createResponsePacket("discuss.GetDiscuss", TGetDiscussRet.encode(resData).finish(), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "discuss.GetDiscuss", TGetDiscussRet.encode(resData).finish(), callbackHandler, token)
 }
 
 export function Like(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
-    socket.write(createResponsePacket("discuss.Like", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "discuss.Like", EMPTY_UINT8ARRAY, callbackHandler, token)
 }

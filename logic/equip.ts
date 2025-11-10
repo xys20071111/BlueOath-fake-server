@@ -1,6 +1,6 @@
 import { Socket } from "node:net";
 import protobuf from "protobufjs"
-import { createResponsePacket } from "../utils/createResponsePacket.ts";
+import { sendResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
 import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts";
 
@@ -19,7 +19,7 @@ export function Enhance(socket: Socket, args: Uint8Array, callbackHandler: numbe
         EquipEnhanceLevel: lv,
         EquipEnhanceExp: 0
     })
-    socket.write(createResponsePacket("equip.Enhance", TEquipEnhanceRet.encode(resData).finish(), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "equip.Enhance", TEquipEnhanceRet.encode(resData).finish(), callbackHandler, token)
     sendEquipInfo(socket, callbackHandler, token)
 }
 
@@ -27,7 +27,7 @@ export function RiseStar(socket: Socket, args: Uint8Array, callbackHandler: numb
     const parsedArgs = TEquipRiseStarArgs.decode(args).toJSON()
     const equipInfo = socketPlayerMap.get(socket)!.getEquipBag()
     equipInfo.riseStar(parsedArgs.EquipId)
-    socket.write(createResponsePacket("equip.RiseStar", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "equip.RiseStar", EMPTY_UINT8ARRAY, callbackHandler, token)
     sendEquipInfo(socket, callbackHandler, token)
 }
 
@@ -39,5 +39,5 @@ export function sendEquipInfo(socket: Socket, callbackHandler: number, token: st
         EquipInfo: player.getEquipBag().getEquipInfo(),
         EquipNum: []
     })
-    socket.write(createResponsePacket("equip.UpdateEquipBagData", TEquipList.encode(equipData).finish(), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "equip.UpdateEquipBagData", TEquipList.encode(equipData).finish(), callbackHandler, token)
 }

@@ -1,4 +1,6 @@
+import { Socket } from "node:net";
 import protobuf from "protobufjs"
+import { getSeq } from "./socketMaps.ts";
 
 const pb = protobuf.loadSync("./raw-protobuf/net_type.proto")
 const TResponse = pb.lookupType("net_type.TResponse")
@@ -21,7 +23,7 @@ function createFinalPacket(payload: Uint8Array) {
     return finalPacketBytes;
 }
 
-export function createResponsePacket(method: string, ret: Uint8Array, callbackHandler: number | null, token: string | null, seq: number) {
+export function sendResponsePacket(socket: Socket, method: string, ret: Uint8Array, callbackHandler: number | null, token: string | null) {
     const resData = TResponse.create({
         Err: 0,
         ErrMsg: "",
@@ -30,8 +32,8 @@ export function createResponsePacket(method: string, ret: Uint8Array, callbackHa
         CallbackHandler: callbackHandler,
         Time: Math.round(Date.now() / 1000),
         Token: token,
-        Seq: seq,
+        Seq: getSeq(socket),
         IsResponse: 1
     })
-    return createFinalPacket(TResponse.encode(resData).finish())
+    socket.write(createFinalPacket(TResponse.encode(resData).finish()))
 }

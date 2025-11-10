@@ -1,6 +1,6 @@
 import { Socket } from "node:net";
 import protobuf from "protobufjs"
-import { createResponsePacket } from "../utils/createResponsePacket.ts";
+import { sendResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq } from "../utils/socketMaps.ts";
 
 const pb = protobuf.loadSync("./raw-protobuf/guide.proto")
@@ -16,8 +16,7 @@ export function PlotReward(socket: Socket, args: Uint8Array, callbackHandler: nu
     const resData = TGuidePlotRewardRet.create({
         PlotId: parsedArgs.PlotId
     })
-    const resPacket = createResponsePacket("guide.PlotReward", TGuidePlotRewardRet.encode(resData).finish(), callbackHandler, token, getSeq(socket))
-    socket.write(resPacket)
+    sendResponsePacket(socket, "guide.PlotReward", TGuidePlotRewardRet.encode(resData).finish(), callbackHandler, token)
 }
 
 export function Setting(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
@@ -35,6 +34,5 @@ export function Setting(socket: Socket, args: Uint8Array, callbackHandler: numbe
         ]
     }
     const resData = TGuideInfo.create(res)
-    const resPacket = createResponsePacket("guide.Setting", TGuideInfo.encode(resData).finish(), callbackHandler, token, getSeq(socket))
-    socket.write(resPacket)
+    sendResponsePacket(socket, "guide.Setting", TGuideInfo.encode(resData).finish(), callbackHandler, token)
 }

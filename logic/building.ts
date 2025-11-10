@@ -1,6 +1,6 @@
 import { Socket } from "node:net";
 import protobuf from "protobufjs"
-import { createResponsePacket } from "../utils/createResponsePacket.ts";
+import { sendResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
 import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts";
 
@@ -15,7 +15,7 @@ const TReceiveRet = pb.lookupType("building.TReceiveRet")
 const TSetHeroArg = pb.lookupType("building.TSetHeroArg")
 
 export function UpdateHeroAddition(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
-    socket.write(createResponsePacket("building.UpdateHeroAddition", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "building.UpdateHeroAddition", EMPTY_UINT8ARRAY, callbackHandler, token)
 }
 
 export function SaveTactic(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
@@ -26,7 +26,7 @@ export function SaveTactic(socket: Socket, args: Uint8Array, callbackHandler: nu
         const id = parsedArgs.TacticList[0].BuildingId
         player.getUserBuilding().setBuildingTactics(id, parsedArgs.TacticList)
     }
-    socket.write(createResponsePacket("building.SaveTactic", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "building.SaveTactic", EMPTY_UINT8ARRAY, callbackHandler, token)
 }
 
 export function AddBuilding(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
@@ -36,32 +36,32 @@ export function AddBuilding(socket: Socket, args: Uint8Array, callbackHandler: n
     const resData = TAddBuildingRet.create({
         BuildingId
     })
-    socket.write(createResponsePacket("building.AddBuilding", TAddBuildingArg.encode(resData).finish(), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "building.AddBuilding", TAddBuildingArg.encode(resData).finish(), callbackHandler, token)
     // 发送新的基建信息
-    socket.write(createResponsePacket("building.custom.UpdateBuildingInfo", encoder.encode(JSON.stringify(player.getUserBuilding().getBuildingInfo())), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "building.custom.UpdateBuildingInfo", encoder.encode(JSON.stringify(player.getUserBuilding().getBuildingInfo())), callbackHandler, token)
 }
 
 export function SetHero(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
     const player = socketPlayerMap.get(socket)!
     const parsedArgs = TSetHeroArg.decode(args).toJSON()
     player.getUserBuilding().buildingSetHero(parsedArgs.BuildingId, parsedArgs.HeroIdList)
-    socket.write(createResponsePacket("building.SetHero", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "building.SetHero", EMPTY_UINT8ARRAY, callbackHandler, token)
     // 发送新的基建信息
-    socket.write(createResponsePacket("building.custom.UpdateBuildingInfo", encoder.encode(JSON.stringify(player.getUserBuilding().getBuildingInfo())), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "building.custom.UpdateBuildingInfo", encoder.encode(JSON.stringify(player.getUserBuilding().getBuildingInfo())), callbackHandler, token)
 }
 
 export function UpgradeBuilding(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
     const player = socketPlayerMap.get(socket)!
     const parsedArgs = TUpgradeBuildingArg.decode(args).toJSON()
     player.getUserBuilding().buildingUpgrade(parsedArgs.BuildingId)
-    socket.write(createResponsePacket("building.UpgradeBuilding", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "building.UpgradeBuilding", EMPTY_UINT8ARRAY, callbackHandler, token)
     // 发送新的基建信息
-    socket.write(createResponsePacket("building.custom.UpdateBuildingInfo", encoder.encode(JSON.stringify(player.getUserBuilding().getBuildingInfo())), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "building.custom.UpdateBuildingInfo", encoder.encode(JSON.stringify(player.getUserBuilding().getBuildingInfo())), callbackHandler, token)
 }
 
 export function EmptyReceive(socket: Socket, method: string, callbackHandler: number, token: string) {
     const resData = TReceiveRet.create({
         ItemInfo: []
     })
-    socket.write(createResponsePacket(method, TReceiveRet.encode(resData).finish(), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, method, TReceiveRet.encode(resData).finish(), callbackHandler, token)
 }

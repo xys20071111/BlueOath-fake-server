@@ -1,6 +1,6 @@
 import { Socket } from "node:net";
 import protobuf from "protobufjs"
-import { createResponsePacket } from "../utils/createResponsePacket.ts";
+import { sendResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
 import { chatDb } from "../db.ts";
 import { Player } from "../entity/player.ts";
@@ -27,8 +27,7 @@ export function GetBarrageById(socket: Socket, args: Uint8Array, callbackHandler
         Id: parsedArgs.Id,
         BarrageList: []
     })
-    const resPacket = createResponsePacket("chat.GetBarrageById", TGetBarrageDataRet.encode(resData).finish(), callbackHandler, token, getSeq(socket))
-    socket.write(resPacket)
+   sendResponsePacket(socket, "chat.GetBarrageById", TGetBarrageDataRet.encode(resData).finish(), callbackHandler, token)
 }
 
 // 现在该函数只能将信息添加到数据库里，还不能发给别的用户
@@ -49,8 +48,7 @@ export async function SendMessage(socket: Socket, args: Uint8Array, callbackHand
     const resData = TChatSendMessageRet.create({
         Message: parsedArgs.Message
     })
-    const resPacket = createResponsePacket("chat.SendMessage", TChatSendMessageRet.encode(resData).finish(), callbackHandler, token, getSeq(socket))
-    socket.write(resPacket)
+    sendResponsePacket(socket, "chat.SendMessage", TChatSendMessageRet.encode(resData).finish(), callbackHandler, token)
     socketPlayerMap.keys().forEach((target) => {
         if (target !== socket) {
             const targetPlayer = socketPlayerMap.get(target)!
@@ -79,14 +77,14 @@ export async function SendMessage(socket: Socket, args: Uint8Array, callbackHand
                 MsgType: parsedArgs.MsgType,
                 Params: []
             })
-            target.write(createResponsePacket("chat.NewMessage", TChatMsg.encode(chatData).finish(), null, null, getSeq(socket)))
+            sendResponsePacket(target, "chat.NewMessage", TChatMsg.encode(chatData).finish(), null, null)
         }
 
     })
 }
 
 export function ChangeWorldChannel(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
-    socket.write(createResponsePacket("chat.ChangeWorldChannel", args, callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "chat.ChangeWorldChannel", args, callbackHandler, token)
 }
 
 export function generateChatMsg(sender: string, message: string, type: number) {

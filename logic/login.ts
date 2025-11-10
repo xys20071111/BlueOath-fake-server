@@ -1,6 +1,6 @@
 import { Socket } from "node:net";
 import protobuf from "protobufjs"
-import { createResponsePacket } from "../utils/createResponsePacket.ts";
+import { sendResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
 import { Player } from "../entity/player.ts";
 
@@ -27,16 +27,14 @@ export function Login(socket: Socket, args: Uint8Array, callbackHandler: number,
             Ret: 'ok',
             ErrCode: '0'
         })
-        const resPacket = createResponsePacket("player.Login", TRetLogin.encode(resData).finish(), callbackHandler, token, getSeq(socket))
-        socket.write(resPacket)
+        sendResponsePacket(socket, "player.Login", TRetLogin.encode(resData).finish(), callbackHandler, token)
     } catch(e) {
         // 不存在就踢掉
         const resData = TRetLogin.create({
             Ret: 'error',
             ErrCode: '1'
         })
-        const resPacket = createResponsePacket("player.Login", TRetLogin.encode(resData).finish(), callbackHandler, token, getSeq(socket))
-        socket.write(resPacket)
+        sendResponsePacket(socket, "player.Login", TRetLogin.encode(resData).finish(), callbackHandler, token)
     }
 
 }
@@ -49,7 +47,6 @@ export function GetUserList(socket: Socket, _args: Uint8Array, callbackHandler: 
             TUserInfo.create(user.getUserInfo())
         ]
     })
-    const resPacket = createResponsePacket("player.GetUserList", TRetGetUsers.encode(resData).finish(), callbackHandler, token, getSeq(socket))
-    socket.write(resPacket)
+    sendResponsePacket(socket, "player.GetUserList", TRetGetUsers.encode(resData).finish(), callbackHandler, token)
 }
 

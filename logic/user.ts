@@ -1,6 +1,6 @@
 import { Socket } from "node:net";
 import protobuf from "protobufjs"
-import { createResponsePacket } from "../utils/createResponsePacket.ts";
+import { sendResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
 import { Player } from "../entity/player.ts";
 import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts";
@@ -9,6 +9,7 @@ import { chatDb } from "../db.ts";
 import { ITEM_BAG } from "../constants/itemBag.ts";
 import { TEN_DAYS_IN_SECONDS } from "../constants/chat.ts"
 import { FASHION_INFO, FASHION_INFO_JP } from "../constants/fashion.ts"
+import { sendShipInfo } from "./hero.ts";
 
 const playerPb = protobuf.loadSync("./raw-protobuf/player.proto")
 const TRetLogin = playerPb.lookupType("player.TRetLogin")
@@ -47,40 +48,36 @@ export function UserLogin(socket: Socket, _args: Uint8Array, callbackHandler: nu
         Ret: 'ok',
         ErrCode: '0'
     })
-    const resPacket = createResponsePacket("user.UserLogin", TRetLogin.encode(resData).finish(), callbackHandler, token, getSeq(socket))
-    socket.write(resPacket)
+   sendResponsePacket(socket, "user.UserLogin", TRetLogin.encode(resData).finish(), callbackHandler, token)
 }
 
 export function GetUserInfo(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
     const player = socketPlayerMap.get(socket)!
-    const loginOKPacket = createResponsePacket("user.GetUserInfo", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket))
     // 这个LoginOK也不知道有啥用，在lua里看了一圈没有一个会用到它发送的数据的，要想设置UserData全靠上面的UpdateUserInfo
     // 这里大概就是把单机版那里设置数据的部分写到这吧
     sendInitMessages(socket, player, callbackHandler, token)
-    socket.write(loginOKPacket)
+    sendResponsePacket(socket, "user.GetUserInfo", EMPTY_UINT8ARRAY, callbackHandler, token)
 }
 
 export function SetUserSecretary(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
     const player = socketPlayerMap.get(socket)!
     const parsedArgs: any = TSetUserSecretaryArg.decode(args)
     player.setSecretary(parsedArgs.SecretaryId)
-    const reply = createResponsePacket("user.SetUserSecretary", new Uint8Array(), callbackHandler, token, getSeq(socket))
-    socket.write(reply)
+    sendResponsePacket(socket, "user.SetUserSecretary", new Uint8Array(), callbackHandler, token)
     // 发送一份新的基础用户信息，通知客户端换秘书舰了
     const userInfo = player.getUserInfo()
     const userInfoData = TGetUserInfoRet.create(userInfo)
-    const userDataPacket = createResponsePacket("user.UpdateUserInfo", TGetUserInfoRet.encode(userInfoData).finish(), callbackHandler, token, getSeq(socket))
-    socket.write(userDataPacket)
+    sendResponsePacket(socket, "user.UpdateUserInfo", TGetUserInfoRet.encode(userInfoData).finish(), callbackHandler, token)
 }
 
 export function Refresh(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
     const player = socketPlayerMap.get(socket)!
     sendInitMessages(socket, player, callbackHandler, token)
-    socket.write(createResponsePacket("user.Refresh", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "user.Refresh", EMPTY_UINT8ARRAY, callbackHandler, token)
 }
 
 export function GetSupply(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
-    socket.write(createResponsePacket("user.GetSupply", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "user.GetSupply", EMPTY_UINT8ARRAY, callbackHandler, token)
 }
 
 async function sendInitMessages(socket: Socket, player: Player, callbackHandler: number, token: string) {
@@ -88,8 +85,7 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
     // 基础用户信息
     const userInfo = player.getUserInfo()
     const userInfoData = TGetUserInfoRet.create(userInfo)
-    const userDataPacket = createResponsePacket("user.UpdateUserInfo", TGetUserInfoRet.encode(userInfoData).finish(), callbackHandler, token, getSeq(socket))
-    socket.write(userDataPacket)
+    sendResponsePacket(socket, "user.UpdateUserInfo", TGetUserInfoRet.encode(userInfoData).finish(), callbackHandler, token)
     // 舰队信息，不知道该发给哪个方法，用自定义方法强行写进去
     const tactics = player.getTactic().getTacticInfo()
     const tacticsData = JSON.stringify({
@@ -97,17 +93,9 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
         MinPower: 0,
         tactics
     })
-    const tacticsPacket = createResponsePacket("tactic.custom.ForceWriteFleetInfo", encoder.encode(tacticsData), callbackHandler, token, getSeq(socket))
-    socket.write(tacticsPacket)
+    sendResponsePacket(socket, "tactic.custom.ForceWriteFleetInfo", encoder.encode(tacticsData), callbackHandler, token)
     // 舰娘信息
-    const heroInfo = player.getHeroInfo().getHeroBag()
-    const heroInfoData = THeroInfo.create({
-        HeroInfo: heroInfo,
-        HeroBagSize: 1000,
-        HeroNum: [{ TemplateId: 10210511, Num: 80 }]
-    })
-    const heroInfoPacket = createResponsePacket("hero.UpdateHeroBagData", THeroInfo.encode(heroInfoData).finish(), callbackHandler, token, getSeq(socket))
-    socket.write(heroInfoPacket)
+    sendShipInfo(socket, callbackHandler, token)
     // 副本信息
     // 剧情
     const plotCopyInfo = TUserCopyInfo.create({
@@ -174,7 +162,7 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
         StarInfo: [],
         PassCopyCount: 0
     })
-    socket.write(createResponsePacket("copy.GetCopy", TUserCopyInfo.encode(plotCopyInfo).finish(), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "copy.GetCopy", TUserCopyInfo.encode(plotCopyInfo).finish(), callbackHandler, token)
     // 海域
     if (player.getClientType() === 0) {
         const seaCopyInfo = TUserCopyInfo.create({
@@ -199,7 +187,7 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
             StarInfo: [],
             PassCopyCount: 0
         })
-        socket.write(createResponsePacket("copy.GetCopy", TUserCopyInfo.encode(seaCopyInfo).finish(), callbackHandler, token, getSeq(socket)))
+        sendResponsePacket(socket, "copy.GetCopy", TUserCopyInfo.encode(seaCopyInfo).finish(), callbackHandler, token)
     } else {
         const seaCopyInfo = TUserCopyInfo.create({
             BaseInfo: [
@@ -223,28 +211,38 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
             StarInfo: [],
             PassCopyCount: 0
         })
-        socket.write(createResponsePacket("copy.GetCopy", TUserCopyInfo.encode(seaCopyInfo).finish(), callbackHandler, token, getSeq(socket)))
+        sendResponsePacket(socket, "copy.GetCopy", TUserCopyInfo.encode(seaCopyInfo).finish(), callbackHandler, token)
     }
     // 道具背包
+    const items: {
+        templateId: number
+        num: number
+    }[] = []
+    for (const item of ITEM_BAG) {
+        items.push({
+            templateId: item,
+            num: 10000
+        })
+    }
     const bagData = TBagInfoRet.create({
         bagType: 1,
         bagSize: 8000,
-        bagInfo: ITEM_BAG,
+        bagInfo: items,
         useInfo: []
     })
-    socket.write(createResponsePacket("bag.UpdateBagData", TBagInfoRet.encode(bagData).finish(), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "bag.UpdateBagData", TBagInfoRet.encode(bagData).finish(), callbackHandler, token)
     // 装备背包
     const equipData = TEquipList.create({
         EquipBagSize: 1000,
         EquipInfo: player.getEquipBag().getEquipInfo(),
         EquipNum: []
     })
-    socket.write(createResponsePacket("equip.UpdateEquipBagData", TEquipList.encode(equipData).finish(), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "equip.UpdateEquipBagData", TEquipList.encode(equipData).finish(), callbackHandler, token)
     // 图鉴
     const illustrateResData = JSON.stringify(player.getIllustrate().getIllustrateInfo())
-    socket.write(createResponsePacket("illustrate.custom.IllustrateInfo", encoder.encode(illustrateResData), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "illustrate.custom.IllustrateInfo", encoder.encode(illustrateResData), callbackHandler, token)
     // 基建
-    socket.write(createResponsePacket("building.custom.UpdateBuildingInfo", encoder.encode(JSON.stringify(player.getUserBuilding().getBuildingInfo())), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "building.custom.UpdateBuildingInfo", encoder.encode(JSON.stringify(player.getUserBuilding().getBuildingInfo())), callbackHandler, token)
     // 聊天
     const historyIter = chatDb.list<WorldChatMessage>({
         start: [`WorldChat`, Date.now() - 600000],
@@ -266,7 +264,7 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
         FriendMsg: [],
         PersonalMsg: []
     })
-    socket.write(createResponsePacket("chat.ChatInfo", TChatInfoRet.encode(chatData).finish(), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "chat.ChatInfo", TChatInfoRet.encode(chatData).finish(), callbackHandler, token)
     // 抽卡信息
     const gachaData = TBuildShipInfo.create({
         DrawInfo: [],
@@ -286,16 +284,16 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
         ],
         RewardChange: []
     })
-    socket.write(createResponsePacket("buildship.BuildShipInfo", TBuildShipInfo.encode(gachaData).finish(), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "buildship.BuildShipInfo", TBuildShipInfo.encode(gachaData).finish(), callbackHandler, token)
     // 浴室
     const resData = TBathroomInfo.create({
         IsAllAuto: true,
         HeroList: []
     })
-    socket.write(createResponsePacket("bathroom.BathroomInfo", TBathroomInfo.encode(resData).finish(), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "bathroom.BathroomInfo", TBathroomInfo.encode(resData).finish(), callbackHandler, token)
     // 时装信息
     const fashionData = {
         FashionInfo: player.getClientType() === 0 ? FASHION_INFO : FASHION_INFO_JP
     }
-    socket.write(createResponsePacket("fashion.custom.updateData", encoder.encode(JSON.stringify(fashionData)), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "fashion.custom.updateData", encoder.encode(JSON.stringify(fashionData)), callbackHandler, token)
 }

@@ -1,4 +1,5 @@
 import { EXP_LEVEL } from "../constants/exp.ts";
+import { SPECIAL_REMOULD_EFFECT } from "../constants/specialRemouldEffect.ts";
 
 interface HeroInfo {
     HeroId: number;
@@ -41,11 +42,12 @@ interface BasicHeroInfo {
     CreateTime?: number
     deleted?: boolean
     Exp?: number
-    Skills?: { Id: number; Level: number }[]
+    Skills?: { Id: number; Level: number; Replace: number }[]
     Adv?: boolean
     Equips?: {
         [k: string]: { EquipsId: number; state: number }
-    }
+    },
+    Remould?: number[]
 }
 
 export class HeroBag {
@@ -106,6 +108,12 @@ export class HeroBag {
                 })
             }
         }
+        let RemouldLV = 0
+        if (targetShip.Remould) {
+            if (targetShip.Remould.length >= 13) {
+                RemouldLV = 1
+            }
+        }
         return {
             HeroId: targetId,
             TemplateId: targetShip.TemplateId ?? targetShip.id * 10 + 1,
@@ -129,8 +137,8 @@ export class HeroBag {
             UpdateTime: 0,
             MarryType: targetShip.marryType ? targetShip.marryType : 0,
             Fashioning: targetShip.id,
-            ArrRemouldEffect: [],
-            RemouldLV: 0,
+            ArrRemouldEffect: targetShip.Remould ?? [],
+            RemouldLV: RemouldLV,
             AdvLv: targetShip.Adv ? 1 : 0,
             EquipEffects: [],
             CombinationInfo: []
@@ -143,10 +151,14 @@ export class HeroBag {
             const pskills = []
             if (v.Skills) {
                 for (const item of v.Skills) {
-                    pskills.push({
+                    const result = {
                         PSkillId: item.Id,
                         Level: item.Level
-                    })
+                    } as any
+                    if (item.Replace) {
+                        result.Replace = item.Replace
+                    }
+                    pskills.push(result)
                 }
             }
             const equips = {
@@ -165,6 +177,10 @@ export class HeroBag {
                     const key = parseInt(k) - 1
                     equips.Equip[key] = v.Equips[k]
                 }
+            }
+            let RemouldLV = 0
+            if (v.Remould) {
+                RemouldLV = Math.floor(v.Remould.length / 13)
             }
             const heroInfo = {
                 HeroId: k + 1,
@@ -189,8 +205,8 @@ export class HeroBag {
                 UpdateTime: 0,
                 MarryType: v.marryType ? v.marryType : 0,
                 Fashioning: v.id,
-                ArrRemouldEffect: [],
-                RemouldLV: 0,
+                ArrRemouldEffect: v.Remould ?? [],
+                RemouldLV,
                 AdvLv: v.Adv ? 1 : 0,
                 EquipEffects: [],
                 CombinationInfo: []
@@ -280,7 +296,8 @@ export class HeroBag {
         }
         this.heroInfo[targetId].Skills.push({
             Id: skill,
-            Level: 2
+            Level: 2,
+            Replace: 0
         })
         Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
     }
@@ -295,7 +312,6 @@ export class HeroBag {
             this.heroInfo[targetId].TemplateId = this.heroInfo[targetId].id * 10 + 1
         }
         this.heroInfo[targetId].TemplateId++
-        console.log(this.heroInfo[targetId].TemplateId)
         Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
     }
 
@@ -334,5 +350,43 @@ export class HeroBag {
         if (type === 1) {
             return this.heroInfo[id - 1].Equips
         }
+    }
+
+    // 替换技能要研究一下，先摸清替换表
+    public setHeroRemould(id: number, effId: number) {
+        const targetId = id - 1
+        if (!this.heroInfo[targetId].Remould) {
+            this.heroInfo[targetId].Remould = []
+        }
+        this.heroInfo[targetId].Remould.push(effId)
+        if (SPECIAL_REMOULD_EFFECT[effId.toString()]) {
+            const effect = SPECIAL_REMOULD_EFFECT[effId.toString()]
+            if (effect.type === 'replace') {
+                if (!this.heroInfo[targetId].Skills) {
+                    this.heroInfo[targetId].Skills = [
+                        {
+                            Id: effect.old,
+                            Replace: 0,
+                            Level: 1
+                        }
+                    ]
+                }
+                for (let i = 0; i < this.heroInfo[targetId].Skills.length; i++) {
+                    if (this.heroInfo[targetId].Skills[i].Id === effect.old) {
+                        this.heroInfo[targetId].Skills[i].Replace = effect.new
+                    }
+                }
+            } else if (effect.type === 'add') {
+                if (!this.heroInfo[targetId].Skills) {
+                    this.heroInfo[targetId].Skills = []
+                }
+                this.heroInfo[targetId].Skills.push({
+                    Id: effect.new,
+                    Level: 1,
+                    Replace: 0
+                })
+            }
+        }
+        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
     }
 }

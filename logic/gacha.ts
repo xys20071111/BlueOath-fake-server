@@ -1,6 +1,6 @@
 import { Socket } from "node:net"
 import protobuf from 'protobufjs'
-import { createResponsePacket } from "../utils/createResponsePacket.ts"
+import { sendResponsePacket } from "../utils/createResponsePacket.ts"
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts"
 import { HERO_POOL, HERO_POOL_JP } from "../constants/cardPool.ts";
 import { ClientType } from "../entity/player.ts";
@@ -73,7 +73,7 @@ export function BuildShip(socket: Socket, args: Uint8Array, callbackHandler: num
             IsChangeReward: false
         })
         sendEquipInfo(socket, callbackHandler, token)
-        socket.write(createResponsePacket("buildship.BuildShip", TBuildShipRet.encode(resData).finish(), callbackHandler, token, getSeq(socket)))
+        sendResponsePacket(socket, "buildship.BuildShip", TBuildShipRet.encode(resData).finish(), callbackHandler, token)
         return
     }
     const result = getCardsFromPool(parsedArgs.Num, CardType.SHIP, player.getClientType()) as any
@@ -96,5 +96,5 @@ export function BuildShip(socket: Socket, args: Uint8Array, callbackHandler: num
     })
     // 舰娘信息
     sendShipInfo(socket, callbackHandler, token)
-    socket.write(createResponsePacket("buildship.BuildShip", TBuildShipRet.encode(resData).finish(), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "buildship.BuildShip", TBuildShipRet.encode(resData).finish(), callbackHandler, token)
 }

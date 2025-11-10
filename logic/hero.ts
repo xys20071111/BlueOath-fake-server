@@ -1,6 +1,6 @@
 import { Socket } from "node:net";
 import protobuf from "protobufjs"
-import { createResponsePacket } from "../utils/createResponsePacket.ts";
+import { sendResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
 import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts";
 import { EXP_ITEM } from "../constants/exp.ts";
@@ -19,6 +19,9 @@ const THeroAdvMaxLvArg = pb.lookupType("hero.THeroAdvMaxLvArg")
 const TAdvanceArg = pb.lookupType("hero.TAdvanceArg")
 const THeroChangeEquipArgs = pb.lookupType("hero.THeroChangeEquipArgs")
 const THeroAutoUnEquipArg = pb.lookupType("hero.THeroAutoUnEquipArg")
+const TRemouldArg = pb.lookupType("hero.TRemouldArg")
+
+const encoder = new TextEncoder()
 
 // 提示信息显示一直不正常
 export function LockHero(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
@@ -28,22 +31,22 @@ export function LockHero(socket: Socket, args: Uint8Array, callbackHandler: numb
     } = TLockHeroArg.decode(args) as any
     const player = socketPlayerMap.get(socket)!
     player.getHeroInfo().setHeroLock(parsedArgs.HeroId, parsedArgs.lock)
-    socket.write(createResponsePacket("hero.LockHero", TLockHeroRet.encode(TLockHeroRet.create({
+    sendResponsePacket(socket, "hero.LockHero", TLockHeroRet.encode(TLockHeroRet.create({
         Ret: parsedArgs.lock ? 0 : 1
-    })).finish(), callbackHandler, token, getSeq(socket)))
+    })).finish(), callbackHandler, token)
     // 更新舰娘信息
     sendShipInfo(socket, callbackHandler, token)
 }
 
 export function GetHeroInfoByHeroIdArray(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
-    socket.write(createResponsePacket("hero.GetHeroInfoByHeroIdArray", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "hero.GetHeroInfoByHeroIdArray", EMPTY_UINT8ARRAY, callbackHandler, token)
 }
 
 export function Marry(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
     const player = socketPlayerMap.get(socket)!
     const parsedArgs = TMarryArg.decode(args).toJSON()
     player.getHeroInfo().setHeroMarry(parsedArgs.HeroId, parsedArgs.MarryType)
-    socket.write(createResponsePacket("hero.Marry", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "hero.Marry", EMPTY_UINT8ARRAY, callbackHandler, token)
     // 发一份新的舰娘信息
     sendShipInfo(socket, callbackHandler, token)
 }
@@ -52,7 +55,7 @@ export function ChangeName(socket: Socket, args: Uint8Array, callbackHandler: nu
     const player = socketPlayerMap.get(socket)!
     const parsedArgs = TChangeHeroNameArg.decode(args).toJSON()
     player.getHeroInfo().setHeroName(parsedArgs.HeroId, parsedArgs.Name)
-    socket.write(createResponsePacket("hero.ChangeName", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "hero.ChangeName", EMPTY_UINT8ARRAY, callbackHandler, token)
     sendShipInfo(socket, callbackHandler, token)
 }
 
@@ -69,7 +72,7 @@ export function AddExp(socket: Socket, args: Uint8Array, callbackHandler: number
         LevelPre: result.targetLevel,
         ExpPre: result.afterExp
     })
-    socket.write(createResponsePacket("hero.AddExp", THeroAddExp.encode(resData).finish(), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "hero.AddExp", THeroAddExp.encode(resData).finish(), callbackHandler, token)
     sendShipInfo(socket, callbackHandler, token)
 }
 
@@ -82,7 +85,7 @@ export function RetireHero(socket: Socket, args: Uint8Array, callbackHandler: nu
     const resData = TRetireHeroRet.create({
         Reward: []
     })
-    socket.write(createResponsePacket("hero.RetireHero", TRetireHeroRet.encode(resData).finish(), callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "hero.RetireHero", TRetireHeroRet.encode(resData).finish(), callbackHandler, token)
     sendShipInfo(socket, callbackHandler, token)
 }
 
@@ -91,7 +94,7 @@ export function StudySkill(socket: Socket, args: Uint8Array, callbackHandler: nu
     const player = socketPlayerMap.get(socket)!
     const heroInfo = player.getHeroInfo()
     heroInfo.addShipSkillLevel(parsedArgs.HeroId, parsedArgs.SkillId)
-    socket.write(createResponsePacket("hero.StudySkill", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "hero.StudySkill", EMPTY_UINT8ARRAY, callbackHandler, token)
     sendShipInfo(socket, callbackHandler, token)
 }
 
@@ -100,7 +103,7 @@ export function HeroAdvMaxLv(socket: Socket, args: Uint8Array, callbackHandler: 
     const player = socketPlayerMap.get(socket)!
     const heroInfo = player.getHeroInfo()
     heroInfo.setAdvLv(parsedArgs.HeroId)
-    socket.write(createResponsePacket("hero.HeroAdvMaxLv", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "hero.HeroAdvMaxLv", EMPTY_UINT8ARRAY, callbackHandler, token)
     sendShipInfo(socket, callbackHandler, token)
 }
 
@@ -110,7 +113,7 @@ export function HeroAdvance(socket: Socket, args: Uint8Array, callbackHandler: n
     const player = socketPlayerMap.get(socket)!
     const heroInfo = player.getHeroInfo()
     heroInfo.addAdvanceLv(parsedArgs.HeroId)
-    socket.write(createResponsePacket("hero.HeroAdvance", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "hero.HeroAdvance", EMPTY_UINT8ARRAY, callbackHandler, token)
     sendShipInfo(socket, callbackHandler, token)
 }
 
@@ -129,8 +132,8 @@ export function ChangeEquip(socket: Socket, args: Uint8Array, callbackHandler: n
     } catch (e) {
         console.error(e)
     }
-    socket.write(createResponsePacket("hero.ChangeEquip", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
     sendShipInfo(socket, callbackHandler, token)
+    sendResponsePacket(socket, "hero.ChangeEquip", EMPTY_UINT8ARRAY, callbackHandler, token)
 }
 
 export function AutoUnEquip(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
@@ -149,19 +152,27 @@ export function AutoUnEquip(socket: Socket, args: Uint8Array, callbackHandler: n
             }
         }
     }
-    socket.write(createResponsePacket("hero.AutoUnEquip", EMPTY_UINT8ARRAY, callbackHandler, token, getSeq(socket)))
+    sendResponsePacket(socket, "hero.AutoUnEquip", EMPTY_UINT8ARRAY, callbackHandler, token)
     sendShipInfo(socket, callbackHandler, token)
+}
+
+export function HeroRemould(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
+    const parsedArgs = TRemouldArg.decode(args).toJSON()
+    const player = socketPlayerMap.get(socket)!
+    const heroInfo = player.getHeroInfo()
+    heroInfo.setHeroRemould(parsedArgs.HeroId, parsedArgs.EffectId)
+    sendShipInfo(socket, callbackHandler, token)
+    sendResponsePacket(socket, "hero.HeroRemould", EMPTY_UINT8ARRAY, callbackHandler, token)
 }
 
 export function sendShipInfo(socket: Socket, callbackHandler: number, token: string | null) {
     const player = socketPlayerMap.get(socket)!
-    // 发一份新的舰娘信息
+    // 加上改造信息后protobuf解析不了了，改成自定义方法
     const heroInfo = player.getHeroInfo().getHeroBag()
-    const heroInfoData = THeroInfo.create({
+    const heroInfoData = JSON.stringify({
         HeroInfo: heroInfo,
         HeroBagSize: 1000,
         HeroNum: [{ TemplateId: 10210511, Num: 80 }]
     })
-    const heroInfoPacket = createResponsePacket("hero.UpdateHeroBagData", THeroInfo.encode(heroInfoData).finish(), callbackHandler, token, getSeq(socket))
-    socket.write(heroInfoPacket)
+    sendResponsePacket(socket, "hero.custom.UpdateHeroBagData", encoder.encode(heroInfoData), callbackHandler, token)
 }

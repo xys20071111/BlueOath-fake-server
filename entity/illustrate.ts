@@ -81,4 +81,10 @@ export class Illustrate {
         })
         Deno.writeTextFile(`./playerData/${this.uname}/IllustrateInfo.json`, JSON.stringify(this.illustrateInfo, null, 4))
     }
+
+    public setVowHeroList(list: Array<number>) {
+        this.illustrateInfo.VowHeroList = list
+        this.illustrateInfo.VowCount = list.length
+        Deno.writeTextFile(`./playerData/${this.uname}/IllustrateInfo.json`, JSON.stringify(this.illustrateInfo, null, 4))
+    }
 }

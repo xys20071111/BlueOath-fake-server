@@ -1,7 +1,7 @@
 import { Socket } from "node:net"
 import protobuf from 'protobufjs'
 import { sendResponsePacket } from "../utils/createResponsePacket.ts"
-import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts"
+import { socketPlayerMap } from "../utils/socketMaps.ts"
 import { HERO_POOL, HERO_POOL_JP } from "../constants/cardPool.ts";
 import { ClientType } from "../entity/player.ts";
 import { EQUIP_POOL, EQUIP_POOL_JP } from "../constants/equipPool.ts";
@@ -12,9 +12,6 @@ const pb = protobuf.loadSync("./raw-protobuf/buildship.proto")
 const TBuildShipRet = pb.lookupType("buildship.TBuildShipRet")
 const TBuildShipArg = pb.lookupType("buildship.TBuildShipArg")
 
-const heroPb = protobuf.loadSync("./raw-protobuf/hero.proto")
-const THeroInfo = heroPb.lookupType("hero.THeroInfo")
-
 enum CardType {
     EQUIP,
     SHIP
@@ -24,21 +21,21 @@ function getCardsFromPool(num: number, cardType: CardType, clientType: ClientTyp
     const result = []
     if (cardType === CardType.SHIP) {
         if (clientType === ClientType.CN) {
-            for (let i = 0; i <= num; i++) {
+            while (result.length !== num) {
                 result.push(HERO_POOL[Math.floor(Math.random() * HERO_POOL.length)])
             }
         } else {
-            for (let i = 0; i <= num; i++) {
+            while (result.length !== num) {
                 result.push(HERO_POOL_JP[Math.floor(Math.random() * HERO_POOL_JP.length)])
             }
         }
     } else {
         if (clientType === ClientType.CN) {
-            for (let i = 0; i <= num; i++) {
+            while (result.length !== num) {
                 result.push(EQUIP_POOL[Math.floor(Math.random() * EQUIP_POOL.length)])
             }
         } else {
-            for (let i = 0; i <= num; i++) {
+            while (result.length !== num) {
                 result.push(EQUIP_POOL_JP[Math.floor(Math.random() * EQUIP_POOL_JP.length)])
             }
         }

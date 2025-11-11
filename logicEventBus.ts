@@ -12,7 +12,7 @@ import { AddExp, AutoUnEquip, ChangeEquip, ChangeName, GetHeroInfoByHeroIdArray,
 import { GetCopyInfo } from "./logic/copyinfo.ts";
 import { StartBase } from "./logic/copy.ts";
 import { GetDiscuss, Discuss, Like } from "./logic/discuss.ts";
-import { AddBehavior, IllustrateNew } from "./logic/illustrate.ts";
+import { AddBehavior, IllustrateNew, ModiVowHeroList, VowHero } from "./logic/illustrate.ts";
 import { GetList, /*CreateGuild*/ } from "./logic/guild.ts";
 import { AddBuilding, SaveTactic, SetHero, UpdateHeroAddition, UpgradeBuilding, EmptyReceive } from "./logic/building.ts";
 import { GetBathroomInfo } from "./logic/bathroom.ts";
@@ -90,6 +90,8 @@ eventBus.on("discuss.Like", Like)
 
 eventBus.on("illustrate.AddBehaviour", AddBehavior)
 eventBus.on("illustrate.IllustrateNew", IllustrateNew)
+eventBus.on("illustrate.ModiVowHeroList", ModiVowHeroList)
+eventBus.on("illustrate.VowHero", VowHero)
 
 eventBus.on("guild.GetList", GetList)
 // eventBus.on("guild.Create", CreateGuild)
@@ -104,6 +106,9 @@ eventBus.on("building.ReceiveBuilding", (socket, _args, callbackHandler, token) 
 })
 eventBus.on("building.ReceiveAll", (socket, _args, callbackHandler, token) => {
     EmptyReceive(socket, "building.ReceiveAll", callbackHandler, token)
+})
+eventBus.on("building.ReceiveResource", (socket, _args, callbackHandler, token) => {
+    EmptyReceive(socket, "building.ReceiveResource", callbackHandler, token)
 })
 
 eventBus.on("bathroom.GetBathroomInfo", GetBathroomInfo)

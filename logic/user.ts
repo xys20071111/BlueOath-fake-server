@@ -168,6 +168,34 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
         const seaCopyInfo = TUserCopyInfo.create({
             BaseInfo: [
                 {
+                    BaseId: 5011,
+                    Rid: 1,
+                    StarLevel: 3,
+                    IsRunningFight: false,
+                    LBPoint: 0,
+                    FirstPassTime: Math.round(Date.now() / 1000),
+                    DropHeroIds: [],
+                    SfLv: 1,
+                    SfPoint: 1,
+                    SfInfo: [],
+                    SfDot: true,
+                    SfLvChoose: 1
+                },
+                {
+                    BaseId: 5012,
+                    Rid: 1,
+                    StarLevel: 3,
+                    IsRunningFight: false,
+                    LBPoint: 0,
+                    FirstPassTime: Math.round(Date.now() / 1000),
+                    DropHeroIds: [],
+                    SfLv: 1,
+                    SfPoint: 1,
+                    SfInfo: [],
+                    SfDot: true,
+                    SfLvChoose: 1
+                },
+                {
                     BaseId: 5013,
                     Rid: 1,
                     StarLevel: 3,
@@ -238,7 +266,7 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
         EquipNum: []
     })
     sendResponsePacket(socket, "equip.UpdateEquipBagData", TEquipList.encode(equipData).finish(), callbackHandler, token)
-    // 图鉴
+    // 图鉴和许愿墙
     const illustrateResData = JSON.stringify(player.getIllustrate().getIllustrateInfo())
     sendResponsePacket(socket, "illustrate.custom.IllustrateInfo", encoder.encode(illustrateResData), callbackHandler, token)
     // 基建

@@ -2,11 +2,11 @@ import { Socket } from "node:net";
 import protobuf from "protobufjs"
 import { sendResponsePacket } from "../utils/createResponsePacket.ts";
 import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
-import { Player } from "../entity/player.ts";
+import { ClientType, Player } from "../entity/player.ts";
 import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts";
 import { generateChatMsg, WorldChatMessage } from "./chat.ts";
 import { chatDb } from "../db.ts";
-import { ITEM_BAG } from "../constants/itemBag.ts";
+import { ITEM_BAG_BASE, ITEM_BAG_CN, ITEM_BAG_JP } from "../constants/itemBag.ts";
 import { TEN_DAYS_IN_SECONDS } from "../constants/chat.ts"
 import { FASHION_INFO, FASHION_INFO_JP } from "../constants/fashion.ts"
 import { sendShipInfo } from "./hero.ts";
@@ -48,7 +48,7 @@ export function UserLogin(socket: Socket, _args: Uint8Array, callbackHandler: nu
         Ret: 'ok',
         ErrCode: '0'
     })
-   sendResponsePacket(socket, "user.UserLogin", TRetLogin.encode(resData).finish(), callbackHandler, token)
+    sendResponsePacket(socket, "user.UserLogin", TRetLogin.encode(resData).finish(), callbackHandler, token)
 }
 
 export function GetUserInfo(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
@@ -246,11 +246,32 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
         templateId: number
         num: number
     }[] = []
-    for (const item of ITEM_BAG) {
-        items.push({
-            templateId: item,
-            num: 10000
-        })
+    if (player.getClientType() === ClientType.CN) {
+        for (const item of ITEM_BAG_BASE) {
+            items.push({
+                templateId: item,
+                num: 10000
+            })
+        }
+        for (const item of ITEM_BAG_CN) {
+            items.push({
+                templateId: item,
+                num: 10000
+            })
+        }
+    } else {
+        for (const item of ITEM_BAG_BASE) {
+            items.push({
+                templateId: item,
+                num: 10000
+            })
+        }
+        for (const item of ITEM_BAG_JP) {
+            items.push({
+                templateId: item,
+                num: 10000
+            })
+        }
     }
     const bagData = TBagInfoRet.create({
         bagType: 1,

@@ -1,4 +1,4 @@
-export const ITEM_BAG = [
+export const ITEM_BAG_BASE = [
     10307,
     10306,
     10305,
@@ -41,7 +41,12 @@ export const ITEM_BAG = [
     11032,
     11033,
     11034,
-    11035,
+    11035
+]
+
+export const ITEM_BAG_CN = [
     11036,
     11037
-]
+] // 国服特有的物品
+
+export const ITEM_BAG_JP = [] // 日服特有的物品

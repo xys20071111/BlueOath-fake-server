@@ -10,6 +10,7 @@ import { ITEM_BAG_BASE, ITEM_BAG_CN, ITEM_BAG_JP } from "../constants/itemBag.ts
 import { TEN_DAYS_IN_SECONDS } from "../constants/chat.ts"
 import { FASHION_INFO, FASHION_INFO_JP } from "../constants/fashion.ts"
 import { sendShipInfo } from "./hero.ts";
+import { PASSED_PLOT } from "../constants/plot.ts";
 
 const playerPb = protobuf.loadSync("./raw-protobuf/player.proto")
 const TRetLogin = playerPb.lookupType("player.TRetLogin")
@@ -98,65 +99,22 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
     sendShipInfo(socket, callbackHandler, token)
     // 副本信息
     // 剧情
+    const BaseInfo: {
+        BaseId: number
+        FirstPassTime: number
+        StarLevel: number
+        LBPoint: number
+    }[] = []
+    for (const id of PASSED_PLOT) {
+        BaseInfo.push({
+            BaseId: id,
+            FirstPassTime: Math.round(Date.now() / 1000),
+            StarLevel: 3,
+            LBPoint: 10000
+        })
+    }
     const plotCopyInfo = TUserCopyInfo.create({
-        BaseInfo: [
-            {
-                BaseId: 0,
-                FirstPassTime: Math.round(Date.now() / 1000),
-            },
-            {
-                BaseId: 1,
-                FirstPassTime: Math.round(Date.now() / 1000),
-            },
-            {
-                BaseId: 2,
-                FirstPassTime: Math.round(Date.now() / 1000),
-            },
-            {
-                BaseId: 3,
-                FirstPassTime: Math.round(Date.now() / 1000),
-            },
-            {
-                BaseId: 4,
-                FirstPassTime: Math.round(Date.now() / 1000),
-            },
-            {
-                BaseId: 5,
-                FirstPassTime: Math.round(Date.now() / 1000),
-            },
-            {
-                BaseId: 6,
-                FirstPassTime: Math.round(Date.now() / 1000),
-            },
-            {
-                BaseId: 7,
-                FirstPassTime: Math.round(Date.now() / 1000),
-            },
-            {
-                BaseId: 8,
-                FirstPassTime: Math.round(Date.now() / 1000),
-            },
-            {
-                BaseId: 9,
-                FirstPassTime: Math.round(Date.now() / 1000),
-            },
-            {
-                BaseId: 10,
-                FirstPassTime: Math.round(Date.now() / 1000),
-            },
-            {
-                BaseId: 11,
-                FirstPassTime: Math.round(Date.now() / 1000),
-            },
-            {
-                BaseId: 12,
-                FirstPassTime: Math.round(Date.now() / 1000),
-            },
-            {
-                BaseId: 13,
-                FirstPassTime: Math.round(Date.now() / 1000),
-            }
-        ],
+        BaseInfo,
         MaxCopyId: 1,
         CopyType: 1,
         StarInfo: [],
@@ -246,13 +204,13 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
         templateId: number
         num: number
     }[] = []
+    for (const item of ITEM_BAG_BASE) {
+        items.push({
+            templateId: item,
+            num: 10000
+        })
+    }
     if (player.getClientType() === ClientType.CN) {
-        for (const item of ITEM_BAG_BASE) {
-            items.push({
-                templateId: item,
-                num: 10000
-            })
-        }
         for (const item of ITEM_BAG_CN) {
             items.push({
                 templateId: item,
@@ -260,12 +218,6 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
             })
         }
     } else {
-        for (const item of ITEM_BAG_BASE) {
-            items.push({
-                templateId: item,
-                num: 10000
-            })
-        }
         for (const item of ITEM_BAG_JP) {
             items.push({
                 templateId: item,

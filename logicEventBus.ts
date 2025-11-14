@@ -2,7 +2,7 @@ import { EventEmitter } from "node:events";
 import { Socket } from "node:net"
 import { socketPlayerMap } from "./utils/socketMaps.ts";
 import { GetUserList, Login } from "./logic/login.ts";
-import { GetSupply, GetUserInfo, Refresh, SetUserSecretary, UserLogin } from "./logic/user.ts"
+import { GetMiniGameScore, GetSupply, GetUserInfo, Refresh, SetMiniGameScore, SetUserSecretary, UserLogin } from "./logic/user.ts"
 import { ChangeWorldChannel, GetBarrageById, SendMessage } from "./logic/chat.ts";
 import { PlotReward, Setting } from "./logic/guide.ts";
 import { SavePrefs } from "./logic/prefs.ts";
@@ -52,6 +52,8 @@ eventBus.on("user.SetUserSecretary", SetUserSecretary)
 eventBus.on("user.Refresh", Refresh)
 eventBus.on("user.GetSupply", GetSupply)
 eventBus.on("user.SetUserOrderRecord", EmptyReply("user.SetUserOrderRecord"))
+eventBus.on("user.GetMiniGameScore", GetMiniGameScore)
+eventBus.on("user.SetMiniGameScore", SetMiniGameScore)
 
 eventBus.on("chat.GetBarrageById", GetBarrageById)
 eventBus.on("chat.SendMessage", SendMessage)
@@ -128,6 +130,8 @@ eventBus.on("equip.Enhance", Enhance)
 eventBus.on("equip.RiseStar", RiseStar)
 
 eventBus.on("task.TaskTrigger", EmptyReply("task.TaskTrigger"))
+
+eventBus.on("miniGame.StartMiniGame", EmptyReply("miniGame.StartMiniGame"))
 
 //日服特有
 eventBus.on("invitescore.SetInviteStateByType", EmptyReply("invitescore.SetInviteStateByType"))

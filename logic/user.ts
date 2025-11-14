@@ -5,7 +5,7 @@ import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
 import { ClientType, Player } from "../entity/player.ts";
 import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts";
 import { generateChatMsg, WorldChatMessage } from "./chat.ts";
-import { chatDb } from "../db.ts";
+import { chatDb, miniGameScoreDb } from "../db.ts";
 import { ITEM_BAG_BASE, ITEM_BAG_CN, ITEM_BAG_JP } from "../constants/itemBag.ts";
 import { TEN_DAYS_IN_SECONDS } from "../constants/chat.ts"
 import { FASHION_INFO, FASHION_INFO_JP } from "../constants/fashion.ts"
@@ -18,9 +18,9 @@ const TRetLogin = playerPb.lookupType("player.TRetLogin")
 const userPb = protobuf.loadSync("./raw-protobuf/user.proto")
 const TGetUserInfoRet = userPb.lookupType("user.TGetUserInfoRet")
 const TSetUserSecretaryArg = userPb.lookupType("user.TSetUserSecretaryArg")
-
-const heroPb = protobuf.loadSync("./raw-protobuf/hero.proto")
-const THeroInfo = heroPb.lookupType("hero.THeroInfo")
+const TGetMiniGameScoreArg = userPb.lookupType("user.TGetMiniGameScoreArg")
+const TMiniGameScoreRet = userPb.lookupType("user.TMiniGameScoreRet")
+const TSetMiniGameScoreArg = userPb.lookupType("user.TSetMiniGameScoreArg")
 
 // 副本相关的proto，哪个大聪明将副本翻译成了copy?
 const copyPb = protobuf.loadSync("./raw-protobuf/copy.proto")
@@ -40,9 +40,6 @@ const TBuildShipInfo = gachaPb.lookupType("buildship.TBuildShipInfo")
 
 const bathroomPb = protobuf.loadSync("./raw-protobuf/bathroom.proto")
 const TBathroomInfo = bathroomPb.lookupType("bathroom.TBathroomInfo")
-
-const fashionPb = protobuf.loadSync("./raw-protobuf/fashion.proto")
-const TFashionList = fashionPb.lookupType("fashion.TFashionList")
 
 export function UserLogin(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
     const resData = TRetLogin.create({
@@ -79,6 +76,34 @@ export function Refresh(socket: Socket, _args: Uint8Array, callbackHandler: numb
 
 export function GetSupply(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
     sendResponsePacket(socket, "user.GetSupply", EMPTY_UINT8ARRAY, callbackHandler, token)
+}
+
+export async function GetMiniGameScore(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
+    const { ChapterId } = TGetMiniGameScoreArg.decode(args).toJSON()
+    const player = socketPlayerMap.get(socket)!
+    const uname = player.getUname()
+    const scoreInfo = await miniGameScoreDb.get<any>([uname, ChapterId])
+    let Score = 0
+    let Time = 0
+    if (scoreInfo.value) {
+        for(const item of scoreInfo.value.Score) {
+            Score += item.Score
+        }
+        Time = scoreInfo.value.TimeCount
+    }
+    const resData = TMiniGameScoreRet.create({ Score, Time })
+    sendResponsePacket(socket, "user.GetMiniGameScore", TMiniGameScoreRet.encode(resData).finish(), callbackHandler, token)
+}
+
+export async function SetMiniGameScore(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
+    const parsedArgs = TSetMiniGameScoreArg.decode(args).toJSON()
+    console.log(parsedArgs)
+    const player = socketPlayerMap.get(socket)!
+    const uname = player.getUname()
+    await miniGameScoreDb.set([uname, parsedArgs.ChapterId], parsedArgs)
+    const currentGame = parsedArgs.Score[parsedArgs.Score.length - 1]
+    const resData = TMiniGameScoreRet.create({ Score: currentGame.Score, Time: parsedArgs.TimeCount })
+    sendResponsePacket(socket, "user.SetMiniGameScore", TMiniGameScoreRet.encode(resData).finish(), callbackHandler, token)
 }
 
 async function sendInitMessages(socket: Socket, player: Player, callbackHandler: number, token: string) {

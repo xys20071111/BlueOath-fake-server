@@ -86,7 +86,7 @@ export async function GetMiniGameScore(socket: Socket, args: Uint8Array, callbac
     let Score = 0
     let Time = 0
     if (scoreInfo.value) {
-        for(const item of scoreInfo.value.Score) {
+        for (const item of scoreInfo.value.Score) {
             Score += item.Score
         }
         Time = scoreInfo.value.TimeCount
@@ -322,4 +322,11 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
         FashionInfo: player.getClientType() === 0 ? FASHION_INFO : FASHION_INFO_JP
     }
     sendResponsePacket(socket, "fashion.custom.updateData", encoder.encode(JSON.stringify(fashionData)), callbackHandler, token)
+    // 杂志
+    const magazineData = {
+        MagazineIdList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        Time: Math.round(Date.now() / 1000),
+        Version: 1
+    }
+    sendResponsePacket(socket, "magazine.custom.UpdateMagazineInfo", encoder.encode(JSON.stringify(magazineData)), callbackHandler, token)
 }

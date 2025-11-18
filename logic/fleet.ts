@@ -1,7 +1,7 @@
 import { Socket } from "node:net";
 import protobuf from "protobufjs"
 import { sendResponsePacket } from "../utils/createResponsePacket.ts";
-import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
+import { socketPlayerMap } from "../utils/socketMaps.ts";
 
 const pb = protobuf.loadSync("./raw-protobuf/tactic.proto")
 const TSelfTactis = pb.lookupType("tactic.TSelfTactis")

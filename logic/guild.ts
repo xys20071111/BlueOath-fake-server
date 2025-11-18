@@ -1,7 +1,6 @@
 import { Socket } from "node:net";
 import protobuf from "protobufjs"
 import { sendResponsePacket } from "../utils/createResponsePacket.ts";
-import { getSeq } from "../utils/socketMaps.ts";
 import { guildDb } from "../db.ts";
 
 interface BaseGuildInfo {

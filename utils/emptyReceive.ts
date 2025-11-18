@@ -1,6 +1,5 @@
 import { Socket } from "node:net";
 import { EMPTY_UINT8ARRAY } from "./placeholder.ts";
-import { getSeq } from "./socketMaps.ts";
 import { sendResponsePacket } from "./createResponsePacket.ts";
 
 export function EmptyReply(method: string) {

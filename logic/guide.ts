@@ -1,7 +1,6 @@
 import { Socket } from "node:net";
 import protobuf from "protobufjs"
 import { sendResponsePacket } from "../utils/createResponsePacket.ts";
-import { getSeq } from "../utils/socketMaps.ts";
 
 const pb = protobuf.loadSync("./raw-protobuf/guide.proto")
 const TGuidePlotRewardRet = pb.lookupType("guide.TGuidePlotRewardRet")

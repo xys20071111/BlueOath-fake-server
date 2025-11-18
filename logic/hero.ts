@@ -1,14 +1,14 @@
 import { Socket } from "node:net";
 import protobuf from "protobufjs"
 import { sendResponsePacket } from "../utils/createResponsePacket.ts";
-import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
+import { socketPlayerMap } from "../utils/socketMaps.ts";
 import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts";
 import { EXP_ITEM } from "../constants/exp.ts";
+import { encoder } from "../utils/endecoder.ts";
 
 const pb = protobuf.loadSync("./raw-protobuf/hero.proto")
 const TLockHeroArg = pb.lookupType("hero.TLockHeroArg")
 const TLockHeroRet = pb.lookupType("hero.TLockHeroRet")
-const THeroInfo = pb.lookupType("hero.THeroInfo")
 const TMarryArg = pb.lookupType("hero.TMarryArg")
 const TChangeHeroNameArg = pb.lookupType("hero.TChangeHeroNameArg")
 const THeroAddExp = pb.lookupType("hero.THeroAddExp")
@@ -20,8 +20,6 @@ const TAdvanceArg = pb.lookupType("hero.TAdvanceArg")
 const THeroChangeEquipArgs = pb.lookupType("hero.THeroChangeEquipArgs")
 const THeroAutoUnEquipArg = pb.lookupType("hero.THeroAutoUnEquipArg")
 const TRemouldArg = pb.lookupType("hero.TRemouldArg")
-
-const encoder = new TextEncoder()
 
 // 提示信息显示一直不正常
 export function LockHero(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {

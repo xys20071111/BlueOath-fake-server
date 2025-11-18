@@ -1,10 +1,9 @@
 import { Socket } from "node:net";
 import protobuf from "protobufjs"
 import { sendResponsePacket } from "../utils/createResponsePacket.ts";
-import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
+import { socketPlayerMap } from "../utils/socketMaps.ts";
 import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts";
-
-const encoder = new TextEncoder()
+import { encoder } from "../utils/endecoder.ts";
 
 const pb = protobuf.loadSync("./raw-protobuf/building.proto")
 const TSaveBuildingTacticArg = pb.lookupType("building.TSaveBuildingTacticArg")

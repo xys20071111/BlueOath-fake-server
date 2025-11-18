@@ -1,7 +1,7 @@
 import { Socket } from "node:net";
 import protobuf from "protobufjs"
 import { sendResponsePacket } from "../utils/createResponsePacket.ts";
-import { getSeq, socketPlayerMap } from "../utils/socketMaps.ts";
+import { socketPlayerMap } from "../utils/socketMaps.ts";
 import { ClientType, Player } from "../entity/player.ts";
 import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts";
 import { generateChatMsg, WorldChatMessage } from "./chat.ts";
@@ -11,6 +11,8 @@ import { TEN_DAYS_IN_SECONDS } from "../constants/chat.ts"
 import { FASHION_INFO, FASHION_INFO_JP } from "../constants/fashion.ts"
 import { sendShipInfo } from "./hero.ts";
 import { PASSED_PLOT } from "../constants/plot.ts";
+import { STRATEGY_ID_CN } from "../constants/strategyId.ts";
+import { encoder } from "../utils/endecoder.ts";
 
 const playerPb = protobuf.loadSync("./raw-protobuf/player.proto")
 const TRetLogin = playerPb.lookupType("player.TRetLogin")
@@ -40,6 +42,9 @@ const TBuildShipInfo = gachaPb.lookupType("buildship.TBuildShipInfo")
 
 const bathroomPb = protobuf.loadSync("./raw-protobuf/bathroom.proto")
 const TBathroomInfo = bathroomPb.lookupType("bathroom.TBathroomInfo")
+
+const strategyPb = protobuf.loadSync("./raw-protobuf/strategy.proto")
+const TStrategy = strategyPb.lookupType("strategy.TStrategy")
 
 export function UserLogin(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
     const resData = TRetLogin.create({
@@ -107,7 +112,6 @@ export async function SetMiniGameScore(socket: Socket, args: Uint8Array, callbac
 }
 
 async function sendInitMessages(socket: Socket, player: Player, callbackHandler: number, token: string) {
-    const encoder = new TextEncoder()
     // 基础用户信息
     const userInfo = player.getUserInfo()
     const userInfoData = TGetUserInfoRet.create(userInfo)
@@ -180,6 +184,20 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
                 },
                 {
                     BaseId: 5013,
+                    Rid: 1,
+                    StarLevel: 3,
+                    IsRunningFight: false,
+                    LBPoint: 0,
+                    FirstPassTime: Math.round(Date.now() / 1000),
+                    DropHeroIds: [],
+                    SfLv: 1,
+                    SfPoint: 1,
+                    SfInfo: [],
+                    SfDot: true,
+                    SfLvChoose: 1
+                },
+                {
+                    BaseId: 5014,
                     Rid: 1,
                     StarLevel: 3,
                     IsRunningFight: false,
@@ -329,4 +347,30 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
         Version: 1
     }
     sendResponsePacket(socket, "magazine.custom.UpdateMagazineInfo", encoder.encode(JSON.stringify(magazineData)), callbackHandler, token)
+    if (player.getClientType() === 0) {
+        const strategyData = TStrategy.create({
+            StrategyList: STRATEGY_ID_CN.map((v) => {
+                return {
+                    Id: 100+v,
+                    Level: 1
+                }
+            }),
+            CurCost: 0,
+            ResetNum: 0
+        })
+        sendResponsePacket(socket, "strategy.GetStrategy", TStrategy.encode(strategyData).finish(), callbackHandler, token)
+    } else {
+        const strategyData = TStrategy.create({
+            StrategyList: STRATEGY_ID_CN.map((v) => {
+                return {
+                    Id: 100+v,
+                    Level: 1
+                }
+            }),
+            CurCost: 0,
+            ResetNum: 0
+        })
+        sendResponsePacket(socket, "strategy.GetStrategy", TStrategy.encode(strategyData).finish(), callbackHandler, token)
+    }
+    
 }

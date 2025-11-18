@@ -23,6 +23,7 @@ import { BuildShip } from "./logic/gacha.ts";
 import { EmptyReply } from "./utils/emptyReceive.ts";
 import { Equip } from "./logic/fashion.ts";
 import { Enhance, RiseStar } from "./logic/equip.ts";
+import { Apply } from "./logic/strategy.ts";
 
 class EventBus extends EventEmitter {
     // 重写一下emit函数，检查socket是不是已经登录了
@@ -132,6 +133,8 @@ eventBus.on("equip.RiseStar", RiseStar)
 eventBus.on("task.TaskTrigger", EmptyReply("task.TaskTrigger"))
 
 eventBus.on("miniGame.StartMiniGame", EmptyReply("miniGame.StartMiniGame"))
+
+eventBus.on("strategy.Apply", Apply)
 
 //日服特有
 eventBus.on("invitescore.SetInviteStateByType", EmptyReply("invitescore.SetInviteStateByType"))

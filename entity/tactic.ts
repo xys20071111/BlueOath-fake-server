@@ -30,6 +30,11 @@ export class Tactic {
         Deno.writeTextFile(`./playerData/${this.uname}/FleetInfo.json`, JSON.stringify(this.tactics, null, 4))
     }
 
+    public setStrategy(fleet: number, strategy: number, type: number) {
+        this.tactics[fleet - 1].strategyId = strategy
+        Deno.writeTextFile(`./playerData/${this.uname}/FleetInfo.json`, JSON.stringify(this.tactics, null, 4))
+    }
+
     public getTacticInfo() {
         return this.tactics
     }

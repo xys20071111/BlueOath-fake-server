@@ -13,6 +13,8 @@ import { sendShipInfo } from "./hero.ts";
 import { PASSED_PLOT } from "../constants/plot.ts";
 import { STRATEGY_ID_CN } from "../constants/strategyId.ts";
 import { encoder } from "../utils/endecoder.ts";
+import { INTERACTION_BAG_IDS } from "../constants/interactiveItem.ts";
+import { sendInteractionItemInfo } from "./interactionItem.ts";
 
 const playerPb = protobuf.loadSync("./raw-protobuf/player.proto")
 const TRetLogin = playerPb.lookupType("player.TRetLogin")
@@ -54,7 +56,7 @@ export function UserLogin(socket: Socket, _args: Uint8Array, callbackHandler: nu
     sendResponsePacket(socket, "user.UserLogin", TRetLogin.encode(resData).finish(), callbackHandler, token)
 }
 
-export function GetUserInfo(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
+export function GetUserInfo(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
     const player = socketPlayerMap.get(socket)!
     // 这个LoginOK也不知道有啥用，在lua里看了一圈没有一个会用到它发送的数据的，要想设置UserData全靠上面的UpdateUserInfo
     // 这里大概就是把单机版那里设置数据的部分写到这吧
@@ -221,7 +223,7 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
         const seaCopyInfo = TUserCopyInfo.create({
             BaseInfo: [
                 {
-                    BaseId: 1610300,
+                    BaseId: 5011,
                     Rid: 1,
                     StarLevel: 3,
                     IsRunningFight: false,
@@ -235,7 +237,7 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
                     SfLvChoose: 1
                 }
             ],
-            MaxCopyId: 1,
+            MaxCopyId: 5011,
             CopyType: 2,
             StarInfo: [],
             PassCopyCount: 0
@@ -351,7 +353,7 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
         const strategyData = TStrategy.create({
             StrategyList: STRATEGY_ID_CN.map((v) => {
                 return {
-                    Id: 100+v,
+                    Id: 100 + v,
                     Level: 1
                 }
             }),
@@ -363,7 +365,7 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
         const strategyData = TStrategy.create({
             StrategyList: STRATEGY_ID_CN.map((v) => {
                 return {
-                    Id: 100+v,
+                    Id: 100 + v,
                     Level: 1
                 }
             }),
@@ -372,5 +374,6 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
         })
         sendResponsePacket(socket, "strategy.GetStrategy", TStrategy.encode(strategyData).finish(), callbackHandler, token)
     }
-    
+    // 装饰品
+    sendInteractionItemInfo(socket)
 }

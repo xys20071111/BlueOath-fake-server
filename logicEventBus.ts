@@ -24,6 +24,7 @@ import { EmptyReply } from "./utils/emptyReceive.ts";
 import { Equip } from "./logic/fashion.ts";
 import { Enhance, RiseStar } from "./logic/equip.ts";
 import { Apply } from "./logic/strategy.ts";
+import { SetBagItemVisible, SetMutexBagGroupState, SetPosterState } from "./logic/interactionItem.ts";
 
 class EventBus extends EventEmitter {
     // 重写一下emit函数，检查socket是不是已经登录了
@@ -136,5 +137,9 @@ eventBus.on("miniGame.StartMiniGame", EmptyReply("miniGame.StartMiniGame"))
 
 eventBus.on("strategy.Apply", Apply)
 
-//日服特有
+eventBus.on("interactionitem.SetMutexBagGroupState", SetMutexBagGroupState)
+eventBus.on("interactionitem.SetBagItemVisible", SetBagItemVisible)
+eventBus.on("interactionitem.SetPosterState", SetPosterState)
+
+//日服特有，邀请用户去Google Play打好评
 eventBus.on("invitescore.SetInviteStateByType", EmptyReply("invitescore.SetInviteStateByType"))

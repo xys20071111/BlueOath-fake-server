@@ -3,6 +3,7 @@ import { HeroBag } from "./heroBag.ts";
 import { EquipBag } from "./equipBag.ts";
 import { Illustrate } from "./illustrate.ts";
 import { Tactic } from "./tactic.ts";
+import { InteractionItemEntity } from "./interactionItem.ts";
 
 export enum ClientType {
     CN,
@@ -17,6 +18,7 @@ export class Player {
     private equipBagInfo: EquipBag
     private illustrateInfo: Illustrate
     private buildingInfo: Building
+    private interactionItem: InteractionItemEntity
     private clientType: ClientType
     constructor(uname: string, type: ClientType) {
         this.uname = uname
@@ -27,6 +29,7 @@ export class Player {
         this.equipBagInfo = new EquipBag(uname)
         this.illustrateInfo = new Illustrate(uname)
         this.buildingInfo = new Building(uname)
+        this.interactionItem = new InteractionItemEntity(uname)
 
         const secretary = this.heroInfo.getHeroBasicInfoById(this.userInfo.SecretaryId)
         this.userInfo.HeadShow = secretary.isMarried ? 1 : 0
@@ -72,6 +75,10 @@ export class Player {
 
     public getIllustrate() {
         return this.illustrateInfo
+    }
+
+    public getInteractionItem() {
+        return this.interactionItem
     }
 
     public setSecretary(id: number) {

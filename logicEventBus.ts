@@ -140,6 +140,7 @@ eventBus.on("strategy.Apply", Apply)
 eventBus.on("interactionitem.SetMutexBagGroupState", SetMutexBagGroupState)
 eventBus.on("interactionitem.SetBagItemVisible", SetBagItemVisible)
 eventBus.on("interactionitem.SetPosterState", SetPosterState)
+eventBus.on("interactionitem.GetItemReward", EmptyReply("interactionitem.GetItemReward"))
 
 //日服特有，邀请用户去Google Play打好评
 eventBus.on("invitescore.SetInviteStateByType", EmptyReply("invitescore.SetInviteStateByType"))

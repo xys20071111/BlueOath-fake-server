@@ -57,12 +57,30 @@ export class InteractionItemEntity {
     }
 
     public setPoster(point: number, posterId: number) {
-        this.interactionItem.posterState = [
-            {
-                point,
-                posterId
+        if (!this.interactionItem.posterState) {
+            this.interactionItem.posterState = [
+                {
+                    point,
+                    posterId
+                }
+            ]
+        } else {
+            let found = false
+            for (let i = 0; i < this.interactionItem.posterState.length; i++) {
+                if (this.interactionItem.posterState[i].point === point) {
+                    found = true
+                    this.interactionItem.posterState[i].posterId = posterId
+                    break
+                }
             }
-        ]
+            if (!found) {
+                this.interactionItem.posterState.push({
+                    point,
+                    posterId
+                })
+            }
+
+        }
         Deno.writeTextFile(`./playerData/${this.uname}/InteractionItem.json`, JSON.stringify(this.interactionItem, null, 4))
     }
 }

@@ -1,7 +1,7 @@
 import { Socket } from "node:net";
 import protobuf from "protobufjs"
 import { sendResponsePacket } from "../utils/createResponsePacket.ts";
-import { INTERACTION_BAG_IDS } from "../constants/interactiveItem.ts";
+import { INTERACTION_BAG_IDS_CN, INTERACTION_BAG_IDS_JP } from "../constants/interactiveItem.ts";
 import { socketPlayerMap } from "../utils/socketMaps.ts";
 import { encoder } from "../utils/endecoder.ts";
 import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts";
@@ -39,7 +39,7 @@ export function sendInteractionItemInfo(socket: Socket) {
     const player = socketPlayerMap.get(socket)!
     const interactionItem = player.getInteractionItem()
     const interactionBagItem = []
-    for (const id of INTERACTION_BAG_IDS) {
+    for (const id of player.getClientType() === 0 ? INTERACTION_BAG_IDS_CN : INTERACTION_BAG_IDS_JP) {
         interactionBagItem.push({
             id,
             num: 1,

@@ -13,7 +13,7 @@ import { sendShipInfo } from "./hero.ts";
 import { PASSED_PLOT } from "../constants/plot.ts";
 import { STRATEGY_ID_CN } from "../constants/strategyId.ts";
 import { encoder } from "../utils/endecoder.ts";
-import { INTERACTION_BAG_IDS } from "../constants/interactiveItem.ts";
+import { INTERACTION_BAG_IDS_CN } from "../constants/interactiveItem.ts";
 import { sendInteractionItemInfo } from "./interactionItem.ts";
 
 const playerPb = protobuf.loadSync("./raw-protobuf/player.proto")

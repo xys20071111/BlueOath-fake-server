@@ -61,6 +61,7 @@ export function GetUserInfo(socket: Socket, _args: Uint8Array, callbackHandler: 
     // 这个LoginOK也不知道有啥用，在lua里看了一圈没有一个会用到它发送的数据的，要想设置UserData全靠上面的UpdateUserInfo
     // 这里大概就是把单机版那里设置数据的部分写到这吧
     sendInitMessages(socket, player, callbackHandler, token)
+    sendOnce(socket, player, callbackHandler, token)
     sendResponsePacket(socket, "user.GetUserInfo", EMPTY_UINT8ARRAY, callbackHandler, token)
 }
 
@@ -311,6 +312,9 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
         PersonalMsg: []
     })
     sendResponsePacket(socket, "chat.ChatInfo", TChatInfoRet.encode(chatData).finish(), callbackHandler, token)
+}
+
+function sendOnce(socket: Socket, player: Player, callbackHandler: number, token: string) {
     // 抽卡信息
     const gachaData = TBuildShipInfo.create({
         DrawInfo: [],
@@ -337,6 +341,8 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
         HeroList: []
     })
     sendResponsePacket(socket, "bathroom.BathroomInfo", TBathroomInfo.encode(resData).finish(), callbackHandler, token)
+    // 装饰品
+    sendInteractionItemInfo(socket)
     // 时装信息
     const fashionData = {
         FashionInfo: player.getClientType() === 0 ? FASHION_INFO : FASHION_INFO_JP
@@ -374,6 +380,4 @@ async function sendInitMessages(socket: Socket, player: Player, callbackHandler:
         })
         sendResponsePacket(socket, "strategy.GetStrategy", TStrategy.encode(strategyData).finish(), callbackHandler, token)
     }
-    // 装饰品
-    sendInteractionItemInfo(socket)
 }

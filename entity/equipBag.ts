@@ -24,12 +24,16 @@ export class EquipBag {
     private uname: string
 
     constructor(uname: string) {
-        this.equipInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${uname}/equipBag.json`))
+        this.equipInfo = JSON.parse(
+            Deno.readTextFileSync(`./playerData/${uname}/equipBag.json`),
+        )
         this.uname = uname
     }
 
     public reload() {
-        this.equipInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/equipBag.json`))
+        this.equipInfo = JSON.parse(
+            Deno.readTextFileSync(`./playerData/${this.uname}/equipBag.json`),
+        )
     }
 
     public getEquipInfo() {
@@ -37,7 +41,7 @@ export class EquipBag {
         this.equipInfo.forEach((v, k) => {
             equipBag.push({
                 EquipId: k + 1,
-                ...v
+                ...v,
             })
         })
         return equipBag
@@ -46,21 +50,30 @@ export class EquipBag {
     public setHero(hero: number, equip: number) {
         if (equip > 0) {
             this.equipInfo[equip - 1].HeroId = hero
-            Deno.writeTextFile(`./playerData/${this.uname}/equipBag.json`, JSON.stringify(this.equipInfo, null, 4))
+            Deno.writeTextFile(
+                `./playerData/${this.uname}/equipBag.json`,
+                JSON.stringify(this.equipInfo, null, 4),
+            )
         }
     }
 
     public enhance(id: number) {
         const targetId = id - 1
         this.equipInfo[targetId].EnhanceLv++
-        Deno.writeTextFile(`./playerData/${this.uname}/equipBag.json`, JSON.stringify(this.equipInfo, null, 4))
+        Deno.writeTextFile(
+            `./playerData/${this.uname}/equipBag.json`,
+            JSON.stringify(this.equipInfo, null, 4),
+        )
         return this.equipInfo[targetId].EnhanceLv
     }
 
     public riseStar(id: number) {
         const targetId = id - 1
         this.equipInfo[targetId].Star++
-        Deno.writeTextFile(`./playerData/${this.uname}/equipBag.json`, JSON.stringify(this.equipInfo, null, 4))
+        Deno.writeTextFile(
+            `./playerData/${this.uname}/equipBag.json`,
+            JSON.stringify(this.equipInfo, null, 4),
+        )
         return this.equipInfo[targetId].Star
     }
 
@@ -74,14 +87,17 @@ export class EquipBag {
                 EnhanceExp: 0,
                 PSkillList: [],
                 RiseCommonEquips: [],
-                HeroId: 0
+                HeroId: 0,
             })
             result.push({
                 tid: id,
-                id: this.equipInfo.length
+                id: this.equipInfo.length,
             })
         }
-        Deno.writeTextFile(`./playerData/${this.uname}/equipBag.json`, JSON.stringify(this.equipInfo, null, 4))
+        Deno.writeTextFile(
+            `./playerData/${this.uname}/equipBag.json`,
+            JSON.stringify(this.equipInfo, null, 4),
+        )
         return result
     }
 }

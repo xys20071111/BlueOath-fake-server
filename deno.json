@@ -1,8 +1,13 @@
 {
-  "imports": {
-    "@oak/oak": "jsr:@oak/oak@^17.1.6",
-    "@types/node": "npm:@types/node@^24.2.0",
-    "protobufjs": "npm:protobufjs@^7.5.4"
-  },
-  "nodeModulesDir": "auto"
+    "imports": {
+        "@oak/oak": "jsr:@oak/oak@^17.1.6",
+        "@types/node": "npm:@types/node@^24.2.0",
+        "protobufjs": "npm:protobufjs@^7.5.4"
+    },
+    "nodeModulesDir": "auto",
+    "fmt": {
+        "indentWidth": 4,
+        "semiColons": false,
+        "singleQuote": true
+    }
 }

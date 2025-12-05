@@ -62,11 +62,17 @@ export class Building {
     private uname: string
     constructor(uname: string) {
         this.uname = uname
-        this.buildingInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${uname}/BuildingInfo.json`))
+        this.buildingInfo = JSON.parse(
+            Deno.readTextFileSync(`./playerData/${uname}/BuildingInfo.json`),
+        )
     }
 
     public reload() {
-        this.buildingInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/BuildingInfo.json`))
+        this.buildingInfo = JSON.parse(
+            Deno.readTextFileSync(
+                `./playerData/${this.uname}/BuildingInfo.json`,
+            ),
+        )
     }
 
     public getBuildingInfo() {
@@ -85,7 +91,10 @@ export class Building {
                 break
             }
         }
-        Deno.writeTextFile(`./playerData/${this.uname}/BuildingInfo.json`, JSON.stringify(this.buildingInfo, null, 4))
+        Deno.writeTextFile(
+            `./playerData/${this.uname}/BuildingInfo.json`,
+            JSON.stringify(this.buildingInfo, null, 4),
+        )
     }
 
     public buildingUpgrade(id: number) {
@@ -95,7 +104,10 @@ export class Building {
                 break
             }
         }
-        Deno.writeTextFile(`./playerData/${this.uname}/BuildingInfo.json`, JSON.stringify(this.buildingInfo, null, 4))
+        Deno.writeTextFile(
+            `./playerData/${this.uname}/BuildingInfo.json`,
+            JSON.stringify(this.buildingInfo, null, 4),
+        )
     }
 
     public buildingSetHero(id: number, HeroIdList: number[]) {
@@ -105,7 +117,10 @@ export class Building {
                 break
             }
         }
-        Deno.writeTextFile(`./playerData/${this.uname}/BuildingInfo.json`, JSON.stringify(this.buildingInfo, null, 4))
+        Deno.writeTextFile(
+            `./playerData/${this.uname}/BuildingInfo.json`,
+            JSON.stringify(this.buildingInfo, null, 4),
+        )
     }
 
     public addBuilding(tid: number, index: number) {
@@ -122,13 +137,16 @@ export class Building {
             LastUpdateTime: 0,
             LastMoodUpdateTime: 0,
             LastBuildUpdateTime: 0,
-            HeroEffectTimeList: []
+            HeroEffectTimeList: [],
         })
         this.buildingInfo.LandList.push({
             Index: index,
-            BuildingId: id
+            BuildingId: id,
         })
-        Deno.writeTextFile(`./playerData/${this.uname}/BuildingInfo.json`, JSON.stringify(this.buildingInfo, null, 4))
+        Deno.writeTextFile(
+            `./playerData/${this.uname}/BuildingInfo.json`,
+            JSON.stringify(this.buildingInfo, null, 4),
+        )
         return id
     }
 }

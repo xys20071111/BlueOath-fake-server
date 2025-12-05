@@ -1,13 +1,13 @@
-import { Building } from "./building.ts";
-import { HeroBag } from "./heroBag.ts";
-import { EquipBag } from "./equipBag.ts";
-import { Illustrate } from "./illustrate.ts";
-import { Tactic } from "./tactic.ts";
-import { InteractionItemEntity } from "./interactionItem.ts";
+import { Building } from './building.ts'
+import { HeroBag } from './heroBag.ts'
+import { EquipBag } from './equipBag.ts'
+import { Illustrate } from './illustrate.ts'
+import { Tactic } from './tactic.ts'
+import { InteractionItemEntity } from './interactionItem.ts'
 
 export enum ClientType {
     CN,
-    JP
+    JP,
 }
 
 export class Player {
@@ -23,7 +23,9 @@ export class Player {
     constructor(uname: string, type: ClientType) {
         this.uname = uname
         this.clientType = type
-        this.userInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/UserInfo.json`))
+        this.userInfo = JSON.parse(
+            Deno.readTextFileSync(`./playerData/${this.uname}/UserInfo.json`),
+        )
         this.heroInfo = new HeroBag(uname)
         this.tactic = new Tactic(uname)
         this.equipBagInfo = new EquipBag(uname)
@@ -31,20 +33,26 @@ export class Player {
         this.buildingInfo = new Building(uname)
         this.interactionItem = new InteractionItemEntity(uname)
 
-        const secretary = this.heroInfo.getHeroBasicInfoById(this.userInfo.SecretaryId)
+        const secretary = this.heroInfo.getHeroBasicInfoById(
+            this.userInfo.SecretaryId,
+        )
         this.userInfo.HeadShow = secretary.isMarried ? 1 : 0
         this.userInfo.Head = secretary.id
     }
 
     public refreshUserInfo() {
-        this.userInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/UserInfo.json`))
+        this.userInfo = JSON.parse(
+            Deno.readTextFileSync(`./playerData/${this.uname}/UserInfo.json`),
+        )
         this.heroInfo.reload()
         this.tactic.reload()
         this.buildingInfo.reload()
         this.equipBagInfo.reload()
         this.illustrateInfo.reload()
-        
-        const secretary = this.heroInfo.getHeroBasicInfoById(this.userInfo.SecretaryId)
+
+        const secretary = this.heroInfo.getHeroBasicInfoById(
+            this.userInfo.SecretaryId,
+        )
         this.userInfo.HeadShow = secretary.isMarried ? 1 : 0
         this.userInfo.Head = secretary.id
     }
@@ -85,7 +93,10 @@ export class Player {
         const hero = this.heroInfo.getHeroBasicInfoById(id)
         this.userInfo.SecretaryId = id
         this.userInfo.HeadShow = hero.isMarried ? 1 : 0
-        Deno.writeTextFile(`./playerData/${this.uname}/UserInfo.json`, JSON.stringify(this.userInfo, null, 4))
+        Deno.writeTextFile(
+            `./playerData/${this.uname}/UserInfo.json`,
+            JSON.stringify(this.userInfo, null, 4),
+        )
     }
 
     public getEquipBag() {

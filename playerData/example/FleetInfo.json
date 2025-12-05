@@ -1,7 +1,7 @@
 [
     {
         "tacticName": "test1",
-        "heroInfo": [0,1,2],
+        "heroInfo": [0, 1, 2],
         "modeId": 1,
         "strategyId": 101,
         "formationId": 1001,

@@ -1,11 +1,11 @@
-import { Socket } from "node:net";
-import protobuf from "protobufjs"
-import { sendResponsePacket } from "../utils/createResponsePacket.ts";
-import { socketPlayerMap } from "../utils/socketMaps.ts";
+import { Socket } from 'node:net'
+import protobuf from 'protobufjs'
+import { sendResponsePacket } from '../utils/createResponsePacket.ts'
+import { socketPlayerMap } from '../utils/socketMaps.ts'
 
-const copyPb = protobuf.loadSync("./raw-protobuf/copy.proto")
-const TStartBaseArg = copyPb.lookupType("copy.TStartBaseArg")
-const TStartBaseRet = copyPb.lookupType("copy.TStartBaseRet")
+const copyPb = protobuf.loadSync('./raw-protobuf/copy.proto')
+const TStartBaseArg = copyPb.lookupType('copy.TStartBaseArg')
+const TStartBaseRet = copyPb.lookupType('copy.TStartBaseRet')
 
 interface BattleShip {
     HeroId: number
@@ -37,7 +37,12 @@ interface BattleShip {
 }
 
 // 注意：此方法现在返回的参数基本都是瞎填的，点击出征会导致游戏卡死
-export function StartBase(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
+export function StartBase(
+    socket: Socket,
+    args: Uint8Array,
+    callbackHandler: number,
+    token: string,
+) {
     const parsedArgs = TStartBaseArg.decode(args).toJSON()
     console.log(parsedArgs)
     const player = socketPlayerMap.get(socket)!
@@ -61,7 +66,7 @@ export function StartBase(socket: Socket, args: Uint8Array, callbackHandler: num
                 AdvEffectIdList: ship.ArrRemouldEffect,
                 EquipGridNum: 6,
                 Fashioning: ship.Fashioning,
-                HurtPer: 0
+                HurtPer: 0,
             })
         }
     } catch (e) {
@@ -74,7 +79,7 @@ export function StartBase(socket: Socket, args: Uint8Array, callbackHandler: num
     for (const HeroId of parsedArgs.HeroList[0].HeroIdList) {
         ShipEquipGridInfo.push({
             HeroId,
-            EquipGridNum: 6
+            EquipGridNum: 6,
         })
     }
     const resData = TStartBaseRet.create({
@@ -94,8 +99,8 @@ export function StartBase(socket: Socket, args: Uint8Array, callbackHandler: num
                 ConditionList: [],
                 KillTimes: 0,
                 HeroList: parsedArgs.HeroList[0].HeroIdList,
-                TacticType: 1
-            }
+                TacticType: 1,
+            },
         },
         RandomSeed: 114514,
         Rid: 1,
@@ -109,18 +114,18 @@ export function StartBase(socket: Socket, args: Uint8Array, callbackHandler: num
         ShipEquipGridInfo,
         RandomFactors: [
             {
-                Factors: [1,2,3],
+                Factors: [1, 2, 3],
                 GroupId: 1,
-                SetId: 1
-            }
+                SetId: 1,
+            },
         ],
         SafeLv: 1,
         Verify: {
             opes: {
                 frameCount: 0,
-                opes: []
+                opes: [],
             },
-            result: {}
+            result: {},
         },
         ExtraBattlePlayerList: [],
         Token: token,
@@ -132,7 +137,13 @@ export function StartBase(socket: Socket, args: Uint8Array, callbackHandler: num
         ConfigData: [],
         MatchType: 1,
         AnimMode: parsedArgs.AnimMode,
-        WeatherGroupId: 1
+        WeatherGroupId: 1,
     })
-    sendResponsePacket(socket, "copy.StartBase", TStartBaseRet.encode(resData).finish(), callbackHandler, token)
+    sendResponsePacket(
+        socket,
+        'copy.StartBase',
+        TStartBaseRet.encode(resData).finish(),
+        callbackHandler,
+        token,
+    )
 }

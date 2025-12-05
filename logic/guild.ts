@@ -1,7 +1,7 @@
-import { Socket } from "node:net";
-import protobuf from "protobufjs"
-import { sendResponsePacket } from "../utils/createResponsePacket.ts";
-import { guildDb } from "../db.ts";
+import { Socket } from 'node:net'
+import protobuf from 'protobufjs'
+import { sendResponsePacket } from '../utils/createResponsePacket.ts'
+import { guildDb } from '../db.ts'
 
 interface BaseGuildInfo {
     GuildId: number
@@ -22,16 +22,21 @@ interface BaseGuildInfo {
     Honor: number
 }
 
-const pb = protobuf.loadSync("./raw-protobuf/guild.proto")
-const TArgGetGuildList = pb.lookupType("guild.TArgGetGuildList")
-const TRetGetGuildList = pb.lookupType("guild.TRetGetGuildList")
-const TArgCreateGuild = pb.lookupType("guild.TArgCreateGuild")
+const pb = protobuf.loadSync('./raw-protobuf/guild.proto')
+const TArgGetGuildList = pb.lookupType('guild.TArgGetGuildList')
+const TRetGetGuildList = pb.lookupType('guild.TRetGetGuildList')
+const TArgCreateGuild = pb.lookupType('guild.TArgCreateGuild')
 
-export async function GetList(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
+export async function GetList(
+    socket: Socket,
+    args: Uint8Array,
+    callbackHandler: number,
+    token: string,
+) {
     const parsedArgs = TArgGetGuildList.decode(args).toJSON()
     const guildIter = await guildDb.list({
         prefix: ['BaseGuildInfo'],
-        end: ['BaseGuildInfo', parsedArgs.Num]
+        end: ['BaseGuildInfo', parsedArgs.Num],
     })
     const guildList = []
     for await (const item of guildIter) {
@@ -39,13 +44,24 @@ export async function GetList(socket: Socket, args: Uint8Array, callbackHandler:
     }
     const resData = TRetGetGuildList.create({
         TotalNum: guildList.length,
-        GuildList: guildList
+        GuildList: guildList,
     })
 
-    sendResponsePacket(socket, "guild.GetList", TRetGetGuildList.encode(resData).finish(), callbackHandler, token)
+    sendResponsePacket(
+        socket,
+        'guild.GetList',
+        TRetGetGuildList.encode(resData).finish(),
+        callbackHandler,
+        token,
+    )
 }
 
-export async function CreateGuild(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
+export async function CreateGuild(
+    socket: Socket,
+    args: Uint8Array,
+    callbackHandler: number,
+    token: string,
+) {
     const parsedArgs = TArgCreateGuild.decode(args).toJSON()
     console.log(parsedArgs)
 }

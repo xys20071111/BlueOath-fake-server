@@ -1,49 +1,70 @@
-import { Socket } from "node:net"
+import { Socket } from 'node:net'
 import protobuf from 'protobufjs'
-import { sendResponsePacket } from "../utils/createResponsePacket.ts"
-import { socketPlayerMap } from "../utils/socketMaps.ts"
-import { HERO_POOL, HERO_POOL_JP } from "../constants/cardPool.ts";
-import { ClientType } from "../entity/player.ts";
-import { EQUIP_POOL, EQUIP_POOL_JP } from "../constants/equipPool.ts";
-import { sendEquipInfo } from "./equip.ts";
-import { sendShipInfo } from "./hero.ts";
+import { sendResponsePacket } from '../utils/createResponsePacket.ts'
+import { socketPlayerMap } from '../utils/socketMaps.ts'
+import { HERO_POOL, HERO_POOL_JP } from '../constants/cardPool.ts'
+import { ClientType } from '../entity/player.ts'
+import { EQUIP_POOL, EQUIP_POOL_JP } from '../constants/equipPool.ts'
+import { sendEquipInfo } from './equip.ts'
+import { sendShipInfo } from './hero.ts'
 
-const pb = protobuf.loadSync("./raw-protobuf/buildship.proto")
-const TBuildShipRet = pb.lookupType("buildship.TBuildShipRet")
-const TBuildShipArg = pb.lookupType("buildship.TBuildShipArg")
+const pb = protobuf.loadSync('./raw-protobuf/buildship.proto')
+const TBuildShipRet = pb.lookupType('buildship.TBuildShipRet')
+const TBuildShipArg = pb.lookupType('buildship.TBuildShipArg')
 
 enum CardType {
     EQUIP,
-    SHIP
+    SHIP,
 }
 
-function getCardsFromPool(num: number, cardType: CardType, clientType: ClientType) {
+function getCardsFromPool(
+    num: number,
+    cardType: CardType,
+    clientType: ClientType,
+) {
     const result = []
     if (cardType === CardType.SHIP) {
         if (clientType === ClientType.CN) {
             while (result.length !== num) {
-                result.push(HERO_POOL[Math.floor(Math.random() * HERO_POOL.length)])
+                result.push(
+                    HERO_POOL[Math.floor(Math.random() * HERO_POOL.length)],
+                )
             }
         } else {
             while (result.length !== num) {
-                result.push(HERO_POOL_JP[Math.floor(Math.random() * HERO_POOL_JP.length)])
+                result.push(
+                    HERO_POOL_JP[
+                        Math.floor(Math.random() * HERO_POOL_JP.length)
+                    ],
+                )
             }
         }
     } else {
         if (clientType === ClientType.CN) {
             while (result.length !== num) {
-                result.push(EQUIP_POOL[Math.floor(Math.random() * EQUIP_POOL.length)])
+                result.push(
+                    EQUIP_POOL[Math.floor(Math.random() * EQUIP_POOL.length)],
+                )
             }
         } else {
             while (result.length !== num) {
-                result.push(EQUIP_POOL_JP[Math.floor(Math.random() * EQUIP_POOL_JP.length)])
+                result.push(
+                    EQUIP_POOL_JP[
+                        Math.floor(Math.random() * EQUIP_POOL_JP.length)
+                    ],
+                )
             }
         }
     }
     return result
 }
 
-export function BuildShip(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
+export function BuildShip(
+    socket: Socket,
+    args: Uint8Array,
+    callbackHandler: number,
+    token: string,
+) {
     const player = socketPlayerMap.get(socket)!
     const parsedArgs: {
         Id: number
@@ -51,7 +72,11 @@ export function BuildShip(socket: Socket, args: Uint8Array, callbackHandler: num
         CacheId: string
     } = TBuildShipArg.decode(args).toJSON() as any
     if (parsedArgs.Id == 201) {
-        const result = getCardsFromPool(parsedArgs.Num, CardType.EQUIP, player.getClientType()) as number[]
+        const result = getCardsFromPool(
+            parsedArgs.Num,
+            CardType.EQUIP,
+            player.getClientType(),
+        ) as number[]
         const equipInfo = player.getEquipBag()
         const ids = equipInfo.addEquip(result)
         const buildShipResult = []
@@ -60,20 +85,30 @@ export function BuildShip(socket: Socket, args: Uint8Array, callbackHandler: num
                 Type: 3,
                 ConfigId: item.tid,
                 Num: 1,
-                Id: item.id
+                Id: item.id,
             })
         }
         const resData = TBuildShipRet.create({
             BuildShipResult: buildShipResult,
             SpReward: [],
             TransReward: [],
-            IsChangeReward: false
+            IsChangeReward: false,
         })
         sendEquipInfo(socket, callbackHandler, token)
-        sendResponsePacket(socket, "buildship.BuildShip", TBuildShipRet.encode(resData).finish(), callbackHandler, token)
+        sendResponsePacket(
+            socket,
+            'buildship.BuildShip',
+            TBuildShipRet.encode(resData).finish(),
+            callbackHandler,
+            token,
+        )
         return
     }
-    const result = getCardsFromPool(parsedArgs.Num, CardType.SHIP, player.getClientType()) as any
+    const result = getCardsFromPool(
+        parsedArgs.Num,
+        CardType.SHIP,
+        player.getClientType(),
+    ) as any
     const heroInfo = player.getHeroInfo()
     const ids = heroInfo.addShip(result)
     const buildShipResult = []
@@ -82,16 +117,22 @@ export function BuildShip(socket: Socket, args: Uint8Array, callbackHandler: num
             Type: 2,
             ConfigId: item.TemplateId,
             Num: 1,
-            Id: item.Id
+            Id: item.Id,
         })
     }
     const resData = TBuildShipRet.create({
         BuildShipResult: buildShipResult,
         SpReward: [],
         TransReward: [],
-        IsChangeReward: false
+        IsChangeReward: false,
     })
     // 舰娘信息
     sendShipInfo(socket, callbackHandler, token)
-    sendResponsePacket(socket, "buildship.BuildShip", TBuildShipRet.encode(resData).finish(), callbackHandler, token)
+    sendResponsePacket(
+        socket,
+        'buildship.BuildShip',
+        TBuildShipRet.encode(resData).finish(),
+        callbackHandler,
+        token,
+    )
 }

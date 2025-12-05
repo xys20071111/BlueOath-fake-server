@@ -1,34 +1,34 @@
-import { EXP_LEVEL } from "../constants/exp.ts";
-import { SPECIAL_REMOULD_EFFECT } from "../constants/specialRemouldEffect.ts";
+import { EXP_LEVEL } from '../constants/exp.ts'
+import { SPECIAL_REMOULD_EFFECT } from '../constants/specialRemouldEffect.ts'
 
 interface HeroInfo {
-    HeroId: number;
-    TemplateId: number;
-    Equips: any[];
-    Lvl: number;
-    Exp: number;
-    Advance: number;
-    Intensify: any[];
-    CreateTime: number;
-    CurHp: number;
-    CurGasoline: number;
-    CurAmmunition: number;
-    Lock: boolean;
-    PSkill: any[];
-    Status: string;
-    Name?: string;
-    ChangeNameTime: number;
-    Affection: number;
-    Mood: number;
-    MarryTime: number;
-    UpdateTime: number;
-    MarryType: number;
-    Fashioning: number;
-    ArrRemouldEffect: number[];
-    RemouldLV: number;
-    AdvLv: number;
-    EquipEffects: any[];
-    CombinationInfo: any[];
+    HeroId: number
+    TemplateId: number
+    Equips: any[]
+    Lvl: number
+    Exp: number
+    Advance: number
+    Intensify: any[]
+    CreateTime: number
+    CurHp: number
+    CurGasoline: number
+    CurAmmunition: number
+    Lock: boolean
+    PSkill: any[]
+    Status: string
+    Name?: string
+    ChangeNameTime: number
+    Affection: number
+    Mood: number
+    MarryTime: number
+    UpdateTime: number
+    MarryType: number
+    Fashioning: number
+    ArrRemouldEffect: number[]
+    RemouldLV: number
+    AdvLv: number
+    EquipEffects: any[]
+    CombinationInfo: any[]
 }
 
 interface BasicHeroInfo {
@@ -46,7 +46,7 @@ interface BasicHeroInfo {
     Adv?: boolean
     Equips?: {
         [k: string]: { EquipsId: number; state: number }
-    },
+    }
     Remould?: number[]
 }
 
@@ -55,24 +55,34 @@ export class HeroBag {
     private uname: string
 
     constructor(uname: string) {
-        this.heroInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${uname}/HeroBag.json`))
+        this.heroInfo = JSON.parse(
+            Deno.readTextFileSync(`./playerData/${uname}/HeroBag.json`),
+        )
         this.uname = uname
     }
 
     public reload() {
-        this.heroInfo = JSON.parse(Deno.readTextFileSync(`./playerData/${this.uname}/HeroBag.json`))
+        this.heroInfo = JSON.parse(
+            Deno.readTextFileSync(`./playerData/${this.uname}/HeroBag.json`),
+        )
     }
 
     public setHeroMarry(id: number, type: number) {
         const targetId = id - 1
         this.heroInfo[targetId].isMarried = Math.round(Date.now() / 1000)
         this.heroInfo[targetId].marryType = type
-        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+        Deno.writeTextFile(
+            `./playerData/${this.uname}/HeroBag.json`,
+            JSON.stringify(this.heroInfo, null, 4),
+        )
     }
 
     public setHeroName(id: number, name: string) {
         this.heroInfo[id - 1].Name = name
-        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+        Deno.writeTextFile(
+            `./playerData/${this.uname}/HeroBag.json`,
+            JSON.stringify(this.heroInfo, null, 4),
+        )
     }
 
     public getHeroBasicInfoById(id: number) {
@@ -91,7 +101,7 @@ export class HeroBag {
                 { EquipsId: 0, state: 0 },
                 { EquipsId: 0, state: 0 },
                 { EquipsId: 0, state: 0 },
-            ]
+            ],
         }
         if (targetShip.Equips) {
             for (const k in targetShip.Equips) {
@@ -104,7 +114,7 @@ export class HeroBag {
             for (const item of targetShip.Skills) {
                 pskills.push({
                     PSkillId: item.Id,
-                    Level: item.Level
+                    Level: item.Level,
                 })
             }
         }
@@ -122,13 +132,15 @@ export class HeroBag {
             Exp: targetShip.Exp ?? 0,
             Advance: 0,
             Intensify: [],
-            CreateTime: targetShip.CreateTime ? targetShip.CreateTime : Math.round(Date.now() / 1000),
+            CreateTime: targetShip.CreateTime
+                ? targetShip.CreateTime
+                : Math.round(Date.now() / 1000),
             CurHp: 10000000000, // 最大hp
             CurGasoline: 10000000000,
             CurAmmunition: 10000000000,
             Lock: targetShip.Locked ? true : false,
             PSkill: pskills,
-            Status: "",
+            Status: '',
             Name: targetShip.Name,
             ChangeNameTime: 0,
             Affection: 2000000, // 最大好感值
@@ -141,7 +153,7 @@ export class HeroBag {
             RemouldLV: RemouldLV,
             AdvLv: targetShip.Adv ? 1 : 0,
             EquipEffects: [],
-            CombinationInfo: []
+            CombinationInfo: [],
         }
     }
 
@@ -153,7 +165,7 @@ export class HeroBag {
                 for (const item of v.Skills) {
                     const result = {
                         PSkillId: item.Id,
-                        Level: item.Level
+                        Level: item.Level,
                     } as any
                     if (item.Replace) {
                         result.Replace = item.Replace
@@ -170,7 +182,7 @@ export class HeroBag {
                     { EquipsId: 0, state: 0 },
                     { EquipsId: 0, state: 0 },
                     { EquipsId: 0, state: 0 },
-                ]
+                ],
             }
             if (v.Equips) {
                 for (const k in v.Equips) {
@@ -190,13 +202,15 @@ export class HeroBag {
                 Exp: v.Exp ?? 0,
                 Advance: 0,
                 Intensify: [],
-                CreateTime: v.CreateTime ? v.CreateTime : Math.round(Date.now() / 1000),
+                CreateTime: v.CreateTime
+                    ? v.CreateTime
+                    : Math.round(Date.now() / 1000),
                 CurHp: 10000000000, // 最大hp
                 CurGasoline: 10000000000,
                 CurAmmunition: 10000000000,
                 Lock: v.Locked ? true : false,
                 PSkill: pskills,
-                Status: "",
+                Status: '',
                 Name: v.Name,
                 ChangeNameTime: 0,
                 Affection: 2000000, // 最大好感值
@@ -209,7 +223,7 @@ export class HeroBag {
                 RemouldLV,
                 AdvLv: v.Adv ? 1 : 0,
                 EquipEffects: [],
-                CombinationInfo: []
+                CombinationInfo: [],
             }
             if (typeof (v.isMarried) === 'number') {
                 heroInfo.MarryTime = v.isMarried
@@ -221,7 +235,10 @@ export class HeroBag {
 
     public setHeroLock(id: number, lock: boolean) {
         this.heroInfo[id - 1].Locked = lock
-        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+        Deno.writeTextFile(
+            `./playerData/${this.uname}/HeroBag.json`,
+            JSON.stringify(this.heroInfo, null, 4),
+        )
     }
 
     public addShip(ships: Array<{ Id: number; TemplateId: number }>) {
@@ -233,14 +250,17 @@ export class HeroBag {
                 CreateTime: Math.round(Date.now() / 1000),
                 isMarried: false,
                 Level: 1,
-                Exp: 0
+                Exp: 0,
             })
             ids.push({
                 Id: this.heroInfo.length,
-                TemplateId: item.TemplateId
+                TemplateId: item.TemplateId,
             })
         }
-        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+        Deno.writeTextFile(
+            `./playerData/${this.uname}/HeroBag.json`,
+            JSON.stringify(this.heroInfo, null, 4),
+        )
         return ids
     }
 
@@ -266,7 +286,10 @@ export class HeroBag {
         }
         this.heroInfo[targetId].Level = targetLevel
         this.heroInfo[targetId].Exp = afterExp
-        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+        Deno.writeTextFile(
+            `./playerData/${this.uname}/HeroBag.json`,
+            JSON.stringify(this.heroInfo, null, 4),
+        )
         return { targetLevel, afterExp }
     }
 
@@ -279,7 +302,10 @@ export class HeroBag {
                 this.heroInfo.splice(i, 1)
             }
         }
-        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+        Deno.writeTextFile(
+            `./playerData/${this.uname}/HeroBag.json`,
+            JSON.stringify(this.heroInfo, null, 4),
+        )
     }
 
     public addShipSkillLevel(id: number, skill: number) {
@@ -290,34 +316,50 @@ export class HeroBag {
         for (let i = 0; i < this.heroInfo[targetId].Skills.length; i++) {
             if (this.heroInfo[targetId].Skills[i].Id === skill) {
                 this.heroInfo[targetId].Skills[i].Level += 1
-                Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+                Deno.writeTextFile(
+                    `./playerData/${this.uname}/HeroBag.json`,
+                    JSON.stringify(this.heroInfo, null, 4),
+                )
                 return
             }
         }
         this.heroInfo[targetId].Skills.push({
             Id: skill,
             Level: 2,
-            Replace: 0
+            Replace: 0,
         })
-        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+        Deno.writeTextFile(
+            `./playerData/${this.uname}/HeroBag.json`,
+            JSON.stringify(this.heroInfo, null, 4),
+        )
     }
 
     public setAdvLv(id: number) {
         this.heroInfo[id - 1].Adv = true
-        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+        Deno.writeTextFile(
+            `./playerData/${this.uname}/HeroBag.json`,
+            JSON.stringify(this.heroInfo, null, 4),
+        )
     }
     public addAdvanceLv(id: number) {
         const targetId = id - 1
         if (!this.heroInfo[targetId].TemplateId) {
-            this.heroInfo[targetId].TemplateId = this.heroInfo[targetId].id * 10 + 1
+            this.heroInfo[targetId].TemplateId =
+                this.heroInfo[targetId].id * 10 + 1
         }
         this.heroInfo[targetId].TemplateId++
-        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+        Deno.writeTextFile(
+            `./playerData/${this.uname}/HeroBag.json`,
+            JSON.stringify(this.heroInfo, null, 4),
+        )
     }
 
     public setFashion(id: number, fashion: number) {
         this.heroInfo[id - 1].id = fashion
-        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+        Deno.writeTextFile(
+            `./playerData/${this.uname}/HeroBag.json`,
+            JSON.stringify(this.heroInfo, null, 4),
+        )
     }
 
     public setEquip({
@@ -333,17 +375,23 @@ export class HeroBag {
             }
             this.heroInfo[targetId].Equips[Index] = {
                 EquipsId: EquipId,
-                state: 4
+                state: 4,
             }
         }
 
-        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+        Deno.writeTextFile(
+            `./playerData/${this.uname}/HeroBag.json`,
+            JSON.stringify(this.heroInfo, null, 4),
+        )
     }
 
     public unEquipAll(id: number) {
         const targetId = id - 1
         this.heroInfo[targetId].Equips = {}
-        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+        Deno.writeTextFile(
+            `./playerData/${this.uname}/HeroBag.json`,
+            JSON.stringify(this.heroInfo, null, 4),
+        )
     }
 
     public getEquipInfo(type: number, id: number) {
@@ -367,11 +415,15 @@ export class HeroBag {
                         {
                             Id: effect.old,
                             Replace: 0,
-                            Level: 1
-                        }
+                            Level: 1,
+                        },
                     ]
                 }
-                for (let i = 0; i < this.heroInfo[targetId].Skills.length; i++) {
+                for (
+                    let i = 0;
+                    i < this.heroInfo[targetId].Skills.length;
+                    i++
+                ) {
                     if (this.heroInfo[targetId].Skills[i].Id === effect.old) {
                         this.heroInfo[targetId].Skills[i].Replace = effect.new
                     }
@@ -383,10 +435,13 @@ export class HeroBag {
                 this.heroInfo[targetId].Skills.push({
                     Id: effect.new,
                     Level: 1,
-                    Replace: 0
+                    Replace: 0,
                 })
             }
         }
-        Deno.writeTextFile(`./playerData/${this.uname}/HeroBag.json`, JSON.stringify(this.heroInfo, null, 4))
+        Deno.writeTextFile(
+            `./playerData/${this.uname}/HeroBag.json`,
+            JSON.stringify(this.heroInfo, null, 4),
+        )
     }
 }

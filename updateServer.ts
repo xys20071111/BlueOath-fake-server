@@ -8,8 +8,8 @@ app.use((ctx) => {
     ctx.response.status = 200
     ctx.response.body = {
         error_id: 200,
-        "errornu": "0",
-        "errordesc": "",
+        'errornu': '0',
+        'errordesc': '',
     }
 })
 

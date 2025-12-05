@@ -1,17 +1,17 @@
-import { Socket } from "node:net";
-import protobuf from "protobufjs"
-import { sendResponsePacket } from "../utils/createResponsePacket.ts";
-import { socketPlayerMap } from "../utils/socketMaps.ts";
-import { EMPTY_UINT8ARRAY } from "../utils/placeholder.ts"
-import { discussDb } from "../db.ts";
+import { Socket } from 'node:net'
+import protobuf from 'protobufjs'
+import { sendResponsePacket } from '../utils/createResponsePacket.ts'
+import { socketPlayerMap } from '../utils/socketMaps.ts'
+import { EMPTY_UINT8ARRAY } from '../utils/placeholder.ts'
+import { discussDb } from '../db.ts'
 
 const pb = protobuf.loadSync('./raw-protobuf/discuss.proto')
-const TGetDiscussRet = pb.lookupType("discuss.TGetDiscussRet")
-const TGetDiscussArg = pb.lookupType("discuss.TGetDiscussArg")
-const TDiscussArg = pb.lookupType("discuss.TDiscussArg")
+const TGetDiscussRet = pb.lookupType('discuss.TGetDiscussRet')
+const TGetDiscussArg = pb.lookupType('discuss.TGetDiscussArg')
+const TDiscussArg = pb.lookupType('discuss.TDiscussArg')
 
 interface MsgInfo {
-    Name: string,
+    Name: string
     Msg: string
     LikeNum: number
     MsgID: number
@@ -30,10 +30,16 @@ interface DiscussInfo {
     nextMsgId: number
 }
 
-export async function GetDiscuss(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
+export async function GetDiscuss(
+    socket: Socket,
+    args: Uint8Array,
+    callbackHandler: number,
+    token: string,
+) {
     const parsedArgs = TGetDiscussArg.decode(args).toJSON()
     const id = parsedArgs.Htid
-    let discuss: DiscussInfo | null = (await discussDb.get<DiscussInfo>(['discuss', id])).value
+    let discuss: DiscussInfo | null =
+        (await discussDb.get<DiscussInfo>(['discuss', id])).value
     if (!discuss) {
         discuss = {
             DisLikeNum: 0,
@@ -46,14 +52,26 @@ export async function GetDiscuss(socket: Socket, args: Uint8Array, callbackHandl
     }
     await discussDb.set(['discuss', id], discuss)
     const resData = TGetDiscussRet.create(discuss)
-    sendResponsePacket(socket, "discuss.GetDiscuss", TGetDiscussRet.encode(resData).finish(), callbackHandler, token)
+    sendResponsePacket(
+        socket,
+        'discuss.GetDiscuss',
+        TGetDiscussRet.encode(resData).finish(),
+        callbackHandler,
+        token,
+    )
 }
 
-export async function Discuss(socket: Socket, args: Uint8Array, callbackHandler: number, token: string) {
+export async function Discuss(
+    socket: Socket,
+    args: Uint8Array,
+    callbackHandler: number,
+    token: string,
+) {
     const player = socketPlayerMap.get(socket)!
     const parsedArgs = TDiscussArg.decode(args).toJSON()
     const id = parsedArgs.Htid
-    const discuss: DiscussInfo = (await discussDb.get<DiscussInfo>(['discuss', id])).value!
+    const discuss: DiscussInfo =
+        (await discussDb.get<DiscussInfo>(['discuss', id])).value!
     discuss.MsgInfo.push({
         Name: player.getUname(),
         Msg: parsedArgs.Msg,
@@ -62,13 +80,30 @@ export async function Discuss(socket: Socket, args: Uint8Array, callbackHandler:
         LikeTime: 0,
         IsLiked: 0,
         IsDisLiked: 0,
-        Level: 1
+        Level: 1,
     })
     await discussDb.set(['discuss', id], discuss)
     const resData = TGetDiscussRet.create(discuss)
-    sendResponsePacket(socket, "discuss.GetDiscuss", TGetDiscussRet.encode(resData).finish(), callbackHandler, token)
+    sendResponsePacket(
+        socket,
+        'discuss.GetDiscuss',
+        TGetDiscussRet.encode(resData).finish(),
+        callbackHandler,
+        token,
+    )
 }
 
-export function Like(socket: Socket, _args: Uint8Array, callbackHandler: number, token: string) {
-    sendResponsePacket(socket, "discuss.Like", EMPTY_UINT8ARRAY, callbackHandler, token)
+export function Like(
+    socket: Socket,
+    _args: Uint8Array,
+    callbackHandler: number,
+    token: string,
+) {
+    sendResponsePacket(
+        socket,
+        'discuss.Like',
+        EMPTY_UINT8ARRAY,
+        callbackHandler,
+        token,
+    )
 }

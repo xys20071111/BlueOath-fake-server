@@ -1,46 +1,47 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package copyinfo;
 
 message TCopyInfo {
-  uint64 Uid = 1;
-  string Uname = 2;
-  int32 Level = 3;
-  int32 PassTime = 4;
-  int32 SecretId = 5;
-  int32 StrategyId = 6;
+  optional uint64 Uid = 1;
+  optional string Uname = 2;
+  optional int32 Level = 3;
+  optional int32 PassTime = 4;
+  optional int32 SecretId = 5;
+  optional int32 StrategyId = 6;
   repeated TPassCopyTactic Tactic = 7;
-  int32 Power = 8;
-  int32 RecTime = 9;
+  optional int32 Power = 8;
+  optional int32 RecTime = 9;
 }
 
 message TCopyInfoArg {
-  int32 CopyId = 1;
+  optional int32 CopyId = 1;
 }
 
 message TCopyInfoRet {
-  TCopyInfo First = 1;
-  TCopyInfo Fast = 2;
-  TCopyInfo AtkGrad = 3;
+  optional TCopyInfo First = 1;
+  optional TCopyInfo Fast = 2;
+  optional TCopyInfo AtkGrad = 3;
 }
 
 message TCopyRecordList {
-  int32 CopyId = 1;
+  optional int32 CopyId = 1;
   repeated TCopyInfo CopyRecord = 2;
 }
 
 message TPassCopyEquip {
-  int32 Tid = 1;
-  int32 Level = 2;
-  int32 StarLv = 3;
+  optional int32 Tid = 1;
+  optional int32 Level = 2;
+  optional int32 StarLv = 3;
 }
 
 message TPassCopyTactic {
-  int32 Tid = 1;
-  int32 Level = 2;
-  int32 AdvLevel = 3;
-  uint64 CurHp = 4;
+  optional int32 Tid = 1;
+  optional int32 Level = 2;
+  optional int32 AdvLevel = 3;
+  optional uint64 CurHp = 4;
   repeated TPassCopyEquip Equip = 5;
-  int32 Point = 6;
+  optional int32 Point = 6;
 }
+
 

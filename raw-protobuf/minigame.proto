@@ -1,8 +1,9 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package minigame;
 
 message TMiniGame {
-  int32 Id = 1;
+  optional int32 Id = 1;
 }
+
 

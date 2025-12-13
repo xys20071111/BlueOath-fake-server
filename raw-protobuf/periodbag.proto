@@ -1,4 +1,4 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package periodbag;
 
@@ -7,8 +7,9 @@ message TPeriodBagInfoRet {
 }
 
 message TPeriodGridInfo {
-  int32 templateId = 1;
-  uint32 itemId = 2;
-  int32 createTime = 3;
+  optional int32 templateId = 1;
+  optional uint32 itemId = 2;
+  optional int32 createTime = 3;
 }
+
 

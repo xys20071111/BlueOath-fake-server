@@ -1,57 +1,58 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package arena;
 
 message TArenaBattleReport {
-  string ReportMD5 = 1;
-  int32 RankChange = 2;
-  int32 IsWin = 3;
-  int32 BattleTime = 4;
-  int32 SelfRank = 5;
-  int32 Rank = 6;
-  int32 IsRobot = 7;
-  int32 IsAttacker = 8;
+  optional string ReportMD5 = 1;
+  optional int32 RankChange = 2;
+  optional int32 IsWin = 3;
+  optional int32 BattleTime = 4;
+  optional int32 SelfRank = 5;
+  optional int32 Rank = 6;
+  optional int32 IsRobot = 7;
+  optional int32 IsAttacker = 8;
 }
 
 message TArenaPlayerRankData {
   message User = 1;
-  int32 Rank = 2;
-  int32 ThumbsUpCount = 3;
-  bool IsRobot = 4;
+  optional int32 Rank = 2;
+  optional int32 ThumbsUpCount = 3;
+  optional bool IsRobot = 4;
 }
 
 message TArenaPlayerRankRet {
-  int32 UserRank = 1;
+  optional int32 UserRank = 1;
   repeated TArenaPlayerRankData UserRankData = 2;
-  int32 SelfHighestRank = 3;
+  optional int32 SelfHighestRank = 3;
   repeated TArenaBattleReport BattleReports = 4;
-  int32 LookReportTime = 5;
+  optional int32 LookReportTime = 5;
   repeated int32 LastShareReportTime = 6;
-  int32 ChallengeCount = 7;
+  optional int32 ChallengeCount = 7;
 }
 
 message TArenaRankArg {
-  int32 RankId = 1;
-  int32 TopN = 2;
+  optional int32 RankId = 1;
+  optional int32 TopN = 2;
 }
 
 message TChallageArg {
-  uint64 Uid = 1;
-  int32 Rank = 2;
-  int32 ChallageType = 3;
+  optional uint64 Uid = 1;
+  optional int32 Rank = 2;
+  optional int32 ChallageType = 3;
 }
 
 message TChallageRet {
-  string Name = 1;
-  int32 isSuccess = 2;
-  int32 RewardId = 3;
-  int32 HighestReward = 4;
+  optional string Name = 1;
+  optional int32 isSuccess = 2;
+  optional int32 RewardId = 3;
+  optional int32 HighestReward = 4;
   repeated message ShowDrop = 5;
 }
 
 message TShareReportArg {
-  string ReportMD5 = 1;
-  int32 BattleTime = 2;
-  int32 ChatId = 3;
+  optional string ReportMD5 = 1;
+  optional int32 BattleTime = 2;
+  optional int32 ChatId = 3;
 }
+
 

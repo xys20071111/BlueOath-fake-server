@@ -1,4 +1,4 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package magazine;
 
@@ -9,34 +9,35 @@ message TMagazine {
 }
 
 message TMagazineAddHero {
-  int32 Index = 1;
-  int32 HeroId = 2;
-  int32 MagazineId = 3;
+  optional int32 Index = 1;
+  optional int32 HeroId = 2;
+  optional int32 MagazineId = 3;
 }
 
 message TMagazineArg {
-  int32 MagazineId = 1;
-  int32 Index = 2;
+  optional int32 MagazineId = 1;
+  optional int32 Index = 2;
 }
 
 message TMagazineSub {
-  int32 MagazineId = 1;
+  optional int32 MagazineId = 1;
   repeated TMagazineSubReward MagazineSubReward = 2;
 }
 
 message TMagazineSubReward {
-  int32 Index = 1;
-  int32 Time = 2;
+  optional int32 Index = 1;
+  optional int32 Time = 2;
 }
 
 message TMagazineUnLock {
-  int32 MagazineId = 1;
-  int32 Time = 2;
+  optional int32 MagazineId = 1;
+  optional int32 Time = 2;
 }
 
 message TRetMagazineInfo {
   repeated int32 MagazineIdList = 1;
-  int32 Time = 2;
-  int32 Version = 3;
+  optional int32 Time = 2;
+  optional int32 Version = 3;
 }
+
 

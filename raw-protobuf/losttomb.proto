@@ -1,38 +1,39 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package losttomb;
 
 import "user.proto";
 
 message TGroup {
-  int32 GroupId = 1;
-  int32 Level = 2;
+  optional int32 GroupId = 1;
+  optional int32 Level = 2;
 }
 
 message TLostTombActivateArg {
-  int32 GroupId = 1;
+  optional int32 GroupId = 1;
 }
 
 message TLostTombFightRet {
-  bool IsWin = 1;
+  optional bool IsWin = 1;
 }
 
 message TLostTombMainResponse {
   repeated TGroup Activation = 1;
-  int32 FightTimes = 2;
-  int32 FightStage = 3;
-  int32 RefreshTimes = 4;
-  int32 FreeRefreshTimes = 5;
+  optional int32 FightTimes = 2;
+  optional int32 FightStage = 3;
+  optional int32 RefreshTimes = 4;
+  optional int32 FreeRefreshTimes = 5;
 }
 
 message TLostTombRank {
-  user.TGetOtherUserInfoRet UserInfo = 1;
-  int32 Place = 2;
-  int32 Value = 3;
+  optional user.TGetOtherUserInfoRet UserInfo = 1;
+  optional int32 Place = 2;
+  optional int32 Value = 3;
 }
 
 message TLostTombRankRet {
   repeated TLostTombRank Rank = 1;
-  int32 SelfPlace = 2;
+  optional int32 SelfPlace = 2;
 }
+
 

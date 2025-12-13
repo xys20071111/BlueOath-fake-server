@@ -1,50 +1,51 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package discuss;
 
 message TDiscussArg {
-  int32 Htid = 1;
-  string Msg = 2;
+  optional int32 Htid = 1;
+  optional string Msg = 2;
 }
 
 message TDiscussLikeArg {
-  int32 Htid = 1;
-  int32 MsgId = 2;
+  optional int32 Htid = 1;
+  optional int32 MsgId = 2;
 }
 
 message TDiscussRet {
-  int32 msgId = 1;
-  string FilterMsg = 2;
+  optional int32 msgId = 1;
+  optional string FilterMsg = 2;
 }
 
 message TGetDiscussArg {
-  int32 Htid = 1;
+  optional int32 Htid = 1;
 }
 
 message TGetDiscussRet {
-  int32 DisLikeNum = 1;
-  int64 DisLikeTime = 2;
-  int64 MsgTime = 3;
-  int32 HeroLikeNum = 4;
+  optional int32 DisLikeNum = 1;
+  optional int64 DisLikeTime = 2;
+  optional int64 MsgTime = 3;
+  optional int32 HeroLikeNum = 4;
   repeated TMsgInfo MsgInfo = 5;
 }
 
 message THeroLikeArg {
-  int32 Htid = 1;
+  optional int32 Htid = 1;
 }
 
 message THeroLikeRet {
-  int32 HeroLikeNum = 1;
+  optional int32 HeroLikeNum = 1;
 }
 
 message TMsgInfo {
-  string Name = 1;
-  string Msg = 2;
-  int32 LikeNum = 3;
-  int32 MsgID = 4;
-  int64 LikeTime = 5;
-  int64 IsLiked = 6;
-  int64 IsDisLiked = 7;
-  int32 Level = 8;
+  optional string Name = 1;
+  optional string Msg = 2;
+  optional int32 LikeNum = 3;
+  optional int32 MsgID = 4;
+  optional int64 LikeTime = 5;
+  optional int64 IsLiked = 6;
+  optional int64 IsDisLiked = 7;
+  optional int32 Level = 8;
 }
+
 

@@ -1,94 +1,95 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package battle;
 
 message TBattleAutoMsgArg {
-  int32 MsgId = 1;
-  int32 MatchType = 2;
+  optional int32 MsgId = 1;
+  optional int32 MatchType = 2;
 }
 
 message TBattleAutoMsgRet {
-  int32 ErrCode = 1;
+  optional int32 ErrCode = 1;
 }
 
 message TBattleCreateMutiArg {
   repeated message BattlePlayerList = 1;
-  int32 RandomSeed = 2;
-  int32 Rid = 3;
+  optional int32 RandomSeed = 2;
+  optional int32 Rid = 3;
   repeated message arrRes = 4;
   repeated int32 EnemyFleet = 5;
-  int32 CopyId = 6;
-  int32 CopyType = 7;
-  bool CopyPass = 8;
-  int32 BossProgress = 9;
-  bool IsRunningFight = 10;
+  optional int32 CopyId = 6;
+  optional int32 CopyType = 7;
+  optional bool CopyPass = 8;
+  optional int32 BossProgress = 9;
+  optional bool IsRunningFight = 10;
   repeated message ShipEquipGridInfo = 11;
   repeated message RandomFactors = 12;
-  int32 SafeLv = 13;
-  string Token = 14;
+  optional int32 SafeLv = 13;
+  optional string Token = 14;
 }
 
 message TBattleCreateMutiRet {
-  int32 BattleId = 1;
-  string Ip = 2;
-  int32 Port = 3;
-  TBattleCreateMutiArg Arg = 4;
+  optional int32 BattleId = 1;
+  optional string Ip = 2;
+  optional int32 Port = 3;
+  optional TBattleCreateMutiArg Arg = 4;
 }
 
 message TBattleLoadData {
-  bytes Data = 1;
+  optional bytes Data = 1;
   repeated float PosInfo = 2;
 }
 
 message TBattleLoadDataOk {
-  string Ret = 1;
+  optional string Ret = 1;
 }
 
 message TBattleMatchArg {
-  int32 MatchType = 1;
+  optional int32 MatchType = 1;
 }
 
 message TBattleMatchRet {
-  int64 MatchRet = 1;
+  optional int64 MatchRet = 1;
 }
 
 message TBattleQuitArg {
-  int32 BattleType = 1;
+  optional int32 BattleType = 1;
 }
 
 message TBattleQuitRet {
-  bool IsOk = 1;
+  optional bool IsOk = 1;
 }
 
 message TBattleReadyArg {
-  int32 BattleType = 1;
+  optional int32 BattleType = 1;
 }
 
 message TBattleReadyRet {
-  bool IsOk = 1;
+  optional bool IsOk = 1;
 }
 
 message TBattleReceiveAutoMsg {
-  uint64 Uid = 1;
-  int32 MsgId = 2;
+  optional uint64 Uid = 1;
+  optional int32 MsgId = 2;
 }
 
 message TBattleUserInfoRet {
-  int32 BattleType = 1;
-  int32 Status = 2;
-  int32 LostTime = 3;
+  optional int32 BattleType = 1;
+  optional int32 Status = 2;
+  optional int32 LostTime = 3;
 }
 
 message TCreateRoomArg {
-  int32 PassWord = 1;
+  optional int32 PassWord = 1;
 }
 
 message TCreateRoomRet {
-  int32 RoomId = 1;
+  optional int32 RoomId = 1;
 }
 
 message TJoinRoomArg {
-  int32 RoomId = 1;
-  int32 PassWord = 2;
+  optional int32 RoomId = 1;
+  optional int32 PassWord = 2;
 }
+
 

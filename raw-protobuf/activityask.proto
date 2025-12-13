@@ -1,13 +1,14 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package activityask;
 
 message TActivityAskGetArg {
-  int32 ActivityId = 1;
+  optional int32 ActivityId = 1;
 }
 
 message TActivityAskRet {
-  int32 ActivityId = 1;
-  int32 Status = 2;
+  optional int32 ActivityId = 1;
+  optional int32 Status = 2;
 }
+
 

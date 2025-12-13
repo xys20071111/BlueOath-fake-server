@@ -1,18 +1,19 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package dungeonsave;
 
 message TDungeonSaveRet {
-  int32 DungeonId = 1;
-  string DungeonData = 2;
+  optional int32 DungeonId = 1;
+  optional string DungeonData = 2;
 }
 
 message TGetDungeonDataArg {
-  int32 DungeonId = 1;
+  optional int32 DungeonId = 1;
 }
 
 message TSaveDungeonDataArg {
-  int32 DungeonId = 1;
-  string DungeonData = 2;
+  optional int32 DungeonId = 1;
+  optional string DungeonData = 2;
 }
+
 

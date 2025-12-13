@@ -1,39 +1,39 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package battleparams;
 
 message AttrInfo {
-  int32 attr_id = 1;
-  float attr_value = 2;
+  optional int32 attr_id = 1;
+  optional float attr_value = 2;
 }
 
 message BattleParams {
-  int32 max_round = 1;
-  int32 first_attack = 2;
-  int32 battle_type = 3;
-  InitBattleAreaInfo own_area = 4;
+  optional int32 max_round = 1;
+  optional int32 first_attack = 2;
+  optional int32 battle_type = 3;
+  optional InitBattleAreaInfo own_area = 4;
   repeated InitBattleAreaInfo opp_area = 5;
 }
 
 message BuffInfo {
-  int32 buff_id = 1;
-  int32 buff_lv = 2;
+  optional int32 buff_id = 1;
+  optional int32 buff_lv = 2;
 }
 
 message InitActorInfo {
-  int32 hero_id = 1;
-  int32 meta_id = 2;
-  int32 area_index = 3;
-  int32 pos_index = 4;
-  InitSkillInfo default_skill = 5;
-  InitSkillInfo legend_skill = 6;
-  InitSkillInfo xp_skill = 7;
-  InitSkillInfo combine_skill = 8;
+  optional int32 hero_id = 1;
+  optional int32 meta_id = 2;
+  optional int32 area_index = 3;
+  optional int32 pos_index = 4;
+  optional InitSkillInfo default_skill = 5;
+  optional InitSkillInfo legend_skill = 6;
+  optional InitSkillInfo xp_skill = 7;
+  optional InitSkillInfo combine_skill = 8;
   repeated AttrInfo attr_infos = 9;
   repeated BuffInfo buff_infos = 10;
-  string name = 11;
-  int32 hp = 12;
-  int32 xp = 13;
+  optional string name = 11;
+  optional int32 hp = 12;
+  optional int32 xp = 13;
 }
 
 message InitBattleAreaInfo {
@@ -41,7 +41,8 @@ message InitBattleAreaInfo {
 }
 
 message InitSkillInfo {
-  int32 skill_id = 1;
-  int32 skill_lv = 2;
+  optional int32 skill_id = 1;
+  optional int32 skill_lv = 2;
 }
+
 

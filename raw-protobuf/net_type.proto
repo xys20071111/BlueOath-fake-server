@@ -1,23 +1,24 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package net_type;
 
 message TRequest {
-  string Method = 1;
-  bytes Args = 2;
-  uint32 CallbackHandler = 3;
-  string Token = 4;
+  optional string Method = 1;
+  optional bytes Args = 2;
+  optional uint32 CallbackHandler = 3;
+  optional string Token = 4;
 }
 
 message TResponse {
-  int32 Err = 1;
-  string ErrMsg = 2;
-  string Method = 3;
-  bytes Ret = 4;
-  uint32 CallbackHandler = 5;
-  uint32 Time = 6;
-  string Token = 7;
-  uint32 Seq = 8;
-  int32 IsResponse = 9;
+  optional int32 Err = 1;
+  optional string ErrMsg = 2;
+  optional string Method = 3;
+  optional bytes Ret = 4;
+  optional uint32 CallbackHandler = 5;
+  optional uint32 Time = 6;
+  optional string Token = 7;
+  optional uint32 Seq = 8;
+  optional int32 IsResponse = 9;
 }
+
 

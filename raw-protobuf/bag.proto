@@ -1,48 +1,49 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package bag;
 
 import "commonreward.proto";
 
 message TBagInfoRet {
-  int32 bagType = 1;
-  int32 bagSize = 2;
+  optional int32 bagType = 1;
+  optional int32 bagSize = 2;
   repeated TGridInfo bagInfo = 3;
   repeated TUseInfo useInfo = 4;
 }
 
 message TBagNormalTreasureInfoArg {
-  int32 treasureId = 1;
-  int32 treasureNum = 2;
+  optional int32 treasureId = 1;
+  optional int32 treasureNum = 2;
 }
 
 message TBagSelectTreasureInfoArg {
-  int32 treasureId = 1;
-  int32 position = 2;
-  int32 num = 3;
+  optional int32 treasureId = 1;
+  optional int32 position = 2;
+  optional int32 num = 3;
 }
 
 message TBagTreasureInfoRet {
   repeated commonreward.TCommonReward treasuresInfo = 1;
-  int32 treasureId = 2;
+  optional int32 treasureId = 2;
 }
 
 message TCompositeItemArg {
-  int32 tid = 1;
-  int32 num = 2;
+  optional int32 tid = 1;
+  optional int32 num = 2;
 }
 
 message TGetBagInfoArg {
-  int32 bagType = 1;
+  optional int32 bagType = 1;
 }
 
 message TGridInfo {
-  int32 templateId = 1;
-  int32 num = 2;
+  optional int32 templateId = 1;
+  optional int32 num = 2;
 }
 
 message TUseInfo {
-  int32 templateId = 1;
+  optional int32 templateId = 1;
   repeated commonreward.TCommonReward reward = 2;
 }
+
 

@@ -1,8 +1,9 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package battletest;
 
 message BattleTest {
-  float test_value = 1;
+  optional float test_value = 1;
 }
+
 

@@ -1,4 +1,4 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package exchange;
 
@@ -9,14 +9,15 @@ message TExchange {
 }
 
 message TExchangeArg {
-  int32 Id = 1;
+  optional int32 Id = 1;
   repeated item.TItem Consume = 2;
   repeated item.TItem Reward = 3;
-  int32 Time = 4;
+  optional int32 Time = 4;
 }
 
 message TExchangeInfo {
-  int32 Id = 1;
-  int32 Times = 2;
+  optional int32 Id = 1;
+  optional int32 Times = 2;
 }
+
 

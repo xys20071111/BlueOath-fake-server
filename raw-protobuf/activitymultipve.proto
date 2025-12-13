@@ -1,12 +1,13 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package activitymultipve;
 
 message TActivityMultiPVEInfoRet {
-  int32 AttackCount = 1;
+  optional int32 AttackCount = 1;
 }
 
 message TAddPVEAttackCountArg {
-  int32 Num = 1;
+  optional int32 Num = 1;
 }
+
 

@@ -1,45 +1,46 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package tower;
 
 import "commonreward.proto";
 
 message TSfIDCount {
-  int32 SfID = 1;
-  int32 Count = 2;
+  optional int32 SfID = 1;
+  optional int32 Count = 2;
 }
 
 message TTowerInfoRet {
-  int32 ChapterId = 1;
-  int32 AreaIndex = 2;
-  int32 CopyIndex = 3;
-  int32 TopicIndex = 4;
-  int32 DailyCount = 5;
-  int64 ResetTime = 6;
+  optional int32 ChapterId = 1;
+  optional int32 AreaIndex = 2;
+  optional int32 CopyIndex = 3;
+  optional int32 TopicIndex = 4;
+  optional int32 DailyCount = 5;
+  optional int64 ResetTime = 6;
   repeated TSfIDCount SfID2Count = 7;
-  TTowerReward RewardInfo = 8;
+  optional TTowerReward RewardInfo = 8;
   repeated uint32 HeroIdList = 9;
   repeated uint32 LockEquipList = 10;
-  int32 PassLastChapterId = 11;
-  bool IsReset = 12;
-  int32 MaxLevel = 13;
-  int32 MaxArea = 14;
-  int32 MaxCopy = 15;
-  int32 DailyCountEx = 16;
-  bool IsNewLevel = 17;
+  optional int32 PassLastChapterId = 11;
+  optional bool IsReset = 12;
+  optional int32 MaxLevel = 13;
+  optional int32 MaxArea = 14;
+  optional int32 MaxCopy = 15;
+  optional int32 DailyCountEx = 16;
+  optional bool IsNewLevel = 17;
   repeated int32 SavePassCopyId = 18;
 }
 
 message TTowerReceiveBuffArg {
-  int32 CopyId = 1;
+  optional int32 CopyId = 1;
 }
 
 message TTowerReward {
-  int32 ChapterId = 1;
-  int32 AreaIndex = 2;
-  int32 CopyIndex = 3;
-  int32 TopicIndex = 4;
+  optional int32 ChapterId = 1;
+  optional int32 AreaIndex = 2;
+  optional int32 CopyIndex = 3;
+  optional int32 TopicIndex = 4;
   repeated commonreward.TCommonReward Reward = 5;
   repeated int32 CopyList = 6;
 }
+
 

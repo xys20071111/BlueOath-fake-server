@@ -1,8 +1,9 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package uniteplayer;
 
 message TArgUniteLogin {
-  string Uname = 1;
+  optional string Uname = 1;
 }
+
 

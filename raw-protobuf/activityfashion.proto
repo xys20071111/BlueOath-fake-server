@@ -1,18 +1,19 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package activityfashion;
 
 message TActivityFashionBuyArg {
-  int32 Count = 1;
+  optional int32 Count = 1;
 }
 
 message TActivityFashionInfoRet {
-  int32 ActivityId = 1;
-  int32 BuyCount = 2;
+  optional int32 ActivityId = 1;
+  optional int32 BuyCount = 2;
   repeated int32 SpecialReward = 3;
 }
 
 message TActivityFashionRewardArg {
-  int32 Index = 1;
+  optional int32 Index = 1;
 }
+
 

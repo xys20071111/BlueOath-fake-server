@@ -1,10 +1,10 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package guide;
 
 message TGuideEvent {
-  int32 Key = 1;
-  int32 Value = 2;
+  optional int32 Key = 1;
+  optional int32 Value = 2;
 }
 
 message TGuideInfo {
@@ -15,16 +15,16 @@ message TGuideInfo {
 }
 
 message TGuidePlotRewardArg {
-  int32 PlotId = 1;
+  optional int32 PlotId = 1;
 }
 
 message TGuidePlotRewardRet {
-  int32 PlotId = 1;
+  optional int32 PlotId = 1;
 }
 
 message TGuideSetting {
-  string Key = 1;
-  string Value = 2;
+  optional string Key = 1;
+  optional string Value = 2;
 }
 
 message TGuideSettingArg {
@@ -32,7 +32,8 @@ message TGuideSettingArg {
 }
 
 message TGuideSettingParam {
-  string Key = 1;
-  string Value = 2;
+  optional string Key = 1;
+  optional string Value = 2;
 }
+
 

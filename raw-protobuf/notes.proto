@@ -1,22 +1,23 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package notes;
 
 import "build.proto";
 
 message TNotesHeroLikeArg {
-  int32 Htid = 1;
+  optional int32 Htid = 1;
 }
 
 message TNotesInfo {
-  string Name = 1;
-  build.TFormula BuildedInfo = 2;
-  int32 Count = 3;
-  int32 Head = 4;
-  uint64 Uid = 5;
+  optional string Name = 1;
+  optional build.TFormula BuildedInfo = 2;
+  optional int32 Count = 3;
+  optional int32 Head = 4;
+  optional uint64 Uid = 5;
 }
 
 message TNotesListRet {
   repeated TNotesInfo List = 1;
 }
+
 

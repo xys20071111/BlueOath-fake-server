@@ -1,4 +1,4 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package webapi;
 
@@ -7,12 +7,13 @@ message TArgsLuaRun {
 }
 
 message TKeyValue {
-  string Key = 1;
-  string StrValue = 2;
-  int32 NumValue = 3;
+  optional string Key = 1;
+  optional string StrValue = 2;
+  optional int32 NumValue = 3;
 }
 
 message TLuaInfo {
-  string LuaString = 1;
+  optional string LuaString = 1;
 }
+
 

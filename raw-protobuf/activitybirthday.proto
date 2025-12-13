@@ -1,29 +1,30 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package activitybirthday;
 
 message TABFeedGirlArg {
-  int32 TeamId = 1;
-  int32 Cake = 2;
+  optional int32 TeamId = 1;
+  optional int32 Cake = 2;
 }
 
 message TABGirlsAndCakeData {
-  int32 Girl = 1;
-  int32 Cake = 2;
-  int32 TeamId = 3;
+  optional int32 Girl = 1;
+  optional int32 Cake = 2;
+  optional int32 TeamId = 3;
 }
 
 message TABMakeCakeArg {
-  int32 CakeFormula = 1;
+  optional int32 CakeFormula = 1;
 }
 
 message TABReceiveAffairRewardArg {
-  int32 Level = 1;
+  optional int32 Level = 1;
 }
 
 message TActivityBirthdayInfoRet {
-  int32 BirthdayAffair = 1;
+  optional int32 BirthdayAffair = 1;
   repeated TABGirlsAndCakeData GirlsAndCake = 2;
   repeated int32 Stage = 3;
 }
+
 

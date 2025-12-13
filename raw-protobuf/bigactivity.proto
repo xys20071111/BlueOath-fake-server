@@ -1,48 +1,49 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package bigactivity;
 
 import "user.proto";
 
 message TBigActivityRankArg {
-  int32 Start = 1;
-  int32 End = 2;
+  optional int32 Start = 1;
+  optional int32 End = 2;
 }
 
 message TBigActivityRankData {
-  uint64 Uid = 1;
-  int32 Rank = 2;
-  string Name = 3;
-  int32 Merits = 4;
-  int32 Head = 5;
-  int32 PassTime = 6;
-  user.TSimpleUserInfoMsg UserInfo = 7;
+  optional uint64 Uid = 1;
+  optional int32 Rank = 2;
+  optional string Name = 3;
+  optional int32 Merits = 4;
+  optional int32 Head = 5;
+  optional int32 PassTime = 6;
+  optional user.TSimpleUserInfoMsg UserInfo = 7;
   repeated int32 Time = 8;
 }
 
 message TBigActivityRankListRet {
   repeated TBigActivityRankData List = 1;
-  TBigActivityRankData SelfRank = 2;
+  optional TBigActivityRankData SelfRank = 2;
 }
 
 message TBigActivityRet {
-  int32 Merits = 1;
-  int32 DayMerits = 2;
-  int32 Rank = 3;
-  int32 HistoryMerits = 4;
-  int32 MeritsMax = 5;
+  optional int32 Merits = 1;
+  optional int32 DayMerits = 2;
+  optional int32 Rank = 3;
+  optional int32 HistoryMerits = 4;
+  optional int32 MeritsMax = 5;
   repeated TIndexToMerits List = 6;
   repeated TIndexToNumber NumberList = 7;
-  int32 Percent = 8;
+  optional int32 Percent = 8;
 }
 
 message TIndexToMerits {
-  int32 Index = 1;
-  int32 Merits = 2;
+  optional int32 Index = 1;
+  optional int32 Merits = 2;
 }
 
 message TIndexToNumber {
-  int32 Index = 1;
-  int32 Number = 2;
+  optional int32 Index = 1;
+  optional int32 Number = 2;
 }
+
 

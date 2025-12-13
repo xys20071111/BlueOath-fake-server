@@ -1,20 +1,21 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package equipactivity;
 
 message TEquipActivityEquipInfo {
-  uint32 EquipId = 1;
-  int32 TemplateId = 2;
-  int32 PowerPoint = 3;
-  int32 IsReward = 4;
-  int32 ExtraRule = 5;
+  optional uint32 EquipId = 1;
+  optional int32 TemplateId = 2;
+  optional int32 PowerPoint = 3;
+  optional int32 IsReward = 4;
+  optional int32 ExtraRule = 5;
 }
 
 message TEquipActivityGetRewardArg {
-  uint32 EquipId = 1;
+  optional uint32 EquipId = 1;
 }
 
 message TEquipActivityInfo {
   repeated TEquipActivityEquipInfo Info = 1;
 }
+
 

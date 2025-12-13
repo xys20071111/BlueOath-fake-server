@@ -1,25 +1,25 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package crusade;
 
 message TCrusadeCompleteArg {
-  uint32 AutoId = 1;
-  int32 TaskType = 2;
-  int32 Type = 3;
+  optional uint32 AutoId = 1;
+  optional int32 TaskType = 2;
+  optional int32 Type = 3;
 }
 
 message TCrusadeCompleteRet {
-  TCrusadeInfoRet TaskList = 1;
-  int32 Type = 2;
-  int32 TaskId = 3;
+  optional TCrusadeInfoRet TaskList = 1;
+  optional int32 Type = 2;
+  optional int32 TaskId = 3;
   repeated TCrusadeHistoryHero HeroList = 4;
   repeated TCrusadeReward Reward = 5;
   repeated TCrusadeReward RandomReward = 6;
 }
 
 message TCrusadeHistoryHero {
-  uint32 Id = 1;
-  int32 Tid = 2;
+  optional uint32 Id = 1;
+  optional int32 Tid = 2;
 }
 
 message TCrusadeHistoryHeroList {
@@ -31,13 +31,13 @@ message TCrusadeHistoryRet {
 }
 
 message TCrusadeInfo {
-  uint32 AutoId = 1;
-  int32 TaskId = 2;
-  int64 StartTime = 3;
-  int64 AcceptTime = 4;
-  int32 Status = 5;
+  optional uint32 AutoId = 1;
+  optional int32 TaskId = 2;
+  optional int64 StartTime = 3;
+  optional int64 AcceptTime = 4;
+  optional int32 Status = 5;
   repeated TCrusadeHistoryHero HeroList = 6;
-  int32 TaskType = 7;
+  optional int32 TaskType = 7;
 }
 
 message TCrusadeInfoRet {
@@ -50,14 +50,15 @@ message TCrusadePushMsg {
 }
 
 message TCrusadeReward {
-  int32 Type = 1;
-  int32 ConfigId = 2;
-  int32 Num = 3;
+  optional int32 Type = 1;
+  optional int32 ConfigId = 2;
+  optional int32 Num = 3;
 }
 
 message TCrusadeStartArg {
-  uint32 AutoId = 1;
-  int32 TaskType = 2;
+  optional uint32 AutoId = 1;
+  optional int32 TaskType = 2;
   repeated uint32 HeroList = 3;
 }
+
 

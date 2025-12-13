@@ -1,10 +1,11 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package item;
 
 message TItem {
-  int32 Type = 1;
-  int32 Id = 2;
-  int32 Num = 3;
+  optional int32 Type = 1;
+  optional int32 Id = 2;
+  optional int32 Num = 3;
 }
+
 

@@ -1,4 +1,4 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package match;
 
@@ -9,26 +9,26 @@ message TBattlePVPRet {
 }
 
 message TBattlePushMessage {
-  string Address = 1;
-  int32 Port = 2;
-  uint64 BattleId = 3;
-  string Token = 4;
+  optional string Address = 1;
+  optional int32 Port = 2;
+  optional uint64 BattleId = 3;
+  optional string Token = 4;
   repeated TBattleUserList UserList = 5;
-  uint64 MasterId = 6;
+  optional uint64 MasterId = 6;
 }
 
 message TBattleRet {
-  uint64 Uid = 1;
-  uint32 Success = 2;
-  uint32 Appraise = 3;
-  uint32 Damage = 4;
-  uint32 Left_Hp = 5;
-  uint32 Max_Hp = 6;
+  optional uint64 Uid = 1;
+  optional uint32 Success = 2;
+  optional uint32 Appraise = 3;
+  optional uint32 Damage = 4;
+  optional uint32 Left_Hp = 5;
+  optional uint32 Max_Hp = 6;
 }
 
 message TBattleUserList {
-  int32 Index = 1;
-  battleplayer.TBattlePlayer Player = 2;
+  optional int32 Index = 1;
+  optional battleplayer.TBattlePlayer Player = 2;
 }
 
 message TMatchData {
@@ -39,31 +39,31 @@ message TMatchRet {
 }
 
 message TMatchUserList {
-  uint64 Uid = 1;
-  int32 ServerId = 2;
+  optional uint64 Uid = 1;
+  optional int32 ServerId = 2;
 }
 
 message TPveMatchRoomTimeout {
-  int32 RoomId = 1;
+  optional int32 RoomId = 1;
 }
 
 message TPveRoomInfoArg {
-  int32 RoomId = 1;
-  int32 CopyId = 2;
-  uint64 KickedUid = 3;
+  optional int32 RoomId = 1;
+  optional int32 CopyId = 2;
+  optional uint64 KickedUid = 3;
   repeated TTeamHeroList HeroList = 4;
-  uint64 Uid = 5;
+  optional uint64 Uid = 5;
 }
 
 message TPveRoomInfoRet {
-  int32 RoomId = 1;
-  int32 CopyId = 2;
-  bool IsPublic = 3;
-  uint64 OwnerId = 4;
+  optional int32 RoomId = 1;
+  optional int32 CopyId = 2;
+  optional bool IsPublic = 3;
+  optional uint64 OwnerId = 4;
   repeated TRoomUserInfo RoomUsers = 5;
-  int32 Capacity = 6;
-  int32 CreateTime = 7;
-  int32 Reason = 8;
+  optional int32 Capacity = 6;
+  optional int32 CreateTime = 7;
+  optional int32 Reason = 8;
 }
 
 message TPveRoomList {
@@ -71,34 +71,35 @@ message TPveRoomList {
 }
 
 message TPvpMatchReadyRet {
-  int32 RoomId = 1;
+  optional int32 RoomId = 1;
 }
 
 message TPvpMatchReadyTimeoutRet {
-  int32 RoomId = 1;
+  optional int32 RoomId = 1;
 }
 
 message TRoomUserInfo {
-  uint64 Uid = 1;
-  string Name = 2;
-  int32 Head = 3;
-  int32 Fashioning = 4;
-  bool IsReady = 5;
-  int32 EnterTime = 6;
+  optional uint64 Uid = 1;
+  optional string Name = 2;
+  optional int32 Head = 3;
+  optional int32 Fashioning = 4;
+  optional bool IsReady = 5;
+  optional int32 EnterTime = 6;
   repeated TTeamHeroList HeroList = 7;
 }
 
 message TTeamHeroInfo {
-  uint32 Hid = 1;
-  uint32 Tid = 2;
-  int32 Level = 3;
-  int32 Advance = 4;
-  int32 Fashioning = 5;
+  optional uint32 Hid = 1;
+  optional uint32 Tid = 2;
+  optional int32 Level = 3;
+  optional int32 Advance = 4;
+  optional int32 Fashioning = 5;
 }
 
 message TTeamHeroList {
   repeated uint32 HeroIdList = 1;
   repeated TTeamHeroInfo HeroInfo = 2;
-  int32 StrategyId = 3;
+  optional int32 StrategyId = 3;
 }
+
 

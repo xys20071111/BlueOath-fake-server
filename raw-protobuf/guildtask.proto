@@ -1,49 +1,49 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package guildtask;
 
 import "user.proto";
 
 message TConstantItemData {
-  int32 ItemType = 1;
-  int32 ItemId = 2;
-  int32 ItemNum = 3;
+  optional int32 ItemType = 1;
+  optional int32 ItemId = 2;
+  optional int32 ItemNum = 3;
 }
 
 message TConstantRewardData {
-  int32 RewardId = 1;
-  int32 RewardNum = 2;
+  optional int32 RewardId = 1;
+  optional int32 RewardNum = 2;
 }
 
 message TGuildTaskDonateArg {
-  int32 TaskIndex = 1;
-  int32 TaskId = 2;
+  optional int32 TaskIndex = 1;
+  optional int32 TaskId = 2;
   repeated TGuildTaskDonateItem Items = 3;
-  int32 TaskNum = 4;
+  optional int32 TaskNum = 4;
 }
 
 message TGuildTaskDonateItem {
-  int32 ItemType = 1;
-  int32 ItemId = 2;
-  int32 ItemNum = 3;
-  uint32 SpecialId = 4;
+  optional int32 ItemType = 1;
+  optional int32 ItemId = 2;
+  optional int32 ItemNum = 3;
+  optional uint32 SpecialId = 4;
 }
 
 message TGuildTaskInfo {
-  int32 TaskIndex = 1;
-  int32 TaskId = 2;
-  int32 Progress = 3;
-  int32 IsFinished = 4;
-  int32 CurAcceptNum = 5;
+  optional int32 TaskIndex = 1;
+  optional int32 TaskId = 2;
+  optional int32 Progress = 3;
+  optional int32 IsFinished = 4;
+  optional int32 CurAcceptNum = 5;
 }
 
 message TGuildTaskInfoRet {
   repeated TGuildTaskInfo CurrentTasks = 1;
-  int32 TodayAcceptTaskCount = 2;
-  int32 TodayFinishTaskCount = 3;
-  int32 CurrentTaskEmptyFlag = 4;
+  optional int32 TodayAcceptTaskCount = 2;
+  optional int32 TodayFinishTaskCount = 3;
+  optional int32 CurrentTaskEmptyFlag = 4;
   repeated TTodayGuildTaskData TodayTaskInfo = 5;
-  int32 TodayTaskInfoEmptyFlag = 6;
+  optional int32 TodayTaskInfoEmptyFlag = 6;
   repeated TConstantRewardData ConstantRewardPool = 7;
   repeated TRandomRewardData RandomRewardPool = 8;
   repeated TTodayRandomRewardData TodayRandomRewardInfo = 9;
@@ -56,66 +56,67 @@ message TGuildTaskInfoRet {
 }
 
 message TGuildTaskMemberContribute {
-  uint64 Uid = 1;
-  int32 Contri = 2;
+  optional uint64 Uid = 1;
+  optional int32 Contri = 2;
 }
 
 message TGuildTaskMemberFinishStepCount {
-  uint64 Uid = 1;
-  int32 Count = 2;
+  optional uint64 Uid = 1;
+  optional int32 Count = 2;
 }
 
 message TGuildTaskMemberGetConstantReward {
-  uint64 Uid = 1;
-  int32 Get = 2;
-  user.TGetOtherUserInfoRet User = 3;
+  optional uint64 Uid = 1;
+  optional int32 Get = 2;
+  optional user.TGetOtherUserInfoRet User = 3;
 }
 
 message TGuildTaskMemberGetRandomReward {
-  uint64 Uid = 1;
-  int32 Get = 2;
+  optional uint64 Uid = 1;
+  optional int32 Get = 2;
 }
 
 message TGuildTaskTaskArg {
-  int32 TaskIndex = 1;
-  int32 TaskId = 2;
+  optional int32 TaskIndex = 1;
+  optional int32 TaskId = 2;
 }
 
 message TGuildTaskTaskIdArg {
-  int32 TaskId = 1;
+  optional int32 TaskId = 1;
 }
 
 message TGuildTaskUserInfoRet {
-  int32 ContributeValue = 1;
-  int32 TodayAcceptTaskCount = 2;
-  int32 TodayFinishTaskStepCount = 3;
-  TTodayUserGuildTaskInfo CurrentGuildTaskInfo = 4;
+  optional int32 ContributeValue = 1;
+  optional int32 TodayAcceptTaskCount = 2;
+  optional int32 TodayFinishTaskStepCount = 3;
+  optional TTodayUserGuildTaskInfo CurrentGuildTaskInfo = 4;
   repeated int32 CurrentCanAcceptTaskList = 5;
 }
 
 message TRandomRewardData {
-  int32 ItemType = 1;
-  int32 ItemId = 2;
-  int32 ItemNum = 3;
-  uint64 GiveUid = 4;
-  string GiveUname = 5;
+  optional int32 ItemType = 1;
+  optional int32 ItemId = 2;
+  optional int32 ItemNum = 3;
+  optional uint64 GiveUid = 4;
+  optional string GiveUname = 5;
 }
 
 message TTodayGuildTaskData {
-  int32 TaskId = 1;
-  int32 ProgressSum = 2;
-  int32 ExtraSum = 3;
+  optional int32 TaskId = 1;
+  optional int32 ProgressSum = 2;
+  optional int32 ExtraSum = 3;
 }
 
 message TTodayRandomRewardData {
-  int32 EnterNum = 1;
-  int32 RewardId = 2;
+  optional int32 EnterNum = 1;
+  optional int32 RewardId = 2;
 }
 
 message TTodayUserGuildTaskInfo {
-  int32 TaskIndex = 1;
-  int32 TaskId = 2;
-  int32 IsComplete = 3;
-  int32 IsExtra = 4;
+  optional int32 TaskIndex = 1;
+  optional int32 TaskId = 2;
+  optional int32 IsComplete = 3;
+  optional int32 IsExtra = 4;
 }
+
 

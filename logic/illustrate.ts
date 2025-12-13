@@ -4,7 +4,6 @@ import { sendResponsePacket } from '../utils/createResponsePacket.ts'
 import { socketPlayerMap } from '../utils/socketMaps.ts'
 import { EMPTY_UINT8ARRAY } from '../utils/placeholder.ts'
 import { sendShipInfo } from './hero.ts'
-import { encoder } from '../utils/endecoder.ts'
 
 const pb = protobuf.loadSync('./raw-protobuf/illustrate.proto')
 const TIllustrateBehaviourArgs = pb.lookupType(
@@ -13,6 +12,7 @@ const TIllustrateBehaviourArgs = pb.lookupType(
 const TIllustrateList = pb.lookupType('illustrate.TIllustrateList')
 const TVowHeroRet = pb.lookupType('illustrate.TVowHeroRet')
 const TModiVowHeroListArg = pb.lookupType('illustrate.TModiVowHeroListArg')
+const TIllustrateInfoRet = pb.lookupType('illustrate.TIllustrateInfoRet')
 
 export function AddBehavior(
     socket: Socket,
@@ -28,13 +28,14 @@ export function AddBehavior(
             item.BehaviourId,
         )
     }
-    const illustrateResData = JSON.stringify(
+    const illustrateResData = TIllustrateInfoRet.create(
         player.getIllustrate().getIllustrateInfo(),
     )
+
     sendResponsePacket(
         socket,
-        'illustrate.custom.IllustrateInfo',
-        encoder.encode(illustrateResData),
+        'illustrate.IllustrateInfo',
+        TIllustrateInfoRet.encode(illustrateResData).finish(),
         callbackHandler,
         token,
     )
@@ -119,14 +120,15 @@ export function VowHero(
 
 function sendIllustrateData(socket: Socket) {
     const player = socketPlayerMap.get(socket)!
-    const illustrateResData = JSON.stringify(
+    const illustrateResData = TIllustrateInfoRet.create(
         player.getIllustrate().getIllustrateInfo(),
     )
+
     sendResponsePacket(
         socket,
-        'illustrate.custom.IllustrateInfo',
-        encoder.encode(illustrateResData),
-        null,
-        null,
+        'illustrate.IllustrateInfo',
+        TIllustrateInfoRet.encode(illustrateResData).finish(),
+        0,
+        "",
     )
 }

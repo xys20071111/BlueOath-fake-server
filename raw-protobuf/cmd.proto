@@ -1,12 +1,13 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package cmd;
 
 message TGMArgs {
-  string cmdMsg = 1;
+  optional string cmdMsg = 1;
 }
 
 message TGMRet {
-  string cmdRet = 1;
+  optional string cmdRet = 1;
 }
+
 

@@ -4,7 +4,6 @@ import { sendResponsePacket } from '../utils/createResponsePacket.ts'
 import { socketPlayerMap } from '../utils/socketMaps.ts'
 import { EMPTY_UINT8ARRAY } from '../utils/placeholder.ts'
 import { EXP_ITEM } from '../constants/exp.ts'
-import { encoder } from '../utils/endecoder.ts'
 
 const pb = protobuf.loadSync('./raw-protobuf/hero.proto')
 const TLockHeroArg = pb.lookupType('hero.TLockHeroArg')
@@ -20,6 +19,7 @@ const TAdvanceArg = pb.lookupType('hero.TAdvanceArg')
 const THeroChangeEquipArgs = pb.lookupType('hero.THeroChangeEquipArgs')
 const THeroAutoUnEquipArg = pb.lookupType('hero.THeroAutoUnEquipArg')
 const TRemouldArg = pb.lookupType('hero.TRemouldArg')
+const THeroInfo = pb.lookupType('hero.THeroInfo')
 
 // 提示信息显示一直不正常
 export function LockHero(
@@ -304,17 +304,16 @@ export function sendShipInfo(
     token: string | null,
 ) {
     const player = socketPlayerMap.get(socket)!
-    // 加上改造信息后protobuf解析不了了，改成自定义方法
     const heroInfo = player.getHeroInfo().getHeroBag()
-    const heroInfoData = JSON.stringify({
+    const heroInfoData = THeroInfo.create({
         HeroInfo: heroInfo,
         HeroBagSize: 1000,
         HeroNum: [{ TemplateId: 10210511, Num: 80 }],
     })
     sendResponsePacket(
         socket,
-        'hero.custom.UpdateHeroBagData',
-        encoder.encode(heroInfoData),
+        'hero.UpdateHeroBagData',
+        THeroInfo.encode(heroInfoData).finish(),
         callbackHandler,
         token,
     )

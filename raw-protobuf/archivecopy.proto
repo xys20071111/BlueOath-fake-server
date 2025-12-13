@@ -1,24 +1,25 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package archivecopy;
 
 import "copy.proto";
 
 message TArchiveCopy {
-  bool IsOK = 1;
-  int32 LoadCount = 2;
-  int32 CopyCost = 3;
-  int32 CopyId = 4;
-  bool IsReturn = 5;
+  optional bool IsOK = 1;
+  optional int32 LoadCount = 2;
+  optional int32 CopyCost = 3;
+  optional int32 CopyId = 4;
+  optional bool IsReturn = 5;
 }
 
 message TArchiveCopyData {
-  copy.TStartBaseRet StartBaseRet = 1;
-  int32 frameNumber = 2;
+  optional copy.TStartBaseRet StartBaseRet = 1;
+  optional int32 frameNumber = 2;
   repeated bytes data = 3;
 }
 
 message TEnterArchiveCopyArg {
-  bool isLoad = 1;
+  optional bool isLoad = 1;
 }
+
 

@@ -7,6 +7,9 @@ const copyPb = protobuf.loadSync('./raw-protobuf/copy.proto')
 const TStartBaseArg = copyPb.lookupType('copy.TStartBaseArg')
 const TStartBaseRet = copyPb.lookupType('copy.TStartBaseRet')
 
+const battleplayerPb = protobuf.loadSync('./raw-protobuf/battleplayer.proto')
+const TBattlePlayer = battleplayerPb.lookupType("battleplayer.TBattlePlayer")
+
 interface BattleShip {
     HeroId: number
     TemplateId: number
@@ -83,7 +86,7 @@ export function StartBase(
         })
     }
     const resData = TStartBaseRet.create({
-        BattlePlayer: {
+        BattlePlayer: TBattlePlayer.create({
             Pid: userInfo.Uid,
             Uid: userInfo.Uid,
             Uname: userInfo.Uname,
@@ -101,7 +104,7 @@ export function StartBase(
                 HeroList: parsedArgs.HeroList[0].HeroIdList,
                 TacticType: 1,
             },
-        },
+        }),
         RandomSeed: 114514,
         Rid: 1,
         arrRes: [],

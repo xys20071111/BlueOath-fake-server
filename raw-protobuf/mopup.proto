@@ -1,27 +1,28 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package mopup;
 
 import "copy.proto"
 
 message MopUpData {
-  int32 fleetId = 1;
-  int32 copyId = 2;
-  int64 startTime = 3;
-  int64 endTime = 4;
-  int32 sweepCounts = 5;
-  int32 chaperId = 6;
+  optional int32 fleetId = 1;
+  optional int32 copyId = 2;
+  optional int64 startTime = 3;
+  optional int64 endTime = 4;
+  optional int32 sweepCounts = 5;
+  optional int32 chaperId = 6;
 }
 
 message TMopUpArg {
-  int32 fleetId = 1;
-  int32 copyId = 2;
-  int32 sweepCounts = 3;
+  optional int32 fleetId = 1;
+  optional int32 copyId = 2;
+  optional int32 sweepCounts = 3;
 }
 
 message TMopUpRet {
-  int32 sweepFleetsNum = 1;
+  optional int32 sweepFleetsNum = 1;
   repeated MopUpData data = 2;
   repeated copy.TPassBaseRet passRets = 3;
 }
+
 

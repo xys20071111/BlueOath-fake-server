@@ -1,87 +1,88 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package rebel;
 
 import "user.proto";
 
 message TDataChange {
-  int32 OldValue = 1;
-  int32 NewValue = 2;
+  optional int32 OldValue = 1;
+  optional int32 NewValue = 2;
 }
 
 message TExploitReward {
-  int32 RewardType = 1;
-  int32 RewardId = 2;
-  int32 RewardNum = 3;
+  optional int32 RewardType = 1;
+  optional int32 RewardId = 2;
+  optional int32 RewardNum = 3;
 }
 
 message TGetExploitRewardArg {
-  int32 Index = 1;
+  optional int32 Index = 1;
 }
 
 message TGetRankArg {
-  int32 RankType = 1;
+  optional int32 RankType = 1;
 }
 
 message TGetRankRet {
   repeated TRebelRankInfo RankInfo = 1;
-  int32 SelfPlace = 2;
+  optional int32 SelfPlace = 2;
 }
 
 message TRebel {
-  uint64 Id = 1;
-  string MasterName = 2;
-  int32 StageId = 3;
-  int32 Hp = 4;
-  int32 BornTime = 5;
-  int32 Level = 6;
-  int32 MaxHp = 7;
-  int32 LeftTime = 8;
-  int32 Quality = 9;
-  bool Shared = 10;
-  int32 SrcStageId = 11;
+  optional uint64 Id = 1;
+  optional string MasterName = 2;
+  optional int32 StageId = 3;
+  optional int32 Hp = 4;
+  optional int32 BornTime = 5;
+  optional int32 Level = 6;
+  optional int32 MaxHp = 7;
+  optional int32 LeftTime = 8;
+  optional int32 Quality = 9;
+  optional bool Shared = 10;
+  optional int32 SrcStageId = 11;
 }
 
 message TRebelBattleArg {
-  uint64 RebelId = 1;
-  int32 BattleType = 2;
-  int32 RebelToken = 3;
+  optional uint64 RebelId = 1;
+  optional int32 BattleType = 2;
+  optional int32 RebelToken = 3;
 }
 
 message TRebelBattleRet {
-  int32 Kill = 1;
-  int32 Damage = 2;
-  int32 Exploit = 3;
-  TDataChange ExploitChange = 4;
-  TDataChange DamageChange = 5;
-  int32 Achieve = 6;
+  optional int32 Kill = 1;
+  optional int32 Damage = 2;
+  optional int32 Exploit = 3;
+  optional TDataChange ExploitChange = 4;
+  optional TDataChange DamageChange = 5;
+  optional int32 Achieve = 6;
 }
 
 message TRebelDamageBroadcast {
-  uint64 RebelId = 1;
-  int32 Damage = 2;
-  int32 Hp = 3;
+  optional uint64 RebelId = 1;
+  optional int32 Damage = 2;
+  optional int32 Hp = 3;
 }
 
 message TRebelDieBroadcast {
-  uint64 RebelId = 1;
-  int32 DeadType = 2;
+  optional uint64 RebelId = 1;
+  optional int32 DeadType = 2;
 }
 
 message TRebelMainDataRet {
-  int32 Exploit = 1;
+  optional int32 Exploit = 1;
   repeated int32 ExploitReward = 2;
-  int32 TopDamage = 3;
-  bool Update = 4;
+  optional int32 TopDamage = 3;
+  optional bool Update = 4;
   repeated TRebel Rebel = 5;
 }
 
 message TRebelRankInfo {
-  user.TGetOtherUserInfoRet UserInfo = 1;
-  int32 RankValue = 2;
+  optional user.TGetOtherUserInfoRet UserInfo = 1;
+  optional int32 RankValue = 2;
 }
 
 message TReceiveAllRet {
   repeated TExploitReward ExploitReward = 1;
 }
+
 

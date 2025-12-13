@@ -1,8 +1,9 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package playerheadframe;
 
 message TPlayerHeadFrameRet {
   repeated int32 ownedHeadFrames = 1;
 }
+
 

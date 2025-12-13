@@ -1,13 +1,13 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package activityssrrolls;
 
 message TActivitySSRRollsInfoRet {
-  int32 ActivityId = 1;
-  int32 DaySelectCount = 2;
-  TRollsTeam SelectShipTeam = 3;
-  TRollsTeam SaveShipTeam = 4;
-  int64 RewardTime = 5;
+  optional int32 ActivityId = 1;
+  optional int32 DaySelectCount = 2;
+  optional TRollsTeam SelectShipTeam = 3;
+  optional TRollsTeam SaveShipTeam = 4;
+  optional int64 RewardTime = 5;
 }
 
 message TRollsTeam {
@@ -15,6 +15,7 @@ message TRollsTeam {
 }
 
 message TSSRRollsSelectArg {
-  int32 SelectTeamId = 1;
+  optional int32 SelectTeamId = 1;
 }
+
 

@@ -1,27 +1,28 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package dailycopy;
 
 message TDailyCopyInfo {
-  int32 ChapterId = 1;
-  int32 ChallengeTimes = 2;
+  optional int32 ChapterId = 1;
+  optional int32 ChallengeTimes = 2;
   repeated int32 PassCopy = 3;
-  bool SelectEx = 4;
-  int32 ExStar = 5;
+  optional bool SelectEx = 4;
+  optional int32 ExStar = 5;
 }
 
 message TDailyCopySelectExArg {
-  int32 ChapterId = 1;
-  bool SelectEx = 2;
+  optional int32 ChapterId = 1;
+  optional bool SelectEx = 2;
 }
 
 message TDailyGroupInfo {
-  int32 DailyGroupId = 1;
-  int32 SuccessTimes = 2;
+  optional int32 DailyGroupId = 1;
+  optional int32 SuccessTimes = 2;
 }
 
 message TUserDailyCopyInfo {
   repeated TDailyCopyInfo ArrDailyCopyInfo = 1;
   repeated TDailyGroupInfo ArrDailyGroupInfo = 2;
 }
+
 

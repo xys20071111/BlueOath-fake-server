@@ -1,27 +1,27 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package outpost;
 
 import "commonreward.proto";
 
 message TBaseBuildingInfo {
-  int32 Id = 1;
-  int32 Level = 2;
+  optional int32 Id = 1;
+  optional int32 Level = 2;
   repeated uint32 HeroList = 3;
-  int32 State = 4;
-  int32 UseCoin = 5;
+  optional int32 State = 4;
+  optional int32 UseCoin = 5;
   repeated commonreward.TCommonReward ItemInfo = 6;
   repeated TOPTactic TacticList = 7;
 }
 
 message TOPChangeTacticNameArg {
-  int32 BuildingId = 1;
-  int32 Index = 2;
-  string Name = 3;
+  optional int32 BuildingId = 1;
+  optional int32 Index = 2;
+  optional string Name = 3;
 }
 
 message TOPReceiveByBuildingArg {
-  int32 BuildingId = 1;
+  optional int32 BuildingId = 1;
 }
 
 message TOPReceiveRet {
@@ -29,8 +29,8 @@ message TOPReceiveRet {
 }
 
 message TOPRemoveBuildingTacticArg {
-  int32 BuildingId = 1;
-  int32 Index = 2;
+  optional int32 BuildingId = 1;
+  optional int32 Index = 2;
 }
 
 message TOPSaveBuildingTacticArg {
@@ -38,32 +38,33 @@ message TOPSaveBuildingTacticArg {
 }
 
 message TOPSetHeroArg {
-  int32 BuildingId = 1;
+  optional int32 BuildingId = 1;
   repeated uint32 HeroIdList = 2;
 }
 
 message TOPSetUseCoinArg {
-  int32 BuildingId = 1;
-  int32 UseCoin = 2;
+  optional int32 BuildingId = 1;
+  optional int32 UseCoin = 2;
 }
 
 message TOPSpeedUpProductionArg {
-  int32 BuildingId = 1;
+  optional int32 BuildingId = 1;
 }
 
 message TOPTactic {
-  int32 BuildingId = 1;
-  string Name = 2;
+  optional int32 BuildingId = 1;
+  optional string Name = 2;
   repeated uint32 HeroList = 3;
-  int32 Index = 4;
+  optional int32 Index = 4;
 }
 
 message TOPUpgradeBuildingArg {
-  int32 BuildingId = 1;
+  optional int32 BuildingId = 1;
 }
 
 message TOutPostInfo {
   repeated TBaseBuildingInfo BuildingInfos = 1;
-  int32 SpeedUpTime = 2;
+  optional int32 SpeedUpTime = 2;
 }
+
 

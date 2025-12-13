@@ -1,12 +1,12 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package activitypapercut;
 
 import "commonreward.proto"
 
 message TAPCFormulaUseData {
-  int32 FormulaId = 1;
-  int32 Count = 2;
+  optional int32 FormulaId = 1;
+  optional int32 Count = 2;
 }
 
 message TAPCMakePaperCutArg {
@@ -15,10 +15,11 @@ message TAPCMakePaperCutArg {
 
 message TAPCMakePaperCutRet {
   repeated commonreward.TCommonReward Reward = 1;
-  int32 FormulaId = 2;
+  optional int32 FormulaId = 2;
 }
 
 message TActivityPaperCutInfoRet {
   repeated TAPCFormulaUseData FormulaUseData = 1;
 }
+
 

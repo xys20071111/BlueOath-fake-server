@@ -1,74 +1,75 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package pxp;
 
 message TAckPack {
-  int32 ackId = 1;
+  optional int32 ackId = 1;
   repeated TNetOperation opeList = 2;
 }
 
 message TCopyLocal2NetFleetInfo {
-  bool isPlayer = 1;
-  int32 findNumByNPC = 2;
+  optional bool isPlayer = 1;
+  optional int32 findNumByNPC = 2;
   repeated TCopyLocal2NetShipInfo shipsInfo = 3;
 }
 
 message TCopyLocal2NetShipInfo {
-  bool isEnemy = 1;
-  bool isResident = 2;
-  int64 serverUid = 3;
-  int32 shipEnemyId = 4;
-  uint64 hp = 5;
-  bool joinBattle = 6;
-  bool isMVP = 7;
+  optional bool isEnemy = 1;
+  optional bool isResident = 2;
+  optional int64 serverUid = 3;
+  optional int32 shipEnemyId = 4;
+  optional uint64 hp = 5;
+  optional bool joinBattle = 6;
+  optional bool isMVP = 7;
 }
 
 message TNetData {
-  int32 opCode = 3;
-  bytes data = 4;
+  optional int32 opCode = 3;
+  optional bytes data = 4;
 }
 
 message TNetOpeList {
-  int32 frameCount = 1;
+  optional int32 frameCount = 1;
   repeated TNetOperation opes = 2;
-  bytes data = 3;
+  optional bytes data = 3;
 }
 
 message TNetOperation {
-  int32 frame = 1;
-  int32 index = 2;
-  int32 opCode = 3;
-  bytes data = 4;
+  optional int32 frame = 1;
+  optional int32 index = 2;
+  optional int32 opCode = 3;
+  optional bytes data = 4;
 }
 
 message TNetPack {
-  int32 id = 1;
+  optional int32 id = 1;
   repeated TNetData dataList = 2;
 }
 
 message TResultData {
-  int32 mainCD = 1;
-  int32 useTimeInBattle = 2;
-  int32 lastTimeInSearch = 3;
-  int32 grade = 4;
-  bool inBattle = 5;
-  bool searchAerialAttack = 6;
-  bool isRes = 7;
+  optional int32 mainCD = 1;
+  optional int32 useTimeInBattle = 2;
+  optional int32 lastTimeInSearch = 3;
+  optional int32 grade = 4;
+  optional bool inBattle = 5;
+  optional bool searchAerialAttack = 6;
+  optional bool isRes = 7;
   repeated TCopyLocal2NetFleetInfo resultInfos = 8;
-  int32 enemyFleetDictId = 9;
-  bool isFinalEnemy = 10;
-  int32 LBPoint = 11;
-  bool isSupportFleet = 12;
+  optional int32 enemyFleetDictId = 9;
+  optional bool isFinalEnemy = 10;
+  optional int32 LBPoint = 11;
+  optional bool isSupportFleet = 12;
 }
 
 message TVerifyPackage {
-  TNetOpeList opes = 1;
-  TResultData result = 2;
-  bytes data = 3;
-  int32 randomSeed = 4;
+  optional TNetOpeList opes = 1;
+  optional TResultData result = 2;
+  optional bytes data = 3;
+  optional int32 randomSeed = 4;
 }
 
 message TVerifyRet {
-  fixed32 retCode = 1;
+  optional fixed32 retCode = 1;
 }
+
 

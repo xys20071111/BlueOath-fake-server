@@ -52,6 +52,18 @@ const TBathroomInfo = bathroomPb.lookupType('bathroom.TBathroomInfo')
 const strategyPb = protobuf.loadSync('./raw-protobuf/strategy.proto')
 const TStrategy = strategyPb.lookupType('strategy.TStrategy')
 
+const fashionPb = protobuf.loadSync('./raw-protobuf/fashion.proto')
+const TFashionList = fashionPb.lookupType("fashion.TFashionList")
+
+const magazinePb = protobuf.loadSync('./raw-protobuf/magazine.proto')
+const TRetMagazineInfo = magazinePb.lookupType('magazine.TRetMagazineInfo')
+
+const illustratePb = protobuf.loadSync('./raw-protobuf/illustrate.proto')
+const TIllustrateInfoRet = illustratePb.lookupType('illustrate.TIllustrateInfoRet')
+
+const buildingPb = protobuf.loadSync('./raw-protobuf/building.proto')
+const TUserBuildingInfo = buildingPb.lookupType('building.TUserBuildingInfo')
+
 export function UserLogin(
     socket: Socket,
     _args: Uint8Array,
@@ -290,23 +302,21 @@ async function sendInitMessages(
         token,
     )
     // 图鉴和许愿墙
-    const illustrateResData = JSON.stringify(
-        player.getIllustrate().getIllustrateInfo(),
-    )
+    const illustrateResData = TIllustrateInfoRet.create(player.getIllustrate().getIllustrateInfo())
+    
     sendResponsePacket(
         socket,
-        'illustrate.custom.IllustrateInfo',
-        encoder.encode(illustrateResData),
+        'illustrate.IllustrateInfo',
+        TIllustrateInfoRet.encode(illustrateResData).finish(),
         callbackHandler,
         token,
     )
     // 基建
+    const buildingData = TUserBuildingInfo.create(player.getUserBuilding().getBuildingInfo())
     sendResponsePacket(
         socket,
-        'building.custom.UpdateBuildingInfo',
-        encoder.encode(
-            JSON.stringify(player.getUserBuilding().getBuildingInfo()),
-        ),
+        'building.UpdateBuildingInfo',
+        TUserBuildingInfo.encode(buildingData).finish(),
         callbackHandler,
         token,
     )
@@ -524,28 +534,28 @@ function sendOnce(
     // 装饰品
     sendInteractionItemInfo(socket)
     // 时装信息
-    const fashionData = {
+    const fashionData = TFashionList.create({
         FashionInfo: player.getClientType() === 0
             ? FASHION_INFO
             : FASHION_INFO_JP,
-    }
+    })
     sendResponsePacket(
         socket,
-        'fashion.custom.updateData',
-        encoder.encode(JSON.stringify(fashionData)),
+        'fashion.updateData',
+        TFashionList.encode(fashionData).finish(),
         callbackHandler,
         token,
     )
     // 杂志
-    const magazineData = {
+    const magazineData = TRetMagazineInfo.create({
         MagazineIdList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         Time: Math.round(Date.now() / 1000),
         Version: 1,
-    }
+    })
     sendResponsePacket(
         socket,
-        'magazine.custom.UpdateMagazineInfo',
-        encoder.encode(JSON.stringify(magazineData)),
+        'magazine.UpdateMagazineInfo',
+        TRetMagazineInfo.encode(magazineData).finish(),
         callbackHandler,
         token,
     )

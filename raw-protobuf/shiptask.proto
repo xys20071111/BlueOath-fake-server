@@ -1,4 +1,4 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package shiptask;
 
@@ -7,46 +7,47 @@ message TAllShipTaskInfoRet {
 }
 
 message TSTAchievementRewardArg {
-  int32 ShipTid = 1;
-  int32 STAid = 2;
+  optional int32 ShipTid = 1;
+  optional int32 STAid = 2;
 }
 
 message TSTAchievementRewardData {
-  int32 STAid = 1;
-  int32 Get = 2;
+  optional int32 STAid = 1;
+  optional int32 Get = 2;
 }
 
 message TSTExtraDataMvpMap {
-  int32 CopyId = 1;
-  int32 Count = 2;
+  optional int32 CopyId = 1;
+  optional int32 Count = 2;
 }
 
 message TSTShipArg {
-  int32 ShipTid = 1;
-  int32 HeroTemplateId = 2;
+  optional int32 ShipTid = 1;
+  optional int32 HeroTemplateId = 2;
 }
 
 message TSTShipTaskArg {
-  int32 ShipTid = 1;
-  int32 TaskId = 2;
+  optional int32 ShipTid = 1;
+  optional int32 TaskId = 2;
 }
 
 message TShipTaskActivityInfoRet {
-  int32 CurrentShipTid = 1;
-  int32 SetShipTime = 2;
-  int32 CurrentHeroTemplateId = 3;
+  optional int32 CurrentShipTid = 1;
+  optional int32 SetShipTime = 2;
+  optional int32 CurrentHeroTemplateId = 3;
 }
 
 message TShipTaskData {
-  int32 TaskId = 1;
-  int32 Status = 2;
-  int32 Count = 3;
+  optional int32 TaskId = 1;
+  optional int32 Status = 2;
+  optional int32 Count = 3;
 }
 
 message TShipTaskInfoRet {
-  int32 ShipTid = 1;
+  optional int32 ShipTid = 1;
   repeated TShipTaskData TaskData = 2;
   repeated TSTAchievementRewardData AchievementRewardData = 3;
   repeated TSTExtraDataMvpMap ExtraMvpData = 4;
 }
+
 

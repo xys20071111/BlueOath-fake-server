@@ -1,4 +1,4 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package illustrate;
 
@@ -7,8 +7,8 @@ message TEquipNewArgs {
 }
 
 message THeroMemory {
-  uint32 HeroId = 1;
-  int32 PlotId = 2;
+  optional uint32 HeroId = 1;
+  optional int32 PlotId = 2;
 }
 
 message TIllustrateBehaviourArgs {
@@ -16,14 +16,14 @@ message TIllustrateBehaviourArgs {
 }
 
 message TIllustrateBehaviourItem {
-  int32 IllustrateId = 1;
+  optional int32 IllustrateId = 1;
   repeated int32 BehaviourId = 2;
 }
 
 message TIllustrateEquipInfo {
-  int32 EquipTemplateId = 1;
-  int64 GetEquipTime = 2;
-  bool NewEquip = 3;
+  optional int32 EquipTemplateId = 1;
+  optional int64 GetEquipTime = 2;
+  optional bool NewEquip = 3;
 }
 
 message TIllustrateEquipList {
@@ -31,19 +31,19 @@ message TIllustrateEquipList {
 }
 
 message TIllustrateInfo {
-  int32 IllustrateId = 1;
-  int64 GetTime = 2;
-  int64 LikeTime = 3;
-  bool NewHero = 4;
+  optional int32 IllustrateId = 1;
+  optional int64 GetTime = 2;
+  optional int64 LikeTime = 3;
+  optional bool NewHero = 4;
   repeated int32 BehaviourList = 5;
-  int32 MarryCount = 6;
+  optional int32 MarryCount = 6;
 }
 
 message TIllustrateInfoRet {
   repeated TIllustrateInfo IllustrateList = 1;
-  int64 VowCoolTime = 2;
-  int32 VowCoolHero = 3;
-  int32 VowCount = 4;
+  optional int64 VowCoolTime = 2;
+  optional int32 VowCoolHero = 3;
+  optional int32 VowCount = 4;
   repeated int32 VowHeroList = 5;
   repeated TSkipVcr SkipVcr = 6;
   repeated TVowItemUseInfo UseInfo = 7;
@@ -60,8 +60,8 @@ message TIllustrateNewArgs {
 }
 
 message TMemoryInfo {
-  int32 ChapterId = 1;
-  int32 Index = 2;
+  optional int32 ChapterId = 1;
+  optional int32 Index = 2;
 }
 
 message TMemoryList {
@@ -73,19 +73,19 @@ message TModiVowHeroListArg {
 }
 
 message TSkipVcr {
-  int32 ShipInfoId = 1;
-  bool StartVcr = 2;
-  bool EndVcr = 3;
+  optional int32 ShipInfoId = 1;
+  optional bool StartVcr = 2;
+  optional bool EndVcr = 3;
 }
 
 message TVowDecTimeArgs {
   repeated TVowItemUseInfo UseInfo = 1;
-  int32 Type = 2;
+  optional int32 Type = 2;
 }
 
 message TVowDecTimeRet {
-  int32 VowCount = 1;
-  int64 VowCoolTime = 2;
+  optional int32 VowCount = 1;
+  optional int64 VowCoolTime = 2;
 }
 
 message TVowHeroArgs {
@@ -93,14 +93,15 @@ message TVowHeroArgs {
 }
 
 message TVowHeroRet {
-  int32 Type = 1;
-  int32 ConfigId = 2;
-  int32 Num = 3;
-  int32 Id = 4;
+  optional int32 Type = 1;
+  optional int32 ConfigId = 2;
+  optional int32 Num = 3;
+  optional int32 Id = 4;
 }
 
 message TVowItemUseInfo {
-  int32 ItemTid = 1;
-  int32 ItemNum = 2;
+  optional int32 ItemTid = 1;
+  optional int32 ItemNum = 2;
 }
+
 

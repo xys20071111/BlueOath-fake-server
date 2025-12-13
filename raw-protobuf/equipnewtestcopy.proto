@@ -1,16 +1,16 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package equipnewtestcopy;
 
 message TCopyTestInfo {
-  int32 Id = 1;
-  int32 MaxDamage = 2;
+  optional int32 Id = 1;
+  optional int32 MaxDamage = 2;
   repeated TReceivedRewards ReceivedRewards = 3;
 }
 
 message TGetDamageRewardArg {
-  int32 CopyIndex = 1;
-  int32 DamageIndex = 2;
+  optional int32 CopyIndex = 1;
+  optional int32 DamageIndex = 2;
 }
 
 message TGetEquipNewTestCopyInfo {
@@ -18,7 +18,8 @@ message TGetEquipNewTestCopyInfo {
 }
 
 message TReceivedRewards {
-  int32 DamageIndex = 1;
-  int32 ReceiveTime = 2;
+  optional int32 DamageIndex = 1;
+  optional int32 ReceiveTime = 2;
 }
+
 

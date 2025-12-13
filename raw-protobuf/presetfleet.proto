@@ -1,17 +1,18 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package presetfleet;
 
 message TPresetFleet {
-  string Name = 1;
+  optional string Name = 1;
   repeated uint32 heroList = 2;
-  int32 modeId = 3;
-  int32 strategyId = 4;
+  optional int32 modeId = 3;
+  optional int32 strategyId = 4;
 }
 
 message TSelfPresetFleets {
   repeated TPresetFleet presetfleet = 1;
-  uint32 NameNum = 2;
-  uint32 redDot = 3;
+  optional uint32 NameNum = 2;
+  optional uint32 redDot = 3;
 }
+
 

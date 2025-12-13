@@ -1,15 +1,15 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package activitytower;
 
 import "tower.proto";
 
 message TActivityTower {
-  int32 ActivityId = 1;
-  int32 ResetTime = 2;
-  int32 SmallResetNumber = 3;
-  int32 QuickNumber = 4;
-  int32 HistoryMax = 5;
+  optional int32 ActivityId = 1;
+  optional int32 ResetTime = 2;
+  optional int32 SmallResetNumber = 3;
+  optional int32 QuickNumber = 4;
+  optional int32 HistoryMax = 5;
   repeated int32 SavePassCopyIdList = 6;
   repeated int32 PassCopyIdList = 7;
   repeated tower.TSfIDCount SfID2Count = 8;
@@ -19,6 +19,7 @@ message TActivityTower {
 }
 
 message TActivityTowerQuickPassArg {
-  int32 CopyId = 1;
+  optional int32 CopyId = 1;
 }
+
 

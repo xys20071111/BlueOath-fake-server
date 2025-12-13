@@ -1,8 +1,9 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package supply;
 
 message TSupplySwitchArg {
   repeated uint32 HeroIds = 1;
 }
+
 

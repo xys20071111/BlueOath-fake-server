@@ -1,19 +1,19 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package artifact;
 
 message TArgArtifactTrain {
-  int32 ArtifactId = 1;
-  int32 TrainTimes = 2;
-  int32 TrainCostWay = 3;
+  optional int32 ArtifactId = 1;
+  optional int32 TrainTimes = 2;
+  optional int32 TrainCostWay = 3;
 }
 
 message TArtifactId {
-  int32 ArtifactId = 1;
+  optional int32 ArtifactId = 1;
 }
 
 message TRetArtifactData {
-  int32 ArtifactId = 1;
+  optional int32 ArtifactId = 1;
   repeated int32 CrrntAttr = 2;
   repeated int32 AddAttr = 3;
   repeated int32 SkillsLevel = 4;
@@ -22,4 +22,5 @@ message TRetArtifactData {
 message TRetArtifactInfo {
   repeated TRetArtifactData ArtifactData = 1;
 }
+
 

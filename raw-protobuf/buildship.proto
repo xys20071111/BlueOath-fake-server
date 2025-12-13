@@ -1,37 +1,37 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package buildship;
 
 import "commonreward.proto";
 
 message TBuildShipArg {
-  int32 Id = 1;
-  int32 Num = 2;
-  string CacheId = 3;
+  optional int32 Id = 1;
+  optional int32 Num = 2;
+  optional string CacheId = 3;
 }
 
 message TBuildShipCloseTime {
-  int32 Id = 1;
-  int32 CloseTime = 2;
+  optional int32 Id = 1;
+  optional int32 CloseTime = 2;
 }
 
 message TBuildShipCount {
-  int32 Id = 1;
-  int32 Count = 2;
+  optional int32 Id = 1;
+  optional int32 Count = 2;
 }
 
 message TBuildShipDispInfo {
-  int32 Id = 1;
-  int32 Count = 2;
+  optional int32 Id = 1;
+  optional int32 Count = 2;
 }
 
 message TBuildShipDrawInfo {
-  int32 Id = 1;
-  int32 Count = 2;
+  optional int32 Id = 1;
+  optional int32 Count = 2;
 }
 
 message TBuildShipExtractInfo {
-  int32 Id = 1;
+  optional int32 Id = 1;
   repeated TBuildShipUpCount UpCount = 2;
 }
 
@@ -50,35 +50,35 @@ message TBuildShipInfo {
 }
 
 message TBuildShipRefresh {
-  int32 RefreshType = 1;
-  int32 RefreshTime = 2;
+  optional int32 RefreshType = 1;
+  optional int32 RefreshTime = 2;
 }
 
 message TBuildShipResetTypeCount {
-  int32 Id = 1;
-  int32 Count = 2;
+  optional int32 Id = 1;
+  optional int32 Count = 2;
 }
 
 message TBuildShipRet {
   repeated commonreward.TCommonReward BuildShipResult = 1;
   repeated commonreward.TCommonReward SpReward = 2;
   repeated commonreward.TCommonReward TransReward = 3;
-  bool IsChangeReward = 4;
+  optional bool IsChangeReward = 4;
 }
 
 message TBuildShipSpecial {
-  int32 Id = 1;
+  optional int32 Id = 1;
   repeated TBuildShipSpecial SpecialInfo = 2;
 }
 
 message TBuildShipTimesReward {
-  int32 Id = 1;
+  optional int32 Id = 1;
   repeated int32 Count = 2;
 }
 
 message TBuildShipUpCount {
-  int32 UpId = 1;
-  int32 Count = 2;
+  optional int32 UpId = 1;
+  optional int32 Count = 2;
 }
 
 message TRPBuildShipDrawArg {
@@ -86,11 +86,12 @@ message TRPBuildShipDrawArg {
 }
 
 message TRPBuildShipDrawData {
-  int32 BuildId = 1;
-  string Title = 2;
+  optional int32 BuildId = 1;
+  optional string Title = 2;
 }
 
 message TRPBuildShipDrawRet {
-  string result = 1;
+  optional string result = 1;
 }
+
 

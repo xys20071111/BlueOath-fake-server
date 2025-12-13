@@ -1,17 +1,17 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package fashion;
 
 import "commonreward.proto";
 
 message TFashionEquipArg {
-  int32 FashionTid = 1;
-  int32 EquipStatus = 2;
-  uint32 HeroId = 3;
+  optional int32 FashionTid = 1;
+  optional int32 EquipStatus = 2;
+  optional uint32 HeroId = 3;
 }
 
 message TFashionInfo {
-  int32 SfId = 1;
+  optional int32 SfId = 1;
   repeated int32 FashionTid = 2;
 }
 
@@ -22,4 +22,5 @@ message TFashionList {
 message TFashionReplaceReward {
   repeated commonreward.TCommonReward ReplaceReward = 1;
 }
+
 

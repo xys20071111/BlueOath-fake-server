@@ -1,10 +1,10 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package vip;
 
 message TBuyUnit {
-  int32 CardId = 1;
-  int32 BuyTimes = 2;
+  optional int32 CardId = 1;
+  optional int32 BuyTimes = 2;
 }
 
 message TMonthCardInfo {
@@ -13,12 +13,13 @@ message TMonthCardInfo {
 }
 
 message TMonthCardUnit {
-  int32 CardId = 1;
-  int32 DueData = 2;
-  int32 Pick = 3;
+  optional int32 CardId = 1;
+  optional int32 DueData = 2;
+  optional int32 Pick = 3;
 }
 
 message TPickMonthCardArgs {
-  int32 MonthCardId = 1;
+  optional int32 MonthCardId = 1;
 }
+
 

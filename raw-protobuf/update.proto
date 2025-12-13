@@ -1,14 +1,14 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package update;
 
 message TFileUpdate {
-  string FileName = 1;
-  string Content = 2;
+  optional string FileName = 1;
+  optional string Content = 2;
 }
 
 message TUpdateAdvInfo {
-  bool IsHaveAdv = 1;
+  optional bool IsHaveAdv = 1;
 }
 
 message TUpdateAdvList {
@@ -16,17 +16,18 @@ message TUpdateAdvList {
 }
 
 message TUpdateAdvSub {
-  int32 AdvId = 1;
-  int32 BeginTime = 2;
-  int32 EndTime = 3;
+  optional int32 AdvId = 1;
+  optional int32 BeginTime = 2;
+  optional int32 EndTime = 3;
 }
 
 message TUpdateInfo {
-  int32 Version = 1;
+  optional int32 Version = 1;
   repeated TFileUpdate FileList = 2;
 }
 
 message TUpdateWebActivity {
-  string Activity = 1;
+  optional string Activity = 1;
 }
+
 

@@ -1,24 +1,24 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package treasure;
 
 message TTreasureArg {
-  uint32 TreasureId = 1;
+  optional uint32 TreasureId = 1;
   repeated uint32 Consumed = 2;
 }
 
 message TTreasureEnhanceRet {
-  uint32 TreasureId = 1;
-  int32 EnhanceLevelOld = 2;
+  optional uint32 TreasureId = 1;
+  optional int32 EnhanceLevelOld = 2;
 }
 
 message TTreasureInfo {
-  uint32 TreasureId = 1;
-  int32 TemplateId = 2;
-  int32 Enhance = 3;
-  int32 Refine = 4;
-  uint32 HeroId = 5;
-  int32 EnhanceExp = 6;
+  optional uint32 TreasureId = 1;
+  optional int32 TemplateId = 2;
+  optional int32 Enhance = 3;
+  optional int32 Refine = 4;
+  optional uint32 HeroId = 5;
+  optional int32 EnhanceExp = 6;
 }
 
 message TTreasureList {
@@ -26,6 +26,7 @@ message TTreasureList {
 }
 
 message TTreasureRefineRet {
-  uint32 TreasureId = 1;
+  optional uint32 TreasureId = 1;
 }
+
 

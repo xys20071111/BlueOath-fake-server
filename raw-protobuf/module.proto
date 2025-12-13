@@ -1,4 +1,4 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package module;
 
@@ -7,4 +7,5 @@ message TEmptyArg {
 
 message TEmptyRet {
 }
+
 

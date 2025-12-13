@@ -1,38 +1,39 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package tutorial;
 
 message TChangeFunctionState {
-  int32 FucntionId = 1;
-  int32 OprateType = 2;
+  optional int32 FucntionId = 1;
+  optional int32 OprateType = 2;
 }
 
 message TChangeGuideState {
-  int32 GuideId = 1;
-  int32 OprateType = 2;
-  int32 StepId = 3;
+  optional int32 GuideId = 1;
+  optional int32 OprateType = 2;
+  optional int32 StepId = 3;
 }
 
 message TChangeGuideStepState {
-  int32 GuideId = 1;
-  int32 StepId = 2;
+  optional int32 GuideId = 1;
+  optional int32 StepId = 2;
 }
 
 message TGuideInfo {
-  int32 GuidingId = 1;
+  optional int32 GuidingId = 1;
   repeated int32 PreparedGuids = 2;
-  int32 Success = 3;
-  int32 OpenFunctionId = 4;
+  optional int32 Success = 3;
+  optional int32 OpenFunctionId = 4;
 }
 
 message TRetChangeGuideState {
-  int32 GuideId = 1;
-  int32 OprateType = 2;
-  int32 StepId = 3;
+  optional int32 GuideId = 1;
+  optional int32 OprateType = 2;
+  optional int32 StepId = 3;
 }
 
 message TRetChangeGuideStepState {
-  int32 GuideId = 1;
-  int32 StepId = 2;
+  optional int32 GuideId = 1;
+  optional int32 StepId = 2;
 }
+
 

@@ -1,14 +1,14 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package explore;
 
 message TExploreData {
-  int32 ExploreId = 1;
+  optional int32 ExploreId = 1;
   repeated TExploreRoomData RoomList = 2;
-  int32 ProcessIndex = 3;
+  optional int32 ProcessIndex = 3;
   repeated TRoomObjectData RoomObjData = 4;
-  int32 PassTime = 5;
-  int32 EmptyFlagObjData = 6;
+  optional int32 PassTime = 5;
+  optional int32 EmptyFlagObjData = 6;
 }
 
 message TExploreInfoRet {
@@ -16,22 +16,23 @@ message TExploreInfoRet {
 }
 
 message TExploreIntoNextRoomArg {
-  int32 ChapterId = 1;
+  optional int32 ChapterId = 1;
 }
 
 message TExploreRoomData {
-  int32 RoomIndex = 1;
-  int32 RoomId = 2;
+  optional int32 RoomIndex = 1;
+  optional int32 RoomId = 2;
 }
 
 message TExploreRoomObjectTouchArg {
-  int32 ChapterId = 1;
-  int32 ObjIndex = 2;
-  int32 TouchTimes = 3;
+  optional int32 ChapterId = 1;
+  optional int32 ObjIndex = 2;
+  optional int32 TouchTimes = 3;
 }
 
 message TRoomObjectData {
-  int32 ObjIndex = 1;
-  int32 ObjClickNum = 2;
+  optional int32 ObjIndex = 1;
+  optional int32 ObjClickNum = 2;
 }
+
 

@@ -1,4 +1,4 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package build;
 
@@ -9,13 +9,13 @@ message TBuildIndexArg {
 }
 
 message TBuildItem {
-  int32 ResId = 1;
-  int32 Count = 2;
+  optional int32 ResId = 1;
+  optional int32 Count = 2;
 }
 
 message TBuildProject {
   repeated TBuildItem Items = 1;
-  int32 Gold = 2;
+  optional int32 Gold = 2;
 }
 
 message TBuildProjectsArg {
@@ -31,12 +31,13 @@ message TBuildsInfoRet {
   repeated TFormula BuildedList = 1;
   repeated TFormula BuildingList = 2;
   repeated TFormula WaitingList = 3;
-  TFormula BuildedLast = 4;
+  optional TFormula BuildedLast = 4;
 }
 
 message TFormula {
-  int64 EndTime = 1;
-  TBuildProject Project = 2;
-  int32 HeroId = 3;
+  optional int64 EndTime = 1;
+  optional TBuildProject Project = 2;
+  optional int32 HeroId = 3;
 }
+
 

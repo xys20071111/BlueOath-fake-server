@@ -1,79 +1,80 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package boss;
 
 import "user.proto";
 
 message TAttackBossArg {
-  int32 BossId = 1;
-  int64 Damage = 2;
+  optional int32 BossId = 1;
+  optional int64 Damage = 2;
 }
 
 message TBossClearUserDamageArg {
-  uint64 Uid = 1;
-  uint64 GuildId = 2;
-  string Key = 3;
+  optional uint64 Uid = 1;
+  optional uint64 GuildId = 2;
+  optional string Key = 3;
 }
 
 message TBossClearUserDamageRet {
-  uint64 GuildId = 1;
-  int64 OldUserDamage = 2;
-  int64 NowUserDamage = 3;
-  int64 OldGuildDamage = 4;
-  int64 NowGuildDamage = 5;
+  optional uint64 GuildId = 1;
+  optional int64 OldUserDamage = 2;
+  optional int64 NowUserDamage = 3;
+  optional int64 OldGuildDamage = 4;
+  optional int64 NowGuildDamage = 5;
 }
 
 message TBossDamageRankArg {
-  int32 Begin = 1;
-  int32 Offset = 2;
+  optional int32 Begin = 1;
+  optional int32 Offset = 2;
 }
 
 message TBossData {
-  int32 BossId = 1;
-  int64 Hp = 2;
-  int32 Count = 3;
-  int32 UnlockTime = 4;
-  int32 ActiveTime = 5;
+  optional int32 BossId = 1;
+  optional int64 Hp = 2;
+  optional int32 Count = 3;
+  optional int32 UnlockTime = 4;
+  optional int32 ActiveTime = 5;
 }
 
 message TBossGuildDamageRankData {
-  uint64 GuildId = 1;
-  string Name = 2;
-  string LeaderName = 3;
-  int32 Rank = 4;
-  int64 Score = 5;
-  bool dismissed = 6;
+  optional uint64 GuildId = 1;
+  optional string Name = 2;
+  optional string LeaderName = 3;
+  optional int32 Rank = 4;
+  optional int64 Score = 5;
+  optional bool dismissed = 6;
 }
 
 message TBossGuildDamageRankListRet {
   repeated TBossGuildDamageRankData List = 1;
-  TBossGuildDamageRankData SelfRank = 2;
+  optional TBossGuildDamageRankData SelfRank = 2;
 }
 
 message TBossRet {
-  int32 AtkCount = 1;
+  optional int32 AtkCount = 1;
   repeated TBossData BossList = 2;
-  int32 Status = 3;
+  optional int32 Status = 3;
 }
 
 message TBossUserDamageRankData {
-  uint64 Uid = 1;
-  int32 Rank = 2;
-  user.TSimpleUserInfoMsg UserInfo = 3;
-  int64 Score = 4;
+  optional uint64 Uid = 1;
+  optional int32 Rank = 2;
+  optional user.TSimpleUserInfoMsg UserInfo = 3;
+  optional int64 Score = 4;
 }
 
 message TBossUserDamageRankListRet {
   repeated TBossUserDamageRankData List = 1;
-  TBossUserDamageRankData SelfRank = 2;
+  optional TBossUserDamageRankData SelfRank = 2;
 }
 
 message TGetBossUserDataArg {
-  uint64 uid = 1;
+  optional uint64 uid = 1;
 }
 
 message TGetBossUserDataRet {
-  uint64 uid = 1;
-  int64 damage = 2;
+  optional uint64 uid = 1;
+  optional int64 damage = 2;
 }
+
 

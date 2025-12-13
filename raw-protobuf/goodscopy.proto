@@ -1,4 +1,4 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package goodscopy;
 
@@ -7,9 +7,10 @@ message TGetGoodsCopyInfo {
 }
 
 message TGoodsCopyInfo {
-  int32 TodayMaxDamage = 1;
-  int32 TodayGetGoods = 2;
-  int32 Percent = 3;
-  int32 CopyId = 4;
+  optional int32 TodayMaxDamage = 1;
+  optional int32 TodayGetGoods = 2;
+  optional int32 Percent = 3;
+  optional int32 CopyId = 4;
 }
+
 

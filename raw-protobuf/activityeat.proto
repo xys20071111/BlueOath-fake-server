@@ -1,24 +1,25 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package activityeat;
 
 message TActivityEatData {
-  int32 EatTemplateId = 1;
-  int32 GetState = 2;
+  optional int32 EatTemplateId = 1;
+  optional int32 GetState = 2;
 }
 
 message TActivityEatGetArg {
-  int32 EatTemplateId = 1;
-  int32 GetMode = 2;
+  optional int32 EatTemplateId = 1;
+  optional int32 GetMode = 2;
 }
 
 message TActivityEatRet {
   repeated TActivityEatData EatData = 1;
-  int32 EmptyFlag = 2;
-  int32 MaxExtraCount = 3;
+  optional int32 EmptyFlag = 2;
+  optional int32 MaxExtraCount = 3;
 }
 
 message TActivityEatRewardRet {
-  int32 RewardType = 1;
+  optional int32 RewardType = 1;
 }
+
 

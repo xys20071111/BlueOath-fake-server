@@ -1,22 +1,22 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package supportfleet;
 
 import "commonreward.proto";
 
 message TCompleteSupportArg {
-  int32 Id = 1;
-  int32 Type = 2;
+  optional int32 Id = 1;
+  optional int32 Type = 2;
 }
 
 message TCompleteSupportRet {
   repeated commonreward.TCommonReward BaseReward = 1;
   repeated commonreward.TCommonReward RandomReward = 2;
-  int32 RewardType = 3;
+  optional int32 RewardType = 3;
 }
 
 message TStartSupportArg {
-  int32 SupportId = 1;
+  optional int32 SupportId = 1;
   repeated uint32 HeroList = 2;
 }
 
@@ -25,9 +25,10 @@ message TSupportFleetInfo {
 }
 
 message TSupportInfo {
-  int32 Id = 1;
-  int32 SupportId = 2;
-  int64 StartTime = 3;
+  optional int32 Id = 1;
+  optional int32 SupportId = 2;
+  optional int64 StartTime = 3;
   repeated uint32 HeroList = 4;
 }
+
 

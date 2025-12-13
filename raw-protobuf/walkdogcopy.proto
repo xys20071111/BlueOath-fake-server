@@ -1,11 +1,12 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package walkdogcopy;
 
 message TGetWalkDogCopyInfo {
-  int32 MaxLiveTime = 1;
-  int32 LastUpdateTime = 2;
-  int32 MaxSingleScore = 3;
-  int32 MaxSingleKill = 4;
+  optional int32 MaxLiveTime = 1;
+  optional int32 LastUpdateTime = 2;
+  optional int32 MaxSingleScore = 3;
+  optional int32 MaxSingleKill = 4;
 }
+
 

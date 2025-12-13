@@ -1,25 +1,26 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package record;
 
 import "battleplayer.proto";
 
 message TNationalRecord {
-  int32 National = 1;
+  optional int32 National = 1;
   repeated TRecordInfo Record = 2;
 }
 
 message TRecordArg {
-  int32 StageId = 1;
+  optional int32 StageId = 1;
 }
 
 message TRecordInfo {
-  battleplayer.TBattlePlayer Player = 1;
-  string ReportMD5 = 2;
-  int32 BattleTime = 3;
+  optional battleplayer.TBattlePlayer Player = 1;
+  optional string ReportMD5 = 2;
+  optional int32 BattleTime = 3;
 }
 
 message TRecordRet {
   repeated TNationalRecord NationalRecord = 1;
 }
+
 

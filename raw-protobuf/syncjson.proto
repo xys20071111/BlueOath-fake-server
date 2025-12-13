@@ -1,9 +1,10 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package syncjson;
 
 message TSyncJson {
-  string Name = 1;
-  string Content = 2;
+  optional string Name = 1;
+  optional string Content = 2;
 }
+
 

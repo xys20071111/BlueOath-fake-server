@@ -1,26 +1,27 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package adventure;
 
 message TAdventure {
   repeated TAdventureRole Role = 1;
   repeated TAdventureEnemy Enemy = 2;
-  int32 EnemyIndex = 3;
+  optional int32 EnemyIndex = 3;
 }
 
 message TAdventureAttackRet {
-  int32 Damage = 1;
-  bool IsKilled = 2;
+  optional int32 Damage = 1;
+  optional bool IsKilled = 2;
 }
 
 message TAdventureEnemy {
-  int32 Index = 1;
-  int32 Damage = 2;
+  optional int32 Index = 1;
+  optional int32 Damage = 2;
 }
 
 message TAdventureRole {
-  int32 RoleId = 1;
-  int32 Level = 2;
-  int32 Hp = 3;
+  optional int32 RoleId = 1;
+  optional int32 Level = 2;
+  optional int32 Hp = 3;
 }
+
 

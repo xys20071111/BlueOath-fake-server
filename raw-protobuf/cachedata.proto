@@ -1,12 +1,13 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package cachedata;
 
 message TCacheDataArg {
-  string Key = 1;
+  optional string Key = 1;
 }
 
 message TCacheDataRet {
-  string Ret = 1;
+  optional string Ret = 1;
 }
+
 

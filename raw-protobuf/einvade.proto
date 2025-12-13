@@ -1,17 +1,17 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package einvade;
 
 import "commonreward.proto";
 
 message TAtkEinvadeArgs {
-  int32 StageId = 1;
-  int32 Index = 2;
+  optional int32 StageId = 1;
+  optional int32 Index = 2;
 }
 
 message TAtkEinvadeRet {
   repeated commonreward.TCommonReward ArrDrop = 1;
-  int32 FightReturn = 2;
+  optional int32 FightReturn = 2;
 }
 
 message TEinvadeRet {
@@ -19,8 +19,9 @@ message TEinvadeRet {
 }
 
 message TEinvadeUnit {
-  int32 StageId = 1;
-  int32 StageLevel = 2;
-  int32 Status = 3;
+  optional int32 StageId = 1;
+  optional int32 StageLevel = 2;
+  optional int32 Status = 3;
 }
+
 

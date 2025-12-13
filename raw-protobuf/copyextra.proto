@@ -1,10 +1,10 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package copyextra;
 
 message TAddCopyRewardTimesArg {
-  int32 Chapter = 1;
-  int32 RewardTime = 2;
+  optional int32 Chapter = 1;
+  optional int32 RewardTime = 2;
 }
 
 message TCopyExtraInfoRet {
@@ -13,12 +13,13 @@ message TCopyExtraInfoRet {
 }
 
 message TCopyGalgameBranch {
-  int32 BranchId = 1;
-  int32 State = 2;
+  optional int32 BranchId = 1;
+  optional int32 State = 2;
 }
 
 message TCopyRewardTimes {
-  int32 Chapter = 1;
-  int32 RewardTime = 2;
+  optional int32 Chapter = 1;
+  optional int32 RewardTime = 2;
 }
+
 

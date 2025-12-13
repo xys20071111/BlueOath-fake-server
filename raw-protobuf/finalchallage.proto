@@ -1,10 +1,10 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package finalchallage;
 
 message TChallageStage {
-  int32 StageId = 1;
-  int32 Status = 2;
+  optional int32 StageId = 1;
+  optional int32 Status = 2;
 }
 
 message TChallageStageData {
@@ -12,7 +12,8 @@ message TChallageStageData {
 }
 
 message TFinalChallageRet {
-  string BattleString = 1;
-  int32 Status = 2;
+  optional string BattleString = 1;
+  optional int32 Status = 2;
 }
+
 

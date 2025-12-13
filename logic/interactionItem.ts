@@ -6,7 +6,6 @@ import {
     INTERACTION_BAG_IDS_JP,
 } from '../constants/interactiveItem.ts'
 import { socketPlayerMap } from '../utils/socketMaps.ts'
-import { encoder } from '../utils/endecoder.ts'
 import { EMPTY_UINT8ARRAY } from '../utils/placeholder.ts'
 
 const pb = protobuf.loadSync('./raw-protobuf/interactionitem.proto')
@@ -15,6 +14,7 @@ const TDecorateMutexBagGroupArg = pb.lookupType(
 )
 const TInteractionItemArg = pb.lookupType('interactionitem.TInteractionItemArg')
 const TPosterStateArg = pb.lookupType('interactionitem.TPosterStateArg')
+const TInteractionItemRet = pb.lookupType("interactionitem.TInteractionItemRet")
 
 export function SetMutexBagGroupState(
     socket: Socket,
@@ -93,14 +93,14 @@ export function sendInteractionItemInfo(socket: Socket) {
             state: interactionItem.isVisible(id) ? 1 : 0,
         })
     }
-    const interactionItemData = JSON.stringify({
+    const interactionItemData = TInteractionItemRet.create({
         interactionBagItem,
         ...interactionItem.getInteractionItemInfo(),
     })
     sendResponsePacket(
         socket,
-        'interactionitem.custom.RefreshInteractionItems',
-        encoder.encode(interactionItemData),
+        'interactionitem.RefreshInteractionItems',
+        TInteractionItemRet.encode(interactionItemData).finish(),
         null,
         null,
     )

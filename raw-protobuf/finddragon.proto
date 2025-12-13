@@ -1,4 +1,4 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package finddragon;
 
@@ -6,36 +6,36 @@ import "commonreward.proto";
 import "user.proto";
 
 message TAttackDragonArg {
-  int32 DragonId = 1;
+  optional int32 DragonId = 1;
 }
 
 message TAttackDragonRet {
-  bool IsWin = 1;
+  optional bool IsWin = 1;
   repeated commonreward.TCommonReward Reward = 2;
 }
 
 message TCycleEvent {
-  int32 EventId = 1;
-  int32 GhostId = 2;
+  optional int32 EventId = 1;
+  optional int32 GhostId = 2;
 }
 
 message TDragon {
-  int32 Id = 1;
-  int32 State = 2;
-  int32 TimeType = 3;
-  int32 DropGap = 4;
-  int32 StartTime = 5;
-  int32 HeroId = 6;
-  int32 NumHeroFragment = 7;
+  optional int32 Id = 1;
+  optional int32 State = 2;
+  optional int32 TimeType = 3;
+  optional int32 DropGap = 4;
+  optional int32 StartTime = 5;
+  optional int32 HeroId = 6;
+  optional int32 NumHeroFragment = 7;
   repeated TCycleEvent Events = 8;
   repeated THelpEvent HelpEvents = 9;
-  int32 Exp = 10;
-  int32 Level = 11;
+  optional int32 Exp = 10;
+  optional int32 Level = 11;
 }
 
 message TDragonTech {
-  int32 Id = 1;
-  int32 Level = 2;
+  optional int32 Id = 1;
+  optional int32 Level = 2;
 }
 
 message TExploreAllArg {
@@ -43,26 +43,26 @@ message TExploreAllArg {
 }
 
 message TExploreArg {
-  int32 DragonId = 1;
-  int32 HeroId = 2;
-  int32 TimeType = 3;
-  int32 DropGap = 4;
+  optional int32 DragonId = 1;
+  optional int32 HeroId = 2;
+  optional int32 TimeType = 3;
+  optional int32 DropGap = 4;
 }
 
 message TFriendDragon {
-  user.TGetOtherUserInfoRet FriendInfo = 1;
-  int32 Total = 2;
-  int32 Ghost = 3;
+  optional user.TGetOtherUserInfoRet FriendInfo = 1;
+  optional int32 Total = 2;
+  optional int32 Ghost = 3;
 }
 
 message TGetFindDragonMainRet {
-  int32 HelpTime = 1;
+  optional int32 HelpTime = 1;
   repeated TDragonTech Tech = 2;
   repeated TDragon Dragon = 3;
 }
 
 message TGetFriendDragonInfoArg {
-  uint64 Uid = 1;
+  optional uint64 Uid = 1;
 }
 
 message TGetFriendDragonRet {
@@ -74,26 +74,27 @@ message TGetFriendInfoRet {
 }
 
 message THarvestArg {
-  int32 DragonId = 1;
+  optional int32 DragonId = 1;
 }
 
 message THarvestRet {
-  int32 Crit = 1;
+  optional int32 Crit = 1;
   repeated commonreward.TCommonReward Reward = 2;
 }
 
 message THelpEvent {
-  uint64 Uid = 1;
-  int32 Time = 2;
-  string Uname = 3;
+  optional uint64 Uid = 1;
+  optional int32 Time = 2;
+  optional string Uname = 3;
 }
 
 message TOverwhelmArg {
-  uint64 Uid = 1;
-  int32 DragonId = 2;
+  optional uint64 Uid = 1;
+  optional int32 DragonId = 2;
 }
 
 message TUnlockTech {
-  int32 TechId = 1;
+  optional int32 TechId = 1;
 }
+
 

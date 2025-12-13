@@ -1,12 +1,12 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package activityextract;
 
 import "commonreward.proto";
 
 message TActivityExtractDrawArg {
-  int32 DrawId = 1;
-  int32 Num = 2;
+  optional int32 DrawId = 1;
+  optional int32 Num = 2;
 }
 
 message TActivityExtractDrawRet {
@@ -14,13 +14,14 @@ message TActivityExtractDrawRet {
 }
 
 message TActivityExtractInfo {
-  int32 DrawId = 1;
-  int32 RealDrawId = 2;
+  optional int32 DrawId = 1;
+  optional int32 RealDrawId = 2;
   repeated TExtractDrawItem Rewards = 3;
 }
 
 message TExtractDrawItem {
-  int32 RewardId = 1;
-  int32 Num = 2;
+  optional int32 RewardId = 1;
+  optional int32 Num = 2;
 }
+
 

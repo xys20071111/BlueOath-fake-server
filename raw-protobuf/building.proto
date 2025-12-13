@@ -1,64 +1,64 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package building;
 
 import "commonreward.proto";
 
 message HeroEffectTime {
-  int32 HeroId = 1;
+  optional int32 HeroId = 1;
   repeated int32 EffectTime = 2;
 }
 
 message TAddBuildingArg {
-  int32 Tid = 1;
-  int32 Index = 2;
+  optional int32 Tid = 1;
+  optional int32 Index = 2;
 }
 
 message TAddBuildingRet {
-  int32 BuildingId = 1;
+  optional int32 BuildingId = 1;
 }
 
 message TBuildingInfo {
-  int32 Id = 1;
-  int32 Tid = 2;
-  int32 Level = 3;
+  optional int32 Id = 1;
+  optional int32 Tid = 2;
+  optional int32 Level = 3;
   repeated int32 HeroList = 4;
-  int32 Productivity = 5;
-  int32 ProduceSpeed = 6;
-  int32 ProductCount = 7;
-  int32 Status = 8;
-  int32 LastUpdateTime = 9;
-  int32 RecipeId = 10;
-  int32 ItemCount = 11;
-  int32 LastMoodUpdateTime = 12;
-  int32 LastBuildUpdateTime = 13;
+  optional int32 Productivity = 5;
+  optional int32 ProduceSpeed = 6;
+  optional int32 ProductCount = 7;
+  optional int32 Status = 8;
+  optional int32 LastUpdateTime = 9;
+  optional int32 RecipeId = 10;
+  optional int32 ItemCount = 11;
+  optional int32 LastMoodUpdateTime = 12;
+  optional int32 LastBuildUpdateTime = 13;
   repeated HeroEffectTime HeroEffectTimeList = 14;
-  int32 RecipeTime = 15;
-  int32 FloatCount = 16;
+  optional int32 RecipeTime = 15;
+  optional int32 FloatCount = 16;
   repeated TBuildingTactic TacticList = 17;
 }
 
 message TBuildingTactic {
-  int32 BuildingId = 1;
-  string Name = 2;
+  optional int32 BuildingId = 1;
+  optional string Name = 2;
   repeated int32 HeroList = 3;
-  int32 Index = 4;
+  optional int32 Index = 4;
 }
 
 message TChangeTacticNameArg {
-  int32 BuildingId = 1;
-  int32 Index = 2;
-  string Name = 3;
+  optional int32 BuildingId = 1;
+  optional int32 Index = 2;
+  optional string Name = 3;
 }
 
 message TComposeItemArg {
-  int32 BuildingId = 1;
-  int32 RecipeId = 2;
-  int32 Count = 3;
+  optional int32 BuildingId = 1;
+  optional int32 RecipeId = 2;
+  optional int32 Count = 3;
 }
 
 message TDegradeBuildingArg {
-  int32 BuildingId = 1;
+  optional int32 BuildingId = 1;
 }
 
 message TDegradeBuildingRet {
@@ -66,32 +66,32 @@ message TDegradeBuildingRet {
 }
 
 message TFinishBuildingArg {
-  int32 BuildingId = 1;
+  optional int32 BuildingId = 1;
 }
 
 message THeroPlotData {
-  int32 HeroId = 1;
-  int32 PlotId = 2;
-  int32 BuildingId = 3;
+  optional int32 HeroId = 1;
+  optional int32 PlotId = 2;
+  optional int32 BuildingId = 3;
 }
 
 message TLandInfo {
-  int32 Index = 1;
-  int32 BuildingId = 2;
+  optional int32 Index = 1;
+  optional int32 BuildingId = 2;
 }
 
 message TProduceItemArg {
-  int32 BuildingId = 1;
-  int32 RecipeId = 2;
-  int32 Count = 3;
+  optional int32 BuildingId = 1;
+  optional int32 RecipeId = 2;
+  optional int32 Count = 3;
 }
 
 message TReceiveByBuildingArg {
-  int32 BuildingId = 1;
+  optional int32 BuildingId = 1;
 }
 
 message TReceiveByResourceArg {
-  int32 ResourceId = 1;
+  optional int32 ResourceId = 1;
 }
 
 message TReceiveRet {
@@ -99,8 +99,8 @@ message TReceiveRet {
 }
 
 message TRemoveBuildingTacticArg {
-  int32 BuildingId = 1;
-  int32 Index = 2;
+  optional int32 BuildingId = 1;
+  optional int32 Index = 2;
 }
 
 message TSaveBuildingTacticArg {
@@ -113,23 +113,23 @@ message TSetBuildingListHeroArg {
 }
 
 message TSetHeroArg {
-  int32 BuildingId = 1;
+  optional int32 BuildingId = 1;
   repeated int32 HeroIdList = 2;
 }
 
 message TSpecialTriggerData {
-  int32 HeroId = 1;
-  int32 PlotId = 2;
+  optional int32 HeroId = 1;
+  optional int32 PlotId = 2;
 }
 
 message TTriggerPlotArg {
-  int32 HeroId = 1;
-  int32 PlotId = 2;
-  int32 BuildingId = 3;
+  optional int32 HeroId = 1;
+  optional int32 PlotId = 2;
+  optional int32 BuildingId = 3;
 }
 
 message TTriggerPlotRet {
-  int32 AffectionAdd = 1;
+  optional int32 AffectionAdd = 1;
   repeated commonreward.TCommonReward ItemInfo = 2;
 }
 
@@ -138,28 +138,29 @@ message TUpdateHeroAdditionArg {
 }
 
 message TUpgradeBuildingArg {
-  int32 BuildingId = 1;
+  optional int32 BuildingId = 1;
 }
 
 message TUseStrengthSpeedupArg {
-  int32 BuildingId = 1;
-  int32 UseCount = 2;
+  optional int32 BuildingId = 1;
+  optional int32 UseCount = 2;
 }
 
 message TUserBuildingInfo {
   repeated TBuildingInfo BuildingInfos = 1;
   repeated TLandInfo LandList = 2;
-  int32 WorkerStrength = 3;
-  int32 WorkerRecover = 4;
-  int32 Food = 5;
-  int32 FoodMax = 6;
-  int32 Electric = 7;
-  int32 ElectricMax = 8;
-  int32 WorkerUpdateTime = 9;
-  int32 NormalPlotUpdateTime = 10;
+  optional int32 WorkerStrength = 3;
+  optional int32 WorkerRecover = 4;
+  optional int32 Food = 5;
+  optional int32 FoodMax = 6;
+  optional int32 Electric = 7;
+  optional int32 ElectricMax = 8;
+  optional int32 WorkerUpdateTime = 9;
+  optional int32 NormalPlotUpdateTime = 10;
   repeated THeroPlotData NormalPlotDatas = 11;
   repeated THeroPlotData SpecialPlotDatas = 12;
   repeated int32 NormalTriggeredHeroIds = 13;
   repeated TSpecialTriggerData SpecialTriggeredHeroPlots = 14;
 }
+
 

@@ -1,51 +1,52 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package activeshop;
 
 message TActiveShopExchangeArg {
-  int32 ActiveId = 1;
-  int32 GoodsTemplateId = 2;
-  int32 BuyNum = 3;
-  int32 SelectId = 4;
+  optional int32 ActiveId = 1;
+  optional int32 GoodsTemplateId = 2;
+  optional int32 BuyNum = 3;
+  optional int32 SelectId = 4;
 }
 
 message TActiveShopGetInfoArg {
-  int32 ActiveId = 1;
+  optional int32 ActiveId = 1;
 }
 
 message TActiveShopGoodsData {
-  int32 GoodsTemplateId = 1;
-  int32 BuyCount = 2;
+  optional int32 GoodsTemplateId = 1;
+  optional int32 BuyCount = 2;
 }
 
 message TActiveShopInfo {
-  int32 TemplateId = 1;
-  int32 ShopId = 2;
+  optional int32 TemplateId = 1;
+  optional int32 ShopId = 2;
   repeated TActiveShopObjectInfo Goods = 3;
   repeated TActiveShopObjectInfo Costs = 4;
-  int32 IsAll = 5;
-  int32 LimitLevel = 6;
-  int32 MaxLevel = 7;
-  int32 LimitTimes = 8;
-  string Discount = 9;
-  int32 GoodsPeriod = 10;
+  optional int32 IsAll = 5;
+  optional int32 LimitLevel = 6;
+  optional int32 MaxLevel = 7;
+  optional int32 LimitTimes = 8;
+  optional string Discount = 9;
+  optional int32 GoodsPeriod = 10;
 }
 
 message TActiveShopObjectInfo {
-  int32 Type = 1;
-  int32 Id = 2;
-  int32 Count = 3;
+  optional int32 Type = 1;
+  optional int32 Id = 2;
+  optional int32 Count = 3;
 }
 
 message TActiveShopRet {
-  int32 ActiveId = 1;
+  optional int32 ActiveId = 1;
   repeated TActiveShopGoodsData GoodsData = 2;
   repeated TActiveShopInfo ActiveShopConf = 3;
-  int32 EmptyFlag = 4;
-  int32 EmptyConfFlag = 5;
+  optional int32 EmptyFlag = 4;
+  optional int32 EmptyConfFlag = 5;
 }
 
 message TRetActiveShopGoodsInfo {
-  bool CanBuy = 1;
+  optional bool CanBuy = 1;
 }
+
 

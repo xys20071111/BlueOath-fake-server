@@ -1,4 +1,4 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package hero;
 
@@ -6,62 +6,62 @@ import "item.proto";
 import "commonreward.proto";
 
 message EquipEffectInfoByType {
-  int32 type = 1;
+  optional int32 type = 1;
   repeated int32 EffectId = 2;
 }
 
 message EquipsInfo {
-  uint32 EquipsId = 1;
-  int32 state = 2;
+  optional uint32 EquipsId = 1;
+  optional int32 state = 2;
 }
 
 message EquipsInfoByType {
-  int32 type = 1;
+  optional int32 type = 1;
   repeated EquipsInfo Equip = 2;
 }
 
 message TAdvanceArg {
-  uint32 HeroId = 1;
+  optional uint32 HeroId = 1;
   repeated uint32 ConsumedHeros = 2;
   repeated uint32 ConsumeItems = 3;
 }
 
 message TAttrIntensify {
-  int32 AttrType = 1;
-  int32 IntensifyLvl = 2;
-  int32 CurExp = 3;
+  optional int32 AttrType = 1;
+  optional int32 IntensifyLvl = 2;
+  optional int32 CurExp = 3;
 }
 
 message TChangeHeroNameArg {
-  uint32 HeroId = 1;
-  string Name = 2;
+  optional uint32 HeroId = 1;
+  optional string Name = 2;
 }
 
 message TCombinationInfo {
-  int32 ComLv = 1;
-  int32 ComGrade = 2;
-  uint32 Combine = 3;
-  uint32 BeCombined = 4;
+  optional int32 ComLv = 1;
+  optional int32 ComGrade = 2;
+  optional uint32 Combine = 3;
+  optional uint32 BeCombined = 4;
 }
 
 message TCombineArg {
-  uint32 MainHero = 1;
-  uint32 DeputyHero = 2;
+  optional uint32 MainHero = 1;
+  optional uint32 DeputyHero = 2;
 }
 
 message TCombineUpArg {
-  uint32 HeroId = 1;
+  optional uint32 HeroId = 1;
 }
 
 message THeroAddExp {
-  uint32 HeroId = 1;
+  optional uint32 HeroId = 1;
   repeated item.TItem ItemList = 2;
-  int32 LevelPre = 3;
-  int32 ExpPre = 4;
+  optional int32 LevelPre = 3;
+  optional int32 ExpPre = 4;
 }
 
 message THeroAdvMaxLvArg {
-  uint32 HeroId = 1;
+  optional uint32 HeroId = 1;
 }
 
 message THeroArrayArg {
@@ -70,131 +70,132 @@ message THeroArrayArg {
 
 message THeroAutoEquipArg {
   repeated THeroAutoEquipUnit AutoUnit = 1;
-  int32 Type = 2;
+  optional int32 Type = 2;
 }
 
 message THeroAutoEquipUnit {
-  uint32 HeroId = 1;
+  optional uint32 HeroId = 1;
   repeated THeroEquip ArrEquip = 2;
 }
 
 message THeroAutoUnEquipArg {
   repeated uint32 HeroId = 1;
-  int32 Type = 2;
+  optional int32 Type = 2;
 }
 
 message THeroChangeEquipArgs {
-  uint32 HeroId = 1;
-  uint32 Index = 2;
-  uint32 EquipId = 3;
-  int32 Type = 4;
+  optional uint32 HeroId = 1;
+  optional uint32 Index = 2;
+  optional uint32 EquipId = 3;
+  optional int32 Type = 4;
 }
 
 message THeroEquip {
-  uint32 Index = 1;
-  uint32 EquipId = 2;
+  optional uint32 Index = 1;
+  optional uint32 EquipId = 2;
 }
 
 message THeroEquipBindingArg {
-  uint32 HeroId = 1;
-  uint32 EquipId = 2;
-  int32 EquipType = 3;
+  optional uint32 HeroId = 1;
+  optional uint32 EquipId = 2;
+  optional int32 EquipType = 3;
 }
 
 message THeroEquipEffectArg {
-  uint32 HeroId = 1;
+  optional uint32 HeroId = 1;
   repeated EquipEffectInfoByType Effects = 2;
 }
 
 message THeroEquipTransplantArg {
   repeated uint32 HeroList = 1;
-  int32 EquipType = 2;
+  optional int32 EquipType = 2;
 }
 
 message THeroGrid {
-  uint32 HeroId = 1;
-  int32 TemplateId = 2;
+  optional uint32 HeroId = 1;
+  optional int32 TemplateId = 2;
   repeated EquipsInfoByType Equips = 3;
-  int32 Lvl = 4;
-  int32 Exp = 5;
-  int32 Advance = 6;
+  optional int32 Lvl = 4;
+  optional int32 Exp = 5;
+  optional int32 Advance = 6;
   repeated TAttrIntensify Intensify = 7;
-  int32 CreateTime = 8;
-  uint64 CurHp = 9;
-  int32 CurGasoline = 10;
-  int32 CurAmmunition = 11;
-  bool Lock = 12;
+  optional int32 CreateTime = 8;
+  optional uint64 CurHp = 9;
+  optional int32 CurGasoline = 10;
+  optional int32 CurAmmunition = 11;
+  optional bool Lock = 12;
   repeated TMapFiledPSkillExp PSkill = 13;
-  string Status = 14;
-  string Name = 15;
-  int32 ChangeNameTime = 16;
-  int32 Affection = 17;
-  int32 Mood = 18;
-  int32 MarryTime = 19;
-  int32 UpdateTime = 20;
-  int32 MarryType = 21;
-  int32 Fashioning = 22;
+  optional string Status = 14;
+  optional string Name = 15;
+  optional int32 ChangeNameTime = 16;
+  optional int32 Affection = 17;
+  optional int32 Mood = 18;
+  optional int32 MarryTime = 19;
+  optional int32 UpdateTime = 20;
+  optional int32 MarryType = 21;
+  optional int32 Fashioning = 22;
   repeated int32 ArrRemouldEffect = 23;
-  int32 RemouldLV = 24;
-  int32 AdvLv = 25;
+  optional int32 RemouldLV = 24;
+  optional int32 AdvLv = 25;
   repeated EquipEffectInfoByType EquipEffects = 26;
-  TCombinationInfo CombinationInfo = 27;
+  optional TCombinationInfo CombinationInfo = 27;
 }
 
 message THeroInfo {
   repeated THeroGrid HeroInfo = 1;
-  int32 HeroBagSize = 2;
+  optional int32 HeroBagSize = 2;
   repeated THeroNum HeroNum = 3;
 }
 
 message THeroNum {
-  int32 TemplateId = 1;
-  int32 Num = 2;
+  optional int32 TemplateId = 1;
+  optional int32 Num = 2;
 }
 
 message THeroSkill {
-  uint32 HeroId = 1;
-  int32 SkillId = 2;
+  optional uint32 HeroId = 1;
+  optional int32 SkillId = 2;
 }
 
 message TIntensifyHeroArgs {
-  uint32 HeroId = 1;
+  optional uint32 HeroId = 1;
   repeated uint32 ConsumedHeros = 2;
-  bool SuperIntensify = 3;
+  optional bool SuperIntensify = 3;
 }
 
 message TLockHeroArg {
-  uint32 HeroId = 1;
-  bool lock = 2;
+  optional uint32 HeroId = 1;
+  optional bool lock = 2;
 }
 
 message TLockHeroRet {
-  uint32 Ret = 1;
+  optional uint32 Ret = 1;
 }
 
 message TMapFiledPSkillExp {
-  uint32 PSkillId = 1;
-  uint32 PSkillExp = 2;
-  int32 Level = 3;
-  int32 Replace = 4;
+  optional uint32 PSkillId = 1;
+  optional uint32 PSkillExp = 2;
+  optional int32 Level = 3;
+  optional int32 Replace = 4;
 }
 
 message TMarryArg {
-  uint32 HeroId = 1;
-  int32 MarryType = 2;
+  optional uint32 HeroId = 1;
+  optional int32 MarryType = 2;
 }
 
 message TRemouldArg {
-  uint32 HeroId = 1;
-  int32 EffectId = 2;
+  optional uint32 HeroId = 1;
+  optional int32 EffectId = 2;
 }
 
 message TRetireHeroArg {
   repeated uint32 HeroIds = 1;
-  bool IsDisEquip = 2;
+  optional bool IsDisEquip = 2;
 }
 
 message TRetireHeroRet {
   repeated commonreward.TCommonReward Reward = 1;
 }
+
 

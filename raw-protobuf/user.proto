@@ -1,14 +1,14 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package user;
 
 import "commonreward.proto";
 
 message TArgSendMsg {
-  uint64 Uid = 1;
-  string Method = 2;
-  string Msg = 3;
-  uint32 Seq = 4;
+  optional uint64 Uid = 1;
+  optional string Method = 2;
+  optional string Msg = 3;
+  optional uint32 Seq = 4;
 }
 
 message TArgSendMsgList {
@@ -16,27 +16,27 @@ message TArgSendMsgList {
 }
 
 message TBuildNotes {
-  int32 Htid = 1;
-  int64 Time = 2;
+  optional int32 Htid = 1;
+  optional int64 Time = 2;
 }
 
 message TGetMiniGameRankArg {
-  int32 ChapterId = 1;
-  int32 Start = 2;
-  int32 End = 3;
+  optional int32 ChapterId = 1;
+  optional int32 Start = 2;
+  optional int32 End = 3;
 }
 
 message TGetMiniGameRankListRet {
   repeated TMiniGameRankData List = 1;
-  TMiniGameRankData SelfRank = 2;
+  optional TMiniGameRankData SelfRank = 2;
 }
 
 message TGetMiniGameScoreArg {
-  int32 ChapterId = 1;
+  optional int32 ChapterId = 1;
 }
 
 message TGetOtherInfoArg {
-  uint64 Uid = 1;
+  optional uint64 Uid = 1;
 }
 
 message TGetOtherInfoListArg {
@@ -48,126 +48,126 @@ message TGetOtherInfoListRet {
 }
 
 message TGetOtherUserInfoRet {
-  uint64 Uid = 1;
-  string Uname = 2;
-  int32 Head = 3;
-  int32 HeadFrame = 4;
-  int32 Level = 5;
-  int32 Power = 6;
-  int32 VipLevel = 7;
-  uint64 GuildId = 8;
-  string GuildName = 9;
-  int32 SecretaryTid = 10;
-  string message = 11;
+  optional uint64 Uid = 1;
+  optional string Uname = 2;
+  optional int32 Head = 3;
+  optional int32 HeadFrame = 4;
+  optional int32 Level = 5;
+  optional int32 Power = 6;
+  optional int32 VipLevel = 7;
+  optional uint64 GuildId = 8;
+  optional string GuildName = 9;
+  optional int32 SecretaryTid = 10;
+  optional string message = 11;
   repeated int32 ShowMedal = 12;
-  int32 MarriedNum = 13;
-  int32 SectionTimes = 14;
-  int32 ArenaRank = 15;
-  int32 ArenaMaxRank = 16;
-  int32 OfflineTime = 17;
-  int32 AchievePoint = 18;
-  int32 AttackCount = 19;
-  int32 GetHeroCount = 20;
-  int32 CollectionRate = 21;
-  int32 HeadShow = 22;
-  int32 Fashioning = 23;
-  int32 TeacherPrestige = 24;
-  int32 TeacherMedal = 25;
-  int32 ServerId = 27;
-  int32 LogoffTime = 28;
-  int32 LoginTime = 29;
-  int32 BattlePassType = 30;
-  int32 BattlePassLevel = 31;
+  optional int32 MarriedNum = 13;
+  optional int32 SectionTimes = 14;
+  optional int32 ArenaRank = 15;
+  optional int32 ArenaMaxRank = 16;
+  optional int32 OfflineTime = 17;
+  optional int32 AchievePoint = 18;
+  optional int32 AttackCount = 19;
+  optional int32 GetHeroCount = 20;
+  optional int32 CollectionRate = 21;
+  optional int32 HeadShow = 22;
+  optional int32 Fashioning = 23;
+  optional int32 TeacherPrestige = 24;
+  optional int32 TeacherMedal = 25;
+  optional int32 ServerId = 27;
+  optional int32 LogoffTime = 28;
+  optional int32 LoginTime = 29;
+  optional int32 BattlePassType = 30;
+  optional int32 BattlePassLevel = 31;
   repeated TMedalAcquiredTime MedalAcquiredTime = 32;
-  uint64 Pid = 33;
-  int32 BattlePassExpUpdateTime = 34;
-  int32 PvePt = 35;
+  optional uint64 Pid = 33;
+  optional int32 BattlePassExpUpdateTime = 34;
+  optional int32 PvePt = 35;
 }
 
 message TGetSvrTimeRet {
-  int32 NowTime = 1;
-  int32 SvrStartTime = 2;
+  optional int32 NowTime = 1;
+  optional int32 SvrStartTime = 2;
 }
 
 message TGetUserInfoRet {
-  uint64 Uid = 1;
-  string Uname = 2;
-  int32 LastLoginTime = 3;
-  int32 Head = 4;
-  int32 HeadFrame = 5;
-  int32 Sex = 6;
-  int32 Class = 7;
-  int32 VipLevel = 8;
+  optional uint64 Uid = 1;
+  optional string Uname = 2;
+  optional int32 LastLoginTime = 3;
+  optional int32 Head = 4;
+  optional int32 HeadFrame = 5;
+  optional int32 Sex = 6;
+  optional int32 Class = 7;
+  optional int32 VipLevel = 8;
   repeated TUserRecover RecoverData = 9;
-  int32 Level = 10;
-  int32 Exp = 11;
-  int32 Diamond = 12;
-  int32 Gold = 13;
-  int32 Supply = 14;
-  int32 MainGun = 15;
-  int32 Torpedo = 16;
-  int32 Plane = 17;
-  int32 Other = 18;
-  int32 RefreshTime = 19;
-  int32 Power = 20;
-  int32 VipExp = 21;
-  int32 CreateTime = 22;
-  uint32 SecretaryId = 23;
+  optional int32 Level = 10;
+  optional int32 Exp = 11;
+  optional int32 Diamond = 12;
+  optional int32 Gold = 13;
+  optional int32 Supply = 14;
+  optional int32 MainGun = 15;
+  optional int32 Torpedo = 16;
+  optional int32 Plane = 17;
+  optional int32 Other = 18;
+  optional int32 RefreshTime = 19;
+  optional int32 Power = 20;
+  optional int32 VipExp = 21;
+  optional int32 CreateTime = 22;
+  optional uint32 SecretaryId = 23;
   repeated TUserOrderRecordArg OrderRecord = 24;
-  string Message = 25;
-  int32 BuyGoldNum = 26;
-  int32 BuyGoldTime = 27;
-  int32 BuySupplyNum = 28;
-  int32 BuySupplyTime = 29;
-  int32 Retire = 30;
+  optional string Message = 25;
+  optional int32 BuyGoldNum = 26;
+  optional int32 BuyGoldTime = 27;
+  optional int32 BuySupplyNum = 28;
+  optional int32 BuySupplyTime = 29;
+  optional int32 Retire = 30;
   repeated TUserGetSupply GetSupplyInfo = 31;
-  int32 AchievePoint = 32;
+  optional int32 AchievePoint = 32;
   repeated int32 ShowMedal = 33;
-  int32 ChangeNameTimes = 34;
-  int32 Bath = 35;
+  optional int32 ChangeNameTimes = 34;
+  optional int32 Bath = 35;
   repeated int32 PlotRewardList = 36;
-  int32 Strategy = 37;
-  int32 LoginDays = 38;
-  int32 Medal = 39;
-  int32 AttackCount = 40;
-  int32 GetHeroCount = 41;
-  int32 CollectionRate = 42;
+  optional int32 Strategy = 37;
+  optional int32 LoginDays = 38;
+  optional int32 Medal = 39;
+  optional int32 AttackCount = 40;
+  optional int32 GetHeroCount = 41;
+  optional int32 CollectionRate = 42;
   repeated TBuildNotes BuildNotesList = 43;
-  int32 HeadShow = 44;
-  int32 MarriedNum = 45;
-  int32 NewTaskStage = 46;
-  int32 CopyTrainPoint = 47;
-  int32 Tower = 48;
-  int32 FashionPoint = 49;
-  int32 Lucky = 50;
-  int32 TeacherMedal = 51;
-  int32 TeacherPrestige = 52;
-  int32 GuildContri = 53;
-  int32 TeacherMedalLimit = 54;
-  int32 TchRankPrestige = 55;
-  int32 ServerId = 56;
+  optional int32 HeadShow = 44;
+  optional int32 MarriedNum = 45;
+  optional int32 NewTaskStage = 46;
+  optional int32 CopyTrainPoint = 47;
+  optional int32 Tower = 48;
+  optional int32 FashionPoint = 49;
+  optional int32 Lucky = 50;
+  optional int32 TeacherMedal = 51;
+  optional int32 TeacherPrestige = 52;
+  optional int32 GuildContri = 53;
+  optional int32 TeacherMedalLimit = 54;
+  optional int32 TchRankPrestige = 55;
+  optional int32 ServerId = 56;
   repeated TMedalAcquiredTime MedalAcquiredTime = 57;
-  int32 BattlePassExp = 58;
-  int32 BattlePassGold = 59;
-  int32 LastActivityReturnTime = 60;
-  int32 TaskReturnStage = 61;
-  int32 PvePt = 62;
+  optional int32 BattlePassExp = 58;
+  optional int32 BattlePassGold = 59;
+  optional int32 LastActivityReturnTime = 60;
+  optional int32 TaskReturnStage = 61;
+  optional int32 PvePt = 62;
 }
 
 message TInitQueueInfoRet {
-  int32 QueuePos = 1;
-  int32 QueueLen = 2;
-  int32 SelfPos = 3;
-  bool OnlineMax = 4;
+  optional int32 QueuePos = 1;
+  optional int32 QueueLen = 2;
+  optional int32 SelfPos = 3;
+  optional bool OnlineMax = 4;
 }
 
 message TKickInfoRet {
-  string info = 1;
+  optional string info = 1;
 }
 
 message TMedalAcquiredTime {
-  int32 MedalId = 1;
-  int32 Time = 2;
+  optional int32 MedalId = 1;
+  optional int32 Time = 2;
 }
 
 message TMedalReplaceReward {
@@ -175,136 +175,136 @@ message TMedalReplaceReward {
 }
 
 message TMiniGameCommonItem {
-  int32 ItemId = 1;
-  int32 Num = 2;
+  optional int32 ItemId = 1;
+  optional int32 Num = 2;
 }
 
 message TMiniGameRankData {
-  uint64 Uid = 1;
-  int32 Rank = 2;
-  TSimpleUserInfoMsg UserInfo = 3;
-  int32 Score = 4;
-  int32 Time = 5;
+  optional uint64 Uid = 1;
+  optional int32 Rank = 2;
+  optional TSimpleUserInfoMsg UserInfo = 3;
+  optional int32 Score = 4;
+  optional int32 Time = 5;
 }
 
 message TMiniGameScore {
-  int32 CopyId = 1;
-  int32 Score = 2;
+  optional int32 CopyId = 1;
+  optional int32 Score = 2;
 }
 
 message TMiniGameScoreRet {
-  int32 Score = 1;
-  int32 Time = 2;
+  optional int32 Score = 1;
+  optional int32 Time = 2;
 }
 
 message TQueueInfoRet {
-  int32 QueuePos = 1;
-  int32 QueueLen = 2;
-  bool OnlineMax = 3;
+  optional int32 QueuePos = 1;
+  optional int32 QueueLen = 2;
+  optional bool OnlineMax = 3;
 }
 
 message TRefreshArg {
-  int32 MaxPowerIndex = 2;
-  int32 MinPowerIndex = 3;
+  optional int32 MaxPowerIndex = 2;
+  optional int32 MinPowerIndex = 3;
 }
 
 message TSetMiniGameScoreArg {
-  int32 ChapterId = 1;
+  optional int32 ChapterId = 1;
   repeated TMiniGameScore Score = 3;
-  bool IsPassAll = 4;
-  bool IsNoHurt = 5;
-  bool IsNoSkill = 6;
-  int32 TimeCount = 7;
+  optional bool IsPassAll = 4;
+  optional bool IsNoHurt = 5;
+  optional bool IsNoSkill = 6;
+  optional int32 TimeCount = 7;
   repeated int32 ItemTemplate = 8;
   repeated TMiniGameCommonItem ItemCommonPick = 9;
 }
 
 message TSetUserMsgArg {
-  string Message = 1;
+  optional string Message = 1;
 }
 
 message TSetUserSecretaryArg {
-  uint32 SecretaryId = 1;
+  optional uint32 SecretaryId = 1;
 }
 
 message TSimpleUserInfoMsg {
-  uint64 Uid = 1;
-  int32 ServerId = 2;
-  string Uname = 3;
-  int32 Level = 4;
-  int32 Head = 5;
-  int32 HeadFrame = 6;
-  int32 HeadShow = 7;
-  int32 Fashioning = 8;
-  uint64 GuildId = 9;
-  string GuildName = 10;
-  int32 TeacherPrestige = 11;
-  int32 SecretaryTid = 12;
-  uint64 Pid = 13;
+  optional uint64 Uid = 1;
+  optional int32 ServerId = 2;
+  optional string Uname = 3;
+  optional int32 Level = 4;
+  optional int32 Head = 5;
+  optional int32 HeadFrame = 6;
+  optional int32 HeadShow = 7;
+  optional int32 Fashioning = 8;
+  optional uint64 GuildId = 9;
+  optional string GuildName = 10;
+  optional int32 TeacherPrestige = 11;
+  optional int32 SecretaryTid = 12;
+  optional uint64 Pid = 13;
 }
 
 message TUserChangeNameArg {
-  string Name = 1;
+  optional string Name = 1;
 }
 
 message TUserChangeNameRet {
-  string Ret = 1;
+  optional string Ret = 1;
 }
 
 message TUserGetSupply {
-  int32 Id = 1;
-  int64 GetTime = 2;
+  optional int32 Id = 1;
+  optional int64 GetTime = 2;
 }
 
 message TUserGetSupplyArg {
-  int32 Id = 1;
+  optional int32 Id = 1;
 }
 
 message TUserLoginArg {
-  uint64 Uid = 1;
+  optional uint64 Uid = 1;
 }
 
 message TUserLoginRet {
-  string Ret = 1;
-  string BanMsg = 2;
-  int32 BanTime = 3;
+  optional string Ret = 1;
+  optional string BanMsg = 2;
+  optional int32 BanTime = 3;
 }
 
 message TUserLoginTime {
-  int32 LoginTime = 1;
-  int32 LoginTimePre = 2;
+  optional int32 LoginTime = 1;
+  optional int32 LoginTimePre = 2;
 }
 
 message TUserOrderRecordArg {
-  int32 Type = 1;
-  int32 Sort = 2;
-  int32 Screen = 3;
-  int32 Order = 4;
+  optional int32 Type = 1;
+  optional int32 Sort = 2;
+  optional int32 Screen = 3;
+  optional int32 Order = 4;
   repeated int32 OtherInfo = 5;
 }
 
 message TUserPlotRecordRet {
-  int32 PlotId = 1;
+  optional int32 PlotId = 1;
 }
 
 message TUserPlotRewardArg {
-  int32 PlotId = 1;
+  optional int32 PlotId = 1;
 }
 
 message TUserRankListArg {
-  int32 RankType = 1;
+  optional int32 RankType = 1;
 }
 
 message TUserRankListRet {
-  int32 RankType = 1;
-  int32 RankCount = 2;
-  int32 RankValue = 3;
+  optional int32 RankType = 1;
+  optional int32 RankCount = 2;
+  optional int32 RankValue = 3;
   repeated TGetOtherUserInfoRet RankList = 4;
 }
 
 message TUserRecover {
-  int32 RecoverId = 1;
-  int32 RecoverTime = 2;
+  optional int32 RecoverId = 1;
+  optional int32 RecoverTime = 2;
 }
 
 message TUserSetMedalArg {
@@ -312,6 +312,7 @@ message TUserSetMedalArg {
 }
 
 message TUserSetPlayerHeadFrameArg {
-  int32 headFrameId = 1;
+  optional int32 headFrameId = 1;
 }
+
 

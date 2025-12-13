@@ -1,4 +1,4 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package equip;
 
@@ -13,50 +13,51 @@ message TEquipDismantleRet {
 }
 
 message TEquipEnhanceArgs {
-  uint32 EquipId = 1;
+  optional uint32 EquipId = 1;
   repeated TEquipEnhanceItem ItemArr = 2;
 }
 
 message TEquipEnhanceItem {
-  uint32 TemplateId = 1;
-  uint32 ItemNum = 2;
+  optional uint32 TemplateId = 1;
+  optional uint32 ItemNum = 2;
 }
 
 message TEquipEnhanceRet {
-  uint32 EquipId = 1;
-  uint32 EquipEnhanceLevel = 2;
-  uint32 EquipEnhanceExp = 3;
+  optional uint32 EquipId = 1;
+  optional uint32 EquipEnhanceLevel = 2;
+  optional uint32 EquipEnhanceExp = 3;
 }
 
 message TEquipInfo {
-  uint32 EquipId = 1;
-  int32 TemplateId = 2;
-  int32 EnhanceLv = 3;
-  int32 Star = 4;
-  uint32 HeroId = 5;
-  int32 EnhanceExp = 6;
+  optional uint32 EquipId = 1;
+  optional int32 TemplateId = 2;
+  optional int32 EnhanceLv = 3;
+  optional int32 Star = 4;
+  optional uint32 HeroId = 5;
+  optional int32 EnhanceExp = 6;
   repeated TEquipPSkillList PSkillList = 7;
   repeated TEquipNum RiseCommonEquips = 8;
 }
 
 message TEquipList {
-  int32 EquipBagSize = 1;
+  optional int32 EquipBagSize = 1;
   repeated TEquipInfo EquipInfo = 2;
   repeated TEquipNum EquipNum = 3;
 }
 
 message TEquipNum {
-  int32 TemplateId = 1;
-  int32 Num = 2;
+  optional int32 TemplateId = 1;
+  optional int32 Num = 2;
 }
 
 message TEquipPSkillList {
-  int32 PSkillId = 1;
-  int32 PSkillLv = 2;
+  optional int32 PSkillId = 1;
+  optional int32 PSkillLv = 2;
 }
 
 message TEquipRiseStarArgs {
-  uint32 EquipId = 1;
+  optional uint32 EquipId = 1;
   repeated uint32 ConsumeIds = 2;
 }
+
 

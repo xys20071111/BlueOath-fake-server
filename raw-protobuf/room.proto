@@ -1,4 +1,4 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package room;
 
@@ -6,21 +6,21 @@ import "user.proto";
 
 message TInviteArg {
   repeated uint64 InviteList = 1;
-  int32 ChapterId = 2;
-  uint32 RoomId = 3;
-  int32 Password = 4;
-  int32 ZoneId = 5;
+  optional int32 ChapterId = 2;
+  optional uint32 RoomId = 3;
+  optional int32 Password = 4;
+  optional int32 ZoneId = 5;
 }
 
 message TInviteInfo {
-  int32 ChapterId = 1;
-  uint32 RoomId = 2;
-  user.TGetOtherUserInfoRet InviteUserInfo = 3;
-  int32 RoomUserNum = 4;
-  bool RoomState = 5;
-  int32 Password = 6;
-  int32 CreateTime = 7;
-  int32 ZoneId = 8;
+  optional int32 ChapterId = 1;
+  optional uint32 RoomId = 2;
+  optional user.TGetOtherUserInfoRet InviteUserInfo = 3;
+  optional int32 RoomUserNum = 4;
+  optional bool RoomState = 5;
+  optional int32 Password = 6;
+  optional int32 CreateTime = 7;
+  optional int32 ZoneId = 8;
 }
 
 message TInviteListInfo {
@@ -32,15 +32,15 @@ message TInviteListRet {
 }
 
 message TRetGetRoomUserInfo {
-  int32 RoomIndex = 1;
-  bool IsLead = 2;
-  bool IsReady = 3;
-  bool IsFight = 4;
-  int32 FightState = 5;
-  bool IsIntervene = 6;
-  bool IsGiveUp = 7;
-  bool Leave = 8;
-  user.TGetOtherUserInfoRet UserInfo = 9;
+  optional int32 RoomIndex = 1;
+  optional bool IsLead = 2;
+  optional bool IsReady = 3;
+  optional bool IsFight = 4;
+  optional int32 FightState = 5;
+  optional bool IsIntervene = 6;
+  optional bool IsGiveUp = 7;
+  optional bool Leave = 8;
+  optional user.TGetOtherUserInfoRet UserInfo = 9;
 }
 
 message TRoomChapterInfoRet {
@@ -48,46 +48,47 @@ message TRoomChapterInfoRet {
 }
 
 message TRoomInfo {
-  int32 ChapterId = 1;
-  uint32 RoomId = 2;
-  uint64 Uid = 3;
-  int32 IndexA = 4;
-  int32 IndexB = 5;
-  uint64 UidOther = 6;
-  int32 Password = 7;
-  int32 EnterIndex = 8;
-  bool Ready = 9;
-  bool Intervene = 10;
-  int32 Wave = 11;
-  int32 Progress = 12;
-  bool Leave = 13;
+  optional int32 ChapterId = 1;
+  optional uint32 RoomId = 2;
+  optional uint64 Uid = 3;
+  optional int32 IndexA = 4;
+  optional int32 IndexB = 5;
+  optional uint64 UidOther = 6;
+  optional int32 Password = 7;
+  optional int32 EnterIndex = 8;
+  optional bool Ready = 9;
+  optional bool Intervene = 10;
+  optional int32 Wave = 11;
+  optional int32 Progress = 12;
+  optional bool Leave = 13;
   repeated TRoomTacticOn TacticOn = 14;
-  int32 ZoneId = 15;
-  int32 Identity = 16;
+  optional int32 ZoneId = 15;
+  optional int32 Identity = 16;
 }
 
 message TRoomInfoRet {
   repeated TRetGetRoomUserInfo RoomUser = 1;
-  int32 Password = 2;
-  uint32 RoomId = 3;
-  int32 ChapterId = 4;
-  int32 CreateTime = 5;
-  int32 ZoneId = 6;
-  int32 Identity = 7;
+  optional int32 Password = 2;
+  optional uint32 RoomId = 3;
+  optional int32 ChapterId = 4;
+  optional int32 CreateTime = 5;
+  optional int32 ZoneId = 6;
+  optional int32 Identity = 7;
 }
 
 message TRoomMatch {
   repeated int32 ChapterId = 1;
-  int32 ChapterIdType = 2;
+  optional int32 ChapterIdType = 2;
 }
 
 message TRoomPVE {
-  int32 ZoneId = 1;
-  uint64 UidOther = 2;
+  optional int32 ZoneId = 1;
+  optional uint64 UidOther = 2;
 }
 
 message TRoomTacticOn {
-  uint64 Uid = 1;
-  int32 Index = 2;
+  optional uint64 Uid = 1;
+  optional int32 Index = 2;
 }
+
 

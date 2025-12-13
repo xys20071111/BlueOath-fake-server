@@ -1,4 +1,4 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package book;
 
@@ -8,6 +8,7 @@ message TBookInfo {
 }
 
 message TUnlockArg {
-  int32 ComposeId = 1;
+  optional int32 ComposeId = 1;
 }
+
 

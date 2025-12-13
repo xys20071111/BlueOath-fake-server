@@ -1,16 +1,16 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package equiptestcopy;
 
 import "commonreward.proto";
 
 message TGetEquipTestCopyInfo {
-  int32 MaxDamage = 1;
+  optional int32 MaxDamage = 1;
   repeated TReceviedRewards ReceivedRewards = 2;
 }
 
 message TReceiveRewardsArg {
-  int32 RewardId = 1;
+  optional int32 RewardId = 1;
 }
 
 message TReceiveRewardsRet {
@@ -18,7 +18,8 @@ message TReceiveRewardsRet {
 }
 
 message TReceviedRewards {
-  int32 RewardId = 1;
-  int32 ReceiveTime = 2;
+  optional int32 RewardId = 1;
+  optional int32 ReceiveTime = 2;
 }
+
 

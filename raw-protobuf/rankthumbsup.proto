@@ -1,13 +1,14 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package rankthumbsup;
 
 message TRankThumbsUpArg {
-  uint64 UserId = 1;
+  optional uint64 UserId = 1;
 }
 
 message TRankThumbsUpRet {
   repeated uint64 UserIds = 1;
-  int32 EmptyFlag = 2;
+  optional int32 EmptyFlag = 2;
 }
+
 

@@ -1,17 +1,17 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package recharge;
 
 import "commonreward.proto";
 
 message TCardInfo {
-  int32 DueDate = 1;
-  int32 RewardTime = 2;
-  int32 SubsEndTime = 3;
+  optional int32 DueDate = 1;
+  optional int32 RewardTime = 2;
+  optional int32 SubsEndTime = 3;
 }
 
 message TDirectBuyItemArg {
-  int32 RechargeId = 1;
+  optional int32 RechargeId = 1;
   repeated uint32 DiscountId = 2;
 }
 
@@ -20,41 +20,42 @@ message TDirectBuyItemRet {
 }
 
 message TDirectBuySelectItemArg {
-  int32 ActivityId = 1;
-  int32 RechargeId = 2;
+  optional int32 ActivityId = 1;
+  optional int32 RechargeId = 2;
   repeated int32 SelectIndex = 3;
 }
 
 message TFreeRechargeItemArg {
-  int32 RechargeId = 1;
+  optional int32 RechargeId = 1;
 }
 
 message TGetPaybackRewardArg {
-  int32 GoldNum = 1;
-  int32 CardNum = 2;
+  optional int32 GoldNum = 1;
+  optional int32 CardNum = 2;
 }
 
 message TRecharge {
-  int32 RechargeId = 1;
-  int32 BuyTimes = 2;
-  int32 Status = 3;
-  int32 LimitBuyTimes = 4;
-  int32 EndTime = 5;
+  optional int32 RechargeId = 1;
+  optional int32 BuyTimes = 2;
+  optional int32 Status = 3;
+  optional int32 LimitBuyTimes = 4;
+  optional int32 EndTime = 5;
 }
 
 message TRechargeInfo {
-  TCardInfo MonthCard = 1;
-  TCardInfo WeekCard = 2;
+  optional TCardInfo MonthCard = 1;
+  optional TCardInfo WeekCard = 2;
   repeated TRecharge Info = 3;
-  int32 AccRcharge = 4;
-  int32 AccRchargeRmb = 5;
-  int32 AccRchargeLucky = 6;
-  TCardInfo SupperMonthCard = 7;
-  int32 ActivityAccRchargeRmb = 8;
+  optional int32 AccRcharge = 4;
+  optional int32 AccRchargeRmb = 5;
+  optional int32 AccRchargeLucky = 6;
+  optional TCardInfo SupperMonthCard = 7;
+  optional int32 ActivityAccRchargeRmb = 8;
   repeated TRecharge SelectiveInfo = 9;
 }
 
 message TRechargeReward {
   repeated commonreward.TCommonReward Reward = 1;
 }
+
 

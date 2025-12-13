@@ -3,7 +3,6 @@ import protobuf from 'protobufjs'
 import { sendResponsePacket } from '../utils/createResponsePacket.ts'
 import { socketPlayerMap } from '../utils/socketMaps.ts'
 import { EMPTY_UINT8ARRAY } from '../utils/placeholder.ts'
-import { encoder } from '../utils/endecoder.ts'
 
 const pb = protobuf.loadSync('./raw-protobuf/building.proto')
 const TSaveBuildingTacticArg = pb.lookupType('building.TSaveBuildingTacticArg')
@@ -12,6 +11,7 @@ const TAddBuildingRet = pb.lookupType('building.TAddBuildingRet')
 const TUpgradeBuildingArg = pb.lookupType('building.TUpgradeBuildingArg')
 const TReceiveRet = pb.lookupType('building.TReceiveRet')
 const TSetHeroArg = pb.lookupType('building.TSetHeroArg')
+const TUserBuildingInfo = pb.lookupType('building.TUserBuildingInfo')
 
 export function UpdateHeroAddition(
     socket: Socket,
@@ -73,12 +73,13 @@ export function AddBuilding(
         token,
     )
     // 发送新的基建信息
+    const buildingData = TUserBuildingInfo.create(
+        player.getUserBuilding().getBuildingInfo(),
+    )
     sendResponsePacket(
         socket,
-        'building.custom.UpdateBuildingInfo',
-        encoder.encode(
-            JSON.stringify(player.getUserBuilding().getBuildingInfo()),
-        ),
+        'building.UpdateBuildingInfo',
+        TUserBuildingInfo.encode(buildingData).finish(),
         callbackHandler,
         token,
     )
@@ -104,12 +105,13 @@ export function SetHero(
         token,
     )
     // 发送新的基建信息
+    const buildingData = TUserBuildingInfo.create(
+        player.getUserBuilding().getBuildingInfo(),
+    )
     sendResponsePacket(
         socket,
-        'building.custom.UpdateBuildingInfo',
-        encoder.encode(
-            JSON.stringify(player.getUserBuilding().getBuildingInfo()),
-        ),
+        'building.UpdateBuildingInfo',
+        TUserBuildingInfo.encode(buildingData).finish(),
         callbackHandler,
         token,
     )
@@ -132,12 +134,13 @@ export function UpgradeBuilding(
         token,
     )
     // 发送新的基建信息
+    const buildingData = TUserBuildingInfo.create(
+        player.getUserBuilding().getBuildingInfo(),
+    )
     sendResponsePacket(
         socket,
-        'building.custom.UpdateBuildingInfo',
-        encoder.encode(
-            JSON.stringify(player.getUserBuilding().getBuildingInfo()),
-        ),
+        'building.UpdateBuildingInfo',
+        TUserBuildingInfo.encode(buildingData).finish(),
         callbackHandler,
         token,
     )

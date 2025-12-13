@@ -1,10 +1,11 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package activity;
 
 message TRetActivityInfo {
   repeated int32 ActivityIdList = 1;
-  int32 Time = 2;
-  int32 Version = 3;
+  optional int32 Time = 2;
+  optional int32 Version = 3;
 }
+
 

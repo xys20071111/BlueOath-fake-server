@@ -1,23 +1,24 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package activitycodeexchange;
 
 message TACEReceiptData {
-  int32 RewardId = 1;
-  int32 Count = 2;
+  optional int32 RewardId = 1;
+  optional int32 Count = 2;
 }
 
 message TACExchangeCodeArg {
-  int32 CodeTeamId = 1;
-  int32 Number = 3;
+  optional int32 CodeTeamId = 1;
+  optional int32 Number = 3;
 }
 
 message TACExchangeRewardArg {
-  int32 RewardId = 1;
-  int32 Number = 2;
+  optional int32 RewardId = 1;
+  optional int32 Number = 2;
 }
 
 message TActivityCodeExchangeRet {
   repeated TACEReceiptData ReceiptData = 1;
 }
+
 

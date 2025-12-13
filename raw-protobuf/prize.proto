@@ -1,4 +1,4 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package prize;
 
@@ -10,22 +10,22 @@ message TAcceptPrizeRet {
 }
 
 message TGetPrizeInfoArg {
-  int32 Start = 1;
-  int32 Num = 2;
+  optional int32 Start = 1;
+  optional int32 Num = 2;
 }
 
 message TObj {
-  int32 Type = 1;
-  int32 Id = 2;
-  int32 Num = 3;
+  optional int32 Type = 1;
+  optional int32 Id = 2;
+  optional int32 Num = 3;
 }
 
 message TPrize {
-  int32 Id = 1;
-  int32 TemplateId = 2;
-  int32 ReceiveTime = 3;
+  optional int32 Id = 1;
+  optional int32 TemplateId = 2;
+  optional int32 ReceiveTime = 3;
   repeated int32 RewardList = 4;
-  int32 Type = 5;
+  optional int32 Type = 5;
   repeated TPrizeParam Params = 6;
   repeated TObj ObjList = 7;
 }
@@ -33,16 +33,17 @@ message TPrize {
 message TPrizeInfo {
   repeated TPrize PrizeList = 1;
   repeated TSimplePrize DelPrize = 2;
-  int32 HaveUngetPrize = 3;
+  optional int32 HaveUngetPrize = 3;
 }
 
 message TPrizeParam {
-  int32 Type = 1;
-  string Data = 2;
+  optional int32 Type = 1;
+  optional string Data = 2;
 }
 
 message TSimplePrize {
-  int32 Type = 1;
-  int32 Id = 2;
+  optional int32 Type = 1;
+  optional int32 Id = 2;
 }
+
 

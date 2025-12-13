@@ -1,21 +1,22 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package guildshop;
 
 import "shop.proto";
 
 message TArgGuildShopGetInfo {
-  int32 ShopId = 1;
+  optional int32 ShopId = 1;
 }
 
 message TGuildShopUserShelfGoodsData {
-  int32 ShopShelfId = 1;
-  int32 BuyCount = 2;
+  optional int32 ShopShelfId = 1;
+  optional int32 BuyCount = 2;
 }
 
 message TRetGuildShopInfo {
-  int32 ShopId = 1;
+  optional int32 ShopId = 1;
   repeated shop.TShopGoodsData GuildShelfGoodsData = 2;
   repeated shop.TShopGoodsData UserShelfGoodsData = 3;
 }
+
 

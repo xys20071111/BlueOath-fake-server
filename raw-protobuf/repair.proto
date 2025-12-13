@@ -1,9 +1,10 @@
-syntax = "proto3";
+syntax = "proto2";
 
 package repair;
 
 message TRepairArg {
   repeated uint32 HeroIds = 1;
-  uint32 Type = 2;
+  optional uint32 Type = 2;
 }
+
 

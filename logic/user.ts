@@ -53,13 +53,15 @@ const strategyPb = protobuf.loadSync('./raw-protobuf/strategy.proto')
 const TStrategy = strategyPb.lookupType('strategy.TStrategy')
 
 const fashionPb = protobuf.loadSync('./raw-protobuf/fashion.proto')
-const TFashionList = fashionPb.lookupType("fashion.TFashionList")
+const TFashionList = fashionPb.lookupType('fashion.TFashionList')
 
 const magazinePb = protobuf.loadSync('./raw-protobuf/magazine.proto')
 const TRetMagazineInfo = magazinePb.lookupType('magazine.TRetMagazineInfo')
 
 const illustratePb = protobuf.loadSync('./raw-protobuf/illustrate.proto')
-const TIllustrateInfoRet = illustratePb.lookupType('illustrate.TIllustrateInfoRet')
+const TIllustrateInfoRet = illustratePb.lookupType(
+    'illustrate.TIllustrateInfoRet',
+)
 
 const buildingPb = protobuf.loadSync('./raw-protobuf/building.proto')
 const TUserBuildingInfo = buildingPb.lookupType('building.TUserBuildingInfo')
@@ -302,8 +304,10 @@ async function sendInitMessages(
         token,
     )
     // 图鉴和许愿墙
-    const illustrateResData = TIllustrateInfoRet.create(player.getIllustrate().getIllustrateInfo())
-    
+    const illustrateResData = TIllustrateInfoRet.create(
+        player.getIllustrate().getIllustrateInfo(),
+    )
+
     sendResponsePacket(
         socket,
         'illustrate.IllustrateInfo',
@@ -312,7 +316,9 @@ async function sendInitMessages(
         token,
     )
     // 基建
-    const buildingData = TUserBuildingInfo.create(player.getUserBuilding().getBuildingInfo())
+    const buildingData = TUserBuildingInfo.create(
+        player.getUserBuilding().getBuildingInfo(),
+    )
     sendResponsePacket(
         socket,
         'building.UpdateBuildingInfo',
@@ -357,24 +363,17 @@ function sendOnce(
     token: string,
 ) {
     // 副本信息
-    // 剧情
-    const BaseInfo: {
-        BaseId: number
-        FirstPassTime: number
-        StarLevel: number
-        LBPoint: number
-    }[] = []
-    for (const id of PASSED_PLOT) {
+    // 剧情（不知道为什么，设置上这个海域页面显示就会出问题）
+    const BaseInfo: any[] = []
+    for (const i of PASSED_PLOT) {
         BaseInfo.push({
-            BaseId: id,
+            BaseId: i,
             FirstPassTime: Math.round(Date.now() / 1000),
-            StarLevel: 3,
-            LBPoint: 10000,
         })
     }
     const plotCopyInfo = TUserCopyInfo.create({
         BaseInfo,
-        MaxCopyId: 1,
+        MaxCopyId: 11,
         CopyType: 1,
         StarInfo: [],
         PassCopyCount: 0,

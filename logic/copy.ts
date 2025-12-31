@@ -8,7 +8,7 @@ const TStartBaseArg = copyPb.lookupType('copy.TStartBaseArg')
 const TStartBaseRet = copyPb.lookupType('copy.TStartBaseRet')
 
 const battleplayerPb = protobuf.loadSync('./raw-protobuf/battleplayer.proto')
-const TBattlePlayer = battleplayerPb.lookupType("battleplayer.TBattlePlayer")
+const TBattlePlayer = battleplayerPb.lookupType('battleplayer.TBattlePlayer')
 
 interface BattleShip {
     HeroId: number
@@ -86,25 +86,27 @@ export function StartBase(
         })
     }
     const resData = TStartBaseRet.create({
-        BattlePlayer: TBattlePlayer.create({
-            Pid: userInfo.Uid,
-            Uid: userInfo.Uid,
-            Uname: userInfo.Uname,
-            Level: userInfo.Level,
-            PlayerCamp: 0,
-            Index: 0,
-            FleetInfo: {
-                FleetId: 1,
-                FormationId: 1,
-                Index: parsedArgs.HeroList[0].Index,
-                Ships,
-                StrategyId: parsedArgs.HeroList[0].StrategyId,
-                ConditionList: [],
-                KillTimes: 0,
-                HeroList: parsedArgs.HeroList[0].HeroIdList,
-                TacticType: 1,
-            },
-        }),
+        BattlePlayer: {
+            BattlePlayerList: [{
+                Pid: userInfo.Uid,
+                Uid: userInfo.Uid,
+                Uname: userInfo.Uname,
+                Level: userInfo.Level,
+                PlayerCamp: 0,
+                Index: 0,
+                FleetInfo: {
+                    FleetId: 1,
+                    FormationId: 1,
+                    Index: parsedArgs.HeroList[0].Index,
+                    Ships,
+                    StrategyId: parsedArgs.HeroList[0].StrategyId,
+                    ConditionList: [],
+                    KillTimes: 0,
+                    HeroList: parsedArgs.HeroList[0].HeroIdList,
+                    TacticType: 1,
+                },
+            }],
+        },
         RandomSeed: 114514,
         Rid: 1,
         arrRes: [],

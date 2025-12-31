@@ -220,7 +220,7 @@ message TStartBaseHeroList {
 }
 
 message TStartBaseRet {
-  optional battleplayer.TBattlePlayer BattlePlayer = 1;
+  optional battleplayer.TBattlePlayerList BattlePlayer = 1;
   optional int32 RandomSeed = 2;
   optional int32 Rid = 3;
   repeated TCopyRes arrRes = 4;

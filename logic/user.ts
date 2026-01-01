@@ -14,7 +14,7 @@ import {
 import { TEN_DAYS_IN_SECONDS } from '../constants/chat.ts'
 import { FASHION_INFO, FASHION_INFO_JP } from '../constants/fashion.ts'
 import { sendShipInfo } from './hero.ts'
-import { PASSED_PLOT } from '../constants/plot.ts'
+import { PASSED_ACT_PLOT, PASSED_PLOT, PASSED_SEA, PASSED_SEA_JP } from '../constants/plot.ts'
 import { STRATEGY_ID_CN } from '../constants/strategyId.ts'
 import { encoder } from '../utils/endecoder.ts'
 import { INTERACTION_BAG_IDS_CN } from '../constants/interactiveItem.ts'
@@ -386,109 +386,87 @@ function sendOnce(
         token,
     )
     // 海域
+    const passedSea = []
+    const passedAct = []
     if (player.getClientType() === 0) {
-        const seaCopyInfo = TUserCopyInfo.create({
-            BaseInfo: [
-                {
-                    BaseId: 5011,
-                    Rid: 1,
-                    StarLevel: 3,
-                    IsRunningFight: false,
-                    LBPoint: 0,
-                    FirstPassTime: Math.round(Date.now() / 1000),
-                    DropHeroIds: [],
-                    SfLv: 1,
-                    SfPoint: 1,
-                    SfInfo: [],
-                    SfDot: true,
-                    SfLvChoose: 1,
-                },
-                {
-                    BaseId: 5012,
-                    Rid: 1,
-                    StarLevel: 3,
-                    IsRunningFight: false,
-                    LBPoint: 0,
-                    FirstPassTime: Math.round(Date.now() / 1000),
-                    DropHeroIds: [],
-                    SfLv: 1,
-                    SfPoint: 1,
-                    SfInfo: [],
-                    SfDot: true,
-                    SfLvChoose: 1,
-                },
-                {
-                    BaseId: 5013,
-                    Rid: 1,
-                    StarLevel: 3,
-                    IsRunningFight: false,
-                    LBPoint: 0,
-                    FirstPassTime: Math.round(Date.now() / 1000),
-                    DropHeroIds: [],
-                    SfLv: 1,
-                    SfPoint: 1,
-                    SfInfo: [],
-                    SfDot: true,
-                    SfLvChoose: 1,
-                },
-                {
-                    BaseId: 5014,
-                    Rid: 1,
-                    StarLevel: 3,
-                    IsRunningFight: false,
-                    LBPoint: 0,
-                    FirstPassTime: Math.round(Date.now() / 1000),
-                    DropHeroIds: [],
-                    SfLv: 1,
-                    SfPoint: 1,
-                    SfInfo: [],
-                    SfDot: true,
-                    SfLvChoose: 1,
-                },
-            ],
-            MaxCopyId: 1,
-            CopyType: 2,
-            StarInfo: [],
-            PassCopyCount: 0,
-        })
-        sendResponsePacket(
-            socket,
-            'copy.GetCopy',
-            TUserCopyInfo.encode(seaCopyInfo).finish(),
-            callbackHandler,
-            token,
-        )
+        for (const item of PASSED_SEA) {
+            passedSea.push({
+                BaseId: item,
+                Rid: 1,
+                StarLevel: 3,
+                IsRunningFight: false,
+                LBPoint: 0,
+                FirstPassTime: Math.round(Date.now() / 1000),
+                DropHeroIds: [],
+                SfLv: 1,
+                SfPoint: 1,
+                SfInfo: [],
+                SfDot: true,
+                SfLvChoose: 1,
+            })
+        }
+        for (const item of PASSED_ACT_PLOT) {
+            passedAct.push({
+                BaseId: item,
+                Rid: 1,
+                StarLevel: 3,
+                IsRunningFight: false,
+                LBPoint: 0,
+                FirstPassTime: Math.round(Date.now() / 1000),
+                DropHeroIds: [],
+                SfLv: 1,
+                SfPoint: 1,
+                SfInfo: [],
+                SfDot: true,
+                SfLvChoose: 1,
+            })
+        }
     } else {
-        const seaCopyInfo = TUserCopyInfo.create({
-            BaseInfo: [
-                {
-                    BaseId: 5011,
-                    Rid: 1,
-                    StarLevel: 3,
-                    IsRunningFight: false,
-                    LBPoint: 0,
-                    FirstPassTime: Math.round(Date.now() / 1000),
-                    DropHeroIds: [],
-                    SfLv: 1,
-                    SfPoint: 1,
-                    SfInfo: [],
-                    SfDot: true,
-                    SfLvChoose: 1,
-                },
-            ],
-            MaxCopyId: 5011,
-            CopyType: 2,
-            StarInfo: [],
-            PassCopyCount: 0,
-        })
-        sendResponsePacket(
-            socket,
-            'copy.GetCopy',
-            TUserCopyInfo.encode(seaCopyInfo).finish(),
-            callbackHandler,
-            token,
-        )
+        for (const item of PASSED_SEA_JP) {
+            passedSea.push({
+                BaseId: item,
+                Rid: 1,
+                StarLevel: 3,
+                IsRunningFight: false,
+                LBPoint: 0,
+                FirstPassTime: Math.round(Date.now() / 1000),
+                DropHeroIds: [],
+                SfLv: 1,
+                SfPoint: 1,
+                SfInfo: [],
+                SfDot: true,
+                SfLvChoose: 1,
+            })
+        }
     }
+    const seaCopyInfo = TUserCopyInfo.create({
+        BaseInfo: passedSea,
+        MaxCopyId: 1,
+        CopyType: 2,
+        StarInfo: [],
+        PassCopyCount: 0,
+    })
+    sendResponsePacket(
+        socket,
+        'copy.GetCopy',
+        TUserCopyInfo.encode(seaCopyInfo).finish(),
+        callbackHandler,
+        token,
+    )
+    const actPlotInfo = TUserCopyInfo.create({
+        BaseInfo: passedAct,
+        MaxCopyId: 1,
+        CopyType: 6,
+        StarInfo: [],
+        PassCopyCount: 0,
+    })
+    sendResponsePacket(
+        socket,
+        'copy.GetCopy',
+        TUserCopyInfo.encode(actPlotInfo).finish(),
+        callbackHandler,
+        token,
+    )
     // 抽卡信息
     const gachaData = TBuildShipInfo.create({
         DrawInfo: [],

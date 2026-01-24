@@ -113,8 +113,28 @@ export class Building {
     public buildingSetHero(id: number, HeroIdList: number[]) {
         for (let i = 0; i < this.buildingInfo.BuildingInfos.length; i++) {
             if (this.buildingInfo.BuildingInfos[i].Id === id) {
-                this.buildingInfo.BuildingInfos[i].HeroList = HeroIdList
+                this.buildingInfo.BuildingInfos[i].HeroList = HeroIdList ?? []
                 break
+            }
+        }
+        // HeroIdList可能是未定义的
+        if (HeroIdList) {
+            // 检查一下战姬是不是在别的建筑里
+            for (let i = 0; i < this.buildingInfo.BuildingInfos.length; i++) {
+                // 检查一下是不是当前建筑
+                if (this.buildingInfo.BuildingInfos[i].Id !== id) {
+                    const currentHeroList =
+                        this.buildingInfo.BuildingInfos[i].HeroList
+                    //不是的话检查一下有没有战姬要从这个建筑移出
+                    for (const id of HeroIdList) {
+                        if (currentHeroList.includes(id)) {
+                            currentHeroList.splice(
+                                currentHeroList.indexOf(id),
+                                1,
+                            )
+                        }
+                    }
+                }
             }
         }
         Deno.writeTextFile(

@@ -93,17 +93,21 @@ export function SetHero(
 ) {
     const player = socketPlayerMap.get(socket)!
     const parsedArgs = TSetHeroArg.decode(args).toJSON()
-    player.getUserBuilding().buildingSetHero(
-        parsedArgs.BuildingId,
-        parsedArgs.HeroIdList,
-    )
-    sendResponsePacket(
-        socket,
-        'building.SetHero',
-        EMPTY_UINT8ARRAY,
-        callbackHandler,
-        token,
-    )
+    try {
+        player.getUserBuilding().buildingSetHero(
+            parsedArgs.BuildingId,
+            parsedArgs.HeroIdList,
+        )
+        sendResponsePacket(
+            socket,
+            'building.SetHero',
+            EMPTY_UINT8ARRAY,
+            callbackHandler,
+            token,
+        )
+    } catch (e) {
+        console.error(e)
+    }
     // 发送新的基建信息
     const buildingData = TUserBuildingInfo.create(
         player.getUserBuilding().getBuildingInfo(),

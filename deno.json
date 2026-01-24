@@ -1,5 +1,6 @@
 {
     "imports": {
+        "@bufbuild/protobuf": "npm:@bufbuild/protobuf@^2.11.0",
         "@oak/oak": "jsr:@oak/oak@^17.1.6",
         "@types/node": "npm:@types/node@^24.2.0",
         "protobufjs": "npm:protobufjs@^7.5.4"

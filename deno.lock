@@ -12,7 +12,8 @@
     "jsr:@std/internal@^1.0.10": "1.0.10",
     "jsr:@std/media-types@1": "1.1.0",
     "jsr:@std/path@1": "1.1.2",
-    "npm:@types/node@*": "22.15.15",
+    "npm:@bufbuild/protobuf@^2.11.0": "2.11.0",
+    "npm:@types/node@*": "24.8.1",
     "npm:@types/node@^24.2.0": "24.8.1",
     "npm:path-to-regexp@^6.3.0": "6.3.0",
     "npm:protobufjs@^7.5.4": "7.5.4"
@@ -73,6 +74,10 @@
     }
   },
   "npm": {
+    "@bufbuild/protobuf@2.11.0": {
+      "integrity": "sha512-sBXGT13cpmPR5BMgHE6UEEfEaShh5Ror6rfN3yEK5si7QVrtZg8LEPQb0VVhiLRUslD2yLnXtnRzG035J/mZXQ==",
+      "tarball": "https://registry.npmmirror.com/@bufbuild/protobuf/-/protobuf-2.11.0.tgz"
+    },
     "@protobufjs/aspromise@1.1.2": {
       "integrity": "sha512-j+gKExEuLmKwvz3OgROXtrJ2UG2x8Ch2YZUxahh+s1F2HZ+wAceUNLkvy6zKCPVRkU++ZWQrdxsUeQXmcg4uoQ==",
       "tarball": "https://registry.npmmirror.com/@protobufjs/aspromise/-/aspromise-1.1.2.tgz"
@@ -117,17 +122,10 @@
       "integrity": "sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==",
       "tarball": "https://registry.npmmirror.com/@protobufjs/utf8/-/utf8-1.1.0.tgz"
     },
-    "@types/node@22.15.15": {
-      "integrity": "sha512-R5muMcZob3/Jjchn5LcO8jdKwSCbzqmPB6ruBxMcf9kbxtniZHP327s6C37iOfuw8mbKK3cAQa7sEl7afLrQ8A==",
-      "dependencies": [
-        "undici-types@6.21.0"
-      ],
-      "tarball": "https://registry.npmmirror.com/@types/node/-/node-22.15.15.tgz"
-    },
     "@types/node@24.8.1": {
       "integrity": "sha512-alv65KGRadQVfVcG69MuB4IzdYVpRwMG/mq8KWOaoOdyY617P5ivaDiMCGOFDWD2sAn5Q0mR3mRtUOgm99hL9Q==",
       "dependencies": [
-        "undici-types@7.14.0"
+        "undici-types"
       ],
       "tarball": "https://registry.npmmirror.com/@types/node/-/node-24.8.1.tgz"
     },
@@ -152,15 +150,11 @@
         "@protobufjs/path",
         "@protobufjs/pool",
         "@protobufjs/utf8",
-        "@types/node@24.8.1",
+        "@types/node",
         "long"
       ],
       "scripts": true,
       "tarball": "https://registry.npmmirror.com/protobufjs/-/protobufjs-7.5.4.tgz"
-    },
-    "undici-types@6.21.0": {
-      "integrity": "sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==",
-      "tarball": "https://registry.npmmirror.com/undici-types/-/undici-types-6.21.0.tgz"
     },
     "undici-types@7.14.0": {
       "integrity": "sha512-QQiYxHuyZ9gQUIrmPo3IA+hUl4KYk8uSA7cHrcKd/l3p1OTpZcM0Tbp9x7FAtXdAYhlasd60ncPpgu6ihG6TOA==",
@@ -170,6 +164,7 @@
   "workspace": {
     "dependencies": [
       "jsr:@oak/oak@^17.1.6",
+      "npm:@bufbuild/protobuf@^2.11.0",
       "npm:@types/node@^24.2.0",
       "npm:protobufjs@^7.5.4"
     ]

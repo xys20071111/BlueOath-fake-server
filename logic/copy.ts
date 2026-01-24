@@ -1,43 +1,14 @@
 import { Socket } from 'node:net'
-import protobuf from 'protobufjs'
 import { sendResponsePacket } from '../utils/createResponsePacket.ts'
 import { socketPlayerMap } from '../utils/socketMaps.ts'
 
-const copyPb = protobuf.loadSync('./raw-protobuf/copy.proto')
-const TStartBaseArg = copyPb.lookupType('copy.TStartBaseArg')
-const TStartBaseRet = copyPb.lookupType('copy.TStartBaseRet')
-
-const battleplayerPb = protobuf.loadSync('./raw-protobuf/battleplayer.proto')
-const TBattlePlayer = battleplayerPb.lookupType('battleplayer.TBattlePlayer')
-
-interface BattleShip {
-    HeroId: number
-    TemplateId: number
-    Level: number
-    Index: number
-    Attr: {
-        AttrId: number
-        AttrValue: number
-    }[]
-    CurHp: number
-    Equips: {
-        EquipTid: number
-        EquipIndex: number
-        PlaneNum: number
-        AttrValue: any[]
-        PSkillEquipList: any[]
-        PetId: number
-    }[]
-    PSkill: {
-        PSkillId: number
-        PSkillLv: number
-    }[]
-    BathBuff: number[]
-    AdvEffectIdList: number[]
-    EquipGridNum: number
-    Fashioning: number
-    HurtPer: number
-}
+import { TStartBaseArg, TStartBaseRet } from '../compiled-protobuf/copy.ts'
+import {
+    TBattleEquip,
+    TBattleShip,
+    TFiledPSkillLv,
+    THeroAttr,
+} from '../compiled-protobuf/battleplayer.ts'
 
 // 注意：此方法现在返回的参数基本都是瞎填的，点击出征会导致游戏卡死
 export function StartBase(
@@ -46,31 +17,65 @@ export function StartBase(
     callbackHandler: number,
     token: string,
 ) {
-    const parsedArgs = TStartBaseArg.decode(args).toJSON()
+    const parsedArgs = TStartBaseArg.decode(args)
     console.log(parsedArgs)
     const player = socketPlayerMap.get(socket)!
     const userInfo = player.getUserInfo()
     const playerHeroBag = player.getHeroInfo()
-    const Ships: Array<BattleShip> = []
+    /*
+    我不知道Ship这里缺了什么，已经是按照protobuf填的了
+    [22:13:04.899] [UNITY] NullReferenceException: A null value was found where an object instance was required.
+      at Battle.StartData.Ship.PBConvert (pb.TBattleShip lShip) [0x00000] in <filename unknown>:0 
+      at Battle.StartData.Player.PBConvert (pb.TBattlePlayer battlePlayer) [0x00000] in <filename unknown>:0 
+      at Battle.StartData.PVEStartData..ctor (pb.TStartBaseRet ret) [0x00000] in <filename unknown>:0 
+      at BabelTime.GD.StageSimpleBattle.getStartData (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0 
+      at BabelTime.GD.StageSimpleBattle.initBattle (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0 
+      at BabelTime.GD.StageBattleBaseEx.StageEnterImpl (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0 
+      at BabelTime.GD.StateBattleBaseImpl.StageEnter (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0 
+      at BabelTime.GD.StageBase.Enter (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0 
+      at FSM.FSMBaseState`1[M]._Enter (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0 
+      at BabelTime.GD.StageMgr.DelayGoto () [0x00000] in <filename unknown>:0 
+      at BabelTime.GD.StageMgr.Tick (Single deltaTime) [0x00000] in <filename unknown>:0 
+      at BabelTime.GD.GameApp.Update (Single deltaTime) [0x00000] in <filename unknown>:0 
+      at BabelTime.GD.Main.Update () [0x00000] in <filename unknown>:0 
+    
+    (Filename: currently not available on il2cpp Line: -1)
+    */
+    const Ships: Array<TBattleShip> = []
     let counter = 1
     try {
         for (const item of parsedArgs.HeroList[0].HeroIdList) {
             const ship = playerHeroBag.getHeroById(item)
-            Ships.push({
+            const equip: TBattleEquip = {
+                EquipTid: 0,
+                EquipIndex: 0,
+                PlaneNum: 0,
+                AttrValue: [{ AttrId: 0, AttrValue: 0 }],
+                PSkillEquipList: [{ PSkillId: 0, PSkillLv: 0 }],
+                PetId: 0,
+            }
+            const data: TBattleShip = {
                 HeroId: ship.HeroId,
                 TemplateId: ship.TemplateId,
                 Level: ship.Lvl,
                 Index: counter++,
-                Attr: [],
+                Attr: [{ AttrId: 0, AttrValue: 0 }],
                 CurHp: ship.CurHp,
-                Equips: [],
+                Equips: [equip],
                 PSkill: [],
-                BathBuff: [],
+                BathBuff: [0, 1, 2, 3],
                 AdvEffectIdList: ship.ArrRemouldEffect,
                 EquipGridNum: 6,
                 Fashioning: ship.Fashioning,
                 HurtPer: 0,
-            })
+            }
+            for (const item of ship.PSkill) {
+                data.PSkill.push({
+                    PSkillId: item.PSkillId,
+                    PSkillLv: item.Level,
+                })
+            }
+            Ships.push(data)
         }
     } catch (e) {
         console.error(e)
@@ -85,7 +90,7 @@ export function StartBase(
             EquipGridNum: 6,
         })
     }
-    const resData = TStartBaseRet.create({
+    const ret: TStartBaseRet = {
         BattlePlayer: {
             BattlePlayerList: [{
                 Pid: userInfo.Uid,
@@ -96,7 +101,7 @@ export function StartBase(
                 Index: 0,
                 FleetInfo: {
                     FleetId: 1,
-                    FormationId: 1,
+                    FormationId: 1001,
                     Index: parsedArgs.HeroList[0].Index,
                     Ships,
                     StrategyId: parsedArgs.HeroList[0].StrategyId,
@@ -105,45 +110,39 @@ export function StartBase(
                     HeroList: parsedArgs.HeroList[0].HeroIdList,
                     TacticType: 1,
                 },
+                OpenFunc: [],
+                BattleMode: parsedArgs.BattleMode,
+                RandomFactors: [],
             }],
         },
-        RandomSeed: 114514,
+        RandomSeed: 0,
         Rid: 1,
         arrRes: [],
-        EnemyFleet: [1],
+        EnemyFleet: [],
         CopyId: parsedArgs.CopyId,
         CopyType: 1,
-        CopyPass: true,
-        BossProgress: 100,
-        IsRunningFight: true,
-        ShipEquipGridInfo,
-        RandomFactors: [
-            {
-                Factors: [1, 2, 3],
-                GroupId: 1,
-                SetId: 1,
-            },
-        ],
-        SafeLv: 1,
-        Verify: {
-            opes: {
-                frameCount: 0,
-                opes: [],
-            },
-            result: {},
-        },
+        CopyPass: false,
+        BossProgress: 0,
+        IsRunningFight: false,
+        ShipEquipGridInfo: [],
+        RandomFactors: [],
+        SafeLv: 0,
+        Verify: undefined,
         ExtraBattlePlayerList: [],
-        Token: token,
+        Token: '',
         SkipVcr: [],
         BattleMode: parsedArgs.BattleMode,
-        IsFinal: true,
+        IsFinal: false,
+        AnimMode: parsedArgs.AnimMode,
+        //在config_weather_group中找
+        WeatherGroupId: 5,
         CopyMission: [],
         EnemyFleets: [],
         ConfigData: [],
-        MatchType: 1,
-        AnimMode: parsedArgs.AnimMode,
-        WeatherGroupId: 1,
-    })
+        MatchType: 0,
+    }
+    const resData = TStartBaseRet.create(ret)
+
     sendResponsePacket(
         socket,
         'copy.StartBase',

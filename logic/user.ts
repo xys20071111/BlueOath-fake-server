@@ -369,6 +369,8 @@ function sendOnce(
         BaseInfo.push({
             BaseId: i,
             FirstPassTime: Math.round(Date.now() / 1000),
+            StarLevel: 3,
+            LBPoint: 10000
         })
     }
     const plotCopyInfo = TUserCopyInfo.create({

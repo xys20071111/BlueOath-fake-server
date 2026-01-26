@@ -1,7 +1,8 @@
 import { THeroAttr } from '../compiled-protobuf/battleplayer.ts'
 import { ATTRIBUTR } from '../constants/gameConfigAttribute.ts'
 import { SHIP_LEVEL_UP } from '../constants/gameConfigShipLevelUp.ts'
-import { getShipMain } from './gameConfigShipMain.ts'
+import { getShipMain, shipMain, shipRemouldEffect } from './gameConfig.ts'
+import { HeroInfo } from './heroBag.ts'
 
 class Attribute {
     protected attrRecord: Map<number, number> = new Map()
@@ -19,7 +20,7 @@ class Attribute {
         for (const item of this.attrRecord) {
             result.push({
                 AttrId: item[0],
-                AttrValue: item[1]
+                AttrValue: item[1],
             })
         }
         return result
@@ -27,29 +28,10 @@ class Attribute {
 }
 
 export class HeroBasicArrt extends Attribute {
-    constructor(level: number, heroTemplateId: number) {
+    constructor(ship: HeroInfo) {
         super()
-        /*
-        Basic Attr
-        local tabHeroInfo = configManager.GetDataById("config_ship_main", self.heroTId)
-        local attrTbl = Logic.attrLogic:GetAttrTableShow()
-        local lvconfig = configManager.GetDataById("config_ship_levelup", self.heroLvl)
-        local factor = lvconfig and lvconfig.attribute_level - 1 or 0
-        for k, v in pairs(attrTbl) do
-          local attrString = Logic.attrLogic:GetAttrStringById(v)
-          local temp = 0
-          if tabHeroInfo[attrString] ~= nil then
-            temp = tabHeroInfo[attrString]
-          end
-          local lvlAttrString = attrString .. "_levelup"
-          if tabHeroInfo[lvlAttrString] ~= nil then
-            temp = temp + math.floor(factor * (tabHeroInfo[lvlAttrString] / 100))
-          end
-          self:AddAttr(self.attrDic, v, temp)
-        end
-        */
-        const heroInfo = getShipMain(heroTemplateId)
-        const levelConfig = SHIP_LEVEL_UP[level]
+        const heroInfo = shipMain.getConfig(ship.TemplateId)
+        const levelConfig = SHIP_LEVEL_UP[ship.Lvl]
         const attrs: Array<number> = []
         for (const item in ATTRIBUTR) {
             if (ATTRIBUTR[item].girl_if_show === 1) {
@@ -71,5 +53,36 @@ export class HeroBasicArrt extends Attribute {
             }
             this.setAttr(attr, temp)
         }
+
+        for (const intensify of ship.Intensify) {
+            this.setAttr(intensify.attrType, intensify.intensifyLvl)
+        }
+
+        const allRemouldAttr = getFinalRemouldAttr(ship.ArrRemouldEffect)
+        for (const item of allRemouldAttr) {
+            this.setAttr(item[0], item[1])
+        }
     }
+}
+
+function getFinalRemouldAttr(effects: number[]) {
+    const attrValues: Array<number[]> = []
+    const mapAttrValue: Map<number, number> = new Map()
+    for (const value of effects) {
+        const remouldItem = shipRemouldEffect.getConfig(value)
+        for (const item of remouldItem.remould_effect_type) {
+            if (item[0] === 2) {
+                attrValues.push(item)
+            }
+        }
+    }
+    for (const item of attrValues) {
+        if (mapAttrValue.has(item[1])) {
+            const oldValue = mapAttrValue.get(item[1])!
+            mapAttrValue.set(item[1], oldValue + item[2])
+        } else {
+            mapAttrValue.set(item[1], item[2])
+        }
+    }
+    return mapAttrValue
 }

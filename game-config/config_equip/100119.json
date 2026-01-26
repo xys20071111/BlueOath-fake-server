@@ -1,0 +1,46 @@
+{
+    "icon_small": "uipic_ui_icon_equip_event_chongnengyulei_zhuzi_124",
+    "dismantling_get": [
+        5,
+        9,
+        100
+    ],
+    "equip_prop": [],
+    "max_number": 1,
+    "activity_equip": 1,
+    "equip_ship": [
+        1,
+        2,
+        3
+    ],
+    "icon": "uipic_ui_icon_equip_event_chongnengyulei_zhuzi_124",
+    "renovate_skill": [],
+    "no_pack": 0,
+    "equip_trap_ste_id": 0,
+    "reward": 508123,
+    "equip_type_id2": 3,
+    "ewt_id": [
+        9
+    ],
+    "drop_path": [],
+    "equip_srp_id": "",
+    "enhance_level_max": 30,
+    "no_resolve": 0,
+    "activity_id": [],
+    "name": "熊猫鱼雷",
+    "energy_name": "能量点",
+    "quality": 5,
+    "skill_fashion_id": [],
+    "copy_display_id": [],
+    "enhance_prop": [],
+    "skill_array": [],
+    "equip_skill_anim_eb_id": "",
+    "star_max": 5,
+    "rules": [],
+    "max_energy": 10000,
+    "e_id": 100119,
+    "period": 13919,
+    "equip_type_id": 9,
+    "picture_show": 0,
+    "existence": 1
+}

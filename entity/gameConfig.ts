@@ -105,6 +105,43 @@ interface ShipRemouldEffect {
     "connect_type": number[]
 }
 
+interface Equip {
+    "icon_small": string
+    "dismantling_get": number[]
+    "equip_prop": number[][]
+    "max_number": number
+    "activity_equip": number
+    "equip_ship": number[]
+    "icon": string
+    "renovate_skill": number[],
+    "no_pack": number
+    "equip_trap_ste_id": number
+    "reward": number
+    "equip_type_id2": number
+    "ewt_id": number[]
+    "drop_path": any[],
+    "equip_srp_id": string,
+    "enhance_level_max": number
+    "no_resolve": number
+    "activity_id": [],
+    "name": string,
+    "energy_name": string,
+    "quality": number
+    "skill_fashion_id": number[],
+    "copy_display_id": number[],
+    "enhance_prop": number[][]
+    "skill_array": any[],
+    "equip_skill_anim_eb_id": string,
+    "star_max": number
+    "rules": any[],
+    "max_energy": number
+    "e_id": number,
+    "period": number
+    "equip_type_id": number
+    "picture_show": number
+    "existence": number
+}
+
 
 class GameConfig<T> {
     private record: Record<number, T> = {}
@@ -131,3 +168,4 @@ class GameConfig<T> {
 
 export const shipMain: GameConfig<ShipMain> = new GameConfig('config_ship_main')
 export const shipRemouldEffect: GameConfig<ShipRemouldEffect> = new GameConfig('config_ship_remould_effect')
+export const equip: GameConfig<Equip> = new GameConfig('config_equip')

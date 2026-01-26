@@ -1,35 +1,16 @@
-import { THeroAttr } from '../compiled-protobuf/battleplayer.ts'
-import { ATTRIBUTR } from '../constants/gameConfigAttribute.ts'
-import { SHIP_LEVEL_UP } from '../constants/gameConfigShipLevelUp.ts'
-import { getShipMain, shipMain, shipRemouldEffect } from './gameConfig.ts'
-import { HeroInfo } from './heroBag.ts'
+import { ATTRIBUTR } from '../../constants/gameConfigAttribute.ts'
+import { SHIP_LEVEL_UP } from '../../constants/gameConfigShipLevelUp.ts'
+import { shipMain, shipRemouldEffect } from '../gameConfig.ts'
+import { HeroInfo } from '../heroBag.ts'
+import { Player } from '../player.ts'
+import { Attribute } from './basicAttr.ts'
 
-class Attribute {
-    protected attrRecord: Map<number, number> = new Map()
-    protected setAttr(id: number, value: number) {
-        if (this.attrRecord.has(id)) {
-            const oldValue = this.attrRecord.get(id)!
-            this.attrRecord.set(id, value + oldValue)
-        } else {
-            this.attrRecord.set(id, value)
-        }
-    }
 
-    public getAttr(): THeroAttr[] {
-        const result: THeroAttr[] = []
-        for (const item of this.attrRecord) {
-            result.push({
-                AttrId: item[0],
-                AttrValue: item[1],
-            })
-        }
-        return result
-    }
-}
 
 export class HeroBasicArrt extends Attribute {
-    constructor(ship: HeroInfo) {
+    constructor(ship: HeroInfo, player: Player) {
         super()
+        // self:_GetHeroAttr(heroInfo.Lvl, heroInfo.TemplateId)
         const heroInfo = shipMain.getConfig(ship.TemplateId)
         const levelConfig = SHIP_LEVEL_UP[ship.Lvl]
         const attrs: Array<number> = []
@@ -54,14 +35,25 @@ export class HeroBasicArrt extends Attribute {
             this.setAttr(attr, temp)
         }
 
+        // self:_GetIntensify(heroInfo.Intensify)
         for (const intensify of ship.Intensify) {
             this.setAttr(intensify.attrType, intensify.intensifyLvl)
         }
 
+        // self:_GetRemould(heroInfo.ArrRemouldEffect)
         const allRemouldAttr = getFinalRemouldAttr(ship.ArrRemouldEffect)
         for (const item of allRemouldAttr) {
             this.setAttr(item[0], item[1])
         }
+
+        // local equip = Data.heroData:GetEquipsByType(heroInfo.HeroId, fleetType)
+        // equip = self:_formatEquip(equip)
+        // local isNpc = npcAssistFleetMgr:IsNpcHeroId(heroInfo.HeroId)
+        // self:_GetEquipAttr(equip, isNpc, copyId)
+        const equip = ship.Equips[0].Equip.filter((v) => {
+            return v.EquipsId
+        })
+
     }
 }
 

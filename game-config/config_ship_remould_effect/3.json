@@ -1,0 +1,1 @@
+{"limit_star":2,"position":[-94,137.6436],"name":"P1-系属-B","icon":"uipic_ui_gaizao_im_icon_fangkong_xuanzhong","lock_icon":"uipic_ui_gaizao_im_icon_fangkong_weixuanzhong","limit_level":5,"desc":"提升基础数值","cost":[[5,1,36000],[1,11028,36],[6,60002,20]],"connect_rotation":[[0,0,300]],"id":3,"remould_effect_type":[[2,12,64],[2,3200,8],[2,3202,8]],"remould_prev":[1],"connect_type":[1]}

@@ -1,0 +1,1 @@
+{"limit_star":2,"position":[116,16.4],"name":"P1-系属-D","icon":"uipic_ui_gaizao_im_icon_leifang_xuanzhong","lock_icon":"uipic_ui_gaizao_im_icon_leifang_weixuanzhong","limit_level":5,"desc":"提升基础数值","cost":[[5,1,57600],[1,11027,58],[6,60002,32]],"connect_rotation":[[0,0,180]],"id":263,"remould_effect_type":[[2,11,38],[2,3200,9],[2,3202,9]],"remould_prev":[259],"connect_type":[1]}

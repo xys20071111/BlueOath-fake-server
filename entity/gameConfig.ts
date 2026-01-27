@@ -142,11 +142,30 @@ interface Equip {
     "existence": number
 }
 
+/**
+* @description "need_power_exp" 应该当作元组(attr, needExp)的数组看待
+*/
+interface IntensifyNeed {
+    "enhance_type": number,
+    "snp_id": number,
+    "need_power_exp": number[][]
+}
+
+/**
+* @description "provide_power_exp" 应该当作元组(attr, provideExp)的数组看待
+*/
+interface IntensifyProvide {
+    "provide_power_exp": number[][]
+    "sppe_id": number
+}
+
+
 
 class GameConfig<T> {
     private record: Record<number, T> = {}
     private configName: string
     constructor(configName: string) {
+        // 现在这里只考虑了国服，日后应该需要做对日服的兼容
         this.configName = configName
     }
 
@@ -169,3 +188,5 @@ class GameConfig<T> {
 export const shipMain: GameConfig<ShipMain> = new GameConfig('config_ship_main')
 export const shipRemouldEffect: GameConfig<ShipRemouldEffect> = new GameConfig('config_ship_remould_effect')
 export const equip: GameConfig<Equip> = new GameConfig('config_equip')
+export const shipIntensifyNeed: GameConfig<IntensifyNeed> = new GameConfig('config_ship_need_power_exp')
+export const shipIntensifyProvide: GameConfig<IntensifyProvide> = new GameConfig('config_ship_provide_power_exp')

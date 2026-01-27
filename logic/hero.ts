@@ -309,6 +309,14 @@ export function HeroIntensify(
     const player = socketPlayerMap.get(socket)!
     const parsedArgs = TIntensifyHeroArgs.decode(args)
     const heroInfo = player.getHeroInfo()
+    // 这个是消耗船给对应属性经验，数据我找到了，明天我再写逻辑
+    sendResponsePacket(
+        socket,
+        'hero.HeroIntensify',
+        EMPTY_UINT8ARRAY,
+        callbackHandler,
+        token,
+    )
 }
 
 export function sendShipInfo(

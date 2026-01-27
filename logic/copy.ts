@@ -3,12 +3,8 @@ import { sendResponsePacket } from '../utils/createResponsePacket.ts'
 import { socketPlayerMap } from '../utils/socketMaps.ts'
 
 import { TStartBaseArg, TStartBaseRet } from '../compiled-protobuf/copy.ts'
-import {
-    TBattleEquip,
-    TBattleShip,
-    TFiledPSkillLv,
-    THeroAttr,
-} from '../compiled-protobuf/battleplayer.ts'
+import { TBattleShip } from '../compiled-protobuf/battleplayer.ts'
+import { HeroBasicArrt } from '../entity/attr/heroAttr.ts'
 
 // 注意：此方法现在返回的参数基本都是瞎填的，点击出征会导致游戏卡死
 export function StartBase(
@@ -25,20 +21,20 @@ export function StartBase(
     /*
     我不知道Ship这里缺了什么，已经是按照protobuf填的了
     [22:13:04.899] [UNITY] NullReferenceException: A null value was found where an object instance was required.
-      at Battle.StartData.Ship.PBConvert (pb.TBattleShip lShip) [0x00000] in <filename unknown>:0 
-      at Battle.StartData.Player.PBConvert (pb.TBattlePlayer battlePlayer) [0x00000] in <filename unknown>:0 
-      at Battle.StartData.PVEStartData..ctor (pb.TStartBaseRet ret) [0x00000] in <filename unknown>:0 
-      at BabelTime.GD.StageSimpleBattle.getStartData (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0 
-      at BabelTime.GD.StageSimpleBattle.initBattle (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0 
-      at BabelTime.GD.StageBattleBaseEx.StageEnterImpl (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0 
-      at BabelTime.GD.StateBattleBaseImpl.StageEnter (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0 
-      at BabelTime.GD.StageBase.Enter (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0 
-      at FSM.FSMBaseState`1[M]._Enter (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0 
-      at BabelTime.GD.StageMgr.DelayGoto () [0x00000] in <filename unknown>:0 
-      at BabelTime.GD.StageMgr.Tick (Single deltaTime) [0x00000] in <filename unknown>:0 
-      at BabelTime.GD.GameApp.Update (Single deltaTime) [0x00000] in <filename unknown>:0 
-      at BabelTime.GD.Main.Update () [0x00000] in <filename unknown>:0 
-    
+      at Battle.StartData.Ship.PBConvert (pb.TBattleShip lShip) [0x00000] in <filename unknown>:0
+      at Battle.StartData.Player.PBConvert (pb.TBattlePlayer battlePlayer) [0x00000] in <filename unknown>:0
+      at Battle.StartData.PVEStartData..ctor (pb.TStartBaseRet ret) [0x00000] in <filename unknown>:0
+      at BabelTime.GD.StageSimpleBattle.getStartData (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0
+      at BabelTime.GD.StageSimpleBattle.initBattle (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0
+      at BabelTime.GD.StageBattleBaseEx.StageEnterImpl (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0
+      at BabelTime.GD.StateBattleBaseImpl.StageEnter (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0
+      at BabelTime.GD.StageBase.Enter (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0
+      at FSM.FSMBaseState`1[M]._Enter (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0
+      at BabelTime.GD.StageMgr.DelayGoto () [0x00000] in <filename unknown>:0
+      at BabelTime.GD.StageMgr.Tick (Single deltaTime) [0x00000] in <filename unknown>:0
+      at BabelTime.GD.GameApp.Update (Single deltaTime) [0x00000] in <filename unknown>:0
+      at BabelTime.GD.Main.Update () [0x00000] in <filename unknown>:0
+
     (Filename: currently not available on il2cpp Line: -1)
     */
     const Ships: Array<TBattleShip> = []
@@ -46,49 +42,26 @@ export function StartBase(
     try {
         for (const item of parsedArgs.HeroList[0].HeroIdList) {
             const ship = playerHeroBag.getHeroById(item)
-            const equip: TBattleEquip = {
-                EquipTid: 0,
-                EquipIndex: 0,
-                PlaneNum: 0,
-                AttrValue: [{ AttrId: 0, AttrValue: 0 }],
-                PSkillEquipList: [{ PSkillId: 0, PSkillLv: 0 }],
-                PetId: 0,
-            }
+            const attr = new HeroBasicArrt(ship, player)
             const data: TBattleShip = {
-                HeroId: ship.HeroId,
+                HeroId: ship.HeroId + 1,
                 TemplateId: ship.TemplateId,
                 Level: ship.Lvl,
                 Index: counter++,
-                Attr: [{ AttrId: 0, AttrValue: 0 }],
+                Attr: attr.getAttr(),
                 CurHp: ship.CurHp,
-                Equips: [equip],
-                PSkill: [],
-                BathBuff: [0, 1, 2, 3],
-                AdvEffectIdList: ship.ArrRemouldEffect,
-                EquipGridNum: 6,
+                Equips: [],
+                PSkill: ship.PSkill,
+                BathBuff: [],
+                AdvEffectIdList: [],
+                EquipGridNum: ship.Equips.length,
                 Fashioning: ship.Fashioning,
-                HurtPer: 0,
-            }
-            for (const item of ship.PSkill) {
-                data.PSkill.push({
-                    PSkillId: item.PSkillId,
-                    PSkillLv: item.Level,
-                })
+                HurtPer: 1000,
             }
             Ships.push(data)
         }
     } catch (e) {
         console.error(e)
-    }
-    const ShipEquipGridInfo: Array<{
-        HeroId: number
-        EquipGridNum: number
-    }> = []
-    for (const HeroId of parsedArgs.HeroList[0].HeroIdList) {
-        ShipEquipGridInfo.push({
-            HeroId,
-            EquipGridNum: 6,
-        })
     }
     const ret: TStartBaseRet = {
         BattlePlayer: {
@@ -139,7 +112,7 @@ export function StartBase(
         CopyMission: [],
         EnemyFleets: [],
         ConfigData: [],
-        MatchType: 0,
+        MatchType: parsedArgs.MatchType,
     }
     const resData = TStartBaseRet.create(ret)
 

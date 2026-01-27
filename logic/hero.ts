@@ -20,6 +20,7 @@ const THeroChangeEquipArgs = pb.lookupType('hero.THeroChangeEquipArgs')
 const THeroAutoUnEquipArg = pb.lookupType('hero.THeroAutoUnEquipArg')
 const TRemouldArg = pb.lookupType('hero.TRemouldArg')
 const THeroInfo = pb.lookupType('hero.THeroInfo')
+const TIntensifyHeroArgs = pb.lookupType('hero.TIntensifyHeroArgs')
 
 // 提示信息显示一直不正常
 export function LockHero(
@@ -33,18 +34,19 @@ export function LockHero(
         lock: boolean
     } = TLockHeroArg.decode(args) as any
     const player = socketPlayerMap.get(socket)!
-    player.getHeroInfo().setHeroLock(parsedArgs.HeroId, parsedArgs.lock)
-    sendResponsePacket(
-        socket,
-        'hero.LockHero',
-        TLockHeroRet.encode(TLockHeroRet.create({
-            Ret: parsedArgs.lock ? 0 : 1,
-        })).finish(),
-        callbackHandler,
-        token,
+    player.getHeroInfo().setHeroLock(
+        parsedArgs.HeroId,
+        parsedArgs.lock,
     )
     // 更新舰娘信息
     sendShipInfo(socket, callbackHandler, token)
+    sendResponsePacket(
+        socket,
+        'hero.LockHero',
+        TLockHeroRet.encode(TLockHeroRet.create({})).finish(),
+        callbackHandler,
+        token,
+    )
 }
 
 export function GetHeroInfoByHeroIdArray(
@@ -296,6 +298,17 @@ export function HeroRemould(
         callbackHandler,
         token,
     )
+}
+
+export function HeroIntensify(
+    socket: Socket,
+    args: Uint8Array,
+    callbackHandler: number,
+    token: string,
+) {
+    const player = socketPlayerMap.get(socket)!
+    const parsedArgs = TIntensifyHeroArgs.decode(args)
+    const heroInfo = player.getHeroInfo()
 }
 
 export function sendShipInfo(

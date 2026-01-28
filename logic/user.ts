@@ -13,6 +13,7 @@ import { sendShipInfo } from './hero.ts'
 import {
     PASSED_ACT_PLOT,
     PASSED_ACTIVITY_CN,
+    PASSED_ACTIVITY_JP,
     PASSED_PLOT,
     PASSED_SEA,
     PASSED_SEA_JP
@@ -474,11 +475,19 @@ function sendOnce(
         ChapterId: number
         Index: number
     }> = []
+    // 除了双生姐妹现在都能看了，但是不知道为啥双生姐妹没能完全解锁
     if (player.getClientType() === 0) {
         for (const act of PASSED_ACTIVITY_CN) {
             activityChapters.push({
                 ChapterId: act,
                 Index: (PASSED_ACTIVITY_CN.indexOf(act))
+            })
+        }
+    } else {
+        for (const act of PASSED_ACTIVITY_JP) {
+            activityChapters.push({
+                ChapterId: act,
+                Index: (PASSED_ACTIVITY_JP.indexOf(act))
             })
         }
     }

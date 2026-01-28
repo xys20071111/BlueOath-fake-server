@@ -307,9 +307,14 @@ export function HeroIntensify(
     token: string,
 ) {
     const player = socketPlayerMap.get(socket)!
-    const parsedArgs = TIntensifyHeroArgs.decode(args)
+    const parsedArgs = TIntensifyHeroArgs.decode(args).toJSON()
     const heroInfo = player.getHeroInfo()
-    // 这个是消耗船给对应属性经验，数据我找到了，明天我再写逻辑
+
+    
+    // 这个是消耗船给对应属性经验，删除船的部分因为我现在的数据结构工作的一直不正常，所以就不删除船了
+    heroInfo.intensify(parsedArgs.HeroId, parsedArgs.ConsumedHeros)
+    // 还是先把船的数据发过去
+    sendShipInfo(socket, callbackHandler, token)
     sendResponsePacket(
         socket,
         'hero.HeroIntensify',
@@ -328,7 +333,7 @@ export function sendShipInfo(
     const heroInfo = player.getHeroInfo().getHeroBag()
     const heroInfoData = THeroInfo.create({
         HeroInfo: heroInfo,
-        HeroBagSize: 1000,
+        HeroBagSize: 5000,
         HeroNum: [{ TemplateId: 10210511, Num: 80 }],
     })
     sendResponsePacket(

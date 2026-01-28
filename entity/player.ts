@@ -7,7 +7,7 @@ import { InteractionItemEntity } from './interactionItem.ts'
 
 export enum ClientType {
     CN,
-    JP,
+    JP
 }
 
 export class Player {
@@ -24,7 +24,7 @@ export class Player {
         this.uname = uname
         this.clientType = type
         this.userInfo = JSON.parse(
-            Deno.readTextFileSync(`./playerData/${this.uname}/UserInfo.json`),
+            Deno.readTextFileSync(`./playerData/${this.uname}/UserInfo.json`)
         )
         this.heroInfo = new HeroBag(uname)
         this.tactic = new Tactic(uname)
@@ -34,7 +34,7 @@ export class Player {
         this.interactionItem = new InteractionItemEntity(uname)
 
         const secretary = this.heroInfo.getHeroBasicInfoById(
-            this.userInfo.SecretaryId,
+            this.userInfo.SecretaryId
         )
         this.userInfo.HeadShow = secretary.isMarried ? 1 : 0
         this.userInfo.Head = secretary.id
@@ -42,7 +42,7 @@ export class Player {
 
     public refreshUserInfo() {
         this.userInfo = JSON.parse(
-            Deno.readTextFileSync(`./playerData/${this.uname}/UserInfo.json`),
+            Deno.readTextFileSync(`./playerData/${this.uname}/UserInfo.json`)
         )
         this.heroInfo.reload()
         this.tactic.reload()
@@ -51,7 +51,7 @@ export class Player {
         this.illustrateInfo.reload()
 
         const secretary = this.heroInfo.getHeroBasicInfoById(
-            this.userInfo.SecretaryId,
+            this.userInfo.SecretaryId
         )
         this.userInfo.HeadShow = secretary.isMarried ? 1 : 0
         this.userInfo.Head = secretary.id
@@ -95,7 +95,7 @@ export class Player {
         this.userInfo.HeadShow = hero.isMarried ? 1 : 0
         Deno.writeTextFile(
             `./playerData/${this.uname}/UserInfo.json`,
-            JSON.stringify(this.userInfo, null, 4),
+            JSON.stringify(this.userInfo, null, 4)
         )
     }
 

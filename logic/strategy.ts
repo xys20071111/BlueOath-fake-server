@@ -12,7 +12,7 @@ export function Apply(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const parsedArgs = TStrategyArg.decode(args).toJSON()
     const player = socketPlayerMap.get(socket)!
@@ -23,7 +23,7 @@ export function Apply(
         'strategy.Apply',
         EMPTY_UINT8ARRAY,
         callbackHandler,
-        token,
+        token
     )
     sendTacticInfo(socket, callbackHandler, token)
 }
@@ -31,20 +31,20 @@ export function Apply(
 export function sendTacticInfo(
     socket: Socket,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const player = socketPlayerMap.get(socket)!
     const tactics = player.getTactic().getTacticInfo()
     const tacticsData = JSON.stringify({
         MaxPower: 500,
         MinPower: 0,
-        tactics,
+        tactics
     })
     sendResponsePacket(
         socket,
         'tactic.custom.ForceWriteFleetInfo',
         encoder.encode(tacticsData),
         callbackHandler,
-        token,
+        token
     )
 }

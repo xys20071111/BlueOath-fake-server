@@ -9,7 +9,7 @@ app.use(async (ctx) => {
     ctx.response.body = {
         error_id: 200,
         'errornu': '0',
-        'errordesc': '',
+        'errordesc': ''
     }
     // console.log('----请求信息----')
     // console.log(ctx.request.url)
@@ -24,5 +24,5 @@ app.addEventListener('listen', () => {
 app.listen({
     port: 443,
     key: await Deno.readTextFile('./server.key'),
-    cert: await Deno.readTextFile('./server.crt'),
+    cert: await Deno.readTextFile('./server.crt')
 })

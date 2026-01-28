@@ -1,1 +1,15 @@
-{"limit_star":5,"position":[256,16.4],"name":"P2-构成-C-1","icon":"uipic_ui_gaizao_im_icon_naijiu_xuanzhong","lock_icon":"uipic_ui_gaizao_im_icon_naijiu_weixuanzhong","limit_level":60,"desc":"提升基础数值","cost":[[5,1,83200],[1,11029,86],[1,11031,38],[1,10000,32]],"connect_rotation":[[0,0,180]],"id":324,"remould_effect_type":[[2,1,396],[2,3200,12],[2,3202,12]],"remould_prev":[318],"connect_type":[1]}
+{
+    "limit_star": 5,
+    "position": [256, 16.4],
+    "name": "P2-构成-C-1",
+    "icon": "uipic_ui_gaizao_im_icon_naijiu_xuanzhong",
+    "lock_icon": "uipic_ui_gaizao_im_icon_naijiu_weixuanzhong",
+    "limit_level": 60,
+    "desc": "提升基础数值",
+    "cost": [[5, 1, 83200], [1, 11029, 86], [1, 11031, 38], [1, 10000, 32]],
+    "connect_rotation": [[0, 0, 180]],
+    "id": 324,
+    "remould_effect_type": [[2, 1, 396], [2, 3200, 12], [2, 3202, 12]],
+    "remould_prev": [318],
+    "connect_type": [1]
+}

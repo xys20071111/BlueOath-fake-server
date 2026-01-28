@@ -25,14 +25,14 @@ export class EquipBag {
 
     constructor(uname: string) {
         this.equipInfo = JSON.parse(
-            Deno.readTextFileSync(`./playerData/${uname}/equipBag.json`),
+            Deno.readTextFileSync(`./playerData/${uname}/equipBag.json`)
         )
         this.uname = uname
     }
 
     public reload() {
         this.equipInfo = JSON.parse(
-            Deno.readTextFileSync(`./playerData/${this.uname}/equipBag.json`),
+            Deno.readTextFileSync(`./playerData/${this.uname}/equipBag.json`)
         )
     }
 
@@ -41,7 +41,7 @@ export class EquipBag {
         this.equipInfo.forEach((v, k) => {
             equipBag.push({
                 EquipId: k + 1,
-                ...v,
+                ...v
             })
         })
         return equipBag
@@ -52,7 +52,7 @@ export class EquipBag {
             this.equipInfo[equip - 1].HeroId = hero
             Deno.writeTextFile(
                 `./playerData/${this.uname}/equipBag.json`,
-                JSON.stringify(this.equipInfo, null, 4),
+                JSON.stringify(this.equipInfo, null, 4)
             )
         }
     }
@@ -62,7 +62,7 @@ export class EquipBag {
         this.equipInfo[targetId].EnhanceLv++
         Deno.writeTextFile(
             `./playerData/${this.uname}/equipBag.json`,
-            JSON.stringify(this.equipInfo, null, 4),
+            JSON.stringify(this.equipInfo, null, 4)
         )
         return this.equipInfo[targetId].EnhanceLv
     }
@@ -72,7 +72,7 @@ export class EquipBag {
         this.equipInfo[targetId].Star++
         Deno.writeTextFile(
             `./playerData/${this.uname}/equipBag.json`,
-            JSON.stringify(this.equipInfo, null, 4),
+            JSON.stringify(this.equipInfo, null, 4)
         )
         return this.equipInfo[targetId].Star
     }
@@ -87,16 +87,16 @@ export class EquipBag {
                 EnhanceExp: 0,
                 PSkillList: [],
                 RiseCommonEquips: [],
-                HeroId: 0,
+                HeroId: 0
             })
             result.push({
                 tid: id,
-                id: this.equipInfo.length,
+                id: this.equipInfo.length
             })
         }
         Deno.writeTextFile(
             `./playerData/${this.uname}/equipBag.json`,
-            JSON.stringify(this.equipInfo, null, 4),
+            JSON.stringify(this.equipInfo, null, 4)
         )
         return result
     }

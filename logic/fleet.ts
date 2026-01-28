@@ -10,7 +10,7 @@ export function SetHerosTactic(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const parsedArgs = TSelfTactis.decode(args)
     const player = socketPlayerMap.get(socket)!
@@ -20,6 +20,6 @@ export function SetHerosTactic(
         'tactic.SetHerosTactic',
         args,
         callbackHandler,
-        token,
+        token
     )
 }

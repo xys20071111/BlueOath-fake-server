@@ -5,8 +5,6 @@ import { HeroInfo } from '../heroBag.ts'
 import { Player } from '../player.ts'
 import { Attribute } from './basicAttr.ts'
 
-
-
 export class HeroBasicArrt extends Attribute {
     constructor(ship: HeroInfo, player: Player) {
         super()
@@ -37,7 +35,7 @@ export class HeroBasicArrt extends Attribute {
 
         // self:_GetIntensify(heroInfo.Intensify)
         for (const intensify of ship.Intensify) {
-            this.setAttr(intensify.attrType, intensify.intensifyLvl)
+            this.setAttr(intensify.AttrType, intensify.IntensifyLvl)
         }
 
         // self:_GetRemould(heroInfo.ArrRemouldEffect)
@@ -50,10 +48,10 @@ export class HeroBasicArrt extends Attribute {
         // equip = self:_formatEquip(equip)
         // local isNpc = npcAssistFleetMgr:IsNpcHeroId(heroInfo.HeroId)
         // self:_GetEquipAttr(equip, isNpc, copyId)
-        const equip = ship.Equips[0].Equip.filter((v) => {
-            return v.EquipsId
-        })
-
+        // 看不懂，先放在这里
+        // const equip = ship.Equips[0].Equip.map((v) => {
+        //     return v.EquipsId
+        // })
     }
 }
 

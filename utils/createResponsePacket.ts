@@ -27,7 +27,7 @@ export function sendResponsePacket(
     method: string,
     ret: Uint8Array,
     callbackHandler: number | null,
-    token: string | null,
+    token: string | null
 ) {
     const resData = TResponse.create({
         Err: 0,
@@ -38,7 +38,7 @@ export function sendResponsePacket(
         Time: Math.round(Date.now() / 1000),
         Token: token,
         Seq: getSeq(socket),
-        IsResponse: 1,
+        IsResponse: 1
     })
     socket.write(createFinalPacket(TResponse.encode(resData).finish()))
 }

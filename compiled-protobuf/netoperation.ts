@@ -5,1025 +5,1068 @@
 // source: netoperation.proto
 
 /* eslint-disable */
-import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
+import { BinaryReader, BinaryWriter } from '@bufbuild/protobuf/wire'
 
-export const protobufPackage = "netoperation";
+export const protobufPackage = 'netoperation'
 
 export interface TAckPack {
-  ackId?: number | undefined;
-  opeList: TNetOperation[];
+    ackId?: number | undefined
+    opeList: TNetOperation[]
 }
 
 export interface TCopyLocal2NetFleetInfo {
-  isPlayer?: boolean | undefined;
-  findNumByNPC?: number | undefined;
-  shipsInfo: TCopyLocal2NetShipInfo[];
+    isPlayer?: boolean | undefined
+    findNumByNPC?: number | undefined
+    shipsInfo: TCopyLocal2NetShipInfo[]
 }
 
 export interface TCopyLocal2NetShipInfo {
-  isEnemy?: boolean | undefined;
-  isResident?: boolean | undefined;
-  serverUid?: number | undefined;
-  shipEnemyId?: number | undefined;
-  hp?: number | undefined;
-  joinBattle?: boolean | undefined;
-  isMVP?: boolean | undefined;
+    isEnemy?: boolean | undefined
+    isResident?: boolean | undefined
+    serverUid?: number | undefined
+    shipEnemyId?: number | undefined
+    hp?: number | undefined
+    joinBattle?: boolean | undefined
+    isMVP?: boolean | undefined
 }
 
 export interface TNetOpeList {
-  frameCount?: number | undefined;
-  opes: TNetOperation[];
+    frameCount?: number | undefined
+    opes: TNetOperation[]
 }
 
 export interface TNetOperation {
-  frame?: number | undefined;
-  index?: number | undefined;
-  opCode?: number | undefined;
-  data?: Uint8Array | undefined;
+    frame?: number | undefined
+    index?: number | undefined
+    opCode?: number | undefined
+    data?: Uint8Array | undefined
 }
 
 export interface TResultData {
-  mainCD?: number | undefined;
-  useTimeInBattle?: number | undefined;
-  lastTimeInSearch?: number | undefined;
-  grade?: number | undefined;
-  inBattle?: boolean | undefined;
-  searchAerialAttack?: boolean | undefined;
-  isRes?: boolean | undefined;
-  resultInfos: TCopyLocal2NetFleetInfo[];
-  enemyFleetDictId?: number | undefined;
-  isFinalEnemy?: boolean | undefined;
-  LBPoint?: number | undefined;
-  isSupportFleet?: boolean | undefined;
+    mainCD?: number | undefined
+    useTimeInBattle?: number | undefined
+    lastTimeInSearch?: number | undefined
+    grade?: number | undefined
+    inBattle?: boolean | undefined
+    searchAerialAttack?: boolean | undefined
+    isRes?: boolean | undefined
+    resultInfos: TCopyLocal2NetFleetInfo[]
+    enemyFleetDictId?: number | undefined
+    isFinalEnemy?: boolean | undefined
+    LBPoint?: number | undefined
+    isSupportFleet?: boolean | undefined
 }
 
 export interface TVerifyPackage {
-  opes?: TNetOpeList | undefined;
-  result?: TResultData | undefined;
+    opes?: TNetOpeList | undefined
+    result?: TResultData | undefined
 }
 
 export interface TVerifyRet {
-  retCode?: number | undefined;
+    retCode?: number | undefined
 }
 
 function createBaseTAckPack(): TAckPack {
-  return { ackId: 0, opeList: [] };
+    return { ackId: 0, opeList: [] }
 }
 
 export const TAckPack: MessageFns<TAckPack> = {
-  encode(message: TAckPack, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.ackId !== undefined && message.ackId !== 0) {
-      writer.uint32(8).int32(message.ackId);
-    }
-    for (const v of message.opeList) {
-      TNetOperation.encode(v!, writer.uint32(18).fork()).join();
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): TAckPack {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseTAckPack();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 8) {
-            break;
-          }
-
-          message.ackId = reader.int32();
-          continue;
+    encode(message: TAckPack, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+        if (message.ackId !== undefined && message.ackId !== 0) {
+            writer.uint32(8).int32(message.ackId)
         }
-        case 2: {
-          if (tag !== 18) {
-            break;
-          }
-
-          message.opeList.push(TNetOperation.decode(reader, reader.uint32()));
-          continue;
+        for (const v of message.opeList) {
+            TNetOperation.encode(v!, writer.uint32(18).fork()).join()
         }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
+        return writer
+    },
 
-  fromJSON(object: any): TAckPack {
-    return {
-      ackId: isSet(object.ackId) ? globalThis.Number(object.ackId) : 0,
-      opeList: globalThis.Array.isArray(object?.opeList)
-        ? object.opeList.map((e: any) => TNetOperation.fromJSON(e))
-        : [],
-    };
-  },
+    decode(input: BinaryReader | Uint8Array, length?: number): TAckPack {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input)
+        const end = length === undefined ? reader.len : reader.pos + length
+        const message = createBaseTAckPack()
+        while (reader.pos < end) {
+            const tag = reader.uint32()
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 8) {
+                        break
+                    }
 
-  toJSON(message: TAckPack): unknown {
-    const obj: any = {};
-    if (message.ackId !== undefined && message.ackId !== 0) {
-      obj.ackId = Math.round(message.ackId);
-    }
-    if (message.opeList?.length) {
-      obj.opeList = message.opeList.map((e) => TNetOperation.toJSON(e));
-    }
-    return obj;
-  },
+                    message.ackId = reader.int32()
+                    continue
+                }
+                case 2: {
+                    if (tag !== 18) {
+                        break
+                    }
 
-  create<I extends Exact<DeepPartial<TAckPack>, I>>(base?: I): TAckPack {
-    return TAckPack.fromPartial(base ?? ({} as any));
-  },
-  fromPartial<I extends Exact<DeepPartial<TAckPack>, I>>(object: I): TAckPack {
-    const message = createBaseTAckPack();
-    message.ackId = object.ackId ?? 0;
-    message.opeList = object.opeList?.map((e) => TNetOperation.fromPartial(e)) || [];
-    return message;
-  },
-};
+                    message.opeList.push(TNetOperation.decode(reader, reader.uint32()))
+                    continue
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break
+            }
+            reader.skip(tag & 7)
+        }
+        return message
+    },
+
+    fromJSON(object: any): TAckPack {
+        return {
+            ackId: isSet(object.ackId) ? globalThis.Number(object.ackId) : 0,
+            opeList: globalThis.Array.isArray(object?.opeList)
+                ? object.opeList.map((e: any) => TNetOperation.fromJSON(e))
+                : []
+        }
+    },
+
+    toJSON(message: TAckPack): unknown {
+        const obj: any = {}
+        if (message.ackId !== undefined && message.ackId !== 0) {
+            obj.ackId = Math.round(message.ackId)
+        }
+        if (message.opeList?.length) {
+            obj.opeList = message.opeList.map((e) => TNetOperation.toJSON(e))
+        }
+        return obj
+    },
+
+    create<I extends Exact<DeepPartial<TAckPack>, I>>(base?: I): TAckPack {
+        return TAckPack.fromPartial(base ?? ({} as any))
+    },
+    fromPartial<I extends Exact<DeepPartial<TAckPack>, I>>(object: I): TAckPack {
+        const message = createBaseTAckPack()
+        message.ackId = object.ackId ?? 0
+        message.opeList = object.opeList?.map((e) => TNetOperation.fromPartial(e)) || []
+        return message
+    }
+}
 
 function createBaseTCopyLocal2NetFleetInfo(): TCopyLocal2NetFleetInfo {
-  return { isPlayer: false, findNumByNPC: 0, shipsInfo: [] };
+    return { isPlayer: false, findNumByNPC: 0, shipsInfo: [] }
 }
 
 export const TCopyLocal2NetFleetInfo: MessageFns<TCopyLocal2NetFleetInfo> = {
-  encode(message: TCopyLocal2NetFleetInfo, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.isPlayer !== undefined && message.isPlayer !== false) {
-      writer.uint32(8).bool(message.isPlayer);
-    }
-    if (message.findNumByNPC !== undefined && message.findNumByNPC !== 0) {
-      writer.uint32(16).int32(message.findNumByNPC);
-    }
-    for (const v of message.shipsInfo) {
-      TCopyLocal2NetShipInfo.encode(v!, writer.uint32(26).fork()).join();
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): TCopyLocal2NetFleetInfo {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseTCopyLocal2NetFleetInfo();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 8) {
-            break;
-          }
-
-          message.isPlayer = reader.bool();
-          continue;
+    encode(
+        message: TCopyLocal2NetFleetInfo,
+        writer: BinaryWriter = new BinaryWriter()
+    ): BinaryWriter {
+        if (message.isPlayer !== undefined && message.isPlayer !== false) {
+            writer.uint32(8).bool(message.isPlayer)
         }
-        case 2: {
-          if (tag !== 16) {
-            break;
-          }
-
-          message.findNumByNPC = reader.int32();
-          continue;
+        if (message.findNumByNPC !== undefined && message.findNumByNPC !== 0) {
+            writer.uint32(16).int32(message.findNumByNPC)
         }
-        case 3: {
-          if (tag !== 26) {
-            break;
-          }
-
-          message.shipsInfo.push(TCopyLocal2NetShipInfo.decode(reader, reader.uint32()));
-          continue;
+        for (const v of message.shipsInfo) {
+            TCopyLocal2NetShipInfo.encode(v!, writer.uint32(26).fork()).join()
         }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
+        return writer
+    },
 
-  fromJSON(object: any): TCopyLocal2NetFleetInfo {
-    return {
-      isPlayer: isSet(object.isPlayer) ? globalThis.Boolean(object.isPlayer) : false,
-      findNumByNPC: isSet(object.findNumByNPC) ? globalThis.Number(object.findNumByNPC) : 0,
-      shipsInfo: globalThis.Array.isArray(object?.shipsInfo)
-        ? object.shipsInfo.map((e: any) => TCopyLocal2NetShipInfo.fromJSON(e))
-        : [],
-    };
-  },
+    decode(input: BinaryReader | Uint8Array, length?: number): TCopyLocal2NetFleetInfo {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input)
+        const end = length === undefined ? reader.len : reader.pos + length
+        const message = createBaseTCopyLocal2NetFleetInfo()
+        while (reader.pos < end) {
+            const tag = reader.uint32()
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 8) {
+                        break
+                    }
 
-  toJSON(message: TCopyLocal2NetFleetInfo): unknown {
-    const obj: any = {};
-    if (message.isPlayer !== undefined && message.isPlayer !== false) {
-      obj.isPlayer = message.isPlayer;
-    }
-    if (message.findNumByNPC !== undefined && message.findNumByNPC !== 0) {
-      obj.findNumByNPC = Math.round(message.findNumByNPC);
-    }
-    if (message.shipsInfo?.length) {
-      obj.shipsInfo = message.shipsInfo.map((e) => TCopyLocal2NetShipInfo.toJSON(e));
-    }
-    return obj;
-  },
+                    message.isPlayer = reader.bool()
+                    continue
+                }
+                case 2: {
+                    if (tag !== 16) {
+                        break
+                    }
 
-  create<I extends Exact<DeepPartial<TCopyLocal2NetFleetInfo>, I>>(base?: I): TCopyLocal2NetFleetInfo {
-    return TCopyLocal2NetFleetInfo.fromPartial(base ?? ({} as any));
-  },
-  fromPartial<I extends Exact<DeepPartial<TCopyLocal2NetFleetInfo>, I>>(object: I): TCopyLocal2NetFleetInfo {
-    const message = createBaseTCopyLocal2NetFleetInfo();
-    message.isPlayer = object.isPlayer ?? false;
-    message.findNumByNPC = object.findNumByNPC ?? 0;
-    message.shipsInfo = object.shipsInfo?.map((e) => TCopyLocal2NetShipInfo.fromPartial(e)) || [];
-    return message;
-  },
-};
+                    message.findNumByNPC = reader.int32()
+                    continue
+                }
+                case 3: {
+                    if (tag !== 26) {
+                        break
+                    }
+
+                    message.shipsInfo.push(TCopyLocal2NetShipInfo.decode(reader, reader.uint32()))
+                    continue
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break
+            }
+            reader.skip(tag & 7)
+        }
+        return message
+    },
+
+    fromJSON(object: any): TCopyLocal2NetFleetInfo {
+        return {
+            isPlayer: isSet(object.isPlayer) ? globalThis.Boolean(object.isPlayer) : false,
+            findNumByNPC: isSet(object.findNumByNPC) ? globalThis.Number(object.findNumByNPC) : 0,
+            shipsInfo: globalThis.Array.isArray(object?.shipsInfo)
+                ? object.shipsInfo.map((e: any) => TCopyLocal2NetShipInfo.fromJSON(e))
+                : []
+        }
+    },
+
+    toJSON(message: TCopyLocal2NetFleetInfo): unknown {
+        const obj: any = {}
+        if (message.isPlayer !== undefined && message.isPlayer !== false) {
+            obj.isPlayer = message.isPlayer
+        }
+        if (message.findNumByNPC !== undefined && message.findNumByNPC !== 0) {
+            obj.findNumByNPC = Math.round(message.findNumByNPC)
+        }
+        if (message.shipsInfo?.length) {
+            obj.shipsInfo = message.shipsInfo.map((e) => TCopyLocal2NetShipInfo.toJSON(e))
+        }
+        return obj
+    },
+
+    create<I extends Exact<DeepPartial<TCopyLocal2NetFleetInfo>, I>>(
+        base?: I
+    ): TCopyLocal2NetFleetInfo {
+        return TCopyLocal2NetFleetInfo.fromPartial(base ?? ({} as any))
+    },
+    fromPartial<I extends Exact<DeepPartial<TCopyLocal2NetFleetInfo>, I>>(
+        object: I
+    ): TCopyLocal2NetFleetInfo {
+        const message = createBaseTCopyLocal2NetFleetInfo()
+        message.isPlayer = object.isPlayer ?? false
+        message.findNumByNPC = object.findNumByNPC ?? 0
+        message.shipsInfo = object.shipsInfo?.map((e) => TCopyLocal2NetShipInfo.fromPartial(e)) ||
+            []
+        return message
+    }
+}
 
 function createBaseTCopyLocal2NetShipInfo(): TCopyLocal2NetShipInfo {
-  return { isEnemy: false, isResident: false, serverUid: 0, shipEnemyId: 0, hp: 0, joinBattle: false, isMVP: false };
+    return {
+        isEnemy: false,
+        isResident: false,
+        serverUid: 0,
+        shipEnemyId: 0,
+        hp: 0,
+        joinBattle: false,
+        isMVP: false
+    }
 }
 
 export const TCopyLocal2NetShipInfo: MessageFns<TCopyLocal2NetShipInfo> = {
-  encode(message: TCopyLocal2NetShipInfo, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.isEnemy !== undefined && message.isEnemy !== false) {
-      writer.uint32(8).bool(message.isEnemy);
-    }
-    if (message.isResident !== undefined && message.isResident !== false) {
-      writer.uint32(16).bool(message.isResident);
-    }
-    if (message.serverUid !== undefined && message.serverUid !== 0) {
-      writer.uint32(24).int64(message.serverUid);
-    }
-    if (message.shipEnemyId !== undefined && message.shipEnemyId !== 0) {
-      writer.uint32(32).int32(message.shipEnemyId);
-    }
-    if (message.hp !== undefined && message.hp !== 0) {
-      writer.uint32(40).uint64(message.hp);
-    }
-    if (message.joinBattle !== undefined && message.joinBattle !== false) {
-      writer.uint32(48).bool(message.joinBattle);
-    }
-    if (message.isMVP !== undefined && message.isMVP !== false) {
-      writer.uint32(56).bool(message.isMVP);
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): TCopyLocal2NetShipInfo {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseTCopyLocal2NetShipInfo();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 8) {
-            break;
-          }
-
-          message.isEnemy = reader.bool();
-          continue;
+    encode(
+        message: TCopyLocal2NetShipInfo,
+        writer: BinaryWriter = new BinaryWriter()
+    ): BinaryWriter {
+        if (message.isEnemy !== undefined && message.isEnemy !== false) {
+            writer.uint32(8).bool(message.isEnemy)
         }
-        case 2: {
-          if (tag !== 16) {
-            break;
-          }
-
-          message.isResident = reader.bool();
-          continue;
+        if (message.isResident !== undefined && message.isResident !== false) {
+            writer.uint32(16).bool(message.isResident)
         }
-        case 3: {
-          if (tag !== 24) {
-            break;
-          }
-
-          message.serverUid = longToNumber(reader.int64());
-          continue;
+        if (message.serverUid !== undefined && message.serverUid !== 0) {
+            writer.uint32(24).int64(message.serverUid)
         }
-        case 4: {
-          if (tag !== 32) {
-            break;
-          }
-
-          message.shipEnemyId = reader.int32();
-          continue;
+        if (message.shipEnemyId !== undefined && message.shipEnemyId !== 0) {
+            writer.uint32(32).int32(message.shipEnemyId)
         }
-        case 5: {
-          if (tag !== 40) {
-            break;
-          }
-
-          message.hp = longToNumber(reader.uint64());
-          continue;
+        if (message.hp !== undefined && message.hp !== 0) {
+            writer.uint32(40).uint64(message.hp)
         }
-        case 6: {
-          if (tag !== 48) {
-            break;
-          }
-
-          message.joinBattle = reader.bool();
-          continue;
+        if (message.joinBattle !== undefined && message.joinBattle !== false) {
+            writer.uint32(48).bool(message.joinBattle)
         }
-        case 7: {
-          if (tag !== 56) {
-            break;
-          }
-
-          message.isMVP = reader.bool();
-          continue;
+        if (message.isMVP !== undefined && message.isMVP !== false) {
+            writer.uint32(56).bool(message.isMVP)
         }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
+        return writer
+    },
 
-  fromJSON(object: any): TCopyLocal2NetShipInfo {
-    return {
-      isEnemy: isSet(object.isEnemy) ? globalThis.Boolean(object.isEnemy) : false,
-      isResident: isSet(object.isResident) ? globalThis.Boolean(object.isResident) : false,
-      serverUid: isSet(object.serverUid) ? globalThis.Number(object.serverUid) : 0,
-      shipEnemyId: isSet(object.shipEnemyId) ? globalThis.Number(object.shipEnemyId) : 0,
-      hp: isSet(object.hp) ? globalThis.Number(object.hp) : 0,
-      joinBattle: isSet(object.joinBattle) ? globalThis.Boolean(object.joinBattle) : false,
-      isMVP: isSet(object.isMVP) ? globalThis.Boolean(object.isMVP) : false,
-    };
-  },
+    decode(input: BinaryReader | Uint8Array, length?: number): TCopyLocal2NetShipInfo {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input)
+        const end = length === undefined ? reader.len : reader.pos + length
+        const message = createBaseTCopyLocal2NetShipInfo()
+        while (reader.pos < end) {
+            const tag = reader.uint32()
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 8) {
+                        break
+                    }
 
-  toJSON(message: TCopyLocal2NetShipInfo): unknown {
-    const obj: any = {};
-    if (message.isEnemy !== undefined && message.isEnemy !== false) {
-      obj.isEnemy = message.isEnemy;
-    }
-    if (message.isResident !== undefined && message.isResident !== false) {
-      obj.isResident = message.isResident;
-    }
-    if (message.serverUid !== undefined && message.serverUid !== 0) {
-      obj.serverUid = Math.round(message.serverUid);
-    }
-    if (message.shipEnemyId !== undefined && message.shipEnemyId !== 0) {
-      obj.shipEnemyId = Math.round(message.shipEnemyId);
-    }
-    if (message.hp !== undefined && message.hp !== 0) {
-      obj.hp = Math.round(message.hp);
-    }
-    if (message.joinBattle !== undefined && message.joinBattle !== false) {
-      obj.joinBattle = message.joinBattle;
-    }
-    if (message.isMVP !== undefined && message.isMVP !== false) {
-      obj.isMVP = message.isMVP;
-    }
-    return obj;
-  },
+                    message.isEnemy = reader.bool()
+                    continue
+                }
+                case 2: {
+                    if (tag !== 16) {
+                        break
+                    }
 
-  create<I extends Exact<DeepPartial<TCopyLocal2NetShipInfo>, I>>(base?: I): TCopyLocal2NetShipInfo {
-    return TCopyLocal2NetShipInfo.fromPartial(base ?? ({} as any));
-  },
-  fromPartial<I extends Exact<DeepPartial<TCopyLocal2NetShipInfo>, I>>(object: I): TCopyLocal2NetShipInfo {
-    const message = createBaseTCopyLocal2NetShipInfo();
-    message.isEnemy = object.isEnemy ?? false;
-    message.isResident = object.isResident ?? false;
-    message.serverUid = object.serverUid ?? 0;
-    message.shipEnemyId = object.shipEnemyId ?? 0;
-    message.hp = object.hp ?? 0;
-    message.joinBattle = object.joinBattle ?? false;
-    message.isMVP = object.isMVP ?? false;
-    return message;
-  },
-};
+                    message.isResident = reader.bool()
+                    continue
+                }
+                case 3: {
+                    if (tag !== 24) {
+                        break
+                    }
+
+                    message.serverUid = longToNumber(reader.int64())
+                    continue
+                }
+                case 4: {
+                    if (tag !== 32) {
+                        break
+                    }
+
+                    message.shipEnemyId = reader.int32()
+                    continue
+                }
+                case 5: {
+                    if (tag !== 40) {
+                        break
+                    }
+
+                    message.hp = longToNumber(reader.uint64())
+                    continue
+                }
+                case 6: {
+                    if (tag !== 48) {
+                        break
+                    }
+
+                    message.joinBattle = reader.bool()
+                    continue
+                }
+                case 7: {
+                    if (tag !== 56) {
+                        break
+                    }
+
+                    message.isMVP = reader.bool()
+                    continue
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break
+            }
+            reader.skip(tag & 7)
+        }
+        return message
+    },
+
+    fromJSON(object: any): TCopyLocal2NetShipInfo {
+        return {
+            isEnemy: isSet(object.isEnemy) ? globalThis.Boolean(object.isEnemy) : false,
+            isResident: isSet(object.isResident) ? globalThis.Boolean(object.isResident) : false,
+            serverUid: isSet(object.serverUid) ? globalThis.Number(object.serverUid) : 0,
+            shipEnemyId: isSet(object.shipEnemyId) ? globalThis.Number(object.shipEnemyId) : 0,
+            hp: isSet(object.hp) ? globalThis.Number(object.hp) : 0,
+            joinBattle: isSet(object.joinBattle) ? globalThis.Boolean(object.joinBattle) : false,
+            isMVP: isSet(object.isMVP) ? globalThis.Boolean(object.isMVP) : false
+        }
+    },
+
+    toJSON(message: TCopyLocal2NetShipInfo): unknown {
+        const obj: any = {}
+        if (message.isEnemy !== undefined && message.isEnemy !== false) {
+            obj.isEnemy = message.isEnemy
+        }
+        if (message.isResident !== undefined && message.isResident !== false) {
+            obj.isResident = message.isResident
+        }
+        if (message.serverUid !== undefined && message.serverUid !== 0) {
+            obj.serverUid = Math.round(message.serverUid)
+        }
+        if (message.shipEnemyId !== undefined && message.shipEnemyId !== 0) {
+            obj.shipEnemyId = Math.round(message.shipEnemyId)
+        }
+        if (message.hp !== undefined && message.hp !== 0) {
+            obj.hp = Math.round(message.hp)
+        }
+        if (message.joinBattle !== undefined && message.joinBattle !== false) {
+            obj.joinBattle = message.joinBattle
+        }
+        if (message.isMVP !== undefined && message.isMVP !== false) {
+            obj.isMVP = message.isMVP
+        }
+        return obj
+    },
+
+    create<I extends Exact<DeepPartial<TCopyLocal2NetShipInfo>, I>>(
+        base?: I
+    ): TCopyLocal2NetShipInfo {
+        return TCopyLocal2NetShipInfo.fromPartial(base ?? ({} as any))
+    },
+    fromPartial<I extends Exact<DeepPartial<TCopyLocal2NetShipInfo>, I>>(
+        object: I
+    ): TCopyLocal2NetShipInfo {
+        const message = createBaseTCopyLocal2NetShipInfo()
+        message.isEnemy = object.isEnemy ?? false
+        message.isResident = object.isResident ?? false
+        message.serverUid = object.serverUid ?? 0
+        message.shipEnemyId = object.shipEnemyId ?? 0
+        message.hp = object.hp ?? 0
+        message.joinBattle = object.joinBattle ?? false
+        message.isMVP = object.isMVP ?? false
+        return message
+    }
+}
 
 function createBaseTNetOpeList(): TNetOpeList {
-  return { frameCount: 0, opes: [] };
+    return { frameCount: 0, opes: [] }
 }
 
 export const TNetOpeList: MessageFns<TNetOpeList> = {
-  encode(message: TNetOpeList, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.frameCount !== undefined && message.frameCount !== 0) {
-      writer.uint32(8).int32(message.frameCount);
-    }
-    for (const v of message.opes) {
-      TNetOperation.encode(v!, writer.uint32(18).fork()).join();
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): TNetOpeList {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseTNetOpeList();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 8) {
-            break;
-          }
-
-          message.frameCount = reader.int32();
-          continue;
+    encode(message: TNetOpeList, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+        if (message.frameCount !== undefined && message.frameCount !== 0) {
+            writer.uint32(8).int32(message.frameCount)
         }
-        case 2: {
-          if (tag !== 18) {
-            break;
-          }
-
-          message.opes.push(TNetOperation.decode(reader, reader.uint32()));
-          continue;
+        for (const v of message.opes) {
+            TNetOperation.encode(v!, writer.uint32(18).fork()).join()
         }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
+        return writer
+    },
 
-  fromJSON(object: any): TNetOpeList {
-    return {
-      frameCount: isSet(object.frameCount) ? globalThis.Number(object.frameCount) : 0,
-      opes: globalThis.Array.isArray(object?.opes) ? object.opes.map((e: any) => TNetOperation.fromJSON(e)) : [],
-    };
-  },
+    decode(input: BinaryReader | Uint8Array, length?: number): TNetOpeList {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input)
+        const end = length === undefined ? reader.len : reader.pos + length
+        const message = createBaseTNetOpeList()
+        while (reader.pos < end) {
+            const tag = reader.uint32()
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 8) {
+                        break
+                    }
 
-  toJSON(message: TNetOpeList): unknown {
-    const obj: any = {};
-    if (message.frameCount !== undefined && message.frameCount !== 0) {
-      obj.frameCount = Math.round(message.frameCount);
-    }
-    if (message.opes?.length) {
-      obj.opes = message.opes.map((e) => TNetOperation.toJSON(e));
-    }
-    return obj;
-  },
+                    message.frameCount = reader.int32()
+                    continue
+                }
+                case 2: {
+                    if (tag !== 18) {
+                        break
+                    }
 
-  create<I extends Exact<DeepPartial<TNetOpeList>, I>>(base?: I): TNetOpeList {
-    return TNetOpeList.fromPartial(base ?? ({} as any));
-  },
-  fromPartial<I extends Exact<DeepPartial<TNetOpeList>, I>>(object: I): TNetOpeList {
-    const message = createBaseTNetOpeList();
-    message.frameCount = object.frameCount ?? 0;
-    message.opes = object.opes?.map((e) => TNetOperation.fromPartial(e)) || [];
-    return message;
-  },
-};
+                    message.opes.push(TNetOperation.decode(reader, reader.uint32()))
+                    continue
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break
+            }
+            reader.skip(tag & 7)
+        }
+        return message
+    },
+
+    fromJSON(object: any): TNetOpeList {
+        return {
+            frameCount: isSet(object.frameCount) ? globalThis.Number(object.frameCount) : 0,
+            opes: globalThis.Array.isArray(object?.opes)
+                ? object.opes.map((e: any) => TNetOperation.fromJSON(e))
+                : []
+        }
+    },
+
+    toJSON(message: TNetOpeList): unknown {
+        const obj: any = {}
+        if (message.frameCount !== undefined && message.frameCount !== 0) {
+            obj.frameCount = Math.round(message.frameCount)
+        }
+        if (message.opes?.length) {
+            obj.opes = message.opes.map((e) => TNetOperation.toJSON(e))
+        }
+        return obj
+    },
+
+    create<I extends Exact<DeepPartial<TNetOpeList>, I>>(base?: I): TNetOpeList {
+        return TNetOpeList.fromPartial(base ?? ({} as any))
+    },
+    fromPartial<I extends Exact<DeepPartial<TNetOpeList>, I>>(object: I): TNetOpeList {
+        const message = createBaseTNetOpeList()
+        message.frameCount = object.frameCount ?? 0
+        message.opes = object.opes?.map((e) => TNetOperation.fromPartial(e)) || []
+        return message
+    }
+}
 
 function createBaseTNetOperation(): TNetOperation {
-  return { frame: 0, index: 0, opCode: 0, data: new Uint8Array(0) };
+    return { frame: 0, index: 0, opCode: 0, data: new Uint8Array(0) }
 }
 
 export const TNetOperation: MessageFns<TNetOperation> = {
-  encode(message: TNetOperation, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.frame !== undefined && message.frame !== 0) {
-      writer.uint32(8).int32(message.frame);
-    }
-    if (message.index !== undefined && message.index !== 0) {
-      writer.uint32(16).int32(message.index);
-    }
-    if (message.opCode !== undefined && message.opCode !== 0) {
-      writer.uint32(24).int32(message.opCode);
-    }
-    if (message.data !== undefined && message.data.length !== 0) {
-      writer.uint32(34).bytes(message.data);
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): TNetOperation {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseTNetOperation();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 8) {
-            break;
-          }
-
-          message.frame = reader.int32();
-          continue;
+    encode(message: TNetOperation, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+        if (message.frame !== undefined && message.frame !== 0) {
+            writer.uint32(8).int32(message.frame)
         }
-        case 2: {
-          if (tag !== 16) {
-            break;
-          }
-
-          message.index = reader.int32();
-          continue;
+        if (message.index !== undefined && message.index !== 0) {
+            writer.uint32(16).int32(message.index)
         }
-        case 3: {
-          if (tag !== 24) {
-            break;
-          }
-
-          message.opCode = reader.int32();
-          continue;
+        if (message.opCode !== undefined && message.opCode !== 0) {
+            writer.uint32(24).int32(message.opCode)
         }
-        case 4: {
-          if (tag !== 34) {
-            break;
-          }
-
-          message.data = reader.bytes();
-          continue;
+        if (message.data !== undefined && message.data.length !== 0) {
+            writer.uint32(34).bytes(message.data)
         }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
+        return writer
+    },
 
-  fromJSON(object: any): TNetOperation {
-    return {
-      frame: isSet(object.frame) ? globalThis.Number(object.frame) : 0,
-      index: isSet(object.index) ? globalThis.Number(object.index) : 0,
-      opCode: isSet(object.opCode) ? globalThis.Number(object.opCode) : 0,
-      data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array(0),
-    };
-  },
+    decode(input: BinaryReader | Uint8Array, length?: number): TNetOperation {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input)
+        const end = length === undefined ? reader.len : reader.pos + length
+        const message = createBaseTNetOperation()
+        while (reader.pos < end) {
+            const tag = reader.uint32()
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 8) {
+                        break
+                    }
 
-  toJSON(message: TNetOperation): unknown {
-    const obj: any = {};
-    if (message.frame !== undefined && message.frame !== 0) {
-      obj.frame = Math.round(message.frame);
-    }
-    if (message.index !== undefined && message.index !== 0) {
-      obj.index = Math.round(message.index);
-    }
-    if (message.opCode !== undefined && message.opCode !== 0) {
-      obj.opCode = Math.round(message.opCode);
-    }
-    if (message.data !== undefined && message.data.length !== 0) {
-      obj.data = base64FromBytes(message.data);
-    }
-    return obj;
-  },
+                    message.frame = reader.int32()
+                    continue
+                }
+                case 2: {
+                    if (tag !== 16) {
+                        break
+                    }
 
-  create<I extends Exact<DeepPartial<TNetOperation>, I>>(base?: I): TNetOperation {
-    return TNetOperation.fromPartial(base ?? ({} as any));
-  },
-  fromPartial<I extends Exact<DeepPartial<TNetOperation>, I>>(object: I): TNetOperation {
-    const message = createBaseTNetOperation();
-    message.frame = object.frame ?? 0;
-    message.index = object.index ?? 0;
-    message.opCode = object.opCode ?? 0;
-    message.data = object.data ?? new Uint8Array(0);
-    return message;
-  },
-};
+                    message.index = reader.int32()
+                    continue
+                }
+                case 3: {
+                    if (tag !== 24) {
+                        break
+                    }
+
+                    message.opCode = reader.int32()
+                    continue
+                }
+                case 4: {
+                    if (tag !== 34) {
+                        break
+                    }
+
+                    message.data = reader.bytes()
+                    continue
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break
+            }
+            reader.skip(tag & 7)
+        }
+        return message
+    },
+
+    fromJSON(object: any): TNetOperation {
+        return {
+            frame: isSet(object.frame) ? globalThis.Number(object.frame) : 0,
+            index: isSet(object.index) ? globalThis.Number(object.index) : 0,
+            opCode: isSet(object.opCode) ? globalThis.Number(object.opCode) : 0,
+            data: isSet(object.data) ? bytesFromBase64(object.data) : new Uint8Array(0)
+        }
+    },
+
+    toJSON(message: TNetOperation): unknown {
+        const obj: any = {}
+        if (message.frame !== undefined && message.frame !== 0) {
+            obj.frame = Math.round(message.frame)
+        }
+        if (message.index !== undefined && message.index !== 0) {
+            obj.index = Math.round(message.index)
+        }
+        if (message.opCode !== undefined && message.opCode !== 0) {
+            obj.opCode = Math.round(message.opCode)
+        }
+        if (message.data !== undefined && message.data.length !== 0) {
+            obj.data = base64FromBytes(message.data)
+        }
+        return obj
+    },
+
+    create<I extends Exact<DeepPartial<TNetOperation>, I>>(base?: I): TNetOperation {
+        return TNetOperation.fromPartial(base ?? ({} as any))
+    },
+    fromPartial<I extends Exact<DeepPartial<TNetOperation>, I>>(object: I): TNetOperation {
+        const message = createBaseTNetOperation()
+        message.frame = object.frame ?? 0
+        message.index = object.index ?? 0
+        message.opCode = object.opCode ?? 0
+        message.data = object.data ?? new Uint8Array(0)
+        return message
+    }
+}
 
 function createBaseTResultData(): TResultData {
-  return {
-    mainCD: 0,
-    useTimeInBattle: 0,
-    lastTimeInSearch: 0,
-    grade: 0,
-    inBattle: false,
-    searchAerialAttack: false,
-    isRes: false,
-    resultInfos: [],
-    enemyFleetDictId: 0,
-    isFinalEnemy: false,
-    LBPoint: 0,
-    isSupportFleet: false,
-  };
+    return {
+        mainCD: 0,
+        useTimeInBattle: 0,
+        lastTimeInSearch: 0,
+        grade: 0,
+        inBattle: false,
+        searchAerialAttack: false,
+        isRes: false,
+        resultInfos: [],
+        enemyFleetDictId: 0,
+        isFinalEnemy: false,
+        LBPoint: 0,
+        isSupportFleet: false
+    }
 }
 
 export const TResultData: MessageFns<TResultData> = {
-  encode(message: TResultData, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.mainCD !== undefined && message.mainCD !== 0) {
-      writer.uint32(8).int32(message.mainCD);
-    }
-    if (message.useTimeInBattle !== undefined && message.useTimeInBattle !== 0) {
-      writer.uint32(16).int32(message.useTimeInBattle);
-    }
-    if (message.lastTimeInSearch !== undefined && message.lastTimeInSearch !== 0) {
-      writer.uint32(24).int32(message.lastTimeInSearch);
-    }
-    if (message.grade !== undefined && message.grade !== 0) {
-      writer.uint32(32).int32(message.grade);
-    }
-    if (message.inBattle !== undefined && message.inBattle !== false) {
-      writer.uint32(40).bool(message.inBattle);
-    }
-    if (message.searchAerialAttack !== undefined && message.searchAerialAttack !== false) {
-      writer.uint32(48).bool(message.searchAerialAttack);
-    }
-    if (message.isRes !== undefined && message.isRes !== false) {
-      writer.uint32(56).bool(message.isRes);
-    }
-    for (const v of message.resultInfos) {
-      TCopyLocal2NetFleetInfo.encode(v!, writer.uint32(66).fork()).join();
-    }
-    if (message.enemyFleetDictId !== undefined && message.enemyFleetDictId !== 0) {
-      writer.uint32(72).int32(message.enemyFleetDictId);
-    }
-    if (message.isFinalEnemy !== undefined && message.isFinalEnemy !== false) {
-      writer.uint32(80).bool(message.isFinalEnemy);
-    }
-    if (message.LBPoint !== undefined && message.LBPoint !== 0) {
-      writer.uint32(88).int32(message.LBPoint);
-    }
-    if (message.isSupportFleet !== undefined && message.isSupportFleet !== false) {
-      writer.uint32(96).bool(message.isSupportFleet);
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): TResultData {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseTResultData();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 8) {
-            break;
-          }
-
-          message.mainCD = reader.int32();
-          continue;
+    encode(message: TResultData, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+        if (message.mainCD !== undefined && message.mainCD !== 0) {
+            writer.uint32(8).int32(message.mainCD)
         }
-        case 2: {
-          if (tag !== 16) {
-            break;
-          }
-
-          message.useTimeInBattle = reader.int32();
-          continue;
+        if (message.useTimeInBattle !== undefined && message.useTimeInBattle !== 0) {
+            writer.uint32(16).int32(message.useTimeInBattle)
         }
-        case 3: {
-          if (tag !== 24) {
-            break;
-          }
-
-          message.lastTimeInSearch = reader.int32();
-          continue;
+        if (message.lastTimeInSearch !== undefined && message.lastTimeInSearch !== 0) {
+            writer.uint32(24).int32(message.lastTimeInSearch)
         }
-        case 4: {
-          if (tag !== 32) {
-            break;
-          }
-
-          message.grade = reader.int32();
-          continue;
+        if (message.grade !== undefined && message.grade !== 0) {
+            writer.uint32(32).int32(message.grade)
         }
-        case 5: {
-          if (tag !== 40) {
-            break;
-          }
-
-          message.inBattle = reader.bool();
-          continue;
+        if (message.inBattle !== undefined && message.inBattle !== false) {
+            writer.uint32(40).bool(message.inBattle)
         }
-        case 6: {
-          if (tag !== 48) {
-            break;
-          }
-
-          message.searchAerialAttack = reader.bool();
-          continue;
+        if (message.searchAerialAttack !== undefined && message.searchAerialAttack !== false) {
+            writer.uint32(48).bool(message.searchAerialAttack)
         }
-        case 7: {
-          if (tag !== 56) {
-            break;
-          }
-
-          message.isRes = reader.bool();
-          continue;
+        if (message.isRes !== undefined && message.isRes !== false) {
+            writer.uint32(56).bool(message.isRes)
         }
-        case 8: {
-          if (tag !== 66) {
-            break;
-          }
-
-          message.resultInfos.push(TCopyLocal2NetFleetInfo.decode(reader, reader.uint32()));
-          continue;
+        for (const v of message.resultInfos) {
+            TCopyLocal2NetFleetInfo.encode(v!, writer.uint32(66).fork()).join()
         }
-        case 9: {
-          if (tag !== 72) {
-            break;
-          }
-
-          message.enemyFleetDictId = reader.int32();
-          continue;
+        if (message.enemyFleetDictId !== undefined && message.enemyFleetDictId !== 0) {
+            writer.uint32(72).int32(message.enemyFleetDictId)
         }
-        case 10: {
-          if (tag !== 80) {
-            break;
-          }
-
-          message.isFinalEnemy = reader.bool();
-          continue;
+        if (message.isFinalEnemy !== undefined && message.isFinalEnemy !== false) {
+            writer.uint32(80).bool(message.isFinalEnemy)
         }
-        case 11: {
-          if (tag !== 88) {
-            break;
-          }
-
-          message.LBPoint = reader.int32();
-          continue;
+        if (message.LBPoint !== undefined && message.LBPoint !== 0) {
+            writer.uint32(88).int32(message.LBPoint)
         }
-        case 12: {
-          if (tag !== 96) {
-            break;
-          }
-
-          message.isSupportFleet = reader.bool();
-          continue;
+        if (message.isSupportFleet !== undefined && message.isSupportFleet !== false) {
+            writer.uint32(96).bool(message.isSupportFleet)
         }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
+        return writer
+    },
 
-  fromJSON(object: any): TResultData {
-    return {
-      mainCD: isSet(object.mainCD) ? globalThis.Number(object.mainCD) : 0,
-      useTimeInBattle: isSet(object.useTimeInBattle) ? globalThis.Number(object.useTimeInBattle) : 0,
-      lastTimeInSearch: isSet(object.lastTimeInSearch) ? globalThis.Number(object.lastTimeInSearch) : 0,
-      grade: isSet(object.grade) ? globalThis.Number(object.grade) : 0,
-      inBattle: isSet(object.inBattle) ? globalThis.Boolean(object.inBattle) : false,
-      searchAerialAttack: isSet(object.searchAerialAttack) ? globalThis.Boolean(object.searchAerialAttack) : false,
-      isRes: isSet(object.isRes) ? globalThis.Boolean(object.isRes) : false,
-      resultInfos: globalThis.Array.isArray(object?.resultInfos)
-        ? object.resultInfos.map((e: any) => TCopyLocal2NetFleetInfo.fromJSON(e))
-        : [],
-      enemyFleetDictId: isSet(object.enemyFleetDictId) ? globalThis.Number(object.enemyFleetDictId) : 0,
-      isFinalEnemy: isSet(object.isFinalEnemy) ? globalThis.Boolean(object.isFinalEnemy) : false,
-      LBPoint: isSet(object.LBPoint) ? globalThis.Number(object.LBPoint) : 0,
-      isSupportFleet: isSet(object.isSupportFleet) ? globalThis.Boolean(object.isSupportFleet) : false,
-    };
-  },
+    decode(input: BinaryReader | Uint8Array, length?: number): TResultData {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input)
+        const end = length === undefined ? reader.len : reader.pos + length
+        const message = createBaseTResultData()
+        while (reader.pos < end) {
+            const tag = reader.uint32()
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 8) {
+                        break
+                    }
 
-  toJSON(message: TResultData): unknown {
-    const obj: any = {};
-    if (message.mainCD !== undefined && message.mainCD !== 0) {
-      obj.mainCD = Math.round(message.mainCD);
-    }
-    if (message.useTimeInBattle !== undefined && message.useTimeInBattle !== 0) {
-      obj.useTimeInBattle = Math.round(message.useTimeInBattle);
-    }
-    if (message.lastTimeInSearch !== undefined && message.lastTimeInSearch !== 0) {
-      obj.lastTimeInSearch = Math.round(message.lastTimeInSearch);
-    }
-    if (message.grade !== undefined && message.grade !== 0) {
-      obj.grade = Math.round(message.grade);
-    }
-    if (message.inBattle !== undefined && message.inBattle !== false) {
-      obj.inBattle = message.inBattle;
-    }
-    if (message.searchAerialAttack !== undefined && message.searchAerialAttack !== false) {
-      obj.searchAerialAttack = message.searchAerialAttack;
-    }
-    if (message.isRes !== undefined && message.isRes !== false) {
-      obj.isRes = message.isRes;
-    }
-    if (message.resultInfos?.length) {
-      obj.resultInfos = message.resultInfos.map((e) => TCopyLocal2NetFleetInfo.toJSON(e));
-    }
-    if (message.enemyFleetDictId !== undefined && message.enemyFleetDictId !== 0) {
-      obj.enemyFleetDictId = Math.round(message.enemyFleetDictId);
-    }
-    if (message.isFinalEnemy !== undefined && message.isFinalEnemy !== false) {
-      obj.isFinalEnemy = message.isFinalEnemy;
-    }
-    if (message.LBPoint !== undefined && message.LBPoint !== 0) {
-      obj.LBPoint = Math.round(message.LBPoint);
-    }
-    if (message.isSupportFleet !== undefined && message.isSupportFleet !== false) {
-      obj.isSupportFleet = message.isSupportFleet;
-    }
-    return obj;
-  },
+                    message.mainCD = reader.int32()
+                    continue
+                }
+                case 2: {
+                    if (tag !== 16) {
+                        break
+                    }
 
-  create<I extends Exact<DeepPartial<TResultData>, I>>(base?: I): TResultData {
-    return TResultData.fromPartial(base ?? ({} as any));
-  },
-  fromPartial<I extends Exact<DeepPartial<TResultData>, I>>(object: I): TResultData {
-    const message = createBaseTResultData();
-    message.mainCD = object.mainCD ?? 0;
-    message.useTimeInBattle = object.useTimeInBattle ?? 0;
-    message.lastTimeInSearch = object.lastTimeInSearch ?? 0;
-    message.grade = object.grade ?? 0;
-    message.inBattle = object.inBattle ?? false;
-    message.searchAerialAttack = object.searchAerialAttack ?? false;
-    message.isRes = object.isRes ?? false;
-    message.resultInfos = object.resultInfos?.map((e) => TCopyLocal2NetFleetInfo.fromPartial(e)) || [];
-    message.enemyFleetDictId = object.enemyFleetDictId ?? 0;
-    message.isFinalEnemy = object.isFinalEnemy ?? false;
-    message.LBPoint = object.LBPoint ?? 0;
-    message.isSupportFleet = object.isSupportFleet ?? false;
-    return message;
-  },
-};
+                    message.useTimeInBattle = reader.int32()
+                    continue
+                }
+                case 3: {
+                    if (tag !== 24) {
+                        break
+                    }
+
+                    message.lastTimeInSearch = reader.int32()
+                    continue
+                }
+                case 4: {
+                    if (tag !== 32) {
+                        break
+                    }
+
+                    message.grade = reader.int32()
+                    continue
+                }
+                case 5: {
+                    if (tag !== 40) {
+                        break
+                    }
+
+                    message.inBattle = reader.bool()
+                    continue
+                }
+                case 6: {
+                    if (tag !== 48) {
+                        break
+                    }
+
+                    message.searchAerialAttack = reader.bool()
+                    continue
+                }
+                case 7: {
+                    if (tag !== 56) {
+                        break
+                    }
+
+                    message.isRes = reader.bool()
+                    continue
+                }
+                case 8: {
+                    if (tag !== 66) {
+                        break
+                    }
+
+                    message.resultInfos.push(
+                        TCopyLocal2NetFleetInfo.decode(reader, reader.uint32())
+                    )
+                    continue
+                }
+                case 9: {
+                    if (tag !== 72) {
+                        break
+                    }
+
+                    message.enemyFleetDictId = reader.int32()
+                    continue
+                }
+                case 10: {
+                    if (tag !== 80) {
+                        break
+                    }
+
+                    message.isFinalEnemy = reader.bool()
+                    continue
+                }
+                case 11: {
+                    if (tag !== 88) {
+                        break
+                    }
+
+                    message.LBPoint = reader.int32()
+                    continue
+                }
+                case 12: {
+                    if (tag !== 96) {
+                        break
+                    }
+
+                    message.isSupportFleet = reader.bool()
+                    continue
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break
+            }
+            reader.skip(tag & 7)
+        }
+        return message
+    },
+
+    fromJSON(object: any): TResultData {
+        return {
+            mainCD: isSet(object.mainCD) ? globalThis.Number(object.mainCD) : 0,
+            useTimeInBattle: isSet(object.useTimeInBattle)
+                ? globalThis.Number(object.useTimeInBattle)
+                : 0,
+            lastTimeInSearch: isSet(object.lastTimeInSearch)
+                ? globalThis.Number(object.lastTimeInSearch)
+                : 0,
+            grade: isSet(object.grade) ? globalThis.Number(object.grade) : 0,
+            inBattle: isSet(object.inBattle) ? globalThis.Boolean(object.inBattle) : false,
+            searchAerialAttack: isSet(object.searchAerialAttack)
+                ? globalThis.Boolean(object.searchAerialAttack)
+                : false,
+            isRes: isSet(object.isRes) ? globalThis.Boolean(object.isRes) : false,
+            resultInfos: globalThis.Array.isArray(object?.resultInfos)
+                ? object.resultInfos.map((e: any) => TCopyLocal2NetFleetInfo.fromJSON(e))
+                : [],
+            enemyFleetDictId: isSet(object.enemyFleetDictId)
+                ? globalThis.Number(object.enemyFleetDictId)
+                : 0,
+            isFinalEnemy: isSet(object.isFinalEnemy)
+                ? globalThis.Boolean(object.isFinalEnemy)
+                : false,
+            LBPoint: isSet(object.LBPoint) ? globalThis.Number(object.LBPoint) : 0,
+            isSupportFleet: isSet(object.isSupportFleet)
+                ? globalThis.Boolean(object.isSupportFleet)
+                : false
+        }
+    },
+
+    toJSON(message: TResultData): unknown {
+        const obj: any = {}
+        if (message.mainCD !== undefined && message.mainCD !== 0) {
+            obj.mainCD = Math.round(message.mainCD)
+        }
+        if (message.useTimeInBattle !== undefined && message.useTimeInBattle !== 0) {
+            obj.useTimeInBattle = Math.round(message.useTimeInBattle)
+        }
+        if (message.lastTimeInSearch !== undefined && message.lastTimeInSearch !== 0) {
+            obj.lastTimeInSearch = Math.round(message.lastTimeInSearch)
+        }
+        if (message.grade !== undefined && message.grade !== 0) {
+            obj.grade = Math.round(message.grade)
+        }
+        if (message.inBattle !== undefined && message.inBattle !== false) {
+            obj.inBattle = message.inBattle
+        }
+        if (message.searchAerialAttack !== undefined && message.searchAerialAttack !== false) {
+            obj.searchAerialAttack = message.searchAerialAttack
+        }
+        if (message.isRes !== undefined && message.isRes !== false) {
+            obj.isRes = message.isRes
+        }
+        if (message.resultInfos?.length) {
+            obj.resultInfos = message.resultInfos.map((e) => TCopyLocal2NetFleetInfo.toJSON(e))
+        }
+        if (message.enemyFleetDictId !== undefined && message.enemyFleetDictId !== 0) {
+            obj.enemyFleetDictId = Math.round(message.enemyFleetDictId)
+        }
+        if (message.isFinalEnemy !== undefined && message.isFinalEnemy !== false) {
+            obj.isFinalEnemy = message.isFinalEnemy
+        }
+        if (message.LBPoint !== undefined && message.LBPoint !== 0) {
+            obj.LBPoint = Math.round(message.LBPoint)
+        }
+        if (message.isSupportFleet !== undefined && message.isSupportFleet !== false) {
+            obj.isSupportFleet = message.isSupportFleet
+        }
+        return obj
+    },
+
+    create<I extends Exact<DeepPartial<TResultData>, I>>(base?: I): TResultData {
+        return TResultData.fromPartial(base ?? ({} as any))
+    },
+    fromPartial<I extends Exact<DeepPartial<TResultData>, I>>(object: I): TResultData {
+        const message = createBaseTResultData()
+        message.mainCD = object.mainCD ?? 0
+        message.useTimeInBattle = object.useTimeInBattle ?? 0
+        message.lastTimeInSearch = object.lastTimeInSearch ?? 0
+        message.grade = object.grade ?? 0
+        message.inBattle = object.inBattle ?? false
+        message.searchAerialAttack = object.searchAerialAttack ?? false
+        message.isRes = object.isRes ?? false
+        message.resultInfos =
+            object.resultInfos?.map((e) => TCopyLocal2NetFleetInfo.fromPartial(e)) || []
+        message.enemyFleetDictId = object.enemyFleetDictId ?? 0
+        message.isFinalEnemy = object.isFinalEnemy ?? false
+        message.LBPoint = object.LBPoint ?? 0
+        message.isSupportFleet = object.isSupportFleet ?? false
+        return message
+    }
+}
 
 function createBaseTVerifyPackage(): TVerifyPackage {
-  return { opes: undefined, result: undefined };
+    return { opes: undefined, result: undefined }
 }
 
 export const TVerifyPackage: MessageFns<TVerifyPackage> = {
-  encode(message: TVerifyPackage, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.opes !== undefined) {
-      TNetOpeList.encode(message.opes, writer.uint32(10).fork()).join();
-    }
-    if (message.result !== undefined) {
-      TResultData.encode(message.result, writer.uint32(18).fork()).join();
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): TVerifyPackage {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseTVerifyPackage();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 10) {
-            break;
-          }
-
-          message.opes = TNetOpeList.decode(reader, reader.uint32());
-          continue;
+    encode(message: TVerifyPackage, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+        if (message.opes !== undefined) {
+            TNetOpeList.encode(message.opes, writer.uint32(10).fork()).join()
         }
-        case 2: {
-          if (tag !== 18) {
-            break;
-          }
-
-          message.result = TResultData.decode(reader, reader.uint32());
-          continue;
+        if (message.result !== undefined) {
+            TResultData.encode(message.result, writer.uint32(18).fork()).join()
         }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
+        return writer
+    },
 
-  fromJSON(object: any): TVerifyPackage {
-    return {
-      opes: isSet(object.opes) ? TNetOpeList.fromJSON(object.opes) : undefined,
-      result: isSet(object.result) ? TResultData.fromJSON(object.result) : undefined,
-    };
-  },
+    decode(input: BinaryReader | Uint8Array, length?: number): TVerifyPackage {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input)
+        const end = length === undefined ? reader.len : reader.pos + length
+        const message = createBaseTVerifyPackage()
+        while (reader.pos < end) {
+            const tag = reader.uint32()
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break
+                    }
 
-  toJSON(message: TVerifyPackage): unknown {
-    const obj: any = {};
-    if (message.opes !== undefined) {
-      obj.opes = TNetOpeList.toJSON(message.opes);
-    }
-    if (message.result !== undefined) {
-      obj.result = TResultData.toJSON(message.result);
-    }
-    return obj;
-  },
+                    message.opes = TNetOpeList.decode(reader, reader.uint32())
+                    continue
+                }
+                case 2: {
+                    if (tag !== 18) {
+                        break
+                    }
 
-  create<I extends Exact<DeepPartial<TVerifyPackage>, I>>(base?: I): TVerifyPackage {
-    return TVerifyPackage.fromPartial(base ?? ({} as any));
-  },
-  fromPartial<I extends Exact<DeepPartial<TVerifyPackage>, I>>(object: I): TVerifyPackage {
-    const message = createBaseTVerifyPackage();
-    message.opes = (object.opes !== undefined && object.opes !== null)
-      ? TNetOpeList.fromPartial(object.opes)
-      : undefined;
-    message.result = (object.result !== undefined && object.result !== null)
-      ? TResultData.fromPartial(object.result)
-      : undefined;
-    return message;
-  },
-};
+                    message.result = TResultData.decode(reader, reader.uint32())
+                    continue
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break
+            }
+            reader.skip(tag & 7)
+        }
+        return message
+    },
+
+    fromJSON(object: any): TVerifyPackage {
+        return {
+            opes: isSet(object.opes) ? TNetOpeList.fromJSON(object.opes) : undefined,
+            result: isSet(object.result) ? TResultData.fromJSON(object.result) : undefined
+        }
+    },
+
+    toJSON(message: TVerifyPackage): unknown {
+        const obj: any = {}
+        if (message.opes !== undefined) {
+            obj.opes = TNetOpeList.toJSON(message.opes)
+        }
+        if (message.result !== undefined) {
+            obj.result = TResultData.toJSON(message.result)
+        }
+        return obj
+    },
+
+    create<I extends Exact<DeepPartial<TVerifyPackage>, I>>(base?: I): TVerifyPackage {
+        return TVerifyPackage.fromPartial(base ?? ({} as any))
+    },
+    fromPartial<I extends Exact<DeepPartial<TVerifyPackage>, I>>(object: I): TVerifyPackage {
+        const message = createBaseTVerifyPackage()
+        message.opes = (object.opes !== undefined && object.opes !== null)
+            ? TNetOpeList.fromPartial(object.opes)
+            : undefined
+        message.result = (object.result !== undefined && object.result !== null)
+            ? TResultData.fromPartial(object.result)
+            : undefined
+        return message
+    }
+}
 
 function createBaseTVerifyRet(): TVerifyRet {
-  return { retCode: 0 };
+    return { retCode: 0 }
 }
 
 export const TVerifyRet: MessageFns<TVerifyRet> = {
-  encode(message: TVerifyRet, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.retCode !== undefined && message.retCode !== 0) {
-      writer.uint32(13).fixed32(message.retCode);
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): TVerifyRet {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    const end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseTVerifyRet();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 13) {
-            break;
-          }
-
-          message.retCode = reader.fixed32();
-          continue;
+    encode(message: TVerifyRet, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+        if (message.retCode !== undefined && message.retCode !== 0) {
+            writer.uint32(13).fixed32(message.retCode)
         }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
+        return writer
+    },
+
+    decode(input: BinaryReader | Uint8Array, length?: number): TVerifyRet {
+        const reader = input instanceof BinaryReader ? input : new BinaryReader(input)
+        const end = length === undefined ? reader.len : reader.pos + length
+        const message = createBaseTVerifyRet()
+        while (reader.pos < end) {
+            const tag = reader.uint32()
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 13) {
+                        break
+                    }
+
+                    message.retCode = reader.fixed32()
+                    continue
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break
+            }
+            reader.skip(tag & 7)
+        }
+        return message
+    },
+
+    fromJSON(object: any): TVerifyRet {
+        return { retCode: isSet(object.retCode) ? globalThis.Number(object.retCode) : 0 }
+    },
+
+    toJSON(message: TVerifyRet): unknown {
+        const obj: any = {}
+        if (message.retCode !== undefined && message.retCode !== 0) {
+            obj.retCode = Math.round(message.retCode)
+        }
+        return obj
+    },
+
+    create<I extends Exact<DeepPartial<TVerifyRet>, I>>(base?: I): TVerifyRet {
+        return TVerifyRet.fromPartial(base ?? ({} as any))
+    },
+    fromPartial<I extends Exact<DeepPartial<TVerifyRet>, I>>(object: I): TVerifyRet {
+        const message = createBaseTVerifyRet()
+        message.retCode = object.retCode ?? 0
+        return message
     }
-    return message;
-  },
-
-  fromJSON(object: any): TVerifyRet {
-    return { retCode: isSet(object.retCode) ? globalThis.Number(object.retCode) : 0 };
-  },
-
-  toJSON(message: TVerifyRet): unknown {
-    const obj: any = {};
-    if (message.retCode !== undefined && message.retCode !== 0) {
-      obj.retCode = Math.round(message.retCode);
-    }
-    return obj;
-  },
-
-  create<I extends Exact<DeepPartial<TVerifyRet>, I>>(base?: I): TVerifyRet {
-    return TVerifyRet.fromPartial(base ?? ({} as any));
-  },
-  fromPartial<I extends Exact<DeepPartial<TVerifyRet>, I>>(object: I): TVerifyRet {
-    const message = createBaseTVerifyRet();
-    message.retCode = object.retCode ?? 0;
-    return message;
-  },
-};
+}
 
 function bytesFromBase64(b64: string): Uint8Array {
-  if ((globalThis as any).Buffer) {
-    return Uint8Array.from(globalThis.Buffer.from(b64, "base64"));
-  } else {
-    const bin = globalThis.atob(b64);
-    const arr = new Uint8Array(bin.length);
-    for (let i = 0; i < bin.length; ++i) {
-      arr[i] = bin.charCodeAt(i);
+    if ((globalThis as any).Buffer) {
+        return Uint8Array.from(globalThis.Buffer.from(b64, 'base64'))
+    } else {
+        const bin = globalThis.atob(b64)
+        const arr = new Uint8Array(bin.length)
+        for (let i = 0; i < bin.length; ++i) {
+            arr[i] = bin.charCodeAt(i)
+        }
+        return arr
     }
-    return arr;
-  }
 }
 
 function base64FromBytes(arr: Uint8Array): string {
-  if ((globalThis as any).Buffer) {
-    return globalThis.Buffer.from(arr).toString("base64");
-  } else {
-    const bin: string[] = [];
-    arr.forEach((byte) => {
-      bin.push(globalThis.String.fromCharCode(byte));
-    });
-    return globalThis.btoa(bin.join(""));
-  }
+    if ((globalThis as any).Buffer) {
+        return globalThis.Buffer.from(arr).toString('base64')
+    } else {
+        const bin: string[] = []
+        arr.forEach((byte) => {
+            bin.push(globalThis.String.fromCharCode(byte))
+        })
+        return globalThis.btoa(bin.join(''))
+    }
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined
 
 export type DeepPartial<T> = T extends Builtin ? T
-  : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-  : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
-  : Partial<T>;
+    : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+    : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
+    : T extends {} ? { [K in keyof T]?: DeepPartial<T[K]> }
+    : Partial<T>
 
-type KeysOfUnion<T> = T extends T ? keyof T : never;
+type KeysOfUnion<T> = T extends T ? keyof T : never
 export type Exact<P, I extends P> = P extends Builtin ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
+    :
+        & P
+        & { [K in keyof P]: Exact<P[K], I[K]> }
+        & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never }
 
 function longToNumber(int64: { toString(): string }): number {
-  const num = globalThis.Number(int64.toString());
-  if (num > globalThis.Number.MAX_SAFE_INTEGER) {
-    throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
-  }
-  if (num < globalThis.Number.MIN_SAFE_INTEGER) {
-    throw new globalThis.Error("Value is smaller than Number.MIN_SAFE_INTEGER");
-  }
-  return num;
+    const num = globalThis.Number(int64.toString())
+    if (num > globalThis.Number.MAX_SAFE_INTEGER) {
+        throw new globalThis.Error('Value is larger than Number.MAX_SAFE_INTEGER')
+    }
+    if (num < globalThis.Number.MIN_SAFE_INTEGER) {
+        throw new globalThis.Error('Value is smaller than Number.MIN_SAFE_INTEGER')
+    }
+    return num
 }
 
 function isSet(value: any): boolean {
-  return value !== null && value !== undefined;
+    return value !== null && value !== undefined
 }
 
 export interface MessageFns<T> {
-  encode(message: T, writer?: BinaryWriter): BinaryWriter;
-  decode(input: BinaryReader | Uint8Array, length?: number): T;
-  fromJSON(object: any): T;
-  toJSON(message: T): unknown;
-  create<I extends Exact<DeepPartial<T>, I>>(base?: I): T;
-  fromPartial<I extends Exact<DeepPartial<T>, I>>(object: I): T;
+    encode(message: T, writer?: BinaryWriter): BinaryWriter
+    decode(input: BinaryReader | Uint8Array, length?: number): T
+    fromJSON(object: any): T
+    toJSON(message: T): unknown
+    create<I extends Exact<DeepPartial<T>, I>>(base?: I): T
+    fromPartial<I extends Exact<DeepPartial<T>, I>>(object: I): T
 }

@@ -9,6 +9,8 @@
     "fmt": {
         "indentWidth": 4,
         "semiColons": false,
-        "singleQuote": true
+        "singleQuote": true,
+        "lineWidth": 99,
+        "trailingCommas": "never"
     }
 }

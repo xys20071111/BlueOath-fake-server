@@ -9,18 +9,18 @@ export function GetShopsInfo(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const resData = TRetShopsInfo.create({
         ShopInfo: [],
         GoodList: [],
-        CondGoodList: [],
+        CondGoodList: []
     })
     sendResponsePacket(
         socket,
         'shop.GetShopsInfo',
         TRetShopsInfo.encode(resData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }

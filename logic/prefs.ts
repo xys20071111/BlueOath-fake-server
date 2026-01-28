@@ -9,13 +9,13 @@ export function SavePrefs(
     socket: Socket,
     _args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     sendResponsePacket(
         socket,
         'prefs.SavePrefs',
         TPrefsRet.encode(TPrefsRet.create()).finish(),
         callbackHandler,
-        token,
+        token
     )
 }

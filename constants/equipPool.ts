@@ -821,7 +821,7 @@ export const EQUIP_POOL = [
     40204,
     40214,
     40224,
-    40234,
+    40234
 ]
 export const EQUIP_POOL_JP = [
     100101,
@@ -1811,5 +1811,5 @@ export const EQUIP_POOL_JP = [
     70037,
     70038,
     70039,
-    70040,
+    70040
 ]

@@ -34,12 +34,11 @@ export async function GetDiscuss(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const parsedArgs = TGetDiscussArg.decode(args).toJSON()
     const id = parsedArgs.Htid
-    let discuss: DiscussInfo | null =
-        (await discussDb.get<DiscussInfo>(['discuss', id])).value
+    let discuss: DiscussInfo | null = (await discussDb.get<DiscussInfo>(['discuss', id])).value
     if (!discuss) {
         discuss = {
             DisLikeNum: 0,
@@ -47,7 +46,7 @@ export async function GetDiscuss(
             MsgTime: 0,
             HeroLikeNum: 0,
             MsgInfo: [],
-            nextMsgId: 0,
+            nextMsgId: 0
         }
     }
     await discussDb.set(['discuss', id], discuss)
@@ -57,7 +56,7 @@ export async function GetDiscuss(
         'discuss.GetDiscuss',
         TGetDiscussRet.encode(resData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -65,13 +64,12 @@ export async function Discuss(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const player = socketPlayerMap.get(socket)!
     const parsedArgs = TDiscussArg.decode(args).toJSON()
     const id = parsedArgs.Htid
-    const discuss: DiscussInfo =
-        (await discussDb.get<DiscussInfo>(['discuss', id])).value!
+    const discuss: DiscussInfo = (await discussDb.get<DiscussInfo>(['discuss', id])).value!
     discuss.MsgInfo.push({
         Name: player.getUname(),
         Msg: parsedArgs.Msg,
@@ -80,7 +78,7 @@ export async function Discuss(
         LikeTime: 0,
         IsLiked: 0,
         IsDisLiked: 0,
-        Level: 1,
+        Level: 1
     })
     await discussDb.set(['discuss', id], discuss)
     const resData = TGetDiscussRet.create(discuss)
@@ -89,7 +87,7 @@ export async function Discuss(
         'discuss.GetDiscuss',
         TGetDiscussRet.encode(resData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -97,13 +95,13 @@ export function Like(
     socket: Socket,
     _args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     sendResponsePacket(
         socket,
         'discuss.Like',
         EMPTY_UINT8ARRAY,
         callbackHandler,
-        token,
+        token
     )
 }

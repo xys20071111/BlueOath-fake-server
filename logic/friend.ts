@@ -11,7 +11,7 @@ export function GetFriendMainData(
     socket: Socket,
     _args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const resData = TFriendMainInfoRet.create()
     sendResponsePacket(
@@ -19,7 +19,7 @@ export function GetFriendMainData(
         'friend.GetFriendMainData',
         TFriendMainInfoRet.encode(resData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -27,7 +27,7 @@ export function GetRecommendList(
     socket: Socket,
     _args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const resData = TCommonFriendGetListRet.create()
     sendResponsePacket(
@@ -35,6 +35,6 @@ export function GetRecommendList(
         'friend.GetRecommendList',
         TFriendMainInfoRet.encode(resData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }

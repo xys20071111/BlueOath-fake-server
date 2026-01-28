@@ -1,1 +1,15 @@
-{"limit_star":5,"position":[173.9899,214.3899],"name":"P2-收束-B|C-1","icon":"uipic_ui_gaizao_im_icon_fangkong_xuanzhong","lock_icon":"uipic_ui_gaizao_im_icon_fangkong_weixuanzhong","limit_level":60,"desc":"提升基础数值","cost":[[5,1,52000],[1,11028,54],[1,11031,24],[1,10000,20]],"connect_rotation":[[180,0,180],[0,0,270]],"id":108,"remould_effect_type":[[2,12,76],[2,3200,11],[2,3202,11]],"remould_prev":[102,103],"connect_type":[2,2]}
+{
+    "limit_star": 5,
+    "position": [173.9899, 214.3899],
+    "name": "P2-收束-B|C-1",
+    "icon": "uipic_ui_gaizao_im_icon_fangkong_xuanzhong",
+    "lock_icon": "uipic_ui_gaizao_im_icon_fangkong_weixuanzhong",
+    "limit_level": 60,
+    "desc": "提升基础数值",
+    "cost": [[5, 1, 52000], [1, 11028, 54], [1, 11031, 24], [1, 10000, 20]],
+    "connect_rotation": [[180, 0, 180], [0, 0, 270]],
+    "id": 108,
+    "remould_effect_type": [[2, 12, 76], [2, 3200, 11], [2, 3202, 11]],
+    "remould_prev": [102, 103],
+    "connect_type": [2, 2]
+}

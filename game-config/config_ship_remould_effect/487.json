@@ -1,1 +1,15 @@
-{"limit_star":4,"position":[-24,16.4],"name":"P2-新境","icon":"uipic_ui_gaizao_im_icon_huodexinjineng_xuanzhong","lock_icon":"uipic_ui_gaizao_im_icon_huodexinjineng_weixuanzhong","limit_level":25,"desc":"提升基础数值","cost":[[5,1,24000],[1,11024,10],[1,11029,80],[1,11030,48],[1,10187,40]],"connect_rotation":[],"id":487,"remould_effect_type":[[2,3200,5],[2,3202,5],[4,10782]],"remould_prev":[],"connect_type":[]}
+{
+    "limit_star": 4,
+    "position": [-24, 16.4],
+    "name": "P2-新境",
+    "icon": "uipic_ui_gaizao_im_icon_huodexinjineng_xuanzhong",
+    "lock_icon": "uipic_ui_gaizao_im_icon_huodexinjineng_weixuanzhong",
+    "limit_level": 25,
+    "desc": "提升基础数值",
+    "cost": [[5, 1, 24000], [1, 11024, 10], [1, 11029, 80], [1, 11030, 48], [1, 10187, 40]],
+    "connect_rotation": [],
+    "id": 487,
+    "remould_effect_type": [[2, 3200, 5], [2, 3202, 5], [4, 10782]],
+    "remould_prev": [],
+    "connect_type": []
+}

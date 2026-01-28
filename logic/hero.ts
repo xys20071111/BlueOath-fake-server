@@ -27,7 +27,7 @@ export function LockHero(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const parsedArgs: {
         HeroId: number
@@ -36,7 +36,7 @@ export function LockHero(
     const player = socketPlayerMap.get(socket)!
     player.getHeroInfo().setHeroLock(
         parsedArgs.HeroId,
-        parsedArgs.lock,
+        parsedArgs.lock
     )
     // 更新舰娘信息
     sendShipInfo(socket, callbackHandler, token)
@@ -45,7 +45,7 @@ export function LockHero(
         'hero.LockHero',
         TLockHeroRet.encode(TLockHeroRet.create({})).finish(),
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -53,14 +53,14 @@ export function GetHeroInfoByHeroIdArray(
     socket: Socket,
     _args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     sendResponsePacket(
         socket,
         'hero.GetHeroInfoByHeroIdArray',
         EMPTY_UINT8ARRAY,
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -68,7 +68,7 @@ export function Marry(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const player = socketPlayerMap.get(socket)!
     const parsedArgs = TMarryArg.decode(args).toJSON()
@@ -78,7 +78,7 @@ export function Marry(
         'hero.Marry',
         EMPTY_UINT8ARRAY,
         callbackHandler,
-        token,
+        token
     )
     // 发一份新的舰娘信息
     sendShipInfo(socket, callbackHandler, token)
@@ -88,7 +88,7 @@ export function ChangeName(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const player = socketPlayerMap.get(socket)!
     const parsedArgs = TChangeHeroNameArg.decode(args).toJSON()
@@ -98,7 +98,7 @@ export function ChangeName(
         'hero.ChangeName',
         EMPTY_UINT8ARRAY,
         callbackHandler,
-        token,
+        token
     )
     sendShipInfo(socket, callbackHandler, token)
 }
@@ -108,7 +108,7 @@ export function AddExp(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const hero = socketPlayerMap.get(socket)!.getHeroInfo()
     const parsedArgs = THeroAddExp.decode(args).toJSON()
@@ -119,14 +119,14 @@ export function AddExp(
     const result = hero.addHeroLevel(parsedArgs.HeroId, totalExp)
     const resData = THeroAddExp.create({
         LevelPre: result.targetLevel,
-        ExpPre: result.afterExp,
+        ExpPre: result.afterExp
     })
     sendResponsePacket(
         socket,
         'hero.AddExp',
         THeroAddExp.encode(resData).finish(),
         callbackHandler,
-        token,
+        token
     )
     sendShipInfo(socket, callbackHandler, token)
 }
@@ -136,21 +136,21 @@ export function RetireHero(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const parsedArgs = TRetireHeroArg.decode(args).toJSON()
     const player = socketPlayerMap.get(socket)!
     const heroInfo = player.getHeroInfo()
     heroInfo.deleteShips(parsedArgs.HeroIds)
     const resData = TRetireHeroRet.create({
-        Reward: [],
+        Reward: []
     })
     sendResponsePacket(
         socket,
         'hero.RetireHero',
         TRetireHeroRet.encode(resData).finish(),
         callbackHandler,
-        token,
+        token
     )
     sendShipInfo(socket, callbackHandler, token)
 }
@@ -159,7 +159,7 @@ export function StudySkill(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const parsedArgs = THeroSkill.decode(args).toJSON()
     const player = socketPlayerMap.get(socket)!
@@ -170,7 +170,7 @@ export function StudySkill(
         'hero.StudySkill',
         EMPTY_UINT8ARRAY,
         callbackHandler,
-        token,
+        token
     )
     sendShipInfo(socket, callbackHandler, token)
 }
@@ -179,7 +179,7 @@ export function HeroAdvMaxLv(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const parsedArgs = THeroAdvMaxLvArg.decode(args).toJSON()
     const player = socketPlayerMap.get(socket)!
@@ -190,7 +190,7 @@ export function HeroAdvMaxLv(
         'hero.HeroAdvMaxLv',
         EMPTY_UINT8ARRAY,
         callbackHandler,
-        token,
+        token
     )
     sendShipInfo(socket, callbackHandler, token)
 }
@@ -200,7 +200,7 @@ export function HeroAdvance(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const parsedArgs = TAdvanceArg.decode(args).toJSON()
     const player = socketPlayerMap.get(socket)!
@@ -211,7 +211,7 @@ export function HeroAdvance(
         'hero.HeroAdvance',
         EMPTY_UINT8ARRAY,
         callbackHandler,
-        token,
+        token
     )
     sendShipInfo(socket, callbackHandler, token)
 }
@@ -220,7 +220,7 @@ export function ChangeEquip(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     try {
         const parsedArgs = THeroChangeEquipArgs.decode(args).toJSON() as any
@@ -229,7 +229,7 @@ export function ChangeEquip(
         const equipInfo = player.getEquipBag()
         const oldEquips = heroInfo.getEquipInfo(
             parsedArgs.Type,
-            parsedArgs.HeroId,
+            parsedArgs.HeroId
         )!
         if (oldEquips && oldEquips[parsedArgs.Index - 1]) {
             equipInfo.setHero(0, oldEquips[parsedArgs.Index - 1].EquipsId)
@@ -245,7 +245,7 @@ export function ChangeEquip(
         'hero.ChangeEquip',
         EMPTY_UINT8ARRAY,
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -253,7 +253,7 @@ export function AutoUnEquip(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const parsedArgs = THeroAutoUnEquipArg.decode(args).toJSON() as any
     const player = socketPlayerMap.get(socket)!
@@ -275,7 +275,7 @@ export function AutoUnEquip(
         'hero.AutoUnEquip',
         EMPTY_UINT8ARRAY,
         callbackHandler,
-        token,
+        token
     )
     sendShipInfo(socket, callbackHandler, token)
 }
@@ -284,7 +284,7 @@ export function HeroRemould(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const parsedArgs = TRemouldArg.decode(args).toJSON()
     const player = socketPlayerMap.get(socket)!
@@ -296,7 +296,7 @@ export function HeroRemould(
         'hero.HeroRemould',
         EMPTY_UINT8ARRAY,
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -304,13 +304,12 @@ export function HeroIntensify(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const player = socketPlayerMap.get(socket)!
     const parsedArgs = TIntensifyHeroArgs.decode(args).toJSON()
     const heroInfo = player.getHeroInfo()
 
-    
     // 这个是消耗船给对应属性经验，删除船的部分因为我现在的数据结构工作的一直不正常，所以就不删除船了
     heroInfo.intensify(parsedArgs.HeroId, parsedArgs.ConsumedHeros)
     // 还是先把船的数据发过去
@@ -320,27 +319,27 @@ export function HeroIntensify(
         'hero.HeroIntensify',
         EMPTY_UINT8ARRAY,
         callbackHandler,
-        token,
+        token
     )
 }
 
 export function sendShipInfo(
     socket: Socket,
     callbackHandler: number,
-    token: string | null,
+    token: string | null
 ) {
     const player = socketPlayerMap.get(socket)!
     const heroInfo = player.getHeroInfo().getHeroBag()
     const heroInfoData = THeroInfo.create({
         HeroInfo: heroInfo,
         HeroBagSize: 5000,
-        HeroNum: [{ TemplateId: 10210511, Num: 80 }],
+        HeroNum: [{ TemplateId: 10210511, Num: 80 }]
     })
     sendResponsePacket(
         socket,
         'hero.UpdateHeroBagData',
         THeroInfo.encode(heroInfoData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }

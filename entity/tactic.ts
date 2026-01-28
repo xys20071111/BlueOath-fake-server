@@ -13,14 +13,14 @@ export class Tactic {
 
     constructor(uname: string) {
         this.tactics = JSON.parse(
-            Deno.readTextFileSync(`./playerData/${uname}/FleetInfo.json`),
+            Deno.readTextFileSync(`./playerData/${uname}/FleetInfo.json`)
         )
         this.uname = uname
     }
 
     public reload() {
         this.tactics = JSON.parse(
-            Deno.readTextFileSync(`./playerData/${this.uname}/FleetInfo.json`),
+            Deno.readTextFileSync(`./playerData/${this.uname}/FleetInfo.json`)
         )
     }
 
@@ -33,7 +33,7 @@ export class Tactic {
         this.tactics = tactic
         Deno.writeTextFile(
             `./playerData/${this.uname}/FleetInfo.json`,
-            JSON.stringify(this.tactics, null, 4),
+            JSON.stringify(this.tactics, null, 4)
         )
     }
 
@@ -41,7 +41,7 @@ export class Tactic {
         this.tactics[fleet - 1].strategyId = strategy
         Deno.writeTextFile(
             `./playerData/${this.uname}/FleetInfo.json`,
-            JSON.stringify(this.tactics, null, 4),
+            JSON.stringify(this.tactics, null, 4)
         )
     }
 

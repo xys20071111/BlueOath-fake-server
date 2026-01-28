@@ -63,15 +63,15 @@ export class Building {
     constructor(uname: string) {
         this.uname = uname
         this.buildingInfo = JSON.parse(
-            Deno.readTextFileSync(`./playerData/${uname}/BuildingInfo.json`),
+            Deno.readTextFileSync(`./playerData/${uname}/BuildingInfo.json`)
         )
     }
 
     public reload() {
         this.buildingInfo = JSON.parse(
             Deno.readTextFileSync(
-                `./playerData/${this.uname}/BuildingInfo.json`,
-            ),
+                `./playerData/${this.uname}/BuildingInfo.json`
+            )
         )
     }
 
@@ -93,7 +93,7 @@ export class Building {
         }
         Deno.writeTextFile(
             `./playerData/${this.uname}/BuildingInfo.json`,
-            JSON.stringify(this.buildingInfo, null, 4),
+            JSON.stringify(this.buildingInfo, null, 4)
         )
     }
 
@@ -106,7 +106,7 @@ export class Building {
         }
         Deno.writeTextFile(
             `./playerData/${this.uname}/BuildingInfo.json`,
-            JSON.stringify(this.buildingInfo, null, 4),
+            JSON.stringify(this.buildingInfo, null, 4)
         )
     }
 
@@ -123,14 +123,13 @@ export class Building {
             for (let i = 0; i < this.buildingInfo.BuildingInfos.length; i++) {
                 // 检查一下是不是当前建筑
                 if (this.buildingInfo.BuildingInfos[i].Id !== id) {
-                    const currentHeroList =
-                        this.buildingInfo.BuildingInfos[i].HeroList
+                    const currentHeroList = this.buildingInfo.BuildingInfos[i].HeroList
                     //不是的话检查一下有没有战姬要从这个建筑移出
                     for (const id of HeroIdList) {
                         if (currentHeroList.includes(id)) {
                             currentHeroList.splice(
                                 currentHeroList.indexOf(id),
-                                1,
+                                1
                             )
                         }
                     }
@@ -139,7 +138,7 @@ export class Building {
         }
         Deno.writeTextFile(
             `./playerData/${this.uname}/BuildingInfo.json`,
-            JSON.stringify(this.buildingInfo, null, 4),
+            JSON.stringify(this.buildingInfo, null, 4)
         )
     }
 
@@ -157,15 +156,15 @@ export class Building {
             LastUpdateTime: 0,
             LastMoodUpdateTime: 0,
             LastBuildUpdateTime: 0,
-            HeroEffectTimeList: [],
+            HeroEffectTimeList: []
         })
         this.buildingInfo.LandList.push({
             Index: index,
-            BuildingId: id,
+            BuildingId: id
         })
         Deno.writeTextFile(
             `./playerData/${this.uname}/BuildingInfo.json`,
-            JSON.stringify(this.buildingInfo, null, 4),
+            JSON.stringify(this.buildingInfo, null, 4)
         )
         return id
     }

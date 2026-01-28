@@ -14,7 +14,7 @@ export function Login(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const parsedArgs = TArgLogin.decode(args).toJSON()
     const uname: string = parsedArgs.Pid
@@ -25,35 +25,35 @@ export function Login(
             create: false,
             createNew: false,
             read: true,
-            write: false,
+            write: false
         })
         socketPlayerMap.set(
             socket,
-            new Player(uname, parsedArgs.ClientVersion === '1.5.120' ? 0 : 1),
+            new Player(uname, parsedArgs.ClientVersion === '1.5.120' ? 0 : 1)
         )
         const resData = TRetLogin.create({
             Ret: 'ok',
-            ErrCode: '0',
+            ErrCode: '0'
         })
         sendResponsePacket(
             socket,
             'player.Login',
             TRetLogin.encode(resData).finish(),
             callbackHandler,
-            token,
+            token
         )
     } catch (e) {
         // 不存在就踢掉
         const resData = TRetLogin.create({
             Ret: 'error',
-            ErrCode: '1',
+            ErrCode: '1'
         })
         sendResponsePacket(
             socket,
             'player.Login',
             TRetLogin.encode(resData).finish(),
             callbackHandler,
-            token,
+            token
         )
     }
 }
@@ -62,20 +62,20 @@ export function GetUserList(
     socket: Socket,
     _args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     // user肯定会有，因为有前置检查
     const user = socketPlayerMap.get(socket)!
     const resData = TRetGetUsers.create({
         ArrUser: [
-            TUserInfo.create(user.getUserInfo()),
-        ],
+            TUserInfo.create(user.getUserInfo())
+        ]
     })
     sendResponsePacket(
         socket,
         'player.GetUserList',
         TRetGetUsers.encode(resData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }

@@ -11,7 +11,7 @@ export function StartBase(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const parsedArgs = TStartBaseArg.decode(args)
     console.log(parsedArgs)
@@ -56,7 +56,7 @@ export function StartBase(
                 AdvEffectIdList: [],
                 EquipGridNum: ship.Equips.length,
                 Fashioning: ship.Fashioning,
-                HurtPer: 1000,
+                HurtPer: 1000
             }
             Ships.push(data)
         }
@@ -81,12 +81,12 @@ export function StartBase(
                     ConditionList: [],
                     KillTimes: 0,
                     HeroList: parsedArgs.HeroList[0].HeroIdList,
-                    TacticType: 1,
+                    TacticType: 1
                 },
                 OpenFunc: [],
                 BattleMode: parsedArgs.BattleMode,
-                RandomFactors: [],
-            }],
+                RandomFactors: []
+            }]
         },
         RandomSeed: 0,
         Rid: 1,
@@ -112,7 +112,7 @@ export function StartBase(
         CopyMission: [],
         EnemyFleets: [],
         ConfigData: [],
-        MatchType: parsedArgs.MatchType,
+        MatchType: parsedArgs.MatchType
     }
     const resData = TStartBaseRet.create(ret)
 
@@ -121,6 +121,6 @@ export function StartBase(
         'copy.StartBase',
         TStartBaseRet.encode(resData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }

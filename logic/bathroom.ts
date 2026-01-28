@@ -9,17 +9,17 @@ export function GetBathroomInfo(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const resData = TBathroomInfo.create({
         IsAllAuto: true,
-        HeroList: [],
+        HeroList: []
     })
     sendResponsePacket(
         socket,
         'bathroom.GetBathroomInfo',
         TBathroomInfo.encode(resData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }

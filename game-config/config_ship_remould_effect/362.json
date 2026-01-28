@@ -1,1 +1,15 @@
-{"limit_star":4,"position":[-24,-123.6],"name":"P2-系属-D","icon":"uipic_ui_gaizao_im_icon_yuleishanghaijiacheng_xuanzhong","lock_icon":"uipic_ui_gaizao_im_icon_yuleishanghaijiacheng_weixuanzhong","limit_level":35,"desc":"提升基础数值","cost":[[5,1,40000],[1,11028,40],[1,11030,24],[6,60002,20]],"connect_rotation":[[0,0,90]],"id":362,"remould_effect_type":[[2,66,100],[2,3200,9],[2,3202,9]],"remould_prev":[358],"connect_type":[1]}
+{
+    "limit_star": 4,
+    "position": [-24, -123.6],
+    "name": "P2-系属-D",
+    "icon": "uipic_ui_gaizao_im_icon_yuleishanghaijiacheng_xuanzhong",
+    "lock_icon": "uipic_ui_gaizao_im_icon_yuleishanghaijiacheng_weixuanzhong",
+    "limit_level": 35,
+    "desc": "提升基础数值",
+    "cost": [[5, 1, 40000], [1, 11028, 40], [1, 11030, 24], [6, 60002, 20]],
+    "connect_rotation": [[0, 0, 90]],
+    "id": 362,
+    "remould_effect_type": [[2, 66, 100], [2, 3200, 9], [2, 3202, 9]],
+    "remould_prev": [358],
+    "connect_type": [1]
+}

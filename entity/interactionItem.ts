@@ -22,15 +22,15 @@ export class InteractionItemEntity {
     constructor(uname: string) {
         this.uname = uname
         this.interactionItem = JSON.parse(
-            Deno.readTextFileSync(`./playerData/${uname}/InteractionItem.json`),
+            Deno.readTextFileSync(`./playerData/${uname}/InteractionItem.json`)
         )
     }
 
     public reload() {
         this.interactionItem = JSON.parse(
             Deno.readTextFileSync(
-                `./playerData/${this.uname}/InteractionItem.json`,
-            ),
+                `./playerData/${this.uname}/InteractionItem.json`
+            )
         )
     }
 
@@ -41,18 +41,18 @@ export class InteractionItemEntity {
             paperFlowerState: this.interactionItem.paperFlowerState,
             ballToyState: this.interactionItem.ballToyState,
             posterState: this.interactionItem.posterState,
-            decorate: this.interactionItem.decorate,
+            decorate: this.interactionItem.decorate
         }
     }
 
     public setDecorateMutexBag(typeId: number, curSelect: number) {
         this.interactionItem.decorate = [{
             typeId,
-            curSelect,
+            curSelect
         }]
         Deno.writeTextFile(
             `./playerData/${this.uname}/InteractionItem.json`,
-            JSON.stringify(this.interactionItem, null, 4),
+            JSON.stringify(this.interactionItem, null, 4)
         )
     }
 
@@ -64,7 +64,7 @@ export class InteractionItemEntity {
         this.interactionItem.furnitureVisible[id] = state
         Deno.writeTextFile(
             `./playerData/${this.uname}/InteractionItem.json`,
-            JSON.stringify(this.interactionItem, null, 4),
+            JSON.stringify(this.interactionItem, null, 4)
         )
     }
 
@@ -73,8 +73,8 @@ export class InteractionItemEntity {
             this.interactionItem.posterState = [
                 {
                     point,
-                    posterId,
-                },
+                    posterId
+                }
             ]
         } else {
             let found = false
@@ -88,13 +88,13 @@ export class InteractionItemEntity {
             if (!found) {
                 this.interactionItem.posterState.push({
                     point,
-                    posterId,
+                    posterId
                 })
             }
         }
         Deno.writeTextFile(
             `./playerData/${this.uname}/InteractionItem.json`,
-            JSON.stringify(this.interactionItem, null, 4),
+            JSON.stringify(this.interactionItem, null, 4)
         )
     }
 }

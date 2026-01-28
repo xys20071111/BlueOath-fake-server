@@ -38,15 +38,15 @@ export class Illustrate {
     constructor(uname: string) {
         this.uname = uname
         this.illustrateInfo = JSON.parse(
-            Deno.readTextFileSync(`./playerData/${uname}/IllustrateInfo.json`),
+            Deno.readTextFileSync(`./playerData/${uname}/IllustrateInfo.json`)
         )
     }
 
     public reload() {
         this.illustrateInfo = JSON.parse(
             Deno.readTextFileSync(
-                `./playerData/${this.uname}/IllustrateInfo.json`,
-            ),
+                `./playerData/${this.uname}/IllustrateInfo.json`
+            )
         )
     }
 
@@ -56,7 +56,7 @@ export class Illustrate {
 
     public setHeroIllustrate(
         illustrateId: number,
-        behaviourIds: Array<number>,
+        behaviourIds: Array<number>
     ) {
         for (let i = 0; i < this.illustrateInfo.IllustrateList.length; i++) {
             if (
@@ -69,7 +69,7 @@ export class Illustrate {
                 this.illustrateInfo.IllustrateList[i].NewHero = false
                 Deno.writeTextFile(
                     `./playerData/${this.uname}/IllustrateInfo.json`,
-                    JSON.stringify(this.illustrateInfo, null, 4),
+                    JSON.stringify(this.illustrateInfo, null, 4)
                 )
                 return
             }
@@ -80,11 +80,11 @@ export class Illustrate {
             BehaviourList: behaviourIds,
             NewHero: true,
             MarryCount: 0,
-            LikeTime: 0,
+            LikeTime: 0
         })
         Deno.writeTextFile(
             `./playerData/${this.uname}/IllustrateInfo.json`,
-            JSON.stringify(this.illustrateInfo, null, 4),
+            JSON.stringify(this.illustrateInfo, null, 4)
         )
     }
 
@@ -95,11 +95,11 @@ export class Illustrate {
             BehaviourList: [],
             NewHero: true,
             MarryCount: 0,
-            LikeTime: 0,
+            LikeTime: 0
         })
         Deno.writeTextFile(
             `./playerData/${this.uname}/IllustrateInfo.json`,
-            JSON.stringify(this.illustrateInfo, null, 4),
+            JSON.stringify(this.illustrateInfo, null, 4)
         )
     }
 
@@ -108,7 +108,7 @@ export class Illustrate {
         this.illustrateInfo.VowCount = list.length
         Deno.writeTextFile(
             `./playerData/${this.uname}/IllustrateInfo.json`,
-            JSON.stringify(this.illustrateInfo, null, 4),
+            JSON.stringify(this.illustrateInfo, null, 4)
         )
     }
 }

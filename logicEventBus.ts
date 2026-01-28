@@ -9,13 +9,9 @@ import {
     Refresh,
     SetMiniGameScore,
     SetUserSecretary,
-    UserLogin,
+    UserLogin
 } from './logic/user.ts'
-import {
-    ChangeWorldChannel,
-    GetBarrageById,
-    SendMessage,
-} from './logic/chat.ts'
+import { ChangeWorldChannel, GetBarrageById, SendMessage } from './logic/chat.ts'
 import { PlotReward, Setting } from './logic/guide.ts'
 import { SavePrefs } from './logic/prefs.ts'
 import { GetNotesList } from './logic/buildnotes.ts'
@@ -33,17 +29,12 @@ import {
     LockHero,
     Marry,
     RetireHero,
-    StudySkill,
+    StudySkill
 } from './logic/hero.ts'
 import { GetCopyInfo } from './logic/copyinfo.ts'
 import { StartBase } from './logic/copy.ts'
 import { Discuss, GetDiscuss, Like } from './logic/discuss.ts'
-import {
-    AddBehavior,
-    IllustrateNew,
-    ModiVowHeroList,
-    VowHero,
-} from './logic/illustrate.ts'
+import { AddBehavior, IllustrateNew, ModiVowHeroList, VowHero } from './logic/illustrate.ts'
 import { GetList /*CreateGuild*/ } from './logic/guild.ts'
 import {
     AddBuilding,
@@ -51,7 +42,7 @@ import {
     SaveTactic,
     SetHero,
     UpdateHeroAddition,
-    UpgradeBuilding,
+    UpgradeBuilding
 } from './logic/building.ts'
 import { GetBathroomInfo } from './logic/bathroom.ts'
 import { GetShopsInfo } from './logic/shop.ts'
@@ -65,7 +56,7 @@ import { Apply } from './logic/strategy.ts'
 import {
     SetBagItemVisible,
     SetMutexBagGroupState,
-    SetPosterState,
+    SetPosterState
 } from './logic/interactionItem.ts'
 
 class EventBus extends EventEmitter {
@@ -156,7 +147,7 @@ eventBus.on(
     'building.ReceiveBuilding',
     (socket, _args, callbackHandler, token) => {
         EmptyReceive(socket, 'building.ReceiveBuilding', callbackHandler, token)
-    },
+    }
 )
 eventBus.on('building.ReceiveAll', (socket, _args, callbackHandler, token) => {
     EmptyReceive(socket, 'building.ReceiveAll', callbackHandler, token)
@@ -165,7 +156,7 @@ eventBus.on(
     'building.ReceiveResource',
     (socket, _args, callbackHandler, token) => {
         EmptyReceive(socket, 'building.ReceiveResource', callbackHandler, token)
-    },
+    }
 )
 
 eventBus.on('bathroom.GetBathroomInfo', GetBathroomInfo)
@@ -195,11 +186,11 @@ eventBus.on('interactionitem.SetBagItemVisible', SetBagItemVisible)
 eventBus.on('interactionitem.SetPosterState', SetPosterState)
 eventBus.on(
     'interactionitem.GetItemReward',
-    EmptyReply('interactionitem.GetItemReward'),
+    EmptyReply('interactionitem.GetItemReward')
 )
 
 //日服特有，邀请用户去Google Play打好评
 eventBus.on(
     'invitescore.SetInviteStateByType',
-    EmptyReply('invitescore.SetInviteStateByType'),
+    EmptyReply('invitescore.SetInviteStateByType')
 )

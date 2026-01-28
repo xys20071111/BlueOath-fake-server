@@ -3,7 +3,7 @@ new Worker(import.meta.resolve('./updateServer.ts'), { type: 'module' })
 
 console.log('创建所需文件夹')
 await Deno.mkdir('./serverData/', {
-    recursive: true,
+    recursive: true
 })
 
 console.log('运行模拟的逻辑服务器')

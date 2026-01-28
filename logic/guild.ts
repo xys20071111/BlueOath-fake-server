@@ -31,12 +31,12 @@ export async function GetList(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const parsedArgs = TArgGetGuildList.decode(args).toJSON()
     const guildIter = await guildDb.list({
         prefix: ['BaseGuildInfo'],
-        end: ['BaseGuildInfo', parsedArgs.Num],
+        end: ['BaseGuildInfo', parsedArgs.Num]
     })
     const guildList = []
     for await (const item of guildIter) {
@@ -44,7 +44,7 @@ export async function GetList(
     }
     const resData = TRetGetGuildList.create({
         TotalNum: guildList.length,
-        GuildList: guildList,
+        GuildList: guildList
     })
 
     sendResponsePacket(
@@ -52,7 +52,7 @@ export async function GetList(
         'guild.GetList',
         TRetGetGuildList.encode(resData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -60,7 +60,7 @@ export async function CreateGuild(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const parsedArgs = TArgCreateGuild.decode(args).toJSON()
     console.log(parsedArgs)

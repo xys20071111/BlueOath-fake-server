@@ -56,7 +56,7 @@ export const INTERACTION_BAG_IDS_CN = [
     255806,
     255807,
     255808,
-    255809,
+    255809
 ]
 export const INTERACTION_BAG_IDS_JP = [
     250001,
@@ -124,5 +124,5 @@ export const INTERACTION_BAG_IDS_JP = [
     255806,
     255807,
     255808,
-    255809,
+    255809
 ]

@@ -14,7 +14,7 @@ export function Enhance(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const parsedArgs = TEquipEnhanceArgs.decode(args).toJSON()
     const equipInfo = socketPlayerMap.get(socket)!.getEquipBag()
@@ -22,14 +22,14 @@ export function Enhance(
     const resData = TEquipEnhanceRet.create({
         EquipId: parsedArgs.EquipId,
         EquipEnhanceLevel: lv,
-        EquipEnhanceExp: 0,
+        EquipEnhanceExp: 0
     })
     sendResponsePacket(
         socket,
         'equip.Enhance',
         TEquipEnhanceRet.encode(resData).finish(),
         callbackHandler,
-        token,
+        token
     )
     sendEquipInfo(socket, callbackHandler, token)
 }
@@ -38,7 +38,7 @@ export function RiseStar(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const parsedArgs = TEquipRiseStarArgs.decode(args).toJSON()
     const equipInfo = socketPlayerMap.get(socket)!.getEquipBag()
@@ -48,7 +48,7 @@ export function RiseStar(
         'equip.RiseStar',
         EMPTY_UINT8ARRAY,
         callbackHandler,
-        token,
+        token
     )
     sendEquipInfo(socket, callbackHandler, token)
 }
@@ -56,20 +56,20 @@ export function RiseStar(
 export function sendEquipInfo(
     socket: Socket,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const player = socketPlayerMap.get(socket)!
     // 装备背包
     const equipData = TEquipList.create({
         EquipBagSize: 1000,
         EquipInfo: player.getEquipBag().getEquipInfo(),
-        EquipNum: [],
+        EquipNum: []
     })
     sendResponsePacket(
         socket,
         'equip.UpdateEquipBagData',
         TEquipList.encode(equipData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }

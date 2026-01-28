@@ -17,14 +17,14 @@ export function UpdateHeroAddition(
     socket: Socket,
     _args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     sendResponsePacket(
         socket,
         'building.UpdateHeroAddition',
         EMPTY_UINT8ARRAY,
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -32,7 +32,7 @@ export function SaveTactic(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const player = socketPlayerMap.get(socket)!
     const parsedArgs = TSaveBuildingTacticArg.decode(args).toJSON()
@@ -46,7 +46,7 @@ export function SaveTactic(
         'building.SaveTactic',
         EMPTY_UINT8ARRAY,
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -54,34 +54,34 @@ export function AddBuilding(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const player = socketPlayerMap.get(socket)!
     const parsedArgs = TAddBuildingArg.decode(args).toJSON()
     const BuildingId = player.getUserBuilding().addBuilding(
         parsedArgs.Tid,
-        parsedArgs.Index,
+        parsedArgs.Index
     )
     const resData = TAddBuildingRet.create({
-        BuildingId,
+        BuildingId
     })
     sendResponsePacket(
         socket,
         'building.AddBuilding',
         TAddBuildingArg.encode(resData).finish(),
         callbackHandler,
-        token,
+        token
     )
     // 发送新的基建信息
     const buildingData = TUserBuildingInfo.create(
-        player.getUserBuilding().getBuildingInfo(),
+        player.getUserBuilding().getBuildingInfo()
     )
     sendResponsePacket(
         socket,
         'building.UpdateBuildingInfo',
         TUserBuildingInfo.encode(buildingData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -89,35 +89,35 @@ export function SetHero(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const player = socketPlayerMap.get(socket)!
     const parsedArgs = TSetHeroArg.decode(args).toJSON()
     try {
         player.getUserBuilding().buildingSetHero(
             parsedArgs.BuildingId,
-            parsedArgs.HeroIdList,
+            parsedArgs.HeroIdList
         )
         sendResponsePacket(
             socket,
             'building.SetHero',
             EMPTY_UINT8ARRAY,
             callbackHandler,
-            token,
+            token
         )
     } catch (e) {
         console.error(e)
     }
     // 发送新的基建信息
     const buildingData = TUserBuildingInfo.create(
-        player.getUserBuilding().getBuildingInfo(),
+        player.getUserBuilding().getBuildingInfo()
     )
     sendResponsePacket(
         socket,
         'building.UpdateBuildingInfo',
         TUserBuildingInfo.encode(buildingData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -125,7 +125,7 @@ export function UpgradeBuilding(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const player = socketPlayerMap.get(socket)!
     const parsedArgs = TUpgradeBuildingArg.decode(args).toJSON()
@@ -135,18 +135,18 @@ export function UpgradeBuilding(
         'building.UpgradeBuilding',
         EMPTY_UINT8ARRAY,
         callbackHandler,
-        token,
+        token
     )
     // 发送新的基建信息
     const buildingData = TUserBuildingInfo.create(
-        player.getUserBuilding().getBuildingInfo(),
+        player.getUserBuilding().getBuildingInfo()
     )
     sendResponsePacket(
         socket,
         'building.UpdateBuildingInfo',
         TUserBuildingInfo.encode(buildingData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -154,16 +154,16 @@ export function EmptyReceive(
     socket: Socket,
     method: string,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const resData = TReceiveRet.create({
-        ItemInfo: [],
+        ItemInfo: []
     })
     sendResponsePacket(
         socket,
         method,
         TReceiveRet.encode(resData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }

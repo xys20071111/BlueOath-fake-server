@@ -90,76 +90,74 @@ interface ShipMain {
 }
 
 interface ShipRemouldEffect {
-    "limit_star": number
-    "position": number[]
-    "name": string
-    "icon": string
-    "lock_icon": string
-    "limit_level": number
-    "desc": string
-    "cost": number[][]
-    "connect_rotation": number[][]
-    "id": number
-    "remould_effect_type": number[][]
-    "remould_prev": number[]
-    "connect_type": number[]
+    'limit_star': number
+    'position': number[]
+    'name': string
+    'icon': string
+    'lock_icon': string
+    'limit_level': number
+    'desc': string
+    'cost': number[][]
+    'connect_rotation': number[][]
+    'id': number
+    'remould_effect_type': number[][]
+    'remould_prev': number[]
+    'connect_type': number[]
 }
 
 interface Equip {
-    "icon_small": string
-    "dismantling_get": number[]
-    "equip_prop": number[][]
-    "max_number": number
-    "activity_equip": number
-    "equip_ship": number[]
-    "icon": string
-    "renovate_skill": number[],
-    "no_pack": number
-    "equip_trap_ste_id": number
-    "reward": number
-    "equip_type_id2": number
-    "ewt_id": number[]
-    "drop_path": any[],
-    "equip_srp_id": string,
-    "enhance_level_max": number
-    "no_resolve": number
-    "activity_id": [],
-    "name": string,
-    "energy_name": string,
-    "quality": number
-    "skill_fashion_id": number[],
-    "copy_display_id": number[],
-    "enhance_prop": number[][]
-    "skill_array": any[],
-    "equip_skill_anim_eb_id": string,
-    "star_max": number
-    "rules": any[],
-    "max_energy": number
-    "e_id": number,
-    "period": number
-    "equip_type_id": number
-    "picture_show": number
-    "existence": number
+    'icon_small': string
+    'dismantling_get': number[]
+    'equip_prop': number[][]
+    'max_number': number
+    'activity_equip': number
+    'equip_ship': number[]
+    'icon': string
+    'renovate_skill': number[]
+    'no_pack': number
+    'equip_trap_ste_id': number
+    'reward': number
+    'equip_type_id2': number
+    'ewt_id': number[]
+    'drop_path': any[]
+    'equip_srp_id': string
+    'enhance_level_max': number
+    'no_resolve': number
+    'activity_id': []
+    'name': string
+    'energy_name': string
+    'quality': number
+    'skill_fashion_id': number[]
+    'copy_display_id': number[]
+    'enhance_prop': number[][]
+    'skill_array': any[]
+    'equip_skill_anim_eb_id': string
+    'star_max': number
+    'rules': any[]
+    'max_energy': number
+    'e_id': number
+    'period': number
+    'equip_type_id': number
+    'picture_show': number
+    'existence': number
 }
 
 /**
-* @description "need_power_exp" 应该当作元组(attr, needExp)的数组看待
-*/
+ * @description "need_power_exp" 应该当作元组(attr, needExp)的数组看待
+ */
 interface IntensifyNeed {
-    "enhance_type": number,
-    "snp_id": number,
-    "need_power_exp": number[][]
+    'enhance_type': number
+    'snp_id': number
+    'need_power_exp': number[][]
 }
 
 /**
-* @description "provide_power_exp" 应该当作元组(attr, provideExp)的数组看待
-*/
+ * @description "provide_power_exp" 应该当作元组(attr, provideExp)的数组看待
+ */
 interface IntensifyProvide {
-    "provide_power_exp": number[][]
-    "sppe_id": number
+    'provide_power_exp': number[][]
+    'sppe_id': number
 }
-
-
 
 class GameConfig<T> {
     private record: Record<number, T> = {}
@@ -175,18 +173,22 @@ class GameConfig<T> {
         }
         const data: T = JSON.parse(
             Deno.readTextFileSync(
-                `./game-config/${this.configName}/${id}.json`,
-            ),
+                `./game-config/${this.configName}/${id}.json`
+            )
         )
         this.record[id] = data
         return data
     }
 }
 
-
-
 export const shipMain: GameConfig<ShipMain> = new GameConfig('config_ship_main')
-export const shipRemouldEffect: GameConfig<ShipRemouldEffect> = new GameConfig('config_ship_remould_effect')
+export const shipRemouldEffect: GameConfig<ShipRemouldEffect> = new GameConfig(
+    'config_ship_remould_effect'
+)
 export const equip: GameConfig<Equip> = new GameConfig('config_equip')
-export const shipIntensifyNeed: GameConfig<IntensifyNeed> = new GameConfig('config_ship_need_power_exp')
-export const shipIntensifyProvide: GameConfig<IntensifyProvide> = new GameConfig('config_ship_provide_power_exp')
+export const shipIntensifyNeed: GameConfig<IntensifyNeed> = new GameConfig(
+    'config_ship_need_power_exp'
+)
+export const shipIntensifyProvide: GameConfig<IntensifyProvide> = new GameConfig(
+    'config_ship_provide_power_exp'
+)

@@ -139,7 +139,7 @@ export const HERO_POOL = [
     { 'Id': 8021021, 'TemplateId': 80210211 },
     { 'Id': 8024031, 'TemplateId': 80240311 },
     { 'Id': 9024011, 'TemplateId': 90240111 },
-    { 'Id': 9024021, 'TemplateId': 90240211 },
+    { 'Id': 9024021, 'TemplateId': 90240211 }
 ]
 
 export const HERO_POOL_JP = [
@@ -314,5 +314,5 @@ export const HERO_POOL_JP = [
     { 'Id': 9024011, 'TemplateId': 90240111 },
     { 'Id': 9024021, 'TemplateId': 90240211 },
     { 'Id': 9074011, 'TemplateId': 90740111 },
-    { 'Id': 9074021, 'TemplateId': 90740211 },
+    { 'Id': 9074021, 'TemplateId': 90740211 }
 ]

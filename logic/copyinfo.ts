@@ -10,13 +10,13 @@ export function GetCopyInfo(
     socket: Socket,
     _args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     sendResponsePacket(
         socket,
         'copyinfo.GetCopyInfo',
         TCopyInfoRet.encode(TCopyInfoRet.create()).finish(),
         callbackHandler,
-        token,
+        token
     )
 }

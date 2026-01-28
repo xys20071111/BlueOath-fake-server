@@ -36,7 +36,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 0,
         'girl_if_show': 0,
         'remould_if_show': 0,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     1: {
         'attr_type': 1,
@@ -55,7 +55,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 1,
         'girl_if_show': 1,
         'remould_if_show': 1,
-        'direction_if_show': 1,
+        'direction_if_show': 1
     },
     10: {
         'attr_type': 3,
@@ -74,7 +74,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 10,
         'girl_if_show': 1,
         'remould_if_show': 1,
-        'direction_if_show': 1,
+        'direction_if_show': 1
     },
     100: {
         'attr_type': 1,
@@ -93,7 +93,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 100,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     102: {
         'attr_type': 1,
@@ -112,7 +112,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 102,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     104: {
         'attr_type': 1,
@@ -131,7 +131,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 104,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     1040: {
         'attr_type': 1,
@@ -150,7 +150,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 1040,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     1041: {
         'attr_type': 1,
@@ -169,7 +169,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 1041,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     105: {
         'attr_type': 1,
@@ -188,7 +188,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 105,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     106: {
         'attr_type': 1,
@@ -207,7 +207,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 106,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     11: {
         'attr_type': 1,
@@ -226,7 +226,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 11,
         'girl_if_show': 1,
         'remould_if_show': 1,
-        'direction_if_show': 1,
+        'direction_if_show': 1
     },
     111: {
         'attr_type': 1,
@@ -245,7 +245,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 111,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     116: {
         'attr_type': 1,
@@ -264,7 +264,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 116,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     12: {
         'attr_type': 1,
@@ -283,7 +283,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 12,
         'girl_if_show': 1,
         'remould_if_show': 1,
-        'direction_if_show': 1,
+        'direction_if_show': 1
     },
     13: {
         'attr_type': 1,
@@ -302,7 +302,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 13,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     137: {
         'attr_type': 1,
@@ -321,7 +321,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 137,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     138: {
         'attr_type': 1,
@@ -340,7 +340,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 138,
         'girl_if_show': 0,
         'remould_if_show': 0,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     139: {
         'attr_type': 1,
@@ -359,12 +359,11 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 139,
         'girl_if_show': 0,
         'remould_if_show': 0,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     14: {
         'attr_type': 4,
-        'attr_direction':
-            '航空攻撃での艦爆、艦攻隊が敵艦への与ダメージに影響する',
+        'attr_direction': '航空攻撃での艦爆、艦攻隊が敵艦への与ダメージに影響する',
         'girl_show_sort': 1,
         'attr_name': '対艦',
         'attr_icon': 'uipic_ui_attribute_im_jianbao',
@@ -379,7 +378,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 14,
         'girl_if_show': 1,
         'remould_if_show': 1,
-        'direction_if_show': 1,
+        'direction_if_show': 1
     },
     140: {
         'attr_type': 1,
@@ -398,7 +397,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 140,
         'girl_if_show': 0,
         'remould_if_show': 0,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     141: {
         'attr_type': 1,
@@ -417,7 +416,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 141,
         'girl_if_show': 0,
         'remould_if_show': 0,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     142: {
         'attr_type': 1,
@@ -436,7 +435,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 142,
         'girl_if_show': 0,
         'remould_if_show': 0,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     143: {
         'attr_type': 1,
@@ -455,7 +454,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 143,
         'girl_if_show': 0,
         'remould_if_show': 0,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     144: {
         'attr_type': 1,
@@ -474,7 +473,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 144,
         'girl_if_show': 0,
         'remould_if_show': 0,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     145: {
         'attr_type': 1,
@@ -493,7 +492,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 145,
         'girl_if_show': 0,
         'remould_if_show': 0,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     15: {
         'attr_type': 1,
@@ -512,7 +511,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 15,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     150: {
         'attr_type': 1,
@@ -531,7 +530,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 150,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     151: {
         'attr_type': 1,
@@ -550,7 +549,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 151,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     16: {
         'attr_type': 4,
@@ -569,7 +568,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 16,
         'girl_if_show': 1,
         'remould_if_show': 1,
-        'direction_if_show': 1,
+        'direction_if_show': 1
     },
     17: {
         'attr_type': 1,
@@ -588,7 +587,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 17,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     18: {
         'attr_type': 1,
@@ -607,7 +606,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 18,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     19: {
         'attr_type': 1,
@@ -626,7 +625,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 19,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     2: {
         'attr_type': 1,
@@ -645,7 +644,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 2,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     20: {
         'attr_type': 1,
@@ -664,7 +663,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 20,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     21: {
         'attr_type': 2,
@@ -683,7 +682,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 21,
         'girl_if_show': 1,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     210: {
         'attr_type': 5,
@@ -703,7 +702,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 210,
         'girl_if_show': 1,
         'remould_if_show': 0,
-        'direction_if_show': 1,
+        'direction_if_show': 1
     },
     211: {
         'attr_type': 5,
@@ -722,7 +721,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 211,
         'girl_if_show': 0,
         'remould_if_show': 0,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     212: {
         'attr_type': 5,
@@ -741,7 +740,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 212,
         'girl_if_show': 0,
         'remould_if_show': 0,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     213: {
         'attr_type': 5,
@@ -760,7 +759,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 213,
         'girl_if_show': 1,
         'remould_if_show': 0,
-        'direction_if_show': 1,
+        'direction_if_show': 1
     },
     214: {
         'attr_type': 5,
@@ -779,7 +778,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 214,
         'girl_if_show': 0,
         'remould_if_show': 0,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     22: {
         'attr_type': 1,
@@ -798,7 +797,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 22,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     23: {
         'attr_type': 1,
@@ -817,7 +816,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 23,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     24: {
         'attr_type': 2,
@@ -836,7 +835,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 24,
         'girl_if_show': 1,
         'remould_if_show': 1,
-        'direction_if_show': 1,
+        'direction_if_show': 1
     },
     25: {
         'attr_type': 3,
@@ -855,7 +854,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 25,
         'girl_if_show': 1,
         'remould_if_show': 1,
-        'direction_if_show': 1,
+        'direction_if_show': 1
     },
     26: {
         'attr_type': 1,
@@ -874,7 +873,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 26,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     27: {
         'attr_type': 1,
@@ -893,7 +892,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 27,
         'girl_if_show': 1,
         'remould_if_show': 1,
-        'direction_if_show': 1,
+        'direction_if_show': 1
     },
     28: {
         'attr_type': 1,
@@ -912,7 +911,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 28,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     29: {
         'attr_type': 1,
@@ -931,7 +930,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 29,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     3: {
         'attr_type': 1,
@@ -950,7 +949,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 3,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     30: {
         'attr_type': 1,
@@ -969,7 +968,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 30,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     31: {
         'attr_type': 1,
@@ -988,7 +987,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 31,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     3100: {
         'attr_type': 1,
@@ -1007,7 +1006,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 3100,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     3101: {
         'attr_type': 1,
@@ -1027,7 +1026,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 3101,
         'girl_if_show': 1,
         'remould_if_show': 1,
-        'direction_if_show': 1,
+        'direction_if_show': 1
     },
     3102: {
         'attr_type': 1,
@@ -1046,7 +1045,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 3102,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     32: {
         'attr_type': 1,
@@ -1065,7 +1064,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 32,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     3200: {
         'attr_type': 1,
@@ -1084,7 +1083,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 3200,
         'girl_if_show': 0,
         'remould_if_show': 0,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     3202: {
         'attr_type': 1,
@@ -1103,7 +1102,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 3202,
         'girl_if_show': 0,
         'remould_if_show': 0,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     33: {
         'attr_type': 1,
@@ -1122,7 +1121,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 33,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     34: {
         'attr_type': 1,
@@ -1141,7 +1140,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 34,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     35: {
         'attr_type': 1,
@@ -1160,7 +1159,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 35,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     36: {
         'attr_type': 1,
@@ -1179,7 +1178,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 36,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     37: {
         'attr_type': 4,
@@ -1198,7 +1197,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 37,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     38: {
         'attr_type': 1,
@@ -1217,7 +1216,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 38,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     39: {
         'attr_type': 3,
@@ -1236,7 +1235,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 39,
         'girl_if_show': 1,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     4: {
         'attr_type': 1,
@@ -1255,7 +1254,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 4,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     40: {
         'attr_type': 1,
@@ -1274,7 +1273,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 40,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     41: {
         'attr_type': 1,
@@ -1293,7 +1292,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 41,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     42: {
         'attr_type': 1,
@@ -1312,7 +1311,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 42,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     43: {
         'attr_type': 1,
@@ -1331,7 +1330,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 43,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     44: {
         'attr_type': 1,
@@ -1350,7 +1349,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 44,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     45: {
         'attr_type': 1,
@@ -1369,7 +1368,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 45,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     46: {
         'attr_type': 1,
@@ -1388,7 +1387,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 46,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     47: {
         'attr_type': 4,
@@ -1407,7 +1406,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 47,
         'girl_if_show': 1,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     48: {
         'attr_type': 1,
@@ -1426,7 +1425,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 48,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     49: {
         'attr_type': 1,
@@ -1445,7 +1444,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 49,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     5: {
         'attr_type': 1,
@@ -1464,7 +1463,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 5,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     50: {
         'attr_type': 1,
@@ -1483,7 +1482,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 50,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     51: {
         'attr_type': 1,
@@ -1502,7 +1501,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 51,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     52: {
         'attr_type': 1,
@@ -1521,7 +1520,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 52,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     53: {
         'attr_type': 1,
@@ -1540,7 +1539,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 53,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     54: {
         'attr_type': 1,
@@ -1559,7 +1558,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 54,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     55: {
         'attr_type': 1,
@@ -1578,7 +1577,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 55,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     56: {
         'attr_type': 1,
@@ -1597,7 +1596,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 56,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     57: {
         'attr_type': 1,
@@ -1616,7 +1615,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 57,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     58: {
         'attr_type': 1,
@@ -1635,7 +1634,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 58,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     59: {
         'attr_type': 1,
@@ -1654,7 +1653,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 59,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     6: {
         'attr_type': 1,
@@ -1673,7 +1672,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 6,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     60: {
         'attr_type': 1,
@@ -1692,7 +1691,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 60,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     61: {
         'attr_type': 1,
@@ -1711,7 +1710,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 61,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     62: {
         'attr_type': 4,
@@ -1730,7 +1729,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 62,
         'girl_if_show': 1,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     628: {
         'attr_type': 5,
@@ -1749,7 +1748,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 628,
         'girl_if_show': 0,
         'remould_if_show': 0,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     629: {
         'attr_type': 5,
@@ -1768,7 +1767,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 629,
         'girl_if_show': 0,
         'remould_if_show': 0,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     63: {
         'attr_type': 4,
@@ -1787,7 +1786,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 63,
         'girl_if_show': 1,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     630: {
         'attr_type': 5,
@@ -1806,7 +1805,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 630,
         'girl_if_show': 0,
         'remould_if_show': 0,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     64: {
         'attr_type': 1,
@@ -1825,7 +1824,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 64,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     65: {
         'attr_type': 1,
@@ -1844,7 +1843,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 65,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     66: {
         'attr_type': 1,
@@ -1863,7 +1862,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 66,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     67: {
         'attr_type': 1,
@@ -1882,7 +1881,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 67,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     7: {
         'attr_type': 1,
@@ -1901,7 +1900,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 7,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     75: {
         'attr_type': 1,
@@ -1920,7 +1919,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 75,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     8: {
         'attr_type': 2,
@@ -1939,7 +1938,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 8,
         'girl_if_show': 1,
         'remould_if_show': 1,
-        'direction_if_show': 1,
+        'direction_if_show': 1
     },
     80: {
         'attr_type': 1,
@@ -1958,7 +1957,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 80,
         'girl_if_show': 0,
         'remould_if_show': 1,
-        'direction_if_show': 0,
+        'direction_if_show': 0
     },
     88: {
         'attr_type': 4,
@@ -1978,12 +1977,11 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 88,
         'girl_if_show': 1,
         'remould_if_show': 1,
-        'direction_if_show': 1,
+        'direction_if_show': 1
     },
     89: {
         'attr_type': 4,
-        'attr_direction':
-            '戦姫が航空攻撃段階の対艦魚雷攻撃に一回で出撃できる艦攻の数',
+        'attr_direction': '戦姫が航空攻撃段階の対艦魚雷攻撃に一回で出撃できる艦攻の数',
         'girl_show_sort': 5,
         'attr_name': '艦上攻撃機隊',
         'attr_icon': 'uipic_ui_attribute_im_duijianjiqun',
@@ -1998,7 +1996,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 89,
         'girl_if_show': 1,
         'remould_if_show': 1,
-        'direction_if_show': 1,
+        'direction_if_show': 1
     },
     9: {
         'attr_type': 1,
@@ -2017,12 +2015,11 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 9,
         'girl_if_show': 1,
         'remould_if_show': 1,
-        'direction_if_show': 1,
+        'direction_if_show': 1
     },
     90: {
         'attr_type': 4,
-        'attr_direction':
-            '戦姫が航空攻撃段階の対艦爆撃に一回で出撃できる艦爆の数',
+        'attr_direction': '戦姫が航空攻撃段階の対艦爆撃に一回で出撃できる艦爆の数',
         'girl_show_sort': 4,
         'attr_name': '艦上爆撃機隊',
         'attr_icon': 'uipic_ui_attribute_im_duijianjiqun',
@@ -2037,7 +2034,7 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 90,
         'girl_if_show': 1,
         'remould_if_show': 1,
-        'direction_if_show': 1,
+        'direction_if_show': 1
     },
     974: {
         'attr_type': 5,
@@ -2056,6 +2053,6 @@ export const ATTRIBUTR: Record<number, Attribute> = {
         'id': 974,
         'girl_if_show': 0,
         'remould_if_show': 0,
-        'direction_if_show': 0,
-    },
+        'direction_if_show': 0
+    }
 }

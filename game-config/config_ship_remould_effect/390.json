@@ -1,1 +1,15 @@
-{"limit_star":2,"position":[-94,137.6436],"name":"P1-系属-B","icon":"uipic_ui_gaizao_im_icon_leifang_xuanzhong","lock_icon":"uipic_ui_gaizao_im_icon_leifang_weixuanzhong","limit_level":5,"desc":"提升基础数值","cost":[[5,1,36000],[1,11028,36],[6,60002,20]],"connect_rotation":[[0,0,300]],"id":390,"remould_effect_type":[[2,11,31],[2,3200,8],[2,3202,8]],"remould_prev":[388],"connect_type":[1]}
+{
+    "limit_star": 2,
+    "position": [-94, 137.6436],
+    "name": "P1-系属-B",
+    "icon": "uipic_ui_gaizao_im_icon_leifang_xuanzhong",
+    "lock_icon": "uipic_ui_gaizao_im_icon_leifang_weixuanzhong",
+    "limit_level": 5,
+    "desc": "提升基础数值",
+    "cost": [[5, 1, 36000], [1, 11028, 36], [6, 60002, 20]],
+    "connect_rotation": [[0, 0, 300]],
+    "id": 390,
+    "remould_effect_type": [[2, 11, 31], [2, 3200, 8], [2, 3202, 8]],
+    "remould_prev": [388],
+    "connect_type": [1]
+}

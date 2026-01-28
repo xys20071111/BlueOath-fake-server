@@ -37,7 +37,7 @@ const server = createServer((socket) => {
             socket,
             reqData.Args,
             reqData.CallbackHandler,
-            reqData.Token,
+            reqData.Token
         )
     })
 })

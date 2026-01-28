@@ -9,13 +9,13 @@ export function GetNotesList(
     socket: Socket,
     _args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     sendResponsePacket(
         socket,
         'buildnotes.GetNotesList',
         TNotesListRet.encode(TNotesListRet.create({ List: [] })).finish(),
         callbackHandler,
-        token,
+        token
     )
 }

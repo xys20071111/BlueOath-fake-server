@@ -6,18 +6,19 @@ import { ClientType, Player } from '../entity/player.ts'
 import { EMPTY_UINT8ARRAY } from '../utils/placeholder.ts'
 import { generateChatMsg, WorldChatMessage } from './chat.ts'
 import { chatDb, miniGameScoreDb } from '../db.ts'
-import {
-    ITEM_BAG_BASE,
-    ITEM_BAG_CN,
-    ITEM_BAG_JP,
-} from '../constants/itemBag.ts'
+import { ITEM_BAG_BASE, ITEM_BAG_CN, ITEM_BAG_JP } from '../constants/itemBag.ts'
 import { TEN_DAYS_IN_SECONDS } from '../constants/chat.ts'
 import { FASHION_INFO, FASHION_INFO_JP } from '../constants/fashion.ts'
 import { sendShipInfo } from './hero.ts'
-import { PASSED_ACT_PLOT, PASSED_PLOT, PASSED_SEA, PASSED_SEA_JP } from '../constants/plot.ts'
+import {
+    PASSED_ACT_PLOT,
+    PASSED_ACTIVITY_CN,
+    PASSED_PLOT,
+    PASSED_SEA,
+    PASSED_SEA_JP
+} from '../constants/plot.ts'
 import { STRATEGY_ID_CN } from '../constants/strategyId.ts'
 import { encoder } from '../utils/endecoder.ts'
-import { INTERACTION_BAG_IDS_CN } from '../constants/interactiveItem.ts'
 import { sendInteractionItemInfo } from './interactionItem.ts'
 
 const playerPb = protobuf.loadSync('./raw-protobuf/player.proto')
@@ -59,9 +60,8 @@ const magazinePb = protobuf.loadSync('./raw-protobuf/magazine.proto')
 const TRetMagazineInfo = magazinePb.lookupType('magazine.TRetMagazineInfo')
 
 const illustratePb = protobuf.loadSync('./raw-protobuf/illustrate.proto')
-const TIllustrateInfoRet = illustratePb.lookupType(
-    'illustrate.TIllustrateInfoRet',
-)
+const TIllustrateInfoRet = illustratePb.lookupType('illustrate.TIllustrateInfoRet')
+const TMemoryList = illustratePb.lookupType('illustrate.TMemoryList')
 
 const buildingPb = protobuf.loadSync('./raw-protobuf/building.proto')
 const TUserBuildingInfo = buildingPb.lookupType('building.TUserBuildingInfo')
@@ -70,18 +70,18 @@ export function UserLogin(
     socket: Socket,
     _args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const resData = TRetLogin.create({
         Ret: 'ok',
-        ErrCode: '0',
+        ErrCode: '0'
     })
     sendResponsePacket(
         socket,
         'user.UserLogin',
         TRetLogin.encode(resData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -89,7 +89,7 @@ export function GetUserInfo(
     socket: Socket,
     _args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const player = socketPlayerMap.get(socket)!
     // 这个LoginOK也不知道有啥用，在lua里看了一圈没有一个会用到它发送的数据的，要想设置UserData全靠上面的UpdateUserInfo
@@ -101,7 +101,7 @@ export function GetUserInfo(
         'user.GetUserInfo',
         EMPTY_UINT8ARRAY,
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -109,7 +109,7 @@ export function SetUserSecretary(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const player = socketPlayerMap.get(socket)!
     const parsedArgs: any = TSetUserSecretaryArg.decode(args)
@@ -119,7 +119,7 @@ export function SetUserSecretary(
         'user.SetUserSecretary',
         new Uint8Array(),
         callbackHandler,
-        token,
+        token
     )
     // 发送一份新的基础用户信息，通知客户端换秘书舰了
     const userInfo = player.getUserInfo()
@@ -129,7 +129,7 @@ export function SetUserSecretary(
         'user.UpdateUserInfo',
         TGetUserInfoRet.encode(userInfoData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -137,7 +137,7 @@ export function Refresh(
     socket: Socket,
     _args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const player = socketPlayerMap.get(socket)!
     sendInitMessages(socket, player, callbackHandler, token)
@@ -146,7 +146,7 @@ export function Refresh(
         'user.Refresh',
         EMPTY_UINT8ARRAY,
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -154,14 +154,14 @@ export function GetSupply(
     socket: Socket,
     _args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     sendResponsePacket(
         socket,
         'user.GetSupply',
         EMPTY_UINT8ARRAY,
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -169,7 +169,7 @@ export async function GetMiniGameScore(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const { ChapterId } = TGetMiniGameScoreArg.decode(args).toJSON()
     const player = socketPlayerMap.get(socket)!
@@ -189,7 +189,7 @@ export async function GetMiniGameScore(
         'user.GetMiniGameScore',
         TMiniGameScoreRet.encode(resData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -197,7 +197,7 @@ export async function SetMiniGameScore(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const parsedArgs = TSetMiniGameScoreArg.decode(args).toJSON()
     console.log(parsedArgs)
@@ -207,14 +207,14 @@ export async function SetMiniGameScore(
     const currentGame = parsedArgs.Score[parsedArgs.Score.length - 1]
     const resData = TMiniGameScoreRet.create({
         Score: currentGame.Score,
-        Time: parsedArgs.TimeCount,
+        Time: parsedArgs.TimeCount
     })
     sendResponsePacket(
         socket,
         'user.SetMiniGameScore',
         TMiniGameScoreRet.encode(resData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -222,7 +222,7 @@ async function sendInitMessages(
     socket: Socket,
     player: Player,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     // 基础用户信息
     const userInfo = player.getUserInfo()
@@ -232,21 +232,21 @@ async function sendInitMessages(
         'user.UpdateUserInfo',
         TGetUserInfoRet.encode(userInfoData).finish(),
         callbackHandler,
-        token,
+        token
     )
     // 舰队信息，不知道该发给哪个方法，用自定义方法强行写进去
     const tactics = player.getTactic().getTacticInfo()
     const tacticsData = JSON.stringify({
         MaxPower: 500,
         MinPower: 0,
-        tactics,
+        tactics
     })
     sendResponsePacket(
         socket,
         'tactic.custom.ForceWriteFleetInfo',
         encoder.encode(tacticsData),
         callbackHandler,
-        token,
+        token
     )
     // 舰娘信息
     sendShipInfo(socket, callbackHandler, token)
@@ -259,21 +259,21 @@ async function sendInitMessages(
     for (const item of ITEM_BAG_BASE) {
         items.push({
             templateId: item,
-            num: 10000,
+            num: 10000
         })
     }
     if (player.getClientType() === ClientType.CN) {
         for (const item of ITEM_BAG_CN) {
             items.push({
                 templateId: item,
-                num: 10000,
+                num: 10000
             })
         }
     } else {
         for (const item of ITEM_BAG_JP) {
             items.push({
                 templateId: item,
-                num: 10000,
+                num: 10000
             })
         }
     }
@@ -281,31 +281,31 @@ async function sendInitMessages(
         bagType: 1,
         bagSize: 8000,
         bagInfo: items,
-        useInfo: [],
+        useInfo: []
     })
     sendResponsePacket(
         socket,
         'bag.UpdateBagData',
         TBagInfoRet.encode(bagData).finish(),
         callbackHandler,
-        token,
+        token
     )
     // 装备背包
     const equipData = TEquipList.create({
         EquipBagSize: 1000,
         EquipInfo: player.getEquipBag().getEquipInfo(),
-        EquipNum: [],
+        EquipNum: []
     })
     sendResponsePacket(
         socket,
         'equip.UpdateEquipBagData',
         TEquipList.encode(equipData).finish(),
         callbackHandler,
-        token,
+        token
     )
     // 图鉴和许愿墙
     const illustrateResData = TIllustrateInfoRet.create(
-        player.getIllustrate().getIllustrateInfo(),
+        player.getIllustrate().getIllustrateInfo()
     )
 
     sendResponsePacket(
@@ -313,23 +313,23 @@ async function sendInitMessages(
         'illustrate.IllustrateInfo',
         TIllustrateInfoRet.encode(illustrateResData).finish(),
         callbackHandler,
-        token,
+        token
     )
     // 基建
     const buildingData = TUserBuildingInfo.create(
-        player.getUserBuilding().getBuildingInfo(),
+        player.getUserBuilding().getBuildingInfo()
     )
     sendResponsePacket(
         socket,
         'building.UpdateBuildingInfo',
         TUserBuildingInfo.encode(buildingData).finish(),
         callbackHandler,
-        token,
+        token
     )
     // 聊天
     const historyIter = chatDb.list<WorldChatMessage>({
         start: [`WorldChat`, Date.now() - 600000],
-        end: [`WorldChat`, Date.now()],
+        end: [`WorldChat`, Date.now()]
     })
     const chatHistory: any[] = []
     for await (const item of historyIter) {
@@ -345,14 +345,14 @@ async function sendInitMessages(
         BanMsg: '',
         BanEndTime: 0,
         FriendMsg: [],
-        PersonalMsg: [],
+        PersonalMsg: []
     })
     sendResponsePacket(
         socket,
         'chat.ChatInfo',
         TChatInfoRet.encode(chatData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -360,7 +360,7 @@ function sendOnce(
     socket: Socket,
     player: Player,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     // 副本信息
     // 剧情（不知道为什么，设置上这个海域页面显示就会出问题）
@@ -378,14 +378,14 @@ function sendOnce(
         MaxCopyId: 11,
         CopyType: 1,
         StarInfo: [],
-        PassCopyCount: 0,
+        PassCopyCount: 0
     })
     sendResponsePacket(
         socket,
         'copy.GetCopy',
         TUserCopyInfo.encode(plotCopyInfo).finish(),
         callbackHandler,
-        token,
+        token
     )
     // 海域
     const passedSea = []
@@ -404,7 +404,7 @@ function sendOnce(
                 SfPoint: 1,
                 SfInfo: [],
                 SfDot: true,
-                SfLvChoose: 1,
+                SfLvChoose: 1
             })
         }
         for (const item of PASSED_ACT_PLOT) {
@@ -420,7 +420,7 @@ function sendOnce(
                 SfPoint: 1,
                 SfInfo: [],
                 SfDot: true,
-                SfLvChoose: 1,
+                SfLvChoose: 1
             })
         }
     } else {
@@ -437,7 +437,7 @@ function sendOnce(
                 SfPoint: 1,
                 SfInfo: [],
                 SfDot: true,
-                SfLvChoose: 1,
+                SfLvChoose: 1
             })
         }
     }
@@ -446,35 +446,58 @@ function sendOnce(
         MaxCopyId: 1,
         CopyType: 2,
         StarInfo: [],
-        PassCopyCount: 0,
+        PassCopyCount: 0
     })
     sendResponsePacket(
         socket,
         'copy.GetCopy',
         TUserCopyInfo.encode(seaCopyInfo).finish(),
         callbackHandler,
-        token,
+        token
     )
     const actPlotInfo = TUserCopyInfo.create({
         BaseInfo: passedAct,
         MaxCopyId: 1,
         CopyType: 6,
         StarInfo: [],
-        PassCopyCount: 0,
+        PassCopyCount: 0
     })
     sendResponsePacket(
         socket,
         'copy.GetCopy',
         TUserCopyInfo.encode(actPlotInfo).finish(),
         callbackHandler,
-        token,
+        token
+    )
+    // 活动剧情
+    const activityChapters: Array<{
+        ChapterId: number
+        Index: number
+    }> = []
+    if (player.getClientType() === 0) {
+        for (const act of PASSED_ACTIVITY_CN) {
+            activityChapters.push({
+                ChapterId: act,
+                Index: (PASSED_ACTIVITY_CN.indexOf(act))
+            })
+        }
+    }
+    const memoryList = TMemoryList.create({
+        MemoryList: activityChapters
+    })
+    sendResponsePacket(
+        socket,
+        'illustrate.Memory',
+        TMemoryList.encode(memoryList).finish(),
+        callbackHandler,
+        token
     )
     // 抽卡信息
     const gachaData = TBuildShipInfo.create({
         DrawInfo: [],
         DispInfo: [
             { Id: 1, Count: 0 },
-            { Id: 1000, Count: 0 },
+            { Id: 1000, Count: 0 }
         ],
         RefreshInfo: [],
         TotalCount: [],
@@ -486,93 +509,91 @@ function sendOnce(
         CloseTime: [
             {
                 Id: 1,
-                CloseTime: Math.round(Date.now() / 1000) + TEN_DAYS_IN_SECONDS,
-            },
+                CloseTime: Math.round(Date.now() / 1000) + TEN_DAYS_IN_SECONDS
+            }
         ],
-        RewardChange: [],
+        RewardChange: []
     })
     sendResponsePacket(
         socket,
         'buildship.BuildShipInfo',
         TBuildShipInfo.encode(gachaData).finish(),
         callbackHandler,
-        token,
+        token
     )
     // 浴室
     const resData = TBathroomInfo.create({
         IsAllAuto: true,
-        HeroList: [],
+        HeroList: []
     })
     sendResponsePacket(
         socket,
         'bathroom.BathroomInfo',
         TBathroomInfo.encode(resData).finish(),
         callbackHandler,
-        token,
+        token
     )
     // 装饰品
     sendInteractionItemInfo(socket)
     // 时装信息
     const fashionData = TFashionList.create({
-        FashionInfo: player.getClientType() === 0
-            ? FASHION_INFO
-            : FASHION_INFO_JP,
+        FashionInfo: player.getClientType() === 0 ? FASHION_INFO : FASHION_INFO_JP
     })
     sendResponsePacket(
         socket,
         'fashion.updateData',
         TFashionList.encode(fashionData).finish(),
         callbackHandler,
-        token,
+        token
     )
     // 杂志
     const magazineData = TRetMagazineInfo.create({
         MagazineIdList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         Time: Math.round(Date.now() / 1000),
-        Version: 1,
+        Version: 1
     })
     sendResponsePacket(
         socket,
         'magazine.UpdateMagazineInfo',
         TRetMagazineInfo.encode(magazineData).finish(),
         callbackHandler,
-        token,
+        token
     )
     if (player.getClientType() === 0) {
         const strategyData = TStrategy.create({
             StrategyList: STRATEGY_ID_CN.map((v) => {
                 return {
                     Id: 100 + v,
-                    Level: 1,
+                    Level: 1
                 }
             }),
             CurCost: 0,
-            ResetNum: 0,
+            ResetNum: 0
         })
         sendResponsePacket(
             socket,
             'strategy.GetStrategy',
             TStrategy.encode(strategyData).finish(),
             callbackHandler,
-            token,
+            token
         )
     } else {
         const strategyData = TStrategy.create({
             StrategyList: STRATEGY_ID_CN.map((v) => {
                 return {
                     Id: 100 + v,
-                    Level: 1,
+                    Level: 1
                 }
             }),
             CurCost: 0,
-            ResetNum: 0,
+            ResetNum: 0
         })
         sendResponsePacket(
             socket,
             'strategy.GetStrategy',
             TStrategy.encode(strategyData).finish(),
             callbackHandler,
-            token,
+            token
         )
     }
 }

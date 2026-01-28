@@ -14,20 +14,20 @@ const TBuildShipArg = pb.lookupType('buildship.TBuildShipArg')
 
 enum CardType {
     EQUIP,
-    SHIP,
+    SHIP
 }
 
 function getCardsFromPool(
     num: number,
     cardType: CardType,
-    clientType: ClientType,
+    clientType: ClientType
 ) {
     const result = []
     if (cardType === CardType.SHIP) {
         if (clientType === ClientType.CN) {
             while (result.length !== num) {
                 result.push(
-                    HERO_POOL[Math.floor(Math.random() * HERO_POOL.length)],
+                    HERO_POOL[Math.floor(Math.random() * HERO_POOL.length)]
                 )
             }
         } else {
@@ -35,7 +35,7 @@ function getCardsFromPool(
                 result.push(
                     HERO_POOL_JP[
                         Math.floor(Math.random() * HERO_POOL_JP.length)
-                    ],
+                    ]
                 )
             }
         }
@@ -43,7 +43,7 @@ function getCardsFromPool(
         if (clientType === ClientType.CN) {
             while (result.length !== num) {
                 result.push(
-                    EQUIP_POOL[Math.floor(Math.random() * EQUIP_POOL.length)],
+                    EQUIP_POOL[Math.floor(Math.random() * EQUIP_POOL.length)]
                 )
             }
         } else {
@@ -51,7 +51,7 @@ function getCardsFromPool(
                 result.push(
                     EQUIP_POOL_JP[
                         Math.floor(Math.random() * EQUIP_POOL_JP.length)
-                    ],
+                    ]
                 )
             }
         }
@@ -63,7 +63,7 @@ export function BuildShip(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const player = socketPlayerMap.get(socket)!
     const parsedArgs: {
@@ -75,7 +75,7 @@ export function BuildShip(
         const result = getCardsFromPool(
             parsedArgs.Num,
             CardType.EQUIP,
-            player.getClientType(),
+            player.getClientType()
         ) as number[]
         const equipInfo = player.getEquipBag()
         const ids = equipInfo.addEquip(result)
@@ -85,14 +85,14 @@ export function BuildShip(
                 Type: 3,
                 ConfigId: item.tid,
                 Num: 1,
-                Id: item.id,
+                Id: item.id
             })
         }
         const resData = TBuildShipRet.create({
             BuildShipResult: buildShipResult,
             SpReward: [],
             TransReward: [],
-            IsChangeReward: false,
+            IsChangeReward: false
         })
         sendEquipInfo(socket, callbackHandler, token)
         sendResponsePacket(
@@ -100,14 +100,14 @@ export function BuildShip(
             'buildship.BuildShip',
             TBuildShipRet.encode(resData).finish(),
             callbackHandler,
-            token,
+            token
         )
         return
     }
     const result = getCardsFromPool(
         parsedArgs.Num,
         CardType.SHIP,
-        player.getClientType(),
+        player.getClientType()
     ) as any
     const heroInfo = player.getHeroInfo()
     const ids = heroInfo.addShip(result)
@@ -117,14 +117,14 @@ export function BuildShip(
             Type: 2,
             ConfigId: item.TemplateId,
             Num: 1,
-            Id: item.Id,
+            Id: item.Id
         })
     }
     const resData = TBuildShipRet.create({
         BuildShipResult: buildShipResult,
         SpReward: [],
         TransReward: [],
-        IsChangeReward: false,
+        IsChangeReward: false
     })
     // 舰娘信息
     sendShipInfo(socket, callbackHandler, token)
@@ -133,6 +133,6 @@ export function BuildShip(
         'buildship.BuildShip',
         TBuildShipRet.encode(resData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }

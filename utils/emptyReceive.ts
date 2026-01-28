@@ -7,14 +7,14 @@ export function EmptyReply(method: string) {
         socket: Socket,
         _args: Uint8Array,
         callbackHandler: number,
-        token: string,
+        token: string
     ) {
         sendResponsePacket(
             socket,
             method,
             EMPTY_UINT8ARRAY,
             callbackHandler,
-            token,
+            token
         )
     }
 }

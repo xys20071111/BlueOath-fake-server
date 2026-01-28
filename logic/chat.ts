@@ -23,21 +23,21 @@ export function GetBarrageById(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     // 似乎是获取剧情部分的弹幕用的
     const parsedArgs = TGetBarrageDataArg.decode(args).toJSON()
     // 发个空的回去
     const resData = TGetBarrageDataRet.create({
         Id: parsedArgs.Id,
-        BarrageList: [],
+        BarrageList: []
     })
     sendResponsePacket(
         socket,
         'chat.GetBarrageById',
         TGetBarrageDataRet.encode(resData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -46,7 +46,7 @@ export async function SendMessage(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     // 获取发送者信息
     const player = socketPlayerMap.get(socket)!
@@ -58,18 +58,18 @@ export async function SendMessage(
         sender: player.getUname(),
         message: parsedArgs.Message,
         type: parsedArgs.MsgType,
-        channel: parsedArgs.Channel,
+        channel: parsedArgs.Channel
     }
     await chatDb.set([`WorldChat`, Date.now()], msg)
     const resData = TChatSendMessageRet.create({
-        Message: parsedArgs.Message,
+        Message: parsedArgs.Message
     })
     sendResponsePacket(
         socket,
         'chat.SendMessage',
         TChatSendMessageRet.encode(resData).finish(),
         callbackHandler,
-        token,
+        token
     )
     socketPlayerMap.keys().forEach((target) => {
         if (target !== socket) {
@@ -82,9 +82,7 @@ export async function SendMessage(
                     ServerId: senderInfo.ServerId,
                     Uname: senderInfo.Uname,
                     Level: senderInfo.Level,
-                    Head: clientType === 0
-                        ? secretary.TemplateId
-                        : secretary.Fashioning,
+                    Head: clientType === 0 ? secretary.TemplateId : secretary.Fashioning,
                     HeadFrame: 0,
                     HeadShow: senderInfo.HeadShow,
                     Fashioning: secretary.Fashioning,
@@ -92,21 +90,21 @@ export async function SendMessage(
                     GuildName: '',
                     TeacherPrestige: 0,
                     SecretaryTid: secretary.TemplateId,
-                    Pid: senderInfo.Uid,
+                    Pid: senderInfo.Uid
                 },
                 Channel: parsedArgs.Channel,
                 TemplateId: 0,
                 SendTime: Math.round(Date.now() / 1000),
                 Message: parsedArgs.Message,
                 MsgType: parsedArgs.MsgType,
-                Params: [],
+                Params: []
             })
             sendResponsePacket(
                 target,
                 'chat.NewMessage',
                 TChatMsg.encode(chatData).finish(),
                 null,
-                null,
+                null
             )
         }
     })
@@ -116,14 +114,14 @@ export function ChangeWorldChannel(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     sendResponsePacket(
         socket,
         'chat.ChangeWorldChannel',
         args,
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -131,7 +129,7 @@ export function generateChatMsg(sender: string, message: string, type: number) {
     const senderPlayer = new Player(sender, 0)
     const senderInfo = senderPlayer.getUserInfo()
     const secretary = senderPlayer.getHeroInfo().getHeroById(
-        senderInfo.SecretaryId,
+        senderInfo.SecretaryId
     )
     return {
         UserInfo: {
@@ -147,13 +145,13 @@ export function generateChatMsg(sender: string, message: string, type: number) {
             GuildName: '',
             TeacherPrestige: 0,
             SecretaryTid: secretary.TemplateId,
-            Pid: senderInfo.Uid,
+            Pid: senderInfo.Uid
         },
         Channel: 901,
         TemplateId: 1,
         SendTime: Math.round(Date.now() / 1000),
         Message: message,
         MsgType: type,
-        Params: [],
+        Params: []
     }
 }

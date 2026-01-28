@@ -12,7 +12,7 @@ export function Equip(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const player = socketPlayerMap.get(socket)!
     const heroInfo = player.getHeroInfo()
@@ -23,7 +23,7 @@ export function Equip(
         'fashion.Equip',
         EMPTY_UINT8ARRAY,
         callbackHandler,
-        token,
+        token
     )
     sendShipInfo(socket, callbackHandler, token)
 }

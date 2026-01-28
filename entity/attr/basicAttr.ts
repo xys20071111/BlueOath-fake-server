@@ -16,7 +16,7 @@ export class Attribute {
         for (const item of this.attrRecord) {
             result.push({
                 AttrId: item[0],
-                AttrValue: item[1],
+                AttrValue: item[1]
             })
         }
         return result

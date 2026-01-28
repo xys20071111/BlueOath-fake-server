@@ -13,19 +13,19 @@ export function PlotReward(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const parsedArgs: any = TGuidePlotRewardArg.decode(args).toJSON()
     console.log(parsedArgs)
     const resData = TGuidePlotRewardRet.create({
-        PlotId: parsedArgs.PlotId,
+        PlotId: parsedArgs.PlotId
     })
     sendResponsePacket(
         socket,
         'guide.PlotReward',
         TGuidePlotRewardRet.encode(resData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }
 
@@ -33,20 +33,20 @@ export function Setting(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
-    token: string,
+    token: string
 ) {
     const parsedArgs: any = TGuideSettingArg.decode(args).toJSON()
     const res: any = {
         Setting: [
             {
                 Key: 'GUIDE_DONE_STAGE',
-                Value: '{\n["stageId"]=10000,\n["stepId"]=1,\n["paraId"]=1,\n}',
+                Value: '{\n["stageId"]=10000,\n["stepId"]=1,\n["paraId"]=1,\n}'
             },
             {
                 Key: 'GUIDE_DOING_STAGE',
-                Value: '{\n["stageId"]=10001,\n["stepId"]=1,\n["paraId"]=1,\n}',
-            },
-        ],
+                Value: '{\n["stageId"]=10001,\n["stepId"]=1,\n["paraId"]=1,\n}'
+            }
+        ]
     }
     const resData = TGuideInfo.create(res)
     sendResponsePacket(
@@ -54,6 +54,6 @@ export function Setting(
         'guide.Setting',
         TGuideInfo.encode(resData).finish(),
         callbackHandler,
-        token,
+        token
     )
 }

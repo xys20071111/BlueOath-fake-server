@@ -104,5 +104,5 @@ export const SHIP_LEVEL_UP: Record<number, ShipLevelUp> = {
     96: { 'level': 96, 'exp': 2000000, 'attribute_level': 272 },
     97: { 'level': 97, 'exp': 2000000, 'attribute_level': 284 },
     98: { 'level': 98, 'exp': 2000000, 'attribute_level': 296 },
-    99: { 'level': 99, 'exp': 2000000, 'attribute_level': 308 },
+    99: { 'level': 99, 'exp': 2000000, 'attribute_level': 308 }
 }

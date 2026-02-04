@@ -2,7 +2,7 @@ import { Socket } from 'node:net'
 import { Player } from '@/entity/player.ts'
 
 export const socketSeqMap: Map<Socket, number> = new Map()
-export const socketPlayerMap: Map<Socket, Player> = new Map()
+export const socketPlayerMap: WeakMap<Socket, Player> = new Map()
 
 export function getSeq(socket: Socket): number {
     if (socketSeqMap.has(socket)) {

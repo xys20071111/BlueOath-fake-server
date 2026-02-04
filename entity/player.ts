@@ -10,9 +10,43 @@ export enum ClientType {
     JP
 }
 
+export interface UserInfo {
+    Uid: number
+    Uname: string
+    Level: number
+    Class: number
+    ServerId: number
+    SecretaryId: number
+    HeadShow: number
+    Exp: number
+    Gold: number
+    Diamond: number
+    Gas: number
+    Supply: number
+    MainGun: number
+    Torpedo: number
+    Plane: number
+    Other: number
+    Retire: number
+    Bath: number
+    Strategy: number
+    Medal: number
+    CopyTrainPoint: number
+    Tower: number
+    FashionPoint: number
+    Lucky: number
+    GuildContri: number
+    TeacherMedal: number
+    TeacherPrestige: number
+    BattlePassExp: number
+    BattlePassGold: number
+    PvePt: number
+    Head?: number
+}
+
 export class Player {
     private uname: string
-    private userInfo: any
+    private userInfo: UserInfo
     private heroInfo: HeroBag
     private tactic: Tactic
     private equipBagInfo: EquipBag
@@ -73,7 +107,7 @@ export class Player {
         return this.tactic
     }
 
-    public getUserInfo(): any {
+    public getUserInfo(): UserInfo {
         return this.userInfo
     }
 

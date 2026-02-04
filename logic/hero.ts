@@ -21,6 +21,7 @@ const THeroAutoUnEquipArg = pb.lookupType('hero.THeroAutoUnEquipArg')
 const TRemouldArg = pb.lookupType('hero.TRemouldArg')
 const THeroInfo = pb.lookupType('hero.THeroInfo')
 const TIntensifyHeroArgs = pb.lookupType('hero.TIntensifyHeroArgs')
+const TCombineUpArg = pb.lookupType('hero.TCombineUpArg')
 
 // 提示信息显示一直不正常
 export function LockHero(
@@ -317,6 +318,27 @@ export function HeroIntensify(
     sendResponsePacket(
         socket,
         'hero.HeroIntensify',
+        EMPTY_UINT8ARRAY,
+        callbackHandler,
+        token
+    )
+}
+
+export function HeroCombineUpLv(
+    socket: Socket,
+    args: Uint8Array,
+    callbackHandler: number,
+    token: string
+) {
+    const parsedArgs = TCombineUpArg.decode(args).toJSON()
+    const player = socketPlayerMap.get(socket)!
+    const heroInfo = player.getHeroInfo()
+
+    heroInfo.addCombineInfo(parsedArgs.HeroId)
+    sendShipInfo(socket, callbackHandler, token)
+    sendResponsePacket(
+        socket,
+        'hero.HeroCombineUpLv',
         EMPTY_UINT8ARRAY,
         callbackHandler,
         token

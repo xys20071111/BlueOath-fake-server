@@ -24,6 +24,7 @@ import {
     GetHeroInfoByHeroIdArray,
     HeroAdvance,
     HeroAdvMaxLv,
+    HeroCombineUpLv,
     HeroIntensify,
     HeroRemould,
     LockHero,
@@ -121,6 +122,7 @@ eventBus.on('hero.AutoUnEquip', AutoUnEquip)
 eventBus.on('hero.AutoEquip', EmptyReply('hero.AutoEquip')) // 这个不会写
 eventBus.on('hero.HeroRemould', HeroRemould)
 eventBus.on('hero.HeroIntensify', HeroIntensify)
+eventBus.on('hero.HeroCombineUpLv', HeroCombineUpLv)
 
 eventBus.on('copyinfo.GetCopyInfo', GetCopyInfo)
 

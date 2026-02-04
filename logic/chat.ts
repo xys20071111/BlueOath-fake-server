@@ -1,9 +1,9 @@
 import { Socket } from 'node:net'
 import protobuf from 'protobufjs'
-import { sendResponsePacket } from '../utils/createResponsePacket.ts'
-import { socketPlayerMap } from '../utils/socketMaps.ts'
-import { chatDb } from '../db.ts'
-import { Player } from '../entity/player.ts'
+import { sendResponsePacket } from '@/utils/createResponsePacket.ts'
+import { socketPlayerMap } from '@/utils/socketMaps.ts'
+import { chatDb } from '@/server/db.ts'
+import { Player } from '@/entity/player.ts'
 
 export interface WorldChatMessage {
     sender: string

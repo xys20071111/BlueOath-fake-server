@@ -1,6 +1,6 @@
 import { Socket } from 'node:net'
 import protobuf from 'protobufjs'
-import { sendResponsePacket } from '../utils/createResponsePacket.ts'
+import { sendResponsePacket } from '@/utils/createResponsePacket.ts'
 
 const pb = protobuf.loadSync('./raw-protobuf/buildnotes.proto')
 const TNotesListRet = pb.lookupType('buildnotes.TNotesListRet')

@@ -1,9 +1,9 @@
 import { Socket } from 'node:net'
 import protobuf from 'protobufjs'
-import { sendResponsePacket } from '../utils/createResponsePacket.ts'
-import { socketPlayerMap } from '../utils/socketMaps.ts'
-import { EMPTY_UINT8ARRAY } from '../utils/placeholder.ts'
-import { EXP_ITEM } from '../constants/exp.ts'
+import { sendResponsePacket } from '@/utils/createResponsePacket.ts'
+import { socketPlayerMap } from '@/utils/socketMaps.ts'
+import { EMPTY_UINT8ARRAY } from '@/utils/placeholder.ts'
+import { EXP_ITEM } from '@/constants/exp.ts'
 
 const pb = protobuf.loadSync('./raw-protobuf/hero.proto')
 const TLockHeroArg = pb.lookupType('hero.TLockHeroArg')

@@ -1,8 +1,8 @@
 import { Socket } from 'node:net'
 import protobuf from 'protobufjs'
-import { sendResponsePacket } from '../utils/createResponsePacket.ts'
-import { socketPlayerMap } from '../utils/socketMaps.ts'
-import { Player } from '../entity/player.ts'
+import { sendResponsePacket } from '@/utils/createResponsePacket.ts'
+import { socketPlayerMap } from '@/utils/socketMaps.ts'
+import { Player } from '@/entity/player.ts'
 
 const playerPb = protobuf.loadSync('./raw-protobuf/player.proto')
 const TArgLogin = playerPb.lookupType('player.TArgLogin')
@@ -43,6 +43,7 @@ export function Login(
             token
         )
     } catch (e) {
+        console.log(`玩家 ${uname} 不存在`)
         // 不存在就踢掉
         const resData = TRetLogin.create({
             Ret: 'error',

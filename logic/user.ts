@@ -1,14 +1,14 @@
 import { Socket } from 'node:net'
 import protobuf from 'protobufjs'
-import { sendResponsePacket } from '../utils/createResponsePacket.ts'
-import { socketPlayerMap } from '../utils/socketMaps.ts'
-import { ClientType, Player } from '../entity/player.ts'
-import { EMPTY_UINT8ARRAY } from '../utils/placeholder.ts'
+import { sendResponsePacket } from '@/utils/createResponsePacket.ts'
+import { socketPlayerMap } from '@/utils/socketMaps.ts'
+import { ClientType, Player } from '@/entity/player.ts'
+import { EMPTY_UINT8ARRAY } from '@/utils/placeholder.ts'
 import { generateChatMsg, WorldChatMessage } from './chat.ts'
-import { chatDb, miniGameScoreDb } from '../db.ts'
-import { ITEM_BAG_BASE, ITEM_BAG_CN, ITEM_BAG_JP } from '../constants/itemBag.ts'
-import { TEN_DAYS_IN_SECONDS } from '../constants/chat.ts'
-import { FASHION_INFO, FASHION_INFO_JP } from '../constants/fashion.ts'
+import { chatDb, miniGameScoreDb } from '@/server/db.ts'
+import { ITEM_BAG_BASE, ITEM_BAG_CN, ITEM_BAG_JP } from '@/constants/itemBag.ts'
+import { TEN_DAYS_IN_SECONDS } from '@/constants/chat.ts'
+import { FASHION_INFO, FASHION_INFO_JP } from '@/constants/fashion.ts'
 import { sendShipInfo } from './hero.ts'
 import {
     PASSED_ACT_PLOT,
@@ -17,9 +17,9 @@ import {
     PASSED_PLOT,
     PASSED_SEA,
     PASSED_SEA_JP
-} from '../constants/plot.ts'
-import { STRATEGY_ID_CN } from '../constants/strategyId.ts'
-import { encoder } from '../utils/endecoder.ts'
+} from '@/constants/plot.ts'
+import { STRATEGY_ID_CN } from '@/constants/strategyId.ts'
+import { encoder } from '@/utils/endecoder.ts'
 import { sendInteractionItemInfo } from './interactionItem.ts'
 
 const playerPb = protobuf.loadSync('./raw-protobuf/player.proto')

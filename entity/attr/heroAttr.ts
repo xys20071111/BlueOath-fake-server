@@ -1,5 +1,5 @@
-import { ATTRIBUTR } from '../../constants/gameConfigAttribute.ts'
-import { SHIP_LEVEL_UP } from '../../constants/gameConfigShipLevelUp.ts'
+import { ATTRIBUTR } from '@/constants/gameConfigAttribute.ts'
+import { SHIP_LEVEL_UP } from '@/constants/gameConfigShipLevelUp.ts'
 import { shipMain, shipRemouldEffect } from '../gameConfig.ts'
 import { HeroInfo } from '../heroBag.ts'
 import { Player } from '../player.ts'

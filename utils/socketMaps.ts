@@ -1,5 +1,5 @@
 import { Socket } from 'node:net'
-import { Player } from '../entity/player.ts'
+import { Player } from '@/entity/player.ts'
 
 export const socketSeqMap: Map<Socket, number> = new Map()
 export const socketPlayerMap: Map<Socket, Player> = new Map()
@@ -14,12 +14,3 @@ export function getSeq(socket: Socket): number {
     socketSeqMap.set(socket, 0)
     return 0
 }
-
-setInterval(() => {
-    socketPlayerMap.forEach((_, k) => {
-        if (k.closed) {
-            socketPlayerMap.delete(k)
-            socketSeqMap.delete(k)
-        }
-    })
-}, 60000)

@@ -1,8 +1,8 @@
 import { Socket } from 'node:net'
 import protobuf from 'protobufjs'
-import { sendResponsePacket } from '../utils/createResponsePacket.ts'
-import { socketPlayerMap } from '../utils/socketMaps.ts'
-import { EMPTY_UINT8ARRAY } from '../utils/placeholder.ts'
+import { sendResponsePacket } from '@/utils/createResponsePacket.ts'
+import { socketPlayerMap } from '@/utils/socketMaps.ts'
+import { EMPTY_UINT8ARRAY } from '@/utils/placeholder.ts'
 
 const pb = protobuf.loadSync('./raw-protobuf/building.proto')
 const TSaveBuildingTacticArg = pb.lookupType('building.TSaveBuildingTacticArg')

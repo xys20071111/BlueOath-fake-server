@@ -1,7 +1,7 @@
 import { EventEmitter } from 'node:events'
 import { Socket } from 'node:net'
-import { socketPlayerMap } from './utils/socketMaps.ts'
-import { GetUserList, Login } from './logic/login.ts'
+import { socketPlayerMap } from '@/utils/socketMaps.ts'
+import { GetUserList, Login } from '@/logic/login.ts'
 import {
     GetMiniGameScore,
     GetSupply,
@@ -10,12 +10,12 @@ import {
     SetMiniGameScore,
     SetUserSecretary,
     UserLogin
-} from './logic/user.ts'
-import { ChangeWorldChannel, GetBarrageById, SendMessage } from './logic/chat.ts'
-import { PlotReward, Setting } from './logic/guide.ts'
-import { SavePrefs } from './logic/prefs.ts'
-import { GetNotesList } from './logic/buildnotes.ts'
-import { SetHerosTactic } from './logic/fleet.ts'
+} from '@/logic/user.ts'
+import { ChangeWorldChannel, GetBarrageById, SendMessage } from '@/logic/chat.ts'
+import { PlotReward, Setting } from '@/logic/guide.ts'
+import { SavePrefs } from '@/logic/prefs.ts'
+import { GetNotesList } from '@/logic/buildnotes.ts'
+import { SetHerosTactic } from '@/logic/fleet.ts'
 import {
     AddExp,
     AutoUnEquip,
@@ -30,12 +30,12 @@ import {
     Marry,
     RetireHero,
     StudySkill
-} from './logic/hero.ts'
-import { GetCopyInfo } from './logic/copyinfo.ts'
-import { StartBase } from './logic/copy.ts'
-import { Discuss, GetDiscuss, Like } from './logic/discuss.ts'
-import { AddBehavior, IllustrateNew, ModiVowHeroList, VowHero } from './logic/illustrate.ts'
-import { GetList /*CreateGuild*/ } from './logic/guild.ts'
+} from '@/logic/hero.ts'
+import { GetCopyInfo } from '@/logic/copyinfo.ts'
+import { StartBase } from '@/logic/copy.ts'
+import { Discuss, GetDiscuss, Like } from '@/logic/discuss.ts'
+import { AddBehavior, IllustrateNew, ModiVowHeroList, VowHero } from '@/logic/illustrate.ts'
+import { GetList /*CreateGuild*/ } from '@/logic/guild.ts'
 import {
     AddBuilding,
     EmptyReceive,
@@ -43,21 +43,21 @@ import {
     SetHero,
     UpdateHeroAddition,
     UpgradeBuilding
-} from './logic/building.ts'
-import { GetBathroomInfo } from './logic/bathroom.ts'
-import { GetShopsInfo } from './logic/shop.ts'
-import { GetFriendMainData, GetRecommendList } from './logic/friend.ts'
-import { CacheData } from './logic/cachedata.ts'
-import { BuildShip } from './logic/gacha.ts'
-import { EmptyReply } from './utils/emptyReceive.ts'
-import { Equip } from './logic/fashion.ts'
-import { Enhance, RiseStar } from './logic/equip.ts'
-import { Apply } from './logic/strategy.ts'
+} from '@/logic/building.ts'
+import { GetBathroomInfo } from '@/logic/bathroom.ts'
+import { GetShopsInfo } from '@/logic/shop.ts'
+import { GetFriendMainData, GetRecommendList } from '@/logic/friend.ts'
+import { CacheData } from '@/logic/cachedata.ts'
+import { BuildShip } from '@/logic/gacha.ts'
+import { EmptyReply } from '@/utils/emptyReceive.ts'
+import { Equip } from '@/logic/fashion.ts'
+import { Enhance, RiseStar } from '@/logic/equip.ts'
+import { Apply } from '@/logic/strategy.ts'
 import {
     SetBagItemVisible,
     SetMutexBagGroupState,
     SetPosterState
-} from './logic/interactionItem.ts'
+} from '@/logic/interactionItem.ts'
 
 class EventBus extends EventEmitter {
     // 重写一下emit函数，检查socket是不是已经登录了
@@ -194,3 +194,6 @@ eventBus.on(
     'invitescore.SetInviteStateByType',
     EmptyReply('invitescore.SetInviteStateByType')
 )
+
+
+eventBus.on("dailycopy.GetData", EmptyReply("dailycopy.GetData"))

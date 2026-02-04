@@ -1,9 +1,9 @@
 import { Socket } from 'node:net'
 import protobuf from 'protobufjs'
-import { sendResponsePacket } from '../utils/createResponsePacket.ts'
-import { socketPlayerMap } from '../utils/socketMaps.ts'
-import { EMPTY_UINT8ARRAY } from '../utils/placeholder.ts'
-import { discussDb } from '../db.ts'
+import { sendResponsePacket } from '@/utils/createResponsePacket.ts'
+import { socketPlayerMap } from '@/utils/socketMaps.ts'
+import { EMPTY_UINT8ARRAY } from '@/utils/placeholder.ts'
+import { discussDb } from '@/server/db.ts'
 
 const pb = protobuf.loadSync('./raw-protobuf/discuss.proto')
 const TGetDiscussRet = pb.lookupType('discuss.TGetDiscussRet')

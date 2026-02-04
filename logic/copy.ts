@@ -1,10 +1,10 @@
 import { Socket } from 'node:net'
-import { sendResponsePacket } from '../utils/createResponsePacket.ts'
-import { socketPlayerMap } from '../utils/socketMaps.ts'
+import { sendResponsePacket } from '@/utils/createResponsePacket.ts'
+import { socketPlayerMap } from '@/utils/socketMaps.ts'
 
-import { TStartBaseArg, TStartBaseRet } from '../compiled-protobuf/copy.ts'
-import { TBattleShip } from '../compiled-protobuf/battleplayer.ts'
-import { HeroBasicArrt } from '../entity/attr/heroAttr.ts'
+import { TStartBaseArg, TStartBaseRet } from '@/compiled-protobuf/copy.ts'
+import { TBattleShip } from '@/compiled-protobuf/battleplayer.ts'
+import { HeroBasicArrt } from '@/entity/attr/heroAttr.ts'
 
 // 注意：此方法现在返回的参数基本都是瞎填的，点击出征会导致游戏卡死
 export function StartBase(
@@ -49,7 +49,7 @@ export function StartBase(
                 Level: ship.Lvl,
                 Index: counter++,
                 Attr: attr.getAttr(),
-                CurHp: ship.CurHp,
+                CurHp: 100,
                 Equips: [],
                 PSkill: ship.PSkill,
                 BathBuff: [],

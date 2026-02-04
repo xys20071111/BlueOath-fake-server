@@ -1,4 +1,4 @@
-import { THeroAttr } from '../../compiled-protobuf/battleplayer.ts'
+import { THeroAttr } from '@/compiled-protobuf/battleplayer.ts'
 
 export class Attribute {
     protected attrRecord: Map<number, number> = new Map()

@@ -1,9 +1,9 @@
 import { Socket } from 'node:net'
 import protobuf from 'protobufjs'
-import { sendResponsePacket } from '../utils/createResponsePacket.ts'
-import { INTERACTION_BAG_IDS_CN, INTERACTION_BAG_IDS_JP } from '../constants/interactiveItem.ts'
-import { socketPlayerMap } from '../utils/socketMaps.ts'
-import { EMPTY_UINT8ARRAY } from '../utils/placeholder.ts'
+import { sendResponsePacket } from '@/utils/createResponsePacket.ts'
+import { INTERACTION_BAG_IDS_CN, INTERACTION_BAG_IDS_JP } from '@/constants/interactiveItem.ts'
+import { socketPlayerMap } from '@/utils/socketMaps.ts'
+import { EMPTY_UINT8ARRAY } from '@/utils/placeholder.ts'
 
 const pb = protobuf.loadSync('./raw-protobuf/interactionitem.proto')
 const TDecorateMutexBagGroupArg = pb.lookupType(

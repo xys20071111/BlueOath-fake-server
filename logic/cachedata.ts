@@ -1,5 +1,5 @@
 import { Socket } from 'node:net'
-import { sendResponsePacket } from '../utils/createResponsePacket.ts'
+import { sendResponsePacket } from '@/utils/createResponsePacket.ts'
 
 export function CacheData(
     socket: Socket,

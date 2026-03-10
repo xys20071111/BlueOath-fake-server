@@ -58,6 +58,7 @@ export function StartBase(
                 Fashioning: ship.Fashioning,
                 HurtPer: 1000
             }
+            console.log(JSON.stringify(data, null, 4))
             Ships.push(data)
         }
     } catch (e) {

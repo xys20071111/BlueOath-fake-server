@@ -25,7 +25,7 @@ export class EquipBag {
 
     constructor(uname: string) {
         this.equipInfo = JSON.parse(
-            Deno.readTextFileSync(`./playerData/${uname}/equipBag.json`)
+            Deno.readTextFileSync(`./playerData/${uname}/EquipBag.json`)
         )
         this.uname = uname
     }

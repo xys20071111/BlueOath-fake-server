@@ -43,7 +43,8 @@ export function Login(
             token
         )
     } catch (e) {
-        console.log(`玩家 ${uname} 不存在`)
+        console.log(`玩家 ${uname} 不存在或资料损坏，请根据下方错误信息进行判断`)
+        console.log(e)
         // 不存在就踢掉
         const resData = TRetLogin.create({
             Ret: 'error',

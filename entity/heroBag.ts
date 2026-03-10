@@ -1,14 +1,25 @@
-import { EXP_LEVEL } from '../constants/exp.ts'
-import { SPECIAL_REMOULD_EFFECT } from '../constants/specialRemouldEffect.ts'
+import { EXP_LEVEL } from '@/constants/exp.ts'
+import { SPECIAL_REMOULD_EFFECT } from '@/constants/specialRemouldEffect.ts'
+import { shipIntensifyNeed, shipIntensifyProvide } from './gameConfig.ts'
 
-interface HeroInfo {
+export interface HeroInfo {
     HeroId: number
     TemplateId: number
-    Equips: any[]
+    Equips: {
+        type: number
+        Equip: {
+            EquipsId: number
+            state: number
+        }[]
+    }[]
     Lvl: number
     Exp: number
     Advance: number
-    Intensify: any[]
+    Intensify: {
+        AttrType: number
+        IntensifyLvl: number
+        CurExp: number
+    }[]
     CreateTime: number
     CurHp: number
     CurGasoline: number
@@ -28,26 +39,42 @@ interface HeroInfo {
     RemouldLV: number
     AdvLv: number
     EquipEffects: any[]
-    CombinationInfo: any[]
+    CombinationInfo: {
+        ComLv: number
+        ComGrade: number
+        Combine: number
+        BeCombined: number
+    }
 }
 
 interface BasicHeroInfo {
     id: number
-    TemplateId?: number
-    isMarried?: boolean | number
-    marryType?: number
+    TemplateId: number
+    isMarried: boolean | number
+    marryType: number
     Level: number
-    Name?: string
-    Locked?: boolean
-    CreateTime?: number
-    deleted?: boolean
-    Exp?: number
-    Skills?: { Id: number; Level: number; Replace: number }[]
-    Adv?: boolean
-    Equips?: {
+    Name: string
+    Locked: boolean
+    CreateTime: number
+    deleted: boolean
+    Exp: number
+    Skills: { Id: number; Level: number; Replace: number }[]
+    Adv: boolean
+    Equips: {
         [k: string]: { EquipsId: number; state: number }
     }
-    Remould?: number[]
+    Remould: number[]
+    Intensify: Record<number, {
+        AttrType: number
+        IntensifyLvl: number
+        CurExp: number
+    }>
+    CombinationInfo: {
+        ComLv: number
+        ComGrade: number
+        Combine: number
+        BeCombined: number
+    }
 }
 
 export class HeroBag {
@@ -56,14 +83,14 @@ export class HeroBag {
 
     constructor(uname: string) {
         this.heroInfo = JSON.parse(
-            Deno.readTextFileSync(`./playerData/${uname}/HeroBag.json`),
+            Deno.readTextFileSync(`./playerData/${uname}/HeroBag.json`)
         )
         this.uname = uname
     }
 
     public reload() {
         this.heroInfo = JSON.parse(
-            Deno.readTextFileSync(`./playerData/${this.uname}/HeroBag.json`),
+            Deno.readTextFileSync(`./playerData/${this.uname}/HeroBag.json`)
         )
     }
 
@@ -73,7 +100,7 @@ export class HeroBag {
         this.heroInfo[targetId].marryType = type
         Deno.writeTextFile(
             `./playerData/${this.uname}/HeroBag.json`,
-            JSON.stringify(this.heroInfo, null, 4),
+            JSON.stringify(this.heroInfo, null, 4)
         )
     }
 
@@ -81,7 +108,7 @@ export class HeroBag {
         this.heroInfo[id - 1].Name = name
         Deno.writeTextFile(
             `./playerData/${this.uname}/HeroBag.json`,
-            JSON.stringify(this.heroInfo, null, 4),
+            JSON.stringify(this.heroInfo, null, 4)
         )
     }
 
@@ -89,7 +116,7 @@ export class HeroBag {
         return this.heroInfo[id - 1]
     }
 
-    public getHeroById(id: number) {
+    public getHeroById(id: number): HeroInfo {
         const targetId = id - 1
         const targetShip = this.heroInfo[targetId]
         const equips = {
@@ -100,8 +127,8 @@ export class HeroBag {
                 { EquipsId: 0, state: 0 },
                 { EquipsId: 0, state: 0 },
                 { EquipsId: 0, state: 0 },
-                { EquipsId: 0, state: 0 },
-            ],
+                { EquipsId: 0, state: 0 }
+            ]
         }
         if (targetShip.Equips) {
             for (const k in targetShip.Equips) {
@@ -114,7 +141,7 @@ export class HeroBag {
             for (const item of targetShip.Skills) {
                 pskills.push({
                     PSkillId: item.Id,
-                    Level: item.Level,
+                    PSkillIdLv: item.Level
                 })
             }
         }
@@ -153,7 +180,7 @@ export class HeroBag {
             RemouldLV: RemouldLV,
             AdvLv: targetShip.Adv ? 1 : 0,
             EquipEffects: [],
-            CombinationInfo: [],
+            CombinationInfo: targetShip.CombinationInfo
         }
     }
 
@@ -165,7 +192,7 @@ export class HeroBag {
                 for (const item of v.Skills) {
                     const result = {
                         PSkillId: item.Id,
-                        Level: item.Level,
+                        Level: item.Level
                     } as any
                     if (item.Replace) {
                         result.Replace = item.Replace
@@ -181,8 +208,8 @@ export class HeroBag {
                     { EquipsId: 0, state: 0 },
                     { EquipsId: 0, state: 0 },
                     { EquipsId: 0, state: 0 },
-                    { EquipsId: 0, state: 0 },
-                ],
+                    { EquipsId: 0, state: 0 }
+                ]
             }
             if (v.Equips) {
                 for (const k in v.Equips) {
@@ -194,7 +221,7 @@ export class HeroBag {
             if (v.Remould) {
                 RemouldLV = Math.floor(v.Remould.length / 13)
             }
-            const heroInfo = {
+            const heroInfo: HeroInfo = {
                 HeroId: k + 1,
                 TemplateId: v.TemplateId ?? v.id * 10 + 1,
                 Equips: [equips],
@@ -202,9 +229,7 @@ export class HeroBag {
                 Exp: v.Exp ?? 0,
                 Advance: 0,
                 Intensify: [],
-                CreateTime: v.CreateTime
-                    ? v.CreateTime
-                    : Math.round(Date.now() / 1000),
+                CreateTime: v.CreateTime ? v.CreateTime : Math.round(Date.now() / 1000),
                 CurHp: 10000000000, // 最大hp
                 CurGasoline: 10000000000,
                 CurAmmunition: 10000000000,
@@ -223,10 +248,14 @@ export class HeroBag {
                 RemouldLV,
                 AdvLv: v.Adv ? 1 : 0,
                 EquipEffects: [],
-                CombinationInfo: [],
+                CombinationInfo: v.CombinationInfo
             }
             if (typeof (v.isMarried) === 'number') {
                 heroInfo.MarryTime = v.isMarried
+            }
+            for (const key in v.Intensify) {
+                const value = v.Intensify[key]
+                heroInfo.Intensify.push(value)
             }
             heros.push(heroInfo)
         })
@@ -237,7 +266,7 @@ export class HeroBag {
         this.heroInfo[id - 1].Locked = lock
         Deno.writeTextFile(
             `./playerData/${this.uname}/HeroBag.json`,
-            JSON.stringify(this.heroInfo, null, 4),
+            JSON.stringify(this.heroInfo, null, 4)
         )
     }
 
@@ -251,15 +280,30 @@ export class HeroBag {
                 isMarried: false,
                 Level: 1,
                 Exp: 0,
+                Intensify: {},
+                Equips: {},
+                marryType: 0,
+                Name: '',
+                Locked: false,
+                deleted: false,
+                Skills: [],
+                Remould: [],
+                Adv: false,
+                CombinationInfo: {
+                    Combine: 0,
+                    ComGrade: 0,
+                    ComLv: 0,
+                    BeCombined: 0
+                }
             })
             ids.push({
                 Id: this.heroInfo.length,
-                TemplateId: item.TemplateId,
+                TemplateId: item.TemplateId
             })
         }
         Deno.writeTextFile(
             `./playerData/${this.uname}/HeroBag.json`,
-            JSON.stringify(this.heroInfo, null, 4),
+            JSON.stringify(this.heroInfo, null, 4)
         )
         return ids
     }
@@ -288,7 +332,7 @@ export class HeroBag {
         this.heroInfo[targetId].Exp = afterExp
         Deno.writeTextFile(
             `./playerData/${this.uname}/HeroBag.json`,
-            JSON.stringify(this.heroInfo, null, 4),
+            JSON.stringify(this.heroInfo, null, 4)
         )
         return { targetLevel, afterExp }
     }
@@ -304,7 +348,7 @@ export class HeroBag {
         }
         Deno.writeTextFile(
             `./playerData/${this.uname}/HeroBag.json`,
-            JSON.stringify(this.heroInfo, null, 4),
+            JSON.stringify(this.heroInfo, null, 4)
         )
     }
 
@@ -318,7 +362,7 @@ export class HeroBag {
                 this.heroInfo[targetId].Skills[i].Level += 1
                 Deno.writeTextFile(
                     `./playerData/${this.uname}/HeroBag.json`,
-                    JSON.stringify(this.heroInfo, null, 4),
+                    JSON.stringify(this.heroInfo, null, 4)
                 )
                 return
             }
@@ -326,11 +370,11 @@ export class HeroBag {
         this.heroInfo[targetId].Skills.push({
             Id: skill,
             Level: 2,
-            Replace: 0,
+            Replace: 0
         })
         Deno.writeTextFile(
             `./playerData/${this.uname}/HeroBag.json`,
-            JSON.stringify(this.heroInfo, null, 4),
+            JSON.stringify(this.heroInfo, null, 4)
         )
     }
 
@@ -338,19 +382,18 @@ export class HeroBag {
         this.heroInfo[id - 1].Adv = true
         Deno.writeTextFile(
             `./playerData/${this.uname}/HeroBag.json`,
-            JSON.stringify(this.heroInfo, null, 4),
+            JSON.stringify(this.heroInfo, null, 4)
         )
     }
     public addAdvanceLv(id: number) {
         const targetId = id - 1
         if (!this.heroInfo[targetId].TemplateId) {
-            this.heroInfo[targetId].TemplateId =
-                this.heroInfo[targetId].id * 10 + 1
+            this.heroInfo[targetId].TemplateId = this.heroInfo[targetId].id * 10 + 1
         }
         this.heroInfo[targetId].TemplateId++
         Deno.writeTextFile(
             `./playerData/${this.uname}/HeroBag.json`,
-            JSON.stringify(this.heroInfo, null, 4),
+            JSON.stringify(this.heroInfo, null, 4)
         )
     }
 
@@ -358,7 +401,7 @@ export class HeroBag {
         this.heroInfo[id - 1].id = fashion
         Deno.writeTextFile(
             `./playerData/${this.uname}/HeroBag.json`,
-            JSON.stringify(this.heroInfo, null, 4),
+            JSON.stringify(this.heroInfo, null, 4)
         )
     }
 
@@ -366,7 +409,7 @@ export class HeroBag {
         HeroId,
         Index,
         EquipId,
-        Type,
+        Type
     }: { HeroId: number; Index: number; EquipId: number; Type: number }) {
         if (Type === 1) {
             const targetId = HeroId - 1
@@ -375,13 +418,13 @@ export class HeroBag {
             }
             this.heroInfo[targetId].Equips[Index] = {
                 EquipsId: EquipId,
-                state: 4,
+                state: 4
             }
         }
 
         Deno.writeTextFile(
             `./playerData/${this.uname}/HeroBag.json`,
-            JSON.stringify(this.heroInfo, null, 4),
+            JSON.stringify(this.heroInfo, null, 4)
         )
     }
 
@@ -390,7 +433,7 @@ export class HeroBag {
         this.heroInfo[targetId].Equips = {}
         Deno.writeTextFile(
             `./playerData/${this.uname}/HeroBag.json`,
-            JSON.stringify(this.heroInfo, null, 4),
+            JSON.stringify(this.heroInfo, null, 4)
         )
     }
 
@@ -415,8 +458,8 @@ export class HeroBag {
                         {
                             Id: effect.old,
                             Replace: 0,
-                            Level: 1,
-                        },
+                            Level: 1
+                        }
                     ]
                 }
                 for (
@@ -435,13 +478,81 @@ export class HeroBag {
                 this.heroInfo[targetId].Skills.push({
                     Id: effect.new,
                     Level: 1,
-                    Replace: 0,
+                    Replace: 0
                 })
             }
         }
         Deno.writeTextFile(
             `./playerData/${this.uname}/HeroBag.json`,
-            JSON.stringify(this.heroInfo, null, 4),
+            JSON.stringify(this.heroInfo, null, 4)
+        )
+    }
+
+    public intensify(id: number, consumed: number[]) {
+        const targetShip = this.heroInfo[id]
+        const needExpConfig = shipIntensifyNeed.getConfig(targetShip.TemplateId)
+        const needExpMap: Map<number, number> = new Map()
+        if (!targetShip.Intensify) {
+            targetShip.Intensify = {}
+        }
+        try {
+            for (const item of needExpConfig.need_power_exp) {
+                needExpMap.set(item[0], item[1])
+            }
+            for (const resId of consumed) {
+                const consumedShip = this.heroInfo[resId]
+                const provideExpConfig = shipIntensifyProvide.getConfig(
+                    consumedShip.TemplateId
+                )
+                const provideExpMap: Map<number, number> = new Map()
+                for (const item of provideExpConfig.provide_power_exp) {
+                    provideExpMap.set(item[0], item[1])
+                }
+                for (const [attr, needExp] of needExpMap) {
+                    const provideExp = provideExpMap.get(attr)!
+                    if (!targetShip.Intensify[attr]) {
+                        targetShip.Intensify[attr] = {
+                            AttrType: attr,
+                            CurExp: 0,
+                            IntensifyLvl: 0
+                        }
+                    }
+                    const curExp = targetShip.Intensify[attr].CurExp
+                    const curLevel = targetShip.Intensify[attr].IntensifyLvl
+
+                    const newLevel = Math.round((curExp + provideExp) / needExp) + curLevel
+                    const newExp = (curExp + provideExp) % needExp
+
+                    targetShip.Intensify[attr] = {
+                        AttrType: attr,
+                        CurExp: newExp,
+                        IntensifyLvl: newLevel
+                    }
+                }
+            }
+        } catch (e) {
+            console.error(e)
+        }
+        Deno.writeTextFile(
+            `./playerData/${this.uname}/HeroBag.json`,
+            JSON.stringify(this.heroInfo, null, 4)
+        )
+    }
+    public addCombineInfo(heroId: number) {
+        if (!this.heroInfo[heroId].CombinationInfo) {
+            this.heroInfo[heroId].CombinationInfo = {
+                Combine: 1,
+                ComGrade: 1,
+                ComLv: 1,
+                BeCombined: 1
+            }
+        }
+        if (this.heroInfo[heroId].CombinationInfo) {
+            this.heroInfo[heroId].CombinationInfo.ComLv++
+        }
+        Deno.writeTextFile(
+            `./playerData/${this.uname}/HeroBag.json`,
+            JSON.stringify(this.heroInfo, null, 4)
         )
     }
 }

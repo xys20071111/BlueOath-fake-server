@@ -1,12 +1,14 @@
+interface IllustrateListItem {
+    IllustrateId: number
+    GetTime: number
+    LikeTime: number
+    NewHero: boolean
+    BehaviourList: number[]
+    MarryCount: number
+}
+
 interface IllustrateInfo {
-    IllustrateList: {
-        IllustrateId: number
-        GetTime: number
-        LikeTime: number
-        NewHero: boolean
-        BehaviourList: number[]
-        MarryCount: number
-    }[]
+    IllustrateList: IllustrateListItem[]
     VowCoolTime: number
     VowCoolHero: number
     VowCount: number

@@ -307,7 +307,8 @@ async function sendInitMessages(
     )
     // 图鉴和许愿墙
     const illustrateInfo = player.getIllustrate().getIllustrateInfo()
-    if (ClientType === 0) {
+    // 虽然国服用日服的数据似乎也不会报错，但是保险起见
+    if (player.getClientType() === 0) {
         illustrateInfo.IllustrateList = ILLUSTRATE_CN
     } else {
         illustrateInfo.IllustrateList = ILLUSTRATE_JP

@@ -11,9 +11,12 @@ app.use(async (ctx) => {
         'errornu': '0',
         'errordesc': ''
     }
-    // console.log('----请求信息----')
-    // console.log(ctx.request.url)
-    // console.log(await ctx.request.body.text())
+
+    if (ctx.request.url.href.includes("debug.zuiyouxi.com")) {
+        const reqBodyText = await ctx.request.body.text()
+        const reqBody = new URLSearchParams(reqBodyText)
+        console.log(reqBody)
+    }
 })
 
 app.addEventListener('listen', () => {

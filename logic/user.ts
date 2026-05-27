@@ -226,6 +226,7 @@ async function sendInitMessages(
     callbackHandler: number,
     token: string
 ) {
+    const clientType = player.getClientType()
     // 基础用户信息
     const userInfo = player.getUserInfo()
     const userInfoData = TGetUserInfoRet.create(userInfo)
@@ -264,7 +265,7 @@ async function sendInitMessages(
             num: 10000
         })
     }
-    if (player.getClientType() === ClientType.CN) {
+    if (clientType === ClientType.CN) {
         for (const item of ITEM_BAG_CN) {
             items.push({
                 templateId: item,
@@ -308,7 +309,7 @@ async function sendInitMessages(
     // 图鉴和许愿墙
     const illustrateInfo = player.getIllustrate().getIllustrateInfo()
     // 虽然国服用日服的数据似乎也不会报错，但是保险起见
-    if (player.getClientType() === 0) {
+    if (clientType === 0) {
         illustrateInfo.IllustrateList = ILLUSTRATE_CN
     } else {
         illustrateInfo.IllustrateList = ILLUSTRATE_JP
@@ -371,6 +372,7 @@ function sendOnce(
     callbackHandler: number,
     token: string
 ) {
+    const clientType = player.getClientType()
     // 副本信息
     // 剧情（不知道为什么，设置上这个海域页面显示就会出问题）
     const BaseInfo: any[] = []
@@ -399,7 +401,7 @@ function sendOnce(
     // 海域
     const passedSea = []
     const passedAct = []
-    if (player.getClientType() === 0) {
+    if (clientType === 0) {
         for (const item of PASSED_SEA) {
             passedSea.push({
                 BaseId: item,
@@ -484,7 +486,7 @@ function sendOnce(
         Index: number
     }> = []
     // 除了双生姐妹现在都能看了，但是不知道为啥双生姐妹没能完全解锁
-    if (player.getClientType() === 0) {
+    if (clientType === 0) {
         for (const act of PASSED_ACTIVITY_CN) {
             activityChapters.push({
                 ChapterId: act,
@@ -576,7 +578,7 @@ function sendOnce(
         callbackHandler,
         token
     )
-    if (player.getClientType() === 0) {
+    if (clientType === 0) {
         const strategyData = TStrategy.create({
             StrategyList: STRATEGY_ID_CN.map((v) => {
                 return {

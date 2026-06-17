@@ -44,9 +44,46 @@ export interface UserInfo {
     Head?: number
 }
 
+function createData(): UserInfo {
+    return {
+        'Uid': 10001,
+        'Uname': '示例用户',
+        'Level': 100,
+        'Class': 1,
+        'ServerId': 1,
+        'SecretaryId': 2,
+        'HeadShow': 0,
+        'Exp': 100,
+        'Gold': 500000,
+        'Diamond': 500000,
+        'Gas': 5000,
+        'Supply': 5000,
+        'MainGun': 5000,
+        'Torpedo': 5000,
+        'Plane': 5000,
+        'Other': 5000,
+        'Retire': 5000,
+        'Bath': 5000,
+        'Strategy': 101,
+        'Medal': 5000,
+        'CopyTrainPoint': 5000,
+        'Tower': 5000,
+        'FashionPoint': 5000,
+        'Lucky': 5000,
+        'GuildContri': 5000,
+        'TeacherMedal': 5000,
+        'TeacherPrestige': 5000,
+        'BattlePassExp': 5000,
+        'BattlePassGold': 5000,
+        'PvePt': 5
+    }
+}
+
 export class Player {
     private uname: string
-    private userInfo: UserInfo
+    // private userInfo: UserInfo
+    private id: number
+    private secretaryId: number
     private heroInfo: HeroBag
     private tactic: Tactic
     private equipBagInfo: EquipBag
@@ -54,41 +91,21 @@ export class Player {
     private buildingInfo: Building
     private interactionItem: InteractionItemEntity
     private clientType: ClientType
-    constructor(uname: string, type: ClientType) {
-        this.uname = uname
+    constructor(userInfo: {
+        id: number
+        uname: string
+        secretaryId: number
+    }, type: ClientType) {
+        this.uname = userInfo.uname
+        this.secretaryId = userInfo.secretaryId
+        this.id = userInfo.id
         this.clientType = type
-        this.userInfo = JSON.parse(
-            Deno.readTextFileSync(`./playerData/${this.uname}/UserInfo.json`)
-        )
-        this.heroInfo = new HeroBag(uname)
-        this.tactic = new Tactic(uname)
-        this.equipBagInfo = new EquipBag(uname)
-        this.illustrateInfo = new Illustrate(uname)
-        this.buildingInfo = new Building(uname)
-        this.interactionItem = new InteractionItemEntity(uname)
-
-        const secretary = this.heroInfo.getHeroBasicInfoById(
-            this.userInfo.SecretaryId
-        )
-        this.userInfo.HeadShow = secretary.isMarried ? 1 : 0
-        this.userInfo.Head = secretary.id
-    }
-
-    public refreshUserInfo() {
-        this.userInfo = JSON.parse(
-            Deno.readTextFileSync(`./playerData/${this.uname}/UserInfo.json`)
-        )
-        this.heroInfo.reload()
-        this.tactic.reload()
-        this.buildingInfo.reload()
-        this.equipBagInfo.reload()
-        this.illustrateInfo.reload()
-
-        const secretary = this.heroInfo.getHeroBasicInfoById(
-            this.userInfo.SecretaryId
-        )
-        this.userInfo.HeadShow = secretary.isMarried ? 1 : 0
-        this.userInfo.Head = secretary.id
+        this.heroInfo = new HeroBag(userInfo.uname)
+        this.tactic = new Tactic(userInfo.uname)
+        this.equipBagInfo = new EquipBag(userInfo.uname)
+        this.illustrateInfo = new Illustrate(userInfo.uname)
+        this.buildingInfo = new Building(userInfo.uname)
+        this.interactionItem = new InteractionItemEntity(userInfo.uname)
     }
 
     public getHeroInfo() {
@@ -108,7 +125,19 @@ export class Player {
     }
 
     public getUserInfo(): UserInfo {
-        return this.userInfo
+        const secretary = this.heroInfo.getHeroBasicInfoById(
+            this.secretaryId
+        )
+        const headShow = secretary.isMarried ? 1 : 0
+        const head = secretary.id
+
+        const data = createData()
+        data.Uid = this.id
+        data.Uname = this.uname
+        data.SecretaryId = this.secretaryId
+        data.HeadShow = headShow
+        data.Head = head
+        return data
     }
 
     public getUserBuilding() {

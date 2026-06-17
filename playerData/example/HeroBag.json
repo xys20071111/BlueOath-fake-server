@@ -5,19 +5,5 @@
         "isMarried": true,
         "Level": 1,
         "Exp": 0
-    },
-    {
-        "id": 2021011,
-        "isMarried": false,
-        "Level": 1,
-        "Exp": 0
-    },
-    {
-        "id": 3013014,
-        "TemplateId": 30130111,
-        "isMarried": false,
-        "Level": 1,
-        "Locked": true,
-        "Exp": 0
     }
 ]

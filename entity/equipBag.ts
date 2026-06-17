@@ -32,7 +32,7 @@ export class EquipBag {
 
     public reload() {
         this.equipInfo = JSON.parse(
-            Deno.readTextFileSync(`./playerData/${this.uname}/equipBag.json`)
+            Deno.readTextFileSync(`./playerData/${this.uname}/EquipBag.json`)
         )
     }
 
@@ -51,7 +51,7 @@ export class EquipBag {
         if (equip > 0) {
             this.equipInfo[equip - 1].HeroId = hero
             Deno.writeTextFile(
-                `./playerData/${this.uname}/equipBag.json`,
+                `./playerData/${this.uname}/EquipBag.json`,
                 JSON.stringify(this.equipInfo, null, 4)
             )
         }
@@ -61,7 +61,7 @@ export class EquipBag {
         const targetId = id - 1
         this.equipInfo[targetId].EnhanceLv++
         Deno.writeTextFile(
-            `./playerData/${this.uname}/equipBag.json`,
+            `./playerData/${this.uname}/EquipBag.json`,
             JSON.stringify(this.equipInfo, null, 4)
         )
         return this.equipInfo[targetId].EnhanceLv
@@ -71,7 +71,7 @@ export class EquipBag {
         const targetId = id - 1
         this.equipInfo[targetId].Star++
         Deno.writeTextFile(
-            `./playerData/${this.uname}/equipBag.json`,
+            `./playerData/${this.uname}/EquipBag.json`,
             JSON.stringify(this.equipInfo, null, 4)
         )
         return this.equipInfo[targetId].Star
@@ -95,7 +95,7 @@ export class EquipBag {
             })
         }
         Deno.writeTextFile(
-            `./playerData/${this.uname}/equipBag.json`,
+            `./playerData/${this.uname}/EquipBag.json`,
             JSON.stringify(this.equipInfo, null, 4)
         )
         return result

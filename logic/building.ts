@@ -68,7 +68,7 @@ export function AddBuilding(
     sendResponsePacket(
         socket,
         'building.AddBuilding',
-        TAddBuildingArg.encode(resData).finish(),
+        TAddBuildingRet.encode(resData).finish(),
         callbackHandler,
         token
     )

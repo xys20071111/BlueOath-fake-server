@@ -4,6 +4,8 @@ import { EquipBag } from './equipBag.ts'
 import { Illustrate } from './illustrate.ts'
 import { Tactic } from './tactic.ts'
 import { InteractionItemEntity } from './interactionItem.ts'
+import { DB } from 'sqlite'
+import { userInfoMainDb } from '@/server/db.ts'
 
 export enum ClientType {
     CN,
@@ -81,7 +83,6 @@ function createData(): UserInfo {
 
 export class Player {
     private uname: string
-    // private userInfo: UserInfo
     private id: number
     private secretaryId: number
     private heroInfo: HeroBag
@@ -94,13 +95,15 @@ export class Player {
     constructor(userInfo: {
         id: number
         uname: string
-        secretaryId: number
+        secretaryId: number,
     }, type: ClientType) {
         this.uname = userInfo.uname
         this.secretaryId = userInfo.secretaryId
         this.id = userInfo.id
         this.clientType = type
-        this.heroInfo = new HeroBag(userInfo.uname)
+
+        const playerDb = new DB(`./playerData/${userInfo.uname}.db`)
+        this.heroInfo = new HeroBag(playerDb)
         this.tactic = new Tactic(userInfo.uname)
         this.equipBagInfo = new EquipBag(userInfo.uname)
         this.illustrateInfo = new Illustrate(userInfo.uname)
@@ -126,15 +129,15 @@ export class Player {
 
     public getUserInfo(): UserInfo {
         const secretary = this.heroInfo.getHeroBasicInfoById(
-            this.secretaryId
+            userInfoMainDb.query<[number]>("SELECT secretary_id FROM user_info WHERE uname=?", [this.uname])[0][0]
         )
-        const headShow = secretary.isMarried ? 1 : 0
-        const head = secretary.id
+        const headShow = secretary.MarryTime === 0 ? 0 : 1
+        const head = secretary.fashionId
 
         const data = createData()
         data.Uid = this.id
         data.Uname = this.uname
-        data.SecretaryId = this.secretaryId
+        data.SecretaryId = secretary.id
         data.HeadShow = headShow
         data.Head = head
         return data
@@ -153,13 +156,7 @@ export class Player {
     }
 
     public setSecretary(id: number) {
-        const hero = this.heroInfo.getHeroBasicInfoById(id)
-        this.userInfo.SecretaryId = id
-        this.userInfo.HeadShow = hero.isMarried ? 1 : 0
-        Deno.writeTextFile(
-            `./playerData/${this.uname}/UserInfo.json`,
-            JSON.stringify(this.userInfo, null, 4)
-        )
+        userInfoMainDb.query("UPDATE user_info SET secretary_id=? WHERE uname=?", [id, this.uname])
     }
 
     public getEquipBag() {

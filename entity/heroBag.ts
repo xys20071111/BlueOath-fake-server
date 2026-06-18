@@ -98,16 +98,16 @@ type HeroInfoSelectResult = [
 ]
 
 export class HeroBag {
-    private heroInfoDb: DB
+    private db: DB
 
     constructor(db: DB) {
-        this.heroInfoDb = db
+        this.db = db
     }
 
     public setHeroMarry(id: number, type: number) {
         // this.heroInfoDb[targetId].isMarried = Math.round(Date.now() / 1000)
         // this.heroInfoDb[targetId].marryType = type
-        this.heroInfoDb.query(`UPDATE heroes SET married_time=?,marry_type=? WHERE id=?`, [
+        this.db.query(`UPDATE heroes SET married_time=?,marry_type=? WHERE id=?`, [
             Math.round(Date.now() / 1000),
             type,
             id
@@ -120,12 +120,12 @@ export class HeroBag {
         //     `./playerData/${this.uname}/HeroBag.json`,
         //     JSON.stringify(this.heroInfoDb, null, 4)
         // )
-        this.heroInfoDb.query(`UPDATE heroes SET name=? WHERE id=?`, [name, id])
+        this.db.query(`UPDATE heroes SET name=? WHERE id=?`, [name, id])
     }
 
     public getHeroBasicInfoById(id: number): BasicHeroInfo {
         const result =
-            this.heroInfoDb.query<HeroInfoSelectResult>('SELECT * FROM heroes WHERE id=?', [id])[0]
+            this.db.query<HeroInfoSelectResult>('SELECT * FROM heroes WHERE id=?', [id])[0]
         return {
             id: result[0],
             fashionId: result[1],
@@ -213,7 +213,7 @@ export class HeroBag {
 
     public getHeroBag(): Array<HeroInfo> {
         const heros: Array<HeroInfo> = []
-        this.heroInfoDb.query<HeroInfoSelectResult>('SELECT * FROM heroes').forEach((v, i) => {
+        this.db.query<HeroInfoSelectResult>('SELECT * FROM heroes').forEach((v, i) => {
             const pskills = []
             const rawEquips = JSON.parse(v[12])
             const rawSkills = JSON.parse(v[10])
@@ -244,7 +244,7 @@ export class HeroBag {
                 const key = parseInt(k) - 1
                 equips.Equip[key] = rawEquips[k]
             }
-            let RemouldLV = Math.floor(rawRemould.length / 13)
+            const RemouldLV = Math.floor(rawRemould.length / 13)
             const heroInfo: HeroInfo = {
                 HeroId: i + 1,
                 TemplateId: v[2],
@@ -289,13 +289,13 @@ export class HeroBag {
         //     `./playerData/${this.uname}/HeroBag.json`,
         //     JSON.stringify(this.heroInfoDb, null, 4)
         // )
-        this.heroInfoDb.query(`UPDATE heroes SET locked=? WHERE id=?`, [lock ? 1 : 0, id])
+        this.db.query(`UPDATE heroes SET locked=? WHERE id=?`, [lock ? 1 : 0, id])
     }
 
     public addShip(ships: Array<{ Id: number; TemplateId: number }>) {
         const ids: Array<{ Id: number; TemplateId: number }> = []
         for (const item of ships) {
-            this.heroInfoDb.query(
+            this.db.query(
                 "INSERT INTO heroes (ship_id, template_id, create_time) VALUES (?, ?, ?)",
                 [
                     item.Id,
@@ -304,7 +304,7 @@ export class HeroBag {
                 ]
             )
             ids.push({
-                Id: (this.heroInfoDb.query('SELECT last_insert_rowid()') as any)[0][0] as number,
+                Id: this.db.query<[number]>('SELECT id FROM heroes ORDER BY id DESC LIMIT 1;')[0][0],
                 TemplateId: item.TemplateId
             })
         }
@@ -330,13 +330,13 @@ export class HeroBag {
             targetLevel = 85
             afterExp = 0
         }
-        this.heroInfoDb.query(`UPDATE heroes SET level=?, exp=? WHERE id=?`, [targetLevel, afterExp, id])
+        this.db.query(`UPDATE heroes SET level=?, exp=? WHERE id=?`, [targetLevel, afterExp, id])
         return { targetLevel, afterExp }
     }
 
     public deleteShips(ids: Array<number>) {
         for (const id of ids) {
-            this.heroInfoDb.query(`DELETE FROM heroes WHERE id=?`, [id])
+            this.db.query(`DELETE FROM heroes WHERE id=?`, [id])
         }
     }
 
@@ -346,16 +346,16 @@ export class HeroBag {
         for (let i = 0; i < skills.length; i++) {
             if (skills[i].Id === skill) {
                 skills[i].Level += 1
-                this.heroInfoDb.query(`UPDATE heroes SET skills=? WHERE id=?`, [JSON.stringify(skills), id])
+                this.db.query(`UPDATE heroes SET skills=? WHERE id=?`, [JSON.stringify(skills), id])
                 return
             }
         }
         skills.push({ Id: skill, Level: 2, Replace: 0 })
-        this.heroInfoDb.query(`UPDATE heroes SET skills=? WHERE id=?`, [JSON.stringify(skills), id])
+        this.db.query(`UPDATE heroes SET skills=? WHERE id=?`, [JSON.stringify(skills), id])
     }
 
     public setAdvLv(id: number) {
-        this.heroInfoDb.query(`UPDATE heroes SET adv=1 WHERE id=?`, [id])
+        this.db.query(`UPDATE heroes SET adv=1 WHERE id=?`, [id])
     }
     public addAdvanceLv(id: number) {
         const hero = this.getHeroBasicInfoById(id)
@@ -363,11 +363,11 @@ export class HeroBag {
         if (!templateId) {
             templateId = hero.fashionId * 10 + 1
         }
-        this.heroInfoDb.query(`UPDATE heroes SET template_id=? WHERE id=?`, [templateId + 1, id])
+        this.db.query(`UPDATE heroes SET template_id=? WHERE id=?`, [templateId + 1, id])
     }
 
     public setFashion(id: number, fashion: number) {
-        this.heroInfoDb.query(`UPDATE heroes SET ship_id=? WHERE id=?`, [fashion, id])
+        this.db.query(`UPDATE heroes SET ship_id=? WHERE id=?`, [fashion, id])
     }
 
     public setEquip({
@@ -380,12 +380,12 @@ export class HeroBag {
             const hero = this.getHeroBasicInfoById(HeroId)
             const equips = hero.Equips ?? {}
             equips[Index] = { EquipsId: EquipId, state: 4 }
-            this.heroInfoDb.query(`UPDATE heroes SET equips=? WHERE id=?`, [JSON.stringify(equips), HeroId])
+            this.db.query(`UPDATE heroes SET equips=? WHERE id=?`, [JSON.stringify(equips), HeroId])
         }
     }
 
     public unEquipAll(id: number) {
-        this.heroInfoDb.query(`UPDATE heroes SET equips='{}' WHERE id=?`, [id])
+        this.db.query(`UPDATE heroes SET equips='{}' WHERE id=?`, [id])
     }
 
     public getEquipInfo(type: number, id: number) {
@@ -415,7 +415,7 @@ export class HeroBag {
                 skills.push({ Id: effect.new, Level: 1, Replace: 0 })
             }
         }
-        this.heroInfoDb.query(`UPDATE heroes SET remould=?, skills=? WHERE id=?`, [
+        this.db.query(`UPDATE heroes SET remould=?, skills=? WHERE id=?`, [
             JSON.stringify(remould),
             JSON.stringify(skills),
             id
@@ -465,7 +465,7 @@ export class HeroBag {
         } catch (e) {
             console.error(e)
         }
-        this.heroInfoDb.query(`UPDATE heroes SET intensify=? WHERE id=?`, [
+        this.db.query(`UPDATE heroes SET intensify=? WHERE id=?`, [
             JSON.stringify(intensify),
             id
         ])
@@ -482,7 +482,7 @@ export class HeroBag {
             }
         }
         combinationInfo.ComLv++
-        this.heroInfoDb.query(`UPDATE heroes SET combination_info=? WHERE id=?`, [
+        this.db.query(`UPDATE heroes SET combination_info=? WHERE id=?`, [
             JSON.stringify(combinationInfo),
             heroId
         ])

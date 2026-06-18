@@ -1,3 +1,5 @@
+import { DB } from 'sqlite'
+
 interface EquipBagItem {
     EquipId: number
     TemplateId: number
@@ -9,95 +11,58 @@ interface EquipBagItem {
     RiseCommonEquips: Array<{ TemplateId: number; Num: number }>
 }
 
-interface EquipInfo {
-    TemplateId: number
-    EnhanceLv: number
-    Star: number
-    HeroId: number
-    EnhanceExp: number
-    PSkillList: Array<{ PSkillId: number; PSkillLv: number }>
-    RiseCommonEquips: Array<{ TemplateId: number; Num: number }>
-}
+type EquipDbSelectResult = [number, number, number, number, number, number, string, string]
 
 export class EquipBag {
-    private equipInfo: Array<EquipInfo>
-    private uname: string
+    private db: DB
 
-    constructor(uname: string) {
-        this.equipInfo = JSON.parse(
-            Deno.readTextFileSync(`./playerData/${uname}/EquipBag.json`)
-        )
-        this.uname = uname
-    }
-
-    public reload() {
-        this.equipInfo = JSON.parse(
-            Deno.readTextFileSync(`./playerData/${this.uname}/EquipBag.json`)
-        )
+    constructor(db: DB) {
+        this.db = db
     }
 
     public getEquipInfo() {
         const equipBag: Array<EquipBagItem> = []
-        this.equipInfo.forEach((v, k) => {
+        const result = this.db.query<EquipDbSelectResult>('SELECT * FROM equips;')
+        result.forEach((v) => {
             equipBag.push({
-                EquipId: k + 1,
-                ...v
+                EquipId: v[0],
+                TemplateId: v[1],
+                EnhanceLv: v[2],
+                EnhanceExp: v[3],
+                Star: v[4],
+                HeroId: v[5],
+                PSkillList: JSON.parse(v[6]),
+                RiseCommonEquips: JSON.parse(v[7])
             })
         })
         return equipBag
     }
 
     public setHero(hero: number, equip: number) {
-        if (equip > 0) {
-            this.equipInfo[equip - 1].HeroId = hero
-            Deno.writeTextFile(
-                `./playerData/${this.uname}/EquipBag.json`,
-                JSON.stringify(this.equipInfo, null, 4)
-            )
-        }
+            this.db.query("UPDATE equips SET hero_id=? WHERE id=?;", [hero, equip])
     }
 
     public enhance(id: number) {
-        const targetId = id - 1
-        this.equipInfo[targetId].EnhanceLv++
-        Deno.writeTextFile(
-            `./playerData/${this.uname}/EquipBag.json`,
-            JSON.stringify(this.equipInfo, null, 4)
-        )
-        return this.equipInfo[targetId].EnhanceLv
+        const currentLv = this.db.query<[number]>("SELECT enhance_lv FROM equips WHERE id=?", [id])[0][0]
+        this.db.query<[number]>("UPDATE equips SET enhance_lv=? WHERE id=?", [currentLv + 1 ,id])
+        return currentLv + 1
     }
 
     public riseStar(id: number) {
-        const targetId = id - 1
-        this.equipInfo[targetId].Star++
-        Deno.writeTextFile(
-            `./playerData/${this.uname}/EquipBag.json`,
-            JSON.stringify(this.equipInfo, null, 4)
-        )
-        return this.equipInfo[targetId].Star
+        const currentLv = this.db.query<[number]>("SELECT star FROM equips WHERE id=?", [id])[0][0]
+        this.db.query<[number]>("UPDATE equips SET star=? WHERE id=?", [currentLv + 1 ,id])
+        return currentLv + 1
     }
 
     public addEquip(ids: Array<number>) {
         const result = []
         for (const id of ids) {
-            this.equipInfo.push({
-                TemplateId: id,
-                EnhanceLv: 1,
-                Star: 1,
-                EnhanceExp: 0,
-                PSkillList: [],
-                RiseCommonEquips: [],
-                HeroId: 0
-            })
+            this.db.query("INSERT INTO equips(template_id) VALUES (?)", [id])
             result.push({
                 tid: id,
-                id: this.equipInfo.length
+                id: this.db.query<[number]>('SELECT id FROM equips ORDER BY id DESC LIMIT 1;')[0][0],
             })
         }
-        Deno.writeTextFile(
-            `./playerData/${this.uname}/EquipBag.json`,
-            JSON.stringify(this.equipInfo, null, 4)
-        )
         return result
     }
 }

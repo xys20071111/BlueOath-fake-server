@@ -104,7 +104,7 @@ export class Player {
 
         const playerDb = new DB(`./playerData/${userInfo.uname}.db`)
         this.heroInfo = new HeroBag(playerDb)
-        this.tactic = new Tactic(userInfo.uname)
+        this.tactic = new Tactic(playerDb)
         this.equipBagInfo = new EquipBag(playerDb)
         this.illustrateInfo = new Illustrate(userInfo.uname)
         this.buildingInfo = new Building(userInfo.uname)

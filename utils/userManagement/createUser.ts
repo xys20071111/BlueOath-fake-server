@@ -51,5 +51,19 @@ CREATE TABLE equips (
     rise_common_equips TEXT    DEFAULT ('[]') 
                                NOT NULL
 );
+CREATE TABLE fleets (
+    id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    name      TEXT    NOT NULL,
+    heros     TEXT    NOT NULL
+                      DEFAULT ('[]'),
+    mode      INTEGER NOT NULL,
+    strategy  INTEGER DEFAULT (101) 
+                      NOT NULL,
+    formation INTEGER DEFAULT (1001) 
+                      NOT NULL,
+    type      INTEGER NOT NULL
+                      DEFAULT (1) 
+);
+INSERT INTO fleets(name,mode) VALUES ('第一舰队',1),('第二舰队',2),('第三舰队',3),('第四舰队',4);
     `)
 }

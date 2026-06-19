@@ -84,7 +84,6 @@ function createData(): UserInfo {
 export class Player {
     private uname: string
     private id: number
-    private secretaryId: number
     private heroInfo: HeroBag
     private tactic: Tactic
     private equipBagInfo: EquipBag
@@ -98,7 +97,6 @@ export class Player {
         secretaryId: number,
     }, type: ClientType) {
         this.uname = userInfo.uname
-        this.secretaryId = userInfo.secretaryId
         this.id = userInfo.id
         this.clientType = type
 
@@ -107,7 +105,7 @@ export class Player {
         this.tactic = new Tactic(playerDb)
         this.equipBagInfo = new EquipBag(playerDb)
         this.illustrateInfo = new Illustrate(userInfo.uname)
-        this.buildingInfo = new Building(userInfo.uname)
+        this.buildingInfo = new Building(playerDb)
         this.interactionItem = new InteractionItemEntity(userInfo.uname)
     }
 

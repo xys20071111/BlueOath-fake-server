@@ -1,3 +1,5 @@
+import { DB } from 'sqlite'
+
 interface BuildingTactic {
     BuildingId: number
     Name: string
@@ -55,116 +57,137 @@ interface UserBuildingInfo {
         HeroId: number
         PlotId: number
     }
+    LastUpdateTime: number
+    MaxWorkerStrength: number
+}
+
+function createData(): Partial<UserBuildingInfo> {
+    return {
+        'WorkerStrength': 1000000,
+        'WorkerRecover': 100,
+        'MaxWorkerStrength': 10000000,
+        'SpecialPlotDatas': [],
+        'NormalPlotDatas': [],
+        'Food': 0,
+        'FoodMax': 1000,
+        'Electric': 0,
+        'ElectricMax': 1000
+    }
 }
 
 export class Building {
-    private buildingInfo: UserBuildingInfo
-    private uname: string
-    constructor(uname: string) {
-        this.uname = uname
-        this.buildingInfo = JSON.parse(
-            Deno.readTextFileSync(`./playerData/${uname}/BuildingInfo.json`)
-        )
+    private db: DB
+
+    constructor(db: DB) {
+        this.db = db
+        this.db.query(`CREATE TABLE IF NOT EXISTS buildings (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            tid INTEGER NOT NULL,
+            level INTEGER NOT NULL DEFAULT 1,
+            hero_list TEXT NOT NULL DEFAULT '[]',
+            status INTEGER NOT NULL DEFAULT 1,
+            tactic TEXT NOT NULL DEFAULT '[]'
+        )`)
+        this.db.query(`CREATE TABLE IF NOT EXISTS land_list (
+            building INTEGER NOT NULL,
+            [index] INTEGER PRIMARY KEY NOT NULL
+        )`)
     }
 
-    public reload() {
-        this.buildingInfo = JSON.parse(
-            Deno.readTextFileSync(
-                `./playerData/${this.uname}/BuildingInfo.json`
-            )
-        )
-    }
-
-    public getBuildingInfo() {
+    public getBuildingInfo(): UserBuildingInfo {
         const lastUpdateTime = Math.round(Date.now() / 1000)
-        for (let i = 0; i < this.buildingInfo.BuildingInfos.length; i++) {
-            this.buildingInfo.BuildingInfos[i].LastUpdateTime = lastUpdateTime
-        }
-        this.buildingInfo.WorkerUpdateTime = lastUpdateTime
-        return this.buildingInfo
+        const buildings = this.db.query<[number, number, number, string, number, string]>(
+            'SELECT * FROM buildings'
+        ).map(([id, tid, level, heroListStr, status, tacticStr]) => ({
+            Id: id,
+            Tid: tid,
+            Level: level,
+            HeroList: JSON.parse(heroListStr) as number[],
+            Status: status,
+            TacticList: JSON.parse(tacticStr) as BuildingTactic[],
+            Productivity: 100,
+            ProduceSpeed: 100,
+            ProductCount: 100,
+            HeroEffectTimeList: [],
+            LastMoodUpdateTime: 0,
+            LastBuildUpdateTime: 0,
+            LastUpdateTime: lastUpdateTime
+        }))
+        const landList = this.db.query<[number, number]>(
+            'SELECT * FROM land_list'
+        ).map(([building, index]) => ({
+            BuildingId: building,
+            Index: index
+        }))
+        const template = createData()
+        return {
+            BuildingInfos: buildings,
+            LandList: landList,
+            ...template,
+            WorkerUpdateTime: lastUpdateTime,
+            NormalPlotUpdateTime: lastUpdateTime,
+            NormalTriggeredHeroIds: [],
+            SpecialTriggeredHeroPlots: { HeroId: 0, PlotId: 0 },
+            LastUpdateTime: 0
+        } as UserBuildingInfo
     }
 
     public setBuildingTactics(id: number, tactic: BuildingTactic[]) {
-        for (let i = 0; i < this.buildingInfo.BuildingInfos.length; i++) {
-            if (this.buildingInfo.BuildingInfos[i].Id === id) {
-                this.buildingInfo.BuildingInfos[i].TacticList = tactic
-                break
-            }
-        }
-        Deno.writeTextFile(
-            `./playerData/${this.uname}/BuildingInfo.json`,
-            JSON.stringify(this.buildingInfo, null, 4)
+        this.db.query(
+            'UPDATE buildings SET tactic=? WHERE id=?',
+            [JSON.stringify(tactic), id]
         )
     }
 
     public buildingUpgrade(id: number) {
-        for (let i = 0; i < this.buildingInfo.BuildingInfos.length; i++) {
-            if (this.buildingInfo.BuildingInfos[i].Id === id) {
-                this.buildingInfo.BuildingInfos[i].Level++
-                break
-            }
-        }
-        Deno.writeTextFile(
-            `./playerData/${this.uname}/BuildingInfo.json`,
-            JSON.stringify(this.buildingInfo, null, 4)
+        this.db.query(
+            'UPDATE buildings SET level = level + 1 WHERE id=?',
+            [id]
         )
     }
 
     public buildingSetHero(id: number, HeroIdList: number[]) {
-        for (let i = 0; i < this.buildingInfo.BuildingInfos.length; i++) {
-            if (this.buildingInfo.BuildingInfos[i].Id === id) {
-                this.buildingInfo.BuildingInfos[i].HeroList = HeroIdList ?? []
-                break
-            }
-        }
-        // HeroIdList可能是未定义的
-        if (HeroIdList) {
-            // 检查一下战姬是不是在别的建筑里
-            for (let i = 0; i < this.buildingInfo.BuildingInfos.length; i++) {
-                // 检查一下是不是当前建筑
-                if (this.buildingInfo.BuildingInfos[i].Id !== id) {
-                    const currentHeroList = this.buildingInfo.BuildingInfos[i].HeroList
-                    //不是的话检查一下有没有战姬要从这个建筑移出
-                    for (const id of HeroIdList) {
-                        if (currentHeroList.includes(id)) {
-                            currentHeroList.splice(
-                                currentHeroList.indexOf(id),
-                                1
-                            )
-                        }
+        const heroList = HeroIdList ?? []
+        this.db.query(
+            'UPDATE buildings SET hero_list=? WHERE id=?',
+            [JSON.stringify(heroList), id]
+        )
+        if (heroList.length > 0) {
+            const otherBuildings = this.db.query<[number, string]>(
+                'SELECT id, hero_list FROM buildings WHERE id != ?',
+                [id]
+            )
+            for (const [otherId, heroListStr] of otherBuildings) {
+                const currentHeroList: number[] = JSON.parse(heroListStr)
+                let changed = false
+                for (const heroId of heroList) {
+                    const idx = currentHeroList.indexOf(heroId)
+                    if (idx !== -1) {
+                        currentHeroList.splice(idx, 1)
+                        changed = true
                     }
+                }
+                if (changed) {
+                    this.db.query(
+                        'UPDATE buildings SET hero_list=? WHERE id=?',
+                        [JSON.stringify(currentHeroList), otherId]
+                    )
                 }
             }
         }
-        Deno.writeTextFile(
-            `./playerData/${this.uname}/BuildingInfo.json`,
-            JSON.stringify(this.buildingInfo, null, 4)
-        )
     }
 
-    public addBuilding(tid: number, index: number) {
-        const id = this.buildingInfo.BuildingInfos.length + 1
-        this.buildingInfo.BuildingInfos.push({
-            Tid: tid,
-            Id: id,
-            Level: 1,
-            HeroList: [],
-            Productivity: 100,
-            ProduceSpeed: 100,
-            ProductCount: 100,
-            Status: 1,
-            LastUpdateTime: 0,
-            LastMoodUpdateTime: 0,
-            LastBuildUpdateTime: 0,
-            HeroEffectTimeList: []
-        })
-        this.buildingInfo.LandList.push({
-            Index: index,
-            BuildingId: id
-        })
-        Deno.writeTextFile(
-            `./playerData/${this.uname}/BuildingInfo.json`,
-            JSON.stringify(this.buildingInfo, null, 4)
+    public addBuilding(tid: number, index: number): number {
+        this.db.query(
+            'INSERT INTO buildings (tid) VALUES (?)',
+            [tid]
+        )
+        const id = this.db.query<[number]>(
+            'SELECT id FROM buildings ORDER BY id DESC LIMIT 1'
+        )[0][0]
+        this.db.query(
+            'INSERT INTO land_list (building, [index]) VALUES (?, ?)',
+            [id, index]
         )
         return id
     }

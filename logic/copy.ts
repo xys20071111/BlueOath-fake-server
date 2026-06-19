@@ -1,126 +1,252 @@
+import { DB } from 'sqlite'
+import { existsSync } from 'node:fs'
 import { Socket } from 'node:net'
+import protobuf from 'protobufjs'
 import { sendResponsePacket } from '@/utils/createResponsePacket.ts'
 import { socketPlayerMap } from '@/utils/socketMaps.ts'
-
-import { TStartBaseArg, TStartBaseRet } from '@/compiled-protobuf/copy.ts'
-import { TBattleShip } from '@/compiled-protobuf/battleplayer.ts'
 import { HeroBasicArrt } from '@/entity/attr/heroAttr.ts'
 
-// 注意：此方法现在返回的参数基本都是瞎填的，点击出征会导致游戏卡死
+const copyPb = protobuf.loadSync('./raw-protobuf/copy.proto')
+const battlePlayerPb = protobuf.loadSync('./raw-protobuf/battleplayer.proto')
+
+const TStartBaseArg = copyPb.lookupType('copy.TStartBaseArg')
+const TStartBaseRet = copyPb.lookupType('copy.TStartBaseRet')
+const TBattlePlayerList = battlePlayerPb.lookupType('battleplayer.TBattlePlayerList')
+const TBattlePlayer = battlePlayerPb.lookupType('battleplayer.TBattlePlayer')
+const TBattleFleet = battlePlayerPb.lookupType('battleplayer.TBattleFleet')
+const TBattleShip = battlePlayerPb.lookupType('battleplayer.TBattleShip')
+const TFiledPSkillLv = battlePlayerPb.lookupType('battleplayer.TFiledPSkillLv')
+
+const CONFIG_DIR = './game-config'
+
+function loadJsonById(dbName: string, id: number | string): Record<string, any> | null {
+    const path = `${CONFIG_DIR}/${dbName}`
+    if (!existsSync(path)) return null
+    try {
+        const db = new DB(path)
+        const rows = db.query<[Uint8Array]>(
+            'SELECT jsonbytes FROM DBObject WHERE id=?',
+            [String(id)]
+        )
+        db.close()
+        if (rows.length === 0) return null
+        return JSON.parse(new TextDecoder().decode(rows[0][0]))
+    } catch {
+        return null
+    }
+}
+
+function* iterateJson(dbName: string): Generator<Record<string, any>> {
+    const path = `${CONFIG_DIR}/${dbName}`
+    if (!existsSync(path)) return
+    try {
+        const db = new DB(path)
+        const rows = db.query<[Uint8Array]>('SELECT jsonbytes FROM DBObject')
+        db.close()
+        for (const row of rows) {
+            try {
+                yield JSON.parse(new TextDecoder().decode(row[0]))
+            } catch { /* skip malformed */ }
+        }
+    } catch { /* skip unopenable */ }
+}
+
+function findCopyRecord(copyDisplayId: number): Record<string, any> | null {
+    for (const obj of iterateJson('config_copy.db')) {
+        if (obj.copy_id === copyDisplayId) {
+            return obj
+        }
+    }
+    return null
+}
+
+function buildBattleShips(heroIds: number[], player: any): any[] {
+    const heroBag = player.getHeroInfo()
+    const ships: any[] = []
+    for (let i = 0; i < heroIds.length; i++) {
+        const heroId = heroIds[i]
+        if (heroId === 0) continue
+        try {
+            const heroInfo = heroBag.getHeroById(heroId)
+            const pskills: any[] = []
+            if (heroInfo.PSkill) {
+                for (const skill of heroInfo.PSkill) {
+                    pskills.push(
+                        TFiledPSkillLv.create({
+                            PSkillId: skill.PSkillId,
+                            Level: skill.PSkillIdLv ?? 0
+                        })
+                    )
+                }
+            }
+            const attrCalc = new HeroBasicArrt(heroInfo, player)
+            ships.push(
+                TBattleShip.create({
+                    HeroId: heroInfo.HeroId,
+                    TemplateId: heroInfo.TemplateId,
+                    Level: heroInfo.Lvl,
+                    Index: i,
+                    Attr: attrCalc.getAttr(),
+                    CurHp: heroInfo.CurHp ?? 100000,
+                    Equips: [],
+                    PSkill: pskills,
+                    BathBuff: [],
+                    AdvEffectIdList: [],
+                    EquipGridNum: 6,
+                    Fashioning: heroInfo.Fashioning
+                })
+            )
+        } catch {
+            ships.push(
+                TBattleShip.create({
+                    HeroId: heroId,
+                    TemplateId: heroId,
+                    Level: 1,
+                    Index: i,
+                    Attr: [
+                        { AttrId: 1, AttrValue: 50000 },
+                        { AttrId: 2, AttrValue: 500 },
+                        { AttrId: 3, AttrValue: 500 },
+                        { AttrId: 4, AttrValue: 500 }
+                    ],
+                    CurHp: 100000,
+                    Equips: [],
+                    PSkill: [],
+                    BathBuff: [],
+                    AdvEffectIdList: [],
+                    EquipGridNum: 6
+                })
+            )
+        }
+    }
+    return ships
+}
+
 export function StartBase(
     socket: Socket,
     args: Uint8Array,
     callbackHandler: number,
     token: string
 ) {
-    const parsedArgs = TStartBaseArg.decode(args)
-    console.log(parsedArgs)
+    const parsedArgs: any = TStartBaseArg.decode(args).toJSON()
     const player = socketPlayerMap.get(socket)!
     const userInfo = player.getUserInfo()
-    const playerHeroBag = player.getHeroInfo()
-    /*
-    我不知道Ship这里缺了什么，已经是按照protobuf填的了
-    [22:13:04.899] [UNITY] NullReferenceException: A null value was found where an object instance was required.
-      at Battle.StartData.Ship.PBConvert (pb.TBattleShip lShip) [0x00000] in <filename unknown>:0
-      at Battle.StartData.Player.PBConvert (pb.TBattlePlayer battlePlayer) [0x00000] in <filename unknown>:0
-      at Battle.StartData.PVEStartData..ctor (pb.TStartBaseRet ret) [0x00000] in <filename unknown>:0
-      at BabelTime.GD.StageSimpleBattle.getStartData (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0
-      at BabelTime.GD.StageSimpleBattle.initBattle (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0
-      at BabelTime.GD.StageBattleBaseEx.StageEnterImpl (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0
-      at BabelTime.GD.StateBattleBaseImpl.StageEnter (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0
-      at BabelTime.GD.StageBase.Enter (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0
-      at FSM.FSMBaseState`1[M]._Enter (FSM.FSMParam enterParam) [0x00000] in <filename unknown>:0
-      at BabelTime.GD.StageMgr.DelayGoto () [0x00000] in <filename unknown>:0
-      at BabelTime.GD.StageMgr.Tick (Single deltaTime) [0x00000] in <filename unknown>:0
-      at BabelTime.GD.GameApp.Update (Single deltaTime) [0x00000] in <filename unknown>:0
-      at BabelTime.GD.Main.Update () [0x00000] in <filename unknown>:0
+    const uid = userInfo.Uid
+    const uname = userInfo.Uname
+    const level = userInfo.Level
+    const copyDisplayId = parsedArgs.CopyId ?? 0
+    const chapterId = parsedArgs.ChapterId ?? 0
+    const isRunningFight = parsedArgs.IsRunningFight ?? false
+    const battleMode = parsedArgs.BattleMode ?? 0
+    const heroList: any[] = parsedArgs.HeroList ?? []
 
-    (Filename: currently not available on il2cpp Line: -1)
-    */
-    const Ships: Array<TBattleShip> = []
-    let counter = 1
-    try {
-        for (const item of parsedArgs.HeroList[0].HeroIdList) {
-            const ship = playerHeroBag.getHeroById(item)
-            const attr = new HeroBasicArrt(ship, player)
-            const data: TBattleShip = {
-                HeroId: ship.HeroId + 1,
-                TemplateId: ship.TemplateId,
-                Level: ship.Lvl,
-                Index: counter++,
-                Attr: attr.getAttr(),
-                CurHp: 100,
-                Equips: [],
-                PSkill: ship.PSkill,
-                BathBuff: [],
-                AdvEffectIdList: [],
-                EquipGridNum: ship.Equips.length,
-                Fashioning: ship.Fashioning,
-                HurtPer: 1000
-            }
-            console.log(JSON.stringify(data, null, 4))
-            Ships.push(data)
+    const copyRecord = findCopyRecord(copyDisplayId)
+    const rid = copyRecord?.r_id ?? 0
+    const fleetIds: number[] = copyRecord?.fleet_id ?? []
+    const copyType = copyRecord?.copy_type ?? 0
+    const weatherGroupIds: number[] = copyRecord?.weather_group ?? []
+
+    const copyDisplay = loadJsonById('config_copy_display.db', copyDisplayId)
+
+    const fleets: any[] = []
+    const shipEquipGridInfos: any[] = []
+
+    for (const formation of heroList) {
+        const heroIdList: number[] = formation.HeroIdList ?? []
+        const strategyId = formation.StrategyId ?? 0
+        const index = formation.Index ?? 0
+
+        const ships = buildBattleShips(heroIdList, player)
+
+        for (const ship of ships) {
+            shipEquipGridInfos.push(
+                copyPb.lookupType('copy.TShipEquipGridInfo').create({
+                    HeroId: ship.HeroId,
+                    EquipGridNum: 6
+                })
+            )
         }
-    } catch (e) {
-        console.error(e)
+
+        fleets.push(
+            TBattleFleet.create({
+                FleetId: index,
+                FormationId: 0,
+                Index: index,
+                Ships: ships,
+                StrategyId: strategyId,
+                ConditionList: [],
+                KillTimes: 0,
+                HeroList: heroIdList,
+                TacticType: 0
+            })
+        )
     }
-    const ret: TStartBaseRet = {
-        BattlePlayer: {
-            BattlePlayerList: [{
-                Pid: userInfo.Uid,
-                Uid: userInfo.Uid,
-                Uname: userInfo.Uname,
-                Level: userInfo.Level,
-                PlayerCamp: 0,
-                Index: 0,
-                FleetInfo: {
-                    FleetId: 1,
-                    FormationId: 1001,
-                    Index: parsedArgs.HeroList[0].Index,
-                    Ships,
-                    StrategyId: parsedArgs.HeroList[0].StrategyId,
-                    ConditionList: [],
-                    KillTimes: 0,
-                    HeroList: parsedArgs.HeroList[0].HeroIdList,
-                    TacticType: 1
-                },
-                OpenFunc: [],
-                BattleMode: parsedArgs.BattleMode,
-                RandomFactors: []
-            }]
-        },
-        RandomSeed: 0,
-        Rid: 1,
+
+    const battlePlayerList = TBattlePlayerList.create({
+        BattlePlayerList: fleets.length > 0
+            ? fleets.map((f, i) =>
+                TBattlePlayer.create({
+                    Pid: uid,
+                    Uid: uid,
+                    Uname: uname,
+                    Level: level,
+                    PlayerCamp: 0,
+                    Index: i,
+                    FleetInfo: f,
+                    OpenFunc: [],
+                    BattleMode: 0,
+                    RandomFactors: []
+                })
+            )
+            : [
+                TBattlePlayer.create({
+                    Pid: uid,
+                    Uid: uid,
+                    Uname: uname,
+                    Level: level,
+                    PlayerCamp: 0,
+                    Index: 0,
+                    FleetInfo: null,
+                    OpenFunc: [],
+                    BattleMode: 0,
+                    RandomFactors: []
+                })
+            ]
+    })
+
+    const weatherGroupId = weatherGroupIds.length > 0 ? weatherGroupIds[0] : 0
+
+    const retData = TStartBaseRet.create({
+        BattlePlayer: battlePlayerList,
+        RandomSeed: Math.floor(Math.random() * 2147483647),
+        Rid: rid,
         arrRes: [],
-        EnemyFleet: [],
-        CopyId: parsedArgs.CopyId,
-        CopyType: 1,
+        EnemyFleet: fleetIds,
+        CopyId: copyDisplayId,
+        CopyType: copyType,
         CopyPass: false,
         BossProgress: 0,
-        IsRunningFight: false,
-        ShipEquipGridInfo: [],
+        IsRunningFight: isRunningFight,
+        ShipEquipGridInfo: shipEquipGridInfos,
         RandomFactors: [],
         SafeLv: 0,
-        Verify: undefined,
-        ExtraBattlePlayerList: [],
         Token: '',
+        ExtraBattlePlayerList: [],
         SkipVcr: [],
-        BattleMode: parsedArgs.BattleMode,
+        BattleMode: battleMode,
         IsFinal: false,
-        AnimMode: parsedArgs.AnimMode,
-        //在config_weather_group中找
-        WeatherGroupId: 5,
+        AnimMode: parsedArgs.AnimMode ?? 0,
+        WeatherGroupId: weatherGroupId,
         CopyMission: [],
         EnemyFleets: [],
         ConfigData: [],
-        MatchType: parsedArgs.MatchType
-    }
-    const resData = TStartBaseRet.create(ret)
+        MatchType: parsedArgs.MatchType ?? 0
+    })
 
     sendResponsePacket(
         socket,
         'copy.StartBase',
-        TStartBaseRet.encode(resData).finish(),
+        TStartBaseRet.encode(retData).finish(),
         callbackHandler,
         token
     )

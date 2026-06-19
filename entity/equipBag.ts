@@ -20,7 +20,10 @@ export class EquipBag {
         this.db = db
     }
 
+    private equipBagCache: EquipBagItem[] | null = null
+
     public getEquipInfo() {
+        if (this.equipBagCache) return this.equipBagCache
         const equipBag: Array<EquipBagItem> = []
         const result = this.db.query<EquipDbSelectResult>('SELECT * FROM equips;')
         result.forEach((v) => {
@@ -35,7 +38,16 @@ export class EquipBag {
                 RiseCommonEquips: JSON.parse(v[7])
             })
         })
+        this.equipBagCache = equipBag
         return equipBag
+    }
+
+    public getEquipById(id: number): EquipBagItem | undefined {
+        return this.getEquipInfo().find((e) => e.EquipId === id)
+    }
+
+    public invalidateCache() {
+        this.equipBagCache = null
     }
 
     public setHero(hero: number, equip: number) {

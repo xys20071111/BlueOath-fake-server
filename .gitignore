@@ -5,3 +5,4 @@ serverData
 playerData/*
 !playerData/example
 game-config/*.db
+game-config/*.bin

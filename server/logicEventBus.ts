@@ -127,6 +127,7 @@ eventBus.on('hero.HeroCombineUpLv', HeroCombineUpLv)
 eventBus.on('copyinfo.GetCopyInfo', GetCopyInfo)
 
 eventBus.on('copy.StartBase', StartBase)
+eventBus.on('copy.AttackBase', EmptyReply('copy.AttackBase'))
 
 eventBus.on('discuss.GetDiscuss', GetDiscuss)
 eventBus.on('discuss.Discuss', Discuss)

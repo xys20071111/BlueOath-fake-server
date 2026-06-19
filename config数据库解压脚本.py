@@ -73,7 +73,7 @@ def process_database(db_path: str):
         # 执行DDL创建表结构和索引
         for (ddl_sql,) in tables_ddl + indexes_ddl:
             if ddl_sql:
-                dst_cursor.execute(ddl_sql)
+                dst_cursor.execute(ddl_sql.replace("blob", "TEXT"))
         dst_conn.commit()
         print(f"已创建解密数据库: '{output_db_path}'")
         
@@ -96,7 +96,7 @@ def process_database(db_path: str):
             
             dst_cursor.execute(
                 'INSERT OR REPLACE INTO DBObject (id, indexid, jsonbytes) VALUES (?, ?, ?)',
-                (file_id, indexid, json_content.encode('utf-8') if json_content else b'')
+                (file_id, indexid, json_content)
             )
             count += 1
         

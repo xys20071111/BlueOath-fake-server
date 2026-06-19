@@ -4,3 +4,4 @@ node_modules
 serverData
 playerData/*
 !playerData/example
+game-config/*.db

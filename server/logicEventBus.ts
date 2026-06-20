@@ -33,7 +33,7 @@ import {
     StudySkill
 } from '@/logic/hero.ts'
 import { GetCopyInfo } from '@/logic/copyinfo.ts'
-import { StartBase } from '@/logic/copy.ts'
+import { AttactBase, PassBase, StartBase } from '@/logic/copy.ts'
 import { Discuss, GetDiscuss, Like } from '@/logic/discuss.ts'
 import { AddBehavior, IllustrateNew, ModiVowHeroList, VowHero } from '@/logic/illustrate.ts'
 import { GetList /*CreateGuild*/ } from '@/logic/guild.ts'
@@ -127,7 +127,9 @@ eventBus.on('hero.HeroCombineUpLv', HeroCombineUpLv)
 eventBus.on('copyinfo.GetCopyInfo', GetCopyInfo)
 
 eventBus.on('copy.StartBase', StartBase)
-eventBus.on('copy.AttackBase', EmptyReply('copy.AttackBase'))
+eventBus.on('copy.AttackBase', AttactBase)
+eventBus.on('copy.PassBase', PassBase)
+eventBus.on('copy.QuitBase', EmptyReply('copy.QuitBase'))
 
 eventBus.on('discuss.GetDiscuss', GetDiscuss)
 eventBus.on('discuss.Discuss', Discuss)
@@ -198,5 +200,4 @@ eventBus.on(
     EmptyReply('invitescore.SetInviteStateByType')
 )
 
-
-eventBus.on("dailycopy.GetData", EmptyReply("dailycopy.GetData"))
+eventBus.on('dailycopy.GetData', EmptyReply('dailycopy.GetData'))

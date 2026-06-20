@@ -2,7 +2,7 @@ import { userInfoMainDb } from '@/server/db.ts'
 import { DB } from 'sqlite'
 
 export function createUser(uname: string) {
-    userInfoMainDb.query("INSERT INTO user_info(uname, secretary_id) VALUES (?,1)", [uname])
+    userInfoMainDb.query('INSERT INTO user_info(uname, secretary_id) VALUES (?,1)', [uname])
     const playerDb = new DB(`./playerData/${uname}.db`)
     playerDb.execute(`
 CREATE TABLE heroes (
@@ -39,17 +39,17 @@ CREATE TABLE equips (
     id                 INTEGER PRIMARY KEY AUTOINCREMENT,
     template_id        INTEGER NOT NULL,
     enhance_lv         INTEGER NOT NULL
-                               DEFAULT (0),
+                                DEFAULT (0),
     enhance_exp        INTEGER NOT NULL
-                               DEFAULT (0),
+                                DEFAULT (0),
     star               INTEGER NOT NULL
-                               DEFAULT (1),
+                                DEFAULT (1),
     hero_id            INTEGER NOT NULL
-                               DEFAULT (0),
+                                DEFAULT (0),
     pskill_list        TEXT    NOT NULL
-                               DEFAULT ('[]'),
+                                DEFAULT ('[]'),
     rise_common_equips TEXT    DEFAULT ('[]') 
-                               NOT NULL
+                                NOT NULL
 );
 CREATE TABLE fleets (
     id        INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -65,5 +65,16 @@ CREATE TABLE fleets (
                       DEFAULT (1) 
 );
 INSERT INTO fleets(name,mode) VALUES ('第一舰队',1),('第二舰队',2),('第三舰队',3),('第四舰队',4);
+CREATE TABLE interaction_items (
+    furniture_visible TEXT NOT NULL DEFAULT '{}',
+    poster_state TEXT NOT NULL DEFAULT '[]',
+    decorate TEXT NOT NULL DEFAULT '[]'
+);
+INSERT INTO interaction_items DEFAULT VALUES;
+CREATE TABLE vow_info (
+    hero_list TEXT NOT NULL DEFAULT '[]',
+    count INTEGER NOT NULL DEFAULT 0
+);
+INSERT INTO vow_info DEFAULT VALUES;
     `)
 }

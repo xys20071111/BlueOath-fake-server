@@ -104,9 +104,9 @@ export class Player {
         this.heroInfo = new HeroBag(playerDb)
         this.tactic = new Tactic(playerDb)
         this.equipBagInfo = new EquipBag(playerDb)
-        this.illustrateInfo = new Illustrate(userInfo.uname)
+        this.illustrateInfo = new Illustrate(playerDb)
         this.buildingInfo = new Building(playerDb)
-        this.interactionItem = new InteractionItemEntity(userInfo.uname)
+        this.interactionItem = new InteractionItemEntity(playerDb)
     }
 
     public getHeroInfo() {

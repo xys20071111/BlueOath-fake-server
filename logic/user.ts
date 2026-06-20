@@ -317,7 +317,7 @@ async function sendInitMessages(
         illustrateInfo.IllustrateList = ILLUSTRATE_JP
     }
     const illustrateResData = TIllustrateInfoRet.create(
-        player.getIllustrate().getIllustrateInfo()
+        illustrateInfo
     )
 
     sendResponsePacket(

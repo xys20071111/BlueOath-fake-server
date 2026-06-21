@@ -20,8 +20,7 @@ CREATE TABLE heroes (
     name             TEXT    DEFAULT "",
     locked           INTEGER NOT NULL
                              DEFAULT (0),
-    create_time      INTEGER NOT NULL
-                              DEFAULT (0),
+    create_time      INTEGER NOT NULL,
     skills           TEXT    NOT NULL
                              DEFAULT "[]",
     adv              INTEGER NOT NULL
@@ -35,7 +34,7 @@ CREATE TABLE heroes (
     combination_info TEXT    DEFAULT ('{"Combine":0,"ComGrade":0,"ComLv":0,"BeCombined":0}') 
                              NOT NULL
 );
-INSERT INTO heroes(ship_id, template_id) VALUES (1021051, 10210511);
+INSERT INTO heroes(ship_id, template_id, create_time) VALUES (1021051, 10210511, ${Math.round(Date.now() / 1000)});
 CREATE TABLE equips (
     id                 INTEGER PRIMARY KEY AUTOINCREMENT,
     template_id        INTEGER NOT NULL,

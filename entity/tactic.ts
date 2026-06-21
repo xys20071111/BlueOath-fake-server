@@ -1,3 +1,5 @@
+import { DB } from 'sqlite'
+
 interface TacticInfo {
     tacticName: string
     heroInfo: number[]
@@ -8,44 +10,45 @@ interface TacticInfo {
 }
 
 export class Tactic {
-    private uname: string
-    private tactics: Array<TacticInfo>
+    private db: DB
 
-    constructor(uname: string) {
-        this.tactics = JSON.parse(
-            Deno.readTextFileSync(`./playerData/${uname}/FleetInfo.json`)
-        )
-        this.uname = uname
-    }
-
-    public reload() {
-        this.tactics = JSON.parse(
-            Deno.readTextFileSync(`./playerData/${this.uname}/FleetInfo.json`)
-        )
+    constructor(db: DB) {
+        this.db = db
     }
 
     public setTacticInfo(tactic: Array<TacticInfo>) {
         for (let i = 0; i < tactic.length; i++) {
-            if (!tactic[i].heroInfo) {
-                tactic[i].heroInfo = []
-            }
+            const heros = tactic[i].heroInfo ? JSON.stringify(tactic[i].heroInfo) : '[]'
+            this.db.query(
+                `UPDATE fleets SET name=?, heros=?, mode=?, strategy=?, formation=?, type=? WHERE id=?`,
+                [
+                    tactic[i].tacticName,
+                    heros,
+                    tactic[i].modeId,
+                    tactic[i].strategyId,
+                    tactic[i].formationId,
+                    tactic[i].type,
+                    i + 1
+                ]
+            )
         }
-        this.tactics = tactic
-        Deno.writeTextFile(
-            `./playerData/${this.uname}/FleetInfo.json`,
-            JSON.stringify(this.tactics, null, 4)
-        )
     }
 
     public setStrategy(fleet: number, strategy: number, type: number) {
-        this.tactics[fleet - 1].strategyId = strategy
-        Deno.writeTextFile(
-            `./playerData/${this.uname}/FleetInfo.json`,
-            JSON.stringify(this.tactics, null, 4)
-        )
+        this.db.query(`UPDATE fleets SET strategy=?, type=? WHERE id=?`, [strategy, type, fleet])
     }
 
-    public getTacticInfo() {
-        return this.tactics
+    public getTacticInfo(): Array<TacticInfo> {
+        const result = this.db.query<[number, string, string, number, number, number, number]>(
+            'SELECT id, name, heros, mode, strategy, formation, type FROM fleets ORDER BY id'
+        )
+        return result.map((v) => ({
+            tacticName: v[1],
+            heroInfo: JSON.parse(v[2]),
+            modeId: v[3],
+            strategyId: v[4],
+            formationId: v[5],
+            type: v[6]
+        }))
     }
 }

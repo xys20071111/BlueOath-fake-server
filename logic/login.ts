@@ -3,6 +3,7 @@ import protobuf from 'protobufjs'
 import { sendResponsePacket } from '@/utils/createResponsePacket.ts'
 import { socketPlayerMap } from '@/utils/socketMaps.ts'
 import { Player } from '@/entity/player.ts'
+import { userInfoMainDb } from '@/server/db.ts'
 
 const playerPb = protobuf.loadSync('./raw-protobuf/player.proto')
 const TArgLogin = playerPb.lookupType('player.TArgLogin')
@@ -20,16 +21,34 @@ export function Login(
     const uname: string = parsedArgs.Pid
     console.log(`用户尝试登录：${uname}`)
     try {
-        // 检查文件是否存在
-        using _userData = Deno.openSync(`./playerData/${uname}/UserInfo.json`, {
-            create: false,
-            createNew: false,
-            read: true,
-            write: false
-        })
+        // 检查用户是否存在
+        const result = userInfoMainDb.query<[number, string, number]>(
+            'SELECT * FROM user_info WHERE uname=?',
+            [uname]
+        )
+        if (result.length === 0) {
+            // 不存在就踢掉
+            const resData = TRetLogin.create({
+                Ret: '用户不存在',
+                ErrCode: '1'
+            })
+            sendResponsePacket(
+                socket,
+                'player.Login',
+                TRetLogin.encode(resData).finish(),
+                callbackHandler,
+                token
+            )
+            return
+        }
+        const info = result[0]
         socketPlayerMap.set(
             socket,
-            new Player(uname, parsedArgs.ClientVersion === '1.5.120' ? 0 : 1)
+            new Player({
+                id: info[0],
+                uname: info[1],
+                secretaryId: info[2]
+            }, parsedArgs.ClientVersion === '1.5.120' ? 0 : 1)
         )
         const resData = TRetLogin.create({
             Ret: 'ok',
@@ -43,7 +62,7 @@ export function Login(
             token
         )
     } catch (e) {
-        console.log(`玩家 ${uname} 不存在或资料损坏，请根据下方错误信息进行判断`)
+        console.log(`玩家 ${uname} 资料损坏，请根据下方错误信息进行判断`)
         console.log(e)
         // 不存在就踢掉
         const resData = TRetLogin.create({

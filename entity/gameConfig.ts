@@ -1,3 +1,5 @@
+import { DB } from 'sqlite'
+
 interface ShipMain {
     [key: string]: any
     'ship_air_control': number
@@ -159,23 +161,27 @@ interface IntensifyProvide {
     'sppe_id': number
 }
 
+const decoder = new TextDecoder()
+
 class GameConfig<T> {
     private record: Record<number, T> = {}
-    private configName: string
+    private db: DB
     constructor(configName: string) {
-        // 现在这里只考虑了国服，日后应该需要做对日服的兼容
-        this.configName = configName
+        this.db = new DB(`./game-config/${configName}.db`)
     }
 
     public getConfig(id: number): T {
         if (this.record[id]) {
             return this.record[id]
         }
-        const data: T = JSON.parse(
-            Deno.readTextFileSync(
-                `./game-config/${this.configName}/${id}.json`
-            )
+        const rows = this.db.query<[Uint8Array]>(
+            'SELECT jsonbytes FROM DBObject WHERE id = ?',
+            [id]
         )
+        if (rows.length === 0) {
+            throw new Error(`Config not found: ${id}`)
+        }
+        const data: T = JSON.parse(decoder.decode(rows[0][0]))
         this.record[id] = data
         return data
     }
@@ -192,3 +198,42 @@ export const shipIntensifyNeed: GameConfig<IntensifyNeed> = new GameConfig(
 export const shipIntensifyProvide: GameConfig<IntensifyProvide> = new GameConfig(
     'config_ship_provide_power_exp'
 )
+
+export interface FleetConfig {
+    [key: string]: any
+    'f_id': number
+    'copy_enemys': number[]
+}
+
+export interface ShipEnemy {
+    [key: string]: any
+    'id': number
+    'hp': number
+    'attack': number
+    'defense': number
+    'speed': number
+    'torpedo': number
+    'torpedo_defense': number
+    'to_air_attack': number
+    'to_torpedo_attack': number
+    'ship_bomb_attack': number
+    'ship_torpedo_attack': number
+    'ship_air_control': number
+    'view_range': number
+    'dodge': number
+    'hit': number
+    'crit': number
+    'anti_crit': number
+    'main_gun_range': number
+    'main_gun_cd': number
+    'torpedo_num': number
+    'carry_plane_count': number
+    'level': number
+    'fate': number
+    'pskill_id_array': number[]
+    'ship_info_id': number
+}
+
+export const fleetConfig: GameConfig<FleetConfig> = new GameConfig('config_fleet')
+export const shipEnemy: GameConfig<ShipEnemy> = new GameConfig('config_ship_enemy')
+export const copyConfig: GameConfig<any> = new GameConfig('config_copy')

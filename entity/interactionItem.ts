@@ -1,3 +1,5 @@
+import { DB } from 'sqlite'
+
 interface InteractionItem {
     halloweenPumpkin?: number[]
     furnitureVisible: Record<number, boolean>
@@ -16,85 +18,78 @@ interface InteractionItemInfo {
     decorate?: { typeId: number; curSelect: number }[]
 }
 
+type InteractionItemRow = [string, string, string]
+
 export class InteractionItemEntity {
-    private uname: string
-    private interactionItem: InteractionItem
-    constructor(uname: string) {
-        this.uname = uname
-        this.interactionItem = JSON.parse(
-            Deno.readTextFileSync(`./playerData/${uname}/InteractionItem.json`)
-        )
+    private db: DB
+
+    constructor(db: DB) {
+        this.db = db
     }
 
-    public reload() {
-        this.interactionItem = JSON.parse(
-            Deno.readTextFileSync(
-                `./playerData/${this.uname}/InteractionItem.json`
-            )
+    private ensureRow(): InteractionItemRow {
+        const rows = this.db.query<InteractionItemRow>(
+            'SELECT furniture_visible, poster_state, decorate FROM interaction_items'
         )
+        if (rows.length === 0) {
+            this.db.query('INSERT INTO interaction_items DEFAULT VALUES')
+            return ['{}', '[]', '[]']
+        }
+        return rows[0]
     }
 
     public getInteractionItemInfo(): InteractionItemInfo {
+        const [furnitureVisibleStr, posterStateStr, decorateStr] = this.ensureRow()
         return {
-            halloweenPumpkin: this.interactionItem.halloweenPumpkin,
+            halloweenPumpkin: undefined,
             furniture: [],
-            paperFlowerState: this.interactionItem.paperFlowerState,
-            ballToyState: this.interactionItem.ballToyState,
-            posterState: this.interactionItem.posterState,
-            decorate: this.interactionItem.decorate
+            paperFlowerState: undefined,
+            ballToyState: undefined,
+            posterState: JSON.parse(posterStateStr),
+            decorate: JSON.parse(decorateStr)
         }
     }
 
     public setDecorateMutexBag(typeId: number, curSelect: number) {
-        this.interactionItem.decorate = [{
-            typeId,
-            curSelect
-        }]
-        Deno.writeTextFile(
-            `./playerData/${this.uname}/InteractionItem.json`,
-            JSON.stringify(this.interactionItem, null, 4)
+        this.db.query(
+            'UPDATE interaction_items SET decorate=?',
+            [JSON.stringify([{ typeId, curSelect }])]
         )
     }
 
     public isVisible(id: number) {
-        return this.interactionItem.furnitureVisible[id] ? true : false
+        const [furnitureVisibleStr] = this.ensureRow()
+        const furnitureVisible: Record<number, boolean> = JSON.parse(furnitureVisibleStr)
+        return furnitureVisible[id] ?? false
     }
 
     public setVisible(id: number, state: boolean) {
-        this.interactionItem.furnitureVisible[id] = state
-        Deno.writeTextFile(
-            `./playerData/${this.uname}/InteractionItem.json`,
-            JSON.stringify(this.interactionItem, null, 4)
+        const [furnitureVisibleStr] = this.ensureRow()
+        const furnitureVisible: Record<number, boolean> = JSON.parse(furnitureVisibleStr)
+        furnitureVisible[id] = state
+        this.db.query(
+            'UPDATE interaction_items SET furniture_visible=?',
+            [JSON.stringify(furnitureVisible)]
         )
     }
 
     public setPoster(point: number, posterId: number) {
-        if (!this.interactionItem.posterState) {
-            this.interactionItem.posterState = [
-                {
-                    point,
-                    posterId
-                }
-            ]
-        } else {
-            let found = false
-            for (let i = 0; i < this.interactionItem.posterState.length; i++) {
-                if (this.interactionItem.posterState[i].point === point) {
-                    found = true
-                    this.interactionItem.posterState[i].posterId = posterId
-                    break
-                }
-            }
-            if (!found) {
-                this.interactionItem.posterState.push({
-                    point,
-                    posterId
-                })
+        const [, posterStateStr] = this.ensureRow()
+        const posterState: { point: number; posterId: number }[] = JSON.parse(posterStateStr)
+        let found = false
+        for (const item of posterState) {
+            if (item.point === point) {
+                item.posterId = posterId
+                found = true
+                break
             }
         }
-        Deno.writeTextFile(
-            `./playerData/${this.uname}/InteractionItem.json`,
-            JSON.stringify(this.interactionItem, null, 4)
+        if (!found) {
+            posterState.push({ point, posterId })
+        }
+        this.db.query(
+            'UPDATE interaction_items SET poster_state=?',
+            [JSON.stringify(posterState)]
         )
     }
 }

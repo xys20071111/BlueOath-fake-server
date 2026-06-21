@@ -22,6 +22,7 @@ import { STRATEGY_ID_CN } from '@/constants/strategyId.ts'
 import { encoder } from '@/utils/endecoder.ts'
 import { sendInteractionItemInfo } from './interactionItem.ts'
 import { ILLUSTRATE_CN, ILLUSTRATE_JP } from '../constants/illustrate.ts'
+import { sendEquipInfo } from '@/logic/equip.ts'
 
 const playerPb = protobuf.loadSync('./raw-protobuf/player.proto')
 const TRetLogin = playerPb.lookupType('player.TRetLogin')
@@ -294,18 +295,19 @@ async function sendInitMessages(
         token
     )
     // 装备背包
-    const equipData = TEquipList.create({
-        EquipBagSize: 1000,
-        EquipInfo: player.getEquipBag().getEquipInfo(),
-        EquipNum: []
-    })
-    sendResponsePacket(
-        socket,
-        'equip.UpdateEquipBagData',
-        TEquipList.encode(equipData).finish(),
-        callbackHandler,
-        token
-    )
+    sendEquipInfo(socket, callbackHandler, token)
+    // const equipData = TEquipList.create({
+    //     EquipBagSize: 1000,
+    //     EquipInfo: player.getEquipBag().getEquipInfo(),
+    //     EquipNum: []
+    // })
+    // sendResponsePacket(
+    //     socket,
+    //     'equip.UpdateEquipBagData',
+    //     TEquipList.encode(equipData).finish(),
+    //     callbackHandler,
+    //     token
+    // )
     // 图鉴和许愿墙
     const illustrateInfo = player.getIllustrate().getIllustrateInfo()
     // 虽然国服用日服的数据似乎也不会报错，但是保险起见
@@ -315,7 +317,7 @@ async function sendInitMessages(
         illustrateInfo.IllustrateList = ILLUSTRATE_JP
     }
     const illustrateResData = TIllustrateInfoRet.create(
-        player.getIllustrate().getIllustrateInfo()
+        illustrateInfo
     )
 
     sendResponsePacket(

@@ -4,7 +4,8 @@
         "@oak/oak": "jsr:@oak/oak@^17.1.6",
         "@types/node": "npm:@types/node@^24.2.0",
         "protobufjs": "npm:protobufjs@^7.5.4",
-        "@/": "./"
+        "@/": "./",
+        "sqlite": "https://deno.land/x/sqlite@v3.9.1/mod.ts"
     },
     "nodeModulesDir": "auto",
     "fmt": {

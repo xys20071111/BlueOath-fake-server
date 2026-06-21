@@ -1,4 +1,4 @@
-$dllPath = "C:\Users\xys20\blueoath\clsy\GameAssembly.dll"
+$dllPath = $args[0]
 $bakPath = "$dllPath.bak"
 
 # Backup

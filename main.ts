@@ -25,3 +25,17 @@ await Deno.mkdir('./serverData/', {
 
 console.log('运行模拟的逻辑服务器')
 new Worker(import.meta.resolve('./server/logicServer.ts'), { type: 'module' })
+
+console.log('启动管理面板')
+const adminPort = (() => {
+    for (let i = 0; i < Deno.args.length; i++) {
+        const a = Deno.args[i]
+        if (a.startsWith('--admin-port=')) return parseInt(a.split('=')[1], 10)
+        if (a === '--admin-port' && i + 1 < Deno.args.length) return parseInt(Deno.args[i + 1], 10)
+    }
+    const env = Deno.env.get('ADMIN_PORT')
+    if (env) return parseInt(env, 10)
+    return 0
+})()
+Deno.env.set('ADMIN_PORT', String(adminPort))
+new Worker(import.meta.resolve('./server/adminServer.ts'), { type: 'module' })

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>用户管理面板</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#f0f2f5;color:#1a1a1a;font-size:14px;line-height:1.5}
+.container{max-width:1200px;margin:0 auto;padding:24px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+header h1{font-size:22px;font-weight:600;color:#1a1a1a}
+header .sub{font-size:13px;color:#666}
+.card{background:#fff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.08);margin-bottom:16px;overflow:hidden}
+.card-header{padding:14px 20px;border-bottom:1px solid #e8e8e8;font-weight:600;font-size:15px;display:flex;align-items:center;justify-content:space-between}
+.card-body{padding:14px 20px}
+.card-body:empty{display:none}
+.btn{display:inline-flex;align-items:center;gap:4px;padding:6px 14px;border-radius:6px;border:1px solid transparent;font-size:13px;cursor:pointer;transition:all .15s;text-decoration:none;line-height:1.4}
+.btn-primary{background:#1677ff;color:#fff;border-color:#1677ff}
+.btn-primary:hover{background:#4096ff}
+.btn-danger{background:#fff;color:#ff4d4f;border-color:#ff4d4f}
+.btn-danger:hover{background:#fff2f0}
+.btn-default{background:#fff;color:#333;border-color:#d9d9d9}
+.btn-default:hover{border-color:#1677ff;color:#1677ff}
+.btn-sm{padding:3px 8px;font-size:12px}
+.btn-active{background:#1677ff;color:#fff;border-color:#1677ff}
+.form-input{padding:6px 11px;border:1px solid #d9d9d9;border-radius:6px;font-size:13px;outline:none;transition:border-color .15s}
+.form-input:focus{border-color:#1677ff;box-shadow:0 0 0 2px rgba(22,119,255,.15)}
+.form-input-sm{padding:3px 7px;font-size:12px}
+table{width:100%;border-collapse:collapse}
+th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #f0f0f0;white-space:nowrap}
+th{background:#fafafa;font-weight:600;font-size:13px;color:#666;position:sticky;top:0}
+tr:hover td{background:#f5f8ff}
+.ops{display:flex;gap:6px}
+.hidden{display:none!important}
+.toast{position:fixed;top:20px;right:20px;padding:12px 20px;border-radius:8px;color:#fff;font-size:13px;z-index:200;animation:slideIn .2s}
+.toast-success{background:#52c41a}
+.toast-error{background:#ff4d4f}
+@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+.badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:20px;border-radius:10px;background:#1677ff;color:#fff;font-size:11px;padding:0 6px;font-weight:600}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:13px;color:#666;margin-bottom:16px}
+.breadcrumb a{color:#1677ff;cursor:pointer;text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+.breadcrumb .sep{color:#ccc}
+.tables-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.data-table-wrap{overflow-x:auto;max-height:600px;overflow-y:auto}
+.data-table-wrap table{min-width:100%}
+.data-table-wrap td,.data-table-wrap th{padding:5px 8px;font-size:12px;white-space:nowrap;max-width:260px;overflow:hidden;text-overflow:ellipsis}
+.data-table-wrap td[contenteditable=true]{cursor:text;background:#fff;min-width:50px}
+.data-table-wrap td[contenteditable=true]:focus{outline:2px solid #1677ff;outline-offset:-1px;background:#fafcff}
+.data-table-wrap td.rowid-col{color:#999;font-size:11px;font-style:italic;background:#fafafa;cursor:default}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;z-index:100}
+.modal{background:#fff;border-radius:10px;padding:24px;min-width:380px;max-width:90vw;box-shadow:0 8px 30px rgba(0,0,0,.15)}
+.modal h3{margin-bottom:16px;font-size:16px}
+.modal .form-row{display:flex;gap:10px;align-items:center;margin-bottom:12px}
+.modal .form-row label{min-width:90px;font-weight:500;font-size:13px;color:#555}
+.modal .form-row .form-input{flex:1}
+.modal .btns{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}
+.toolbar{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+</style>
+</head>
+<body>
+<div class="container" id="app">
+  <header>
+    <div>
+      <h1>用户管理</h1>
+      <div class="sub">用户信息管理 &amp; 游戏数据库编辑</div>
+    </div>
+  </header>
+
+  <!-- user list -->
+  <div id="users-view">
+    <div class="card">
+      <div class="card-header">创建用户</div>
+      <div class="card-body">
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <input id="new-username" class="form-input" type="text" placeholder="输入用户名" style="width:200px">
+          <button class="btn btn-primary" id="btn-create">创建</button>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span>用户列表</span><span id="user-count" class="badge">0</span></div>
+      <div class="card-body">
+        <table><thead><tr><th>ID</th><th>用户名</th><th>秘书舰 ID</th><th style="width:170px">操作</th></tr></thead><tbody id="user-tbody"></tbody></table>
+        <div id="users-empty" style="text-align:center;padding:40px 0;color:#999">暂无用户</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- db browser -->
+  <div id="db-view" class="hidden">
+    <div class="breadcrumb"><a id="db-back">用户列表</a><span class="sep">/</span><span id="db-username"></span></div>
+
+    <div class="card">
+      <div class="card-header">数据表</div>
+      <div class="card-body">
+        <div class="tables-grid" id="tables-grid"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span id="db-table-name"></span><button class="btn btn-sm btn-default" id="btn-add-row">+ 添加行</button></div>
+      <div class="card-body">
+        <div class="data-table-wrap"><table><thead id="db-data-thead"></thead><tbody id="db-data-tbody"></tbody></table></div>
+        <div id="db-data-empty" style="text-align:center;padding:30px 0;color:#999">点击上方表名查看数据</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- edit user modal -->
+<div id="edit-modal" class="modal-overlay hidden">
+  <div class="modal">
+    <h3>编辑用户</h3>
+    <div class="form-row"><label>用户名</label><input id="edit-uname" class="form-input" type="text"></div>
+    <div class="form-row"><label>秘书舰 ID</label><input id="edit-secretary" class="form-input" type="number"></div>
+    <div class="btns"><button class="btn btn-default" id="btn-edit-cancel">取消</button><button class="btn btn-primary" id="btn-edit-save">保存</button></div>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id)
+
+async function api(path, opts) {
+  const r = await fetch(path, { headers: { 'Content-Type': 'application/json' }, ...opts })
+  if (!r.ok) throw ((await r.json()).error || r.statusText)
+  return r.json()
+}
+
+const TABLES = ['buildings','equips','fleets','heroes','illustrate_list','interaction_items','land_list','vow_info']
+
+let state = { users: [], selectedUserId: null, selectedTable: null, tableData: null, editingUserId: null }
+
+// toast
+function toast(msg, type = 'success') {
+  const el = document.createElement('div')
+  el.className = 'toast toast-' + type
+  el.textContent = msg
+  document.body.appendChild(el)
+  setTimeout(() => el.remove(), 2500)
+}
+
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') }
+
+// --- Users ---
+async function loadUsers() {
+  state.users = await api('/api/users')
+  renderUsers()
+}
+
+function renderUsers() {
+  const tbody = $('user-tbody'), empty = $('users-empty')
+  $('user-count').textContent = state.users.length
+  tbody.innerHTML = ''
+  if (state.users.length === 0) { empty.classList.remove('hidden'); return }
+  empty.classList.add('hidden')
+  for (const u of state.users) {
+    const tr = document.createElement('tr')
+    tr.innerHTML = `<td>${u.id}</td><td>${esc(u.uname)}</td><td>${u.secretary_id}</td>
+      <td class="ops">
+        <button class="btn btn-sm btn-default" data-action="edit" data-id="${u.id}">编辑</button>
+        <button class="btn btn-sm btn-default" data-action="data" data-id="${u.id}">数据</button>
+        <button class="btn btn-sm btn-danger" data-action="delete" data-id="${u.id}">删除</button>
+      </td>`
+    tr.querySelectorAll('[data-action]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = Number(btn.dataset.id)
+        if (btn.dataset.action === 'edit') openEditModal(id)
+        else if (btn.dataset.action === 'data') openDbView(id)
+        else if (btn.dataset.action === 'delete') deleteUser(id)
+      })
+    })
+    tbody.appendChild(tr)
+  }
+}
+
+// --- Create ---
+$('btn-create').addEventListener('click', async () => {
+  const uname = $('new-username').value.trim()
+  if (!uname) { toast('请输入用户名', 'error'); return }
+  try {
+    await api('/api/users', { method: 'POST', body: JSON.stringify({ uname }) })
+    $('new-username').value = ''
+    toast('用户创建成功')
+    await loadUsers()
+  } catch (e) { toast('创建失败: ' + e, 'error') }
+})
+$('new-username').addEventListener('keydown', e => { if (e.key === 'Enter') $('btn-create').click() })
+
+// --- Edit modal ---
+function openEditModal(id) {
+  state.editingUserId = id
+  const u = state.users.find(x => x.id === id)
+  if (!u) return
+  $('edit-uname').value = u.uname
+  $('edit-secretary').value = u.secretary_id
+  $('edit-modal').classList.remove('hidden')
+  $('edit-uname').focus()
+}
+$('btn-edit-cancel').addEventListener('click', () => { $('edit-modal').classList.add('hidden'); state.editingUserId = null })
+$('btn-edit-save').addEventListener('click', async () => {
+  const id = state.editingUserId, data = { uname: $('edit-uname').value.trim(), secretary_id: parseInt($('edit-secretary').value, 10) }
+  if (!data.uname) { toast('用户名不能为空', 'error'); return }
+  try {
+    await api('/api/users/' + id, { method: 'PUT', body: JSON.stringify(data) })
+    toast('已更新'); $('edit-modal').classList.add('hidden'); state.editingUserId = null
+    await loadUsers()
+  } catch (e) { toast('更新失败: ' + e, 'error') }
+})
+$('edit-modal').addEventListener('click', e => { if (e.target === $('edit-modal')) $('btn-edit-cancel').click() })
+
+// --- Delete ---
+async function deleteUser(id) {
+  const u = state.users.find(x => x.id === id)
+  if (!confirm(`确定删除用户 "${u.uname}" (ID:${id}) 及其数据库？`)) return
+  try { await api('/api/users/' + id, { method: 'DELETE' }); toast('用户已删除'); await loadUsers() }
+  catch (e) { toast('删除失败: ' + e, 'error') }
+}
+
+// --- DB Browser ---
+function openDbView(userId) {
+  state.selectedUserId = userId
+  const u = state.users.find(x => x.id === userId)
+  if (!u) return
+  state.selectedTable = null; state.tableData = null
+  $('users-view').classList.add('hidden'); $('db-view').classList.remove('hidden')
+  $('db-username').textContent = u.uname + ' (ID:' + u.id + ')'
+  $('db-table-name').textContent = ''
+  $('db-data-empty').classList.remove('hidden')
+  renderTableButtons()
+}
+
+$('db-back').addEventListener('click', () => {
+  state.selectedUserId = null; state.selectedTable = null; state.tableData = null
+  $('db-view').classList.add('hidden'); $('users-view').classList.remove('hidden')
+})
+
+function renderTableButtons() {
+  const grid = $('tables-grid')
+  grid.innerHTML = ''
+  for (const t of TABLES) {
+    const btn = document.createElement('button')
+    btn.className = 'btn btn-sm btn-default' + (state.selectedTable === t ? ' btn-active' : '')
+    btn.textContent = t
+    btn.addEventListener('click', () => selectTable(t))
+    grid.appendChild(btn)
+  }
+}
+
+async function selectTable(tableName) {
+  state.selectedTable = tableName
+  renderTableButtons()
+  $('db-table-name').textContent = tableName
+  $('db-data-empty').classList.add('hidden')
+  try {
+    const data = await api(`/api/users/${state.selectedUserId}/db/${tableName}`)
+    state.tableData = data
+    renderTableData()
+  } catch (e) { toast('加载失败: ' + e, 'error') }
+}
+
+function renderTableData() {
+  const thead = $('db-data-thead'), tbody = $('db-data-tbody'), data = state.tableData
+  if (!data || !data.columns || data.columns.length === 0) {
+    thead.innerHTML = '<tr><td style="color:#999;padding:20px;text-align:center">空表</td></tr>'; tbody.innerHTML = ''; return
+  }
+  let h = '<tr>'
+  for (const col of data.columns) h += '<th' + (col === 'rowid' ? ' class="rowid-col"' : '') + '>' + esc(col) + '</th>'
+  h += '<th style="width:50px">操作</th></tr>'
+  thead.innerHTML = h
+  tbody.innerHTML = ''
+  for (let ri = 0; ri < data.rows.length; ri++) {
+    const row = data.rows[ri], tr = document.createElement('tr')
+    tr.dataset.rowid = row[0]
+    for (let ci = 0; ci < data.columns.length; ci++) {
+      const col = data.columns[ci], val = row[ci], isRowid = col === 'rowid'
+      const td = document.createElement('td')
+      if (isRowid) td.className = 'rowid-col'
+      td.dataset.col = col; td.textContent = val === null ? 'NULL' : (typeof val === 'string' ? val : JSON.stringify(val))
+      if (!isRowid) {
+        td.contentEditable = true
+        td.addEventListener('focus', function() { this.dataset.orig = this.textContent })
+        td.addEventListener('blur', function() { if (this.textContent !== this.dataset.orig) saveCell(this) })
+        td.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') { e.preventDefault(); this.blur() }
+          if (e.key === 'Escape') { this.textContent = this.dataset.orig || ''; this.blur() }
+        })
+      }
+      tr.appendChild(td)
+    }
+    const delTd = document.createElement('td')
+    const delBtn = document.createElement('button')
+    delBtn.className = 'btn btn-sm btn-danger'; delBtn.textContent = '删除'
+    delBtn.addEventListener('click', () => deleteRow(tr.dataset.rowid))
+    delTd.appendChild(delBtn); tr.appendChild(delTd)
+    tbody.appendChild(tr)
+  }
+}
+
+// --- Cell edit ---
+let _saveTimer = null
+async function saveCell(td) {
+  const col = td.dataset.col, rowid = Number(td.closest('tr').dataset.rowid)
+  let val = td.textContent.trim()
+  if (val === 'NULL') val = null
+  else if (val !== '' && !isNaN(Number(val))) val = Number(val)
+  else if (val.startsWith('{') || val.startsWith('[')) { try { val = JSON.parse(val) } catch {} }
+  clearTimeout(_saveTimer)
+  _saveTimer = setTimeout(async () => {
+    try {
+      await api(`/api/users/${state.selectedUserId}/db/${state.selectedTable}/${rowid}`, { method: 'PUT', body: JSON.stringify({[col]: val}) })
+    } catch (e) { toast('保存失败: ' + e, 'error'); td.textContent = td.dataset.orig || '' }
+  }, 300)
+}
+
+// --- Add / Delete row ---
+$('btn-add-row').addEventListener('click', async () => {
+  if (!state.selectedTable) return
+  try { await api(`/api/users/${state.selectedUserId}/db/${state.selectedTable}`, { method: 'POST', body: JSON.stringify({}) }); toast('空行已添加'); await selectTable(state.selectedTable) }
+  catch (e) { toast('添加失败: ' + e, 'error') }
+})
+
+async function deleteRow(rowid) {
+  if (!confirm(`删除 rowid=${rowid}？`)) return
+  try { await api(`/api/users/${state.selectedUserId}/db/${state.selectedTable}/${rowid}`, { method: 'DELETE' }); toast('已删除'); await selectTable(state.selectedTable) }
+  catch (e) { toast('删除失败: ' + e, 'error') }
+}
+
+loadUsers()
+</script>
+</body>
+</html>

@@ -20,7 +20,8 @@ CREATE TABLE heroes (
     name             TEXT    DEFAULT "",
     locked           INTEGER NOT NULL
                              DEFAULT (0),
-    create_time      INTEGER NOT NULL,
+    create_time      INTEGER NOT NULL
+                              DEFAULT (0),
     skills           TEXT    NOT NULL
                              DEFAULT "[]",
     adv              INTEGER NOT NULL
